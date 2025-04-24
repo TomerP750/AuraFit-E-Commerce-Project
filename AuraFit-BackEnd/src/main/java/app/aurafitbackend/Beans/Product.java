@@ -23,7 +23,7 @@ public class Product {
     private Category category;
     private SubCategory subCategory;
     private boolean onSale;
-
+    private Long stockQuantity;
 
 
 
