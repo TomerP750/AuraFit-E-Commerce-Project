@@ -1,11 +1,13 @@
 import "./NavbarLeft.css";
 import {JSX} from "react";
-import {FaShop} from "react-icons/fa6";
+import {NavLink} from "react-router-dom";
 
 export function NavbarLeft(): JSX.Element {
+
+
     return (
         <div className="flex items-center">
-			<FaShop className={"size-10"}/>
+			<NavLink to={"/"}><p className={"text-2xl"}>AuraFit.</p></NavLink>
         </div>
     );
 }

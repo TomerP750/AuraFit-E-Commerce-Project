@@ -1,1 +1,13 @@
 @import "tailwindcss";
+@tailwind components;
+@tailwind utilities;
+@tailwind base;
+
+
+a.active hr {
+    display: block;
+}
+
+* {
+    user-select: none;
+}

@@ -4,7 +4,7 @@ import {Hero} from "../Hero/Hero.tsx";
 
 export function Home(): JSX.Element {
     return (
-        <div className="Home">
+        <div className="w-full flex flex-col h-screen items-center">
 			<Hero/>
         </div>
     );
