@@ -20,9 +20,12 @@ public class User {
     @Setter(AccessLevel.NONE)
     private Long id;
     private String firstName, lastName;
+    @Column(unique = true)
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
     private Role role;
+    private Integer membershipPoints = 0;
 
     @CreatedDate
     @Column(updatable = false)

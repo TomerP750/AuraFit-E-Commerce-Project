@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "reviews")
 @NoArgsConstructor
@@ -17,7 +19,9 @@ public class Review {
     private Long id;
     @ManyToOne
     private User user;
+    @Enumerated(EnumType.STRING)
     private Rating rating;
     private String content;
+    private LocalDateTime reviewDate;
 
 }
