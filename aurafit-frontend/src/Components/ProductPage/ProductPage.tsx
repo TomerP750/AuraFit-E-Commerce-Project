@@ -4,6 +4,7 @@ import {Size} from "../../Modals/Size.ts";
 import {AiOutlineHeart} from "react-icons/ai";
 import {FiArrowRight, FiChevronRight} from "react-icons/fi";
 import {ProductPageSidebar} from "../ProductPageSidebar/ProductPageSidebar.tsx";
+import {FaStar} from "react-icons/fa";
 
 export function ProductPage(): JSX.Element {
 
@@ -93,6 +94,11 @@ export function ProductPage(): JSX.Element {
                 <p className="text-xl sm:text-2xl md:text-3xl font-semibold">
                     Product Name
                 </p>
+                {/*TODO make a 5 starts but change the starts to gold up to the average length*/}
+                <div className="flex items-center gap-1">
+                    <FaStar className={"text-black"}/>
+                    <p>4</p>
+                </div>
                 <p className="text-base sm:text-lg">$70</p>
 
                 {/* color variants */}
@@ -134,7 +140,6 @@ export function ProductPage(): JSX.Element {
 
                 {descriptionOpened && (
                     <ProductPageSidebar
-                        isOpen={descriptionOpened}
                         onClose={() => setDescriptionOpened(false)}
                     />
                 )}

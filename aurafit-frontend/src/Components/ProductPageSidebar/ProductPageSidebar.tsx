@@ -1,14 +1,14 @@
-import {AnimatePresence, motion } from "framer-motion";
+import {AnimatePresence, motion} from "framer-motion";
 import "./ProductPageSidebar.css";
-import {JSX, ReactNode} from "react";
-import {FiChevronLeft, FiChevronRight, FiX} from "react-icons/fi";
+import {JSX} from "react";
+import {FiChevronRight, FiX} from "react-icons/fi";
 
 export interface ProductPageSidebarProps {
 
     onClose: () => void;
-    title?: string;
+    description?: string;
 }
-export function ProductPageSidebar({onClose, title}: ProductPageSidebarProps): JSX.Element {
+export function ProductPageSidebar({onClose, description}: ProductPageSidebarProps): JSX.Element {
 
     const panelVariants = {
         closed: { x: "100%" },
@@ -38,7 +38,7 @@ export function ProductPageSidebar({onClose, title}: ProductPageSidebarProps): J
 
                     {/* Header with X button */}
                     <div className="flex items-center justify-between p-4 border-b">
-                        <h2 className="text-xl font-semibold">{title}</h2>
+                        <h2 className="text-xl font-semibold">{description}</h2>
                         <button
                             onClick={onClose}
                             className="p-2 hover:bg-gray-100 rounded focus:outline-none"

@@ -1,13 +1,14 @@
 package app.aurafitbackend.Services;
 
+import app.aurafitbackend.Beans.Review;
 import app.aurafitbackend.DTOS.RegisterRequest;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserCredentialsValidateService {
+public class ValidatorService {
 
 
-    private UserCredentialsValidateService() {
+    private ValidatorService() {
 
     }
 
@@ -28,23 +29,30 @@ public class UserCredentialsValidateService {
     }
 
     public static boolean checkSuccessRegister(RegisterRequest registerRequest) {
-        if (!UserCredentialsValidateService.validateEmail(registerRequest.getPassword())) {
+        if (!ValidatorService.validateEmail(registerRequest.getPassword())) {
             return false;
         }
 
-        if (!UserCredentialsValidateService.validateFirstName(registerRequest.getFirstName())) {
+        if (!ValidatorService.validateFirstName(registerRequest.getFirstName())) {
             return false;
         }
 
-        if (!UserCredentialsValidateService.validateLastName(registerRequest.getLastName())) {
+        if (!ValidatorService.validateLastName(registerRequest.getLastName())) {
             return false;
         }
 
-        if (!UserCredentialsValidateService.validatePassword(registerRequest.getPassword())) {
+        if (!ValidatorService.validatePassword(registerRequest.getPassword())) {
             return false;
         }
 
         return true;
+    }
+
+
+
+
+    public static boolean isValidReview(Review review) {
+        return false;
     }
 
 }

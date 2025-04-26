@@ -19,12 +19,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
+    @Column(nullable = false)
     private String firstName, lastName;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
+    @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+    @Column(nullable = false)
     private Integer membershipPoints = 0;
 
     @CreatedDate

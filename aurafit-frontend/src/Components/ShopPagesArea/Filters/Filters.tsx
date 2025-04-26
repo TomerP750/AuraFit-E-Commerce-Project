@@ -89,13 +89,13 @@ export function Filters({onFilterClick, showFilter}: FiltersProps): JSX.Element 
                         >
                             <div className="py-2 flex flex-col gap-2 text-sm font-light text-gray-700">
                                 <label className="flex items-center gap-2">
-                                    <input type="checkbox" className="w-3"/> All
+                                    <input type="checkbox" className="w-3 accent-black"/> All
                                 </label>
                                 <label className="flex items-center gap-2">
-                                    <input type="checkbox" className="w-3"/> Option 1
+                                    <input type="checkbox" className="w-3 accent-black"/> Option 1
                                 </label>
                                 <label className="flex items-center gap-2">
-                                    <input type="checkbox" className="w-3"/> Option 2
+                                    <input type="checkbox" className="w-3 accent-black"/> Option 2
                                 </label>
                             </div>
                         </motion.div>

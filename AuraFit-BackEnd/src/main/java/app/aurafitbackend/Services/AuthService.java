@@ -32,7 +32,7 @@ public class AuthService {
     @Transactional
     public AuthResponse register(RegisterRequest registerRequest) {
 
-        if (UserCredentialsValidateService.checkSuccessRegister(registerRequest)) {
+        if (ValidatorService.checkSuccessRegister(registerRequest)) {
             String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
             User user = User.builder()
                     .email(registerRequest.getEmail())
@@ -50,7 +50,6 @@ public class AuthService {
         }
         return null;
     }
-
 
     public AuthResponse login(LoginRequest loginRequest) {
 

@@ -17,18 +17,24 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+/**
+ * i use it to generalize ProductVariants so i dont have duplicates with description, categories, etc..
+ *
+ *
+ *
+ *
+ */
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private BigDecimal price;
     private String description;
     @Enumerated(EnumType.STRING)
+    @Column(nullable=false)
     private Category category;
+    @Column(nullable=false)
     @Enumerated(EnumType.STRING)
     private SubCategory subCategory;
-    private Boolean onSale;
-    private Integer stockQuantity;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference

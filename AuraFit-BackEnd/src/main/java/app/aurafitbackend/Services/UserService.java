@@ -1,9 +1,11 @@
 package app.aurafitbackend.Services;
 
+import app.aurafitbackend.Beans.Review;
 import app.aurafitbackend.Beans.User;
 import app.aurafitbackend.DTOS.UserDTO;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Repositories.OrderRepository;
+import app.aurafitbackend.Repositories.ReviewRepository;
 import app.aurafitbackend.Repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.core.annotation.Order;
@@ -18,6 +20,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+
 
 
     public UserDTO getAccountDetails(Long userId) {
@@ -64,4 +67,9 @@ public class UserService {
 //                                order.getStatus()))
 //                .toList();
 //    }
+
+
+
+
+
 }

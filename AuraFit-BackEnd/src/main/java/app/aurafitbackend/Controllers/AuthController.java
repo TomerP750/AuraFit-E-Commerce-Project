@@ -1,8 +1,10 @@
 package app.aurafitbackend.Controllers;
 
+import app.aurafitbackend.Beans.User;
 import app.aurafitbackend.DTOS.AuthResponse;
 import app.aurafitbackend.DTOS.LoginRequest;
 import app.aurafitbackend.DTOS.RegisterRequest;
+import app.aurafitbackend.Enums.Role;
 import app.aurafitbackend.Services.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,5 +30,6 @@ public class AuthController {
     public AuthResponse register(@RequestBody RegisterRequest registerRequest) {
         return authService.register(registerRequest);
     }
+
 
 }
