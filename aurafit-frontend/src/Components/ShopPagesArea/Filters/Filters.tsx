@@ -41,6 +41,7 @@ export function Filters({onFilterClick, showFilter}: FiltersProps): JSX.Element 
                                         name="sort"
                                         value="newest"
                                         className="accent-black"
+                                        defaultChecked={true}
                                     />
                                     Newest
                                 </label>

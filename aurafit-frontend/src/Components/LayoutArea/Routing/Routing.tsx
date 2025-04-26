@@ -3,6 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import {JSX} from "react";
 import {Home} from "../../HomeArea/Home/Home.tsx";
 import {Men} from "../../ShopPagesArea/Men/Men.tsx";
+import {ProductPage} from "../../ProductPage/ProductPage.tsx";
 
 export function Routing(): JSX.Element {
     return (
@@ -10,6 +11,7 @@ export function Routing(): JSX.Element {
             <Routes>
                 <Route path={"/"} element={<Home/>}/>
                 <Route path={"/men"} element={<Men/>}/>
+                <Route path={"/test"} element={<ProductPage/>}/>
             </Routes>
 
         </div>
