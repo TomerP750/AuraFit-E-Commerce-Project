@@ -1,6 +1,5 @@
 package app.aurafitbackend.Security;
 
-import app.aurafitbackend.Services.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

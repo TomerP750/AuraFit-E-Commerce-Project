@@ -1,9 +1,9 @@
 package app.aurafitbackend.Services;
 
 import app.aurafitbackend.Beans.User;
-import app.aurafitbackend.DTOS.AuthResponse;
-import app.aurafitbackend.DTOS.LoginRequest;
-import app.aurafitbackend.DTOS.RegisterRequest;
+import app.aurafitbackend.DTOS.AuthDTOS.AuthResponse;
+import app.aurafitbackend.DTOS.AuthDTOS.LoginRequest;
+import app.aurafitbackend.DTOS.AuthDTOS.RegisterRequest;
 import app.aurafitbackend.Enums.Role;
 import app.aurafitbackend.Exceptions.InvalidInputException;
 import app.aurafitbackend.Repositories.CartRepository;
@@ -32,7 +32,7 @@ public class AuthService {
     @Transactional
     public AuthResponse register(RegisterRequest registerRequest) {
 
-        if (ValidatorService.checkSuccessRegister(registerRequest)) {
+        if (ValidatorService.successfulUserRegister(registerRequest)) {
             String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
             User user = User.builder()
                     .email(registerRequest.getEmail())

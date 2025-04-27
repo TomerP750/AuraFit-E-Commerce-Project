@@ -1,4 +1,4 @@
-package app.aurafitbackend.DTOS;
+package app.aurafitbackend.DTOS.AuthDTOS;
 
 import app.aurafitbackend.Enums.Role;
 import lombok.AllArgsConstructor;

@@ -15,13 +15,8 @@ public class ProductService {
     private ProductRepository productRepository;
 
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
-    }
 
-    public Product getOneProduct(Long productId) {
-        return productRepository.findById(productId).orElseThrow(()->new NotExistsException("Product not found"));
-    }
+
 
 
 

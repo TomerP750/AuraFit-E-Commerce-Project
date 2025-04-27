@@ -1,4 +1,4 @@
-package app.aurafitbackend.DTOS;
+package app.aurafitbackend.DTOS.DisplayDTOS;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

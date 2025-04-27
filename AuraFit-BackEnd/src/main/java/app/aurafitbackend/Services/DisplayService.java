@@ -6,6 +6,7 @@ import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.Beans.Review;
 import app.aurafitbackend.Enums.Category;
 import app.aurafitbackend.Enums.SubCategory;
+import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Repositories.ProductRepository;
 import app.aurafitbackend.Repositories.ProductVariantRepository;
 import app.aurafitbackend.Repositories.ReviewRepository;
@@ -40,6 +41,10 @@ public class DisplayService {
 
     public List<Product> getWomenShoes() {
         return productRepository.findByCategoryAndSubCategory(Category.WOMEN, SubCategory.SHOES);
+    }
+
+    public Product getOneProduct(Long productId) {
+        return productRepository.findById(productId).orElseThrow(()->new NotExistsException("Product not found"));
     }
 
 

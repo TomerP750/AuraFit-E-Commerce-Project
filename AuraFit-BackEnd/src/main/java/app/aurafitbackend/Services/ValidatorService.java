@@ -1,7 +1,9 @@
 package app.aurafitbackend.Services;
 
+import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.Beans.Review;
-import app.aurafitbackend.DTOS.RegisterRequest;
+import app.aurafitbackend.DTOS.AuthDTOS.RegisterRequest;
+import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,7 +30,7 @@ public class ValidatorService {
         return false;
     }
 
-    public static boolean checkSuccessRegister(RegisterRequest registerRequest) {
+    public static boolean successfulUserRegister(RegisterRequest registerRequest) {
         if (!ValidatorService.validateEmail(registerRequest.getPassword())) {
             return false;
         }
@@ -52,6 +54,15 @@ public class ValidatorService {
 
 
     public static boolean isValidReview(Review review) {
+        return false;
+    }
+
+
+    public static boolean isValidProduct(ProductCreateDTO product) {
+        return false;
+    }
+
+    public static boolean isValidProductVariant(ProductVariant productVariant) {
         return false;
     }
 

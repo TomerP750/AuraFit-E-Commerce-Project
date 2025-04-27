@@ -1,14 +1,13 @@
 package app.aurafitbackend.Security;
 
 import app.aurafitbackend.Beans.User;
-import app.aurafitbackend.DTOS.AuthResponse;
+import app.aurafitbackend.DTOS.AuthDTOS.AuthResponse;
 import app.aurafitbackend.Exceptions.JwtException;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Repositories.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

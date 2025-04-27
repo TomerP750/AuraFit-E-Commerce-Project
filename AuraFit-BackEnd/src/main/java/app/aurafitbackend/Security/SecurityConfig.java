@@ -1,6 +1,5 @@
 package app.aurafitbackend.Security;
 
-import app.aurafitbackend.Services.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
