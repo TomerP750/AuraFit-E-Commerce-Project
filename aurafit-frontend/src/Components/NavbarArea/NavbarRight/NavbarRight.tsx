@@ -1,8 +1,8 @@
 import "./NavbarRight.css";
 import {JSX, useState} from "react";
-import {BiHeart, BiSearch, BiShoppingBag, BiUser} from "react-icons/bi";
+import {BiHeart, BiShoppingBag, BiUser} from "react-icons/bi";
 import {NavLink} from "react-router-dom";
-import {FiMenu} from "react-icons/fi";
+import {FiMenu, FiSearch} from "react-icons/fi";
 import {NavbarSidebar} from "../NavbarSidebar/NavbarSidebar.tsx";
 
 export function NavbarRight(): JSX.Element {
@@ -10,12 +10,16 @@ export function NavbarRight(): JSX.Element {
     const [cartItemsCounter, setCartItemsCounter] = useState(1);
     const [sidebarVisible, setSidebarVisible] = useState<boolean>(false);
     const navbarItem = "size-7 hidden sm:block"
+    const [search, setSearch] = useState(false);
 
     return (
         <div className=" flex justify-between gap-5 cursor-pointer">
 
             {/*<BiSearch className={`${navbarItem}`}/>*/}
 
+            <FiSearch className={`${navbarItem}`} onClick={()=>setSearch(true)} />
+
+            {/*{search && ""}*/}
 
             <BiUser className={`${navbarItem}`}/>
 

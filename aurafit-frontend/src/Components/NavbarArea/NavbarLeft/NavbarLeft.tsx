@@ -1,13 +1,14 @@
 import "./NavbarLeft.css";
 import {JSX} from "react";
 import {NavLink} from "react-router-dom";
+import logo from "../../../assets/logo.png"
 
 export function NavbarLeft(): JSX.Element {
 
 
     return (
         <div className="flex items-center">
-			<NavLink to={"/"}><p className={"text-2xl"}>AuraFit.</p></NavLink>
+			<NavLink to={"/"}><img src={logo} alt={"logo"} className={" w-[80px] h-full"}/></NavLink>
         </div>
     );
 }

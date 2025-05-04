@@ -6,16 +6,17 @@ export function BestSellingProducts(): JSX.Element {
 
     const scrollRef = useRef<HTMLDivElement>(null);
     const scrollLeft = () => {
-        scrollRef.current?.scrollBy({ left: -220, behavior: "smooth" });
+        scrollRef.current?.scrollBy({ left: -320, behavior: "smooth" });
     };
     const scrollRight = () => {
-        scrollRef.current?.scrollBy({ left: 220, behavior: "smooth" });
+        scrollRef.current?.scrollBy({ left: 320, behavior: "smooth" });
     };
+
 
     return (
         <div className="flex flex-col items-center w-full gap-5">
             <div className="flex justify-between w-full">
-                <h2 className="self-start text-2xl font-bold">Shop Latest Items</h2>
+                <h2 className="self-start text-2xl font-bold">Trending This Week</h2>
                 <div className="flex gap-4">
                     <FiChevronLeft
                         className="size-8 cursor-pointer"
@@ -23,7 +24,7 @@ export function BestSellingProducts(): JSX.Element {
                     />
                     <FiChevronRight
                         onClick={scrollRight}
-                        className="size-8 cursor-pointer" />
+                        className="size-8 cursor-pointer"/>
                 </div>
             </div>
 
@@ -35,11 +36,11 @@ export function BestSellingProducts(): JSX.Element {
                     {[...Array(8)].map((_, i) => (
                         <div
                             key={i}
-                            className="flex-shrink-0 w-[300px] h-[300px] bg-yellow-200"
+                            className="flex-shrink-0 w-[300px] h-[300px] bg-blue-200 cursor-pointer"
                         />
                     ))}
                 </div>
             </div>
         </div>
-    );
+    )
 }

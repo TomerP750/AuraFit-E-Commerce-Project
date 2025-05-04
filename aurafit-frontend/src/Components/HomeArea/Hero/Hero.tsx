@@ -1,6 +1,7 @@
 import "./Hero.css";
 import {JSX} from "react";
 import {FiArrowLeft, FiArrowRight} from "react-icons/fi";
+import heroimage1 from "../../../assets/heroImage1.png"
 
 
 export function Hero(): JSX.Element {
@@ -10,9 +11,10 @@ export function Hero(): JSX.Element {
     return (
         <div className="w-full border border-black">
 			<div className="relative w-full h-128 bg-black">
-                <div className="absolute flex justify-between w-full text-white h-full items-center">
-                    <FiArrowLeft className={`${arrowItem}`}/>
-                    <FiArrowRight className={`${arrowItem}`} />
+                <img src={heroimage1} alt="image" className={'w-full h-128 object-cover'}/>
+                <div className="absolute inset-0 flex justify-between items-center px-4 text-white">
+                    <FiArrowLeft className={arrowItem}/>
+                    <FiArrowRight className={arrowItem}/>
                 </div>
             </div>
         </div>

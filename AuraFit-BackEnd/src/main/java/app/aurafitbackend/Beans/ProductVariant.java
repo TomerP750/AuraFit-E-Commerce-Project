@@ -11,7 +11,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -50,12 +49,6 @@ public class ProductVariant {
 
     @OneToMany(mappedBy = "variant")
     private List<ProductVariantImage> productImages;
-
-//    @ElementCollection
-//    @CollectionTable(name = "variant_attributes", joinColumns = @JoinColumn(name = "variant_id"))
-//    @MapKeyColumn(name = "attr_key")
-//    @Column(name = "attr_value")
-//    private Map<String,String> attributes;
 
     @ManyToOne
     @JsonBackReference
