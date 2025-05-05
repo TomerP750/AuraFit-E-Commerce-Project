@@ -1,6 +1,6 @@
 import "./ProductPage.css";
 import {JSX, useState} from "react";
-import {Size} from "../../Modals/Size.ts";
+import {Size} from "../../Models/Size.ts";
 import {AiOutlineHeart} from "react-icons/ai";
 import {FiArrowRight, FiChevronRight} from "react-icons/fi";
 import {ProductPageSidebar} from "../ProductPageSidebar/ProductPageSidebar.tsx";

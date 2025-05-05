@@ -21,9 +21,9 @@ export function NavbarRight(): JSX.Element {
 
             {/*{search && ""}*/}
 
-            <BiUser className={`${navbarItem}`}/>
+            <NavLink to={"/login"}><BiUser className={`${navbarItem}`}/></NavLink>
 
-            <BiHeart className={"size-7"}/>
+            <NavLink to={"/wishlist"}><BiHeart className={"size-7"}/></NavLink>
 
             <NavLink to={"/cart"} className={"relative hidden sm:block"}>
                 <BiShoppingBag className={"size-7"}/>

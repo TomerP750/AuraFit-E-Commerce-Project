@@ -1,5 +1,5 @@
 import "./Hero.css";
-import {JSX, useState} from "react";
+import {JSX, useEffect, useState} from "react";
 import {FiChevronLeft, FiChevronRight} from "react-icons/fi";
 import heroimage1 from "../../../assets/heroImage1.png"
 import heroimage2 from "../../../assets/heroAccessories.png"
@@ -33,11 +33,13 @@ export function Hero(): JSX.Element {
         }
     }
 
+
     return (
         <div className="w-full border border-black">
-            <div onClick={() => heroNavigate(current)}
-                 className={`relative w-full h-128 bg-black ${current !== 0 && 'cursor-pointer'}`}>
+            <div
+                 className={`relative w-full h-180 bg-black ${current !== 0 && 'cursor-pointer'}`}>
                 <img
+                    onClick={() => heroNavigate(current)}
                     src={images[current]}
                     alt={`slide ${current + 1}`}
                     className={`w-full h-full object-cover select-none pointer-events-none cursor-pointer`}

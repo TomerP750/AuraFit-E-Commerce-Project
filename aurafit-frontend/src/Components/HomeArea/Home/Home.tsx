@@ -7,9 +7,11 @@ import {BestSellingProducts} from "../BestSellingProducts/BestSellingProducts.ts
 export function Home(): JSX.Element {
     return (
         <div className="w-full flex flex-col items-center gap-10">
-			<Hero/>
-            <LatestProducts/>
-            <BestSellingProducts/>
+            <Hero/>
+            <div className="w-9/10">
+                <LatestProducts/>
+                <BestSellingProducts/>
+            </div>
         </div>
     );
 }
