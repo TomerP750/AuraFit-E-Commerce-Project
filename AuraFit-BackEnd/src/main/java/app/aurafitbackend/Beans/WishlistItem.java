@@ -14,7 +14,7 @@ public class WishlistItem {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     private ProductVariant productVariant;
 
     @ManyToOne

@@ -3,6 +3,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import app.aurafitbackend.Beans.Product;
 import app.aurafitbackend.Beans.Size;
 import app.aurafitbackend.Enums.Color;
 import app.aurafitbackend.Enums.Material;
@@ -21,6 +22,5 @@ public class ProductVariantResponseDTO {
     private BigDecimal price;
     private Integer stockQuantity;
     private boolean onSale;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Product product;
 }

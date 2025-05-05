@@ -62,8 +62,6 @@ public final class DtoToEntityMapper {
                 .price(v.getPrice())
                 .stockQuantity(v.getStockQuantity())
                 .onSale(v.getOnSale())
-                .createdAt(v.getCreatedAt())
-                .updatedAt(v.getUpdatedAt())
                 .build();
     }
 }

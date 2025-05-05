@@ -1,6 +1,5 @@
 package app.aurafitbackend.Services;
 
-import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.Repositories.ProductVariantRepository;
 import app.aurafitbackend.Repositories.PromotionRepository;
 import lombok.AllArgsConstructor;

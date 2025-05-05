@@ -2,6 +2,7 @@ package app.aurafitbackend.Repositories;
 
 import app.aurafitbackend.Beans.Product;
 import app.aurafitbackend.Enums.Category;
+import app.aurafitbackend.Enums.Gender;
 import app.aurafitbackend.Enums.SubCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,4 +13,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByCategory(Category category);
 
     List<Product> findByCategoryAndSubCategory(Category category, SubCategory subCategory);
+
+    List<Product> findByGenderAndSubCategory(Gender gender, Category category);
 }

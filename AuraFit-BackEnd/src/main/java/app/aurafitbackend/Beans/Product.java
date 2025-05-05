@@ -1,6 +1,7 @@
 package app.aurafitbackend.Beans;
 
 import app.aurafitbackend.Enums.Category;
+import app.aurafitbackend.Enums.Gender;
 import app.aurafitbackend.Enums.SubCategory;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -8,7 +9,6 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +32,17 @@ public class Product {
     @Setter(AccessLevel.NONE)
     private Long id;
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Gender gender;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable=false)
     private Category category;
     @Column(nullable=false)
     @Enumerated(EnumType.STRING)
-    private SubCategory subCategory;
+    private SubCategory subCategory; // use as productType - can be bottles socks clothing shoes etc...
 
     private Boolean onSale;
 
@@ -50,8 +55,5 @@ public class Product {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
-
-
 
 }

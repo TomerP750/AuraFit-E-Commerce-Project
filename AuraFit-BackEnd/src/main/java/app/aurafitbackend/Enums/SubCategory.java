@@ -2,6 +2,13 @@ package app.aurafitbackend.Enums;
 
 public enum SubCategory {
 
-    CLOTHING, SHOES
+    HOODIE,
+    TSHIRSTS,
+    JOGGERS,
+    PANTS,
+    SHORTS,
+    SOCKS,
+    BOTTLES,
+    BAGS
 
 }
