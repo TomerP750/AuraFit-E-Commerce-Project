@@ -13,7 +13,7 @@ public class CartItem {
     private BigDecimal unitPrice;
     private Integer quantity;
     @ManyToOne
-    private Product product;
+    private ProductVariant variant;
     @ManyToOne
     private Cart cart;
 }

@@ -15,7 +15,7 @@ public class OrderItem {
     private Integer quantity;
 
     @ManyToOne
-    private Product product;
+    private ProductVariant variant;
     @ManyToOne
     private Order order;
 }
