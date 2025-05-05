@@ -28,17 +28,17 @@ const linkSections = [
 export function Footer(): JSX.Element {
     return (
         <footer className="bg-gray-50 text-gray-600">
-            <div className="max-w-7xl mx-auto px-6 py-12">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="w-9/10 mx-auto px-6 py-12">
+                <div className="w-4/5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
                     {linkSections.map(({ title, links }) => (
                         <div key={title}>
-                            <h3 className="text-lg font-semibold mb-4">{title}</h3>
+                            <h3 className="text-md font-semibold mb-4">{title}</h3>
                             <ul className="space-y-2">
                                 {links.map((link) => (
                                     <li key={link}>
                                         <NavLink
                                             to={""}
-                                            className="text-sm hover:text-gray-400 transition-colors duration-150"
+                                            className="text-md hover:text-gray-400 transition-colors duration-150"
                                         >
                                             {link}
                                         </NavLink>

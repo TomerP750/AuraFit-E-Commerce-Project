@@ -27,21 +27,7 @@ public class DisplayService {
         return reviewRepository.findAll();
     }
 
-    public List<Product> getMenClothing() {
-        return productRepository.findByCategoryAndSubCategory(Category.MEN, SubCategory.CLOTHING);
-    }
-
-    public List<Product> getMenShoes() {
-        return productRepository.findByCategoryAndSubCategory(Category.MEN, SubCategory.SHOES);
-    }
-
-    public List<Product> getWomenClothing() {
-        return productRepository.findByCategoryAndSubCategory(Category.WOMEN, SubCategory.CLOTHING);
-    }
-
-    public List<Product> getWomenShoes() {
-        return productRepository.findByCategoryAndSubCategory(Category.WOMEN, SubCategory.SHOES);
-    }
+   
 
     public Product getOneProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow(()->new NotExistsException("Product not found"));

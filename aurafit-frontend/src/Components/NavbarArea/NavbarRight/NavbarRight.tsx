@@ -4,6 +4,7 @@ import {BiHeart, BiShoppingBag, BiUser} from "react-icons/bi";
 import {NavLink} from "react-router-dom";
 import {FiMenu, FiSearch} from "react-icons/fi";
 import {NavbarSidebar} from "../NavbarSidebar/NavbarSidebar.tsx";
+import {authSlice, authStore} from "../../../Redux/AuthSlice.ts";
 
 export function NavbarRight(): JSX.Element {
 
@@ -21,7 +22,7 @@ export function NavbarRight(): JSX.Element {
 
             {/*{search && ""}*/}
 
-            <NavLink to={"/login"}><BiUser className={`${navbarItem}`}/></NavLink>
+            {authStore.getState().user ? <p>Hello {authStore.getState().user?.firstName}</p> : <NavLink to={"/login"}><BiUser className={`${navbarItem}`}/></NavLink>}
 
             <NavLink to={"/wishlist"}><BiHeart className={"size-7"}/></NavLink>
 

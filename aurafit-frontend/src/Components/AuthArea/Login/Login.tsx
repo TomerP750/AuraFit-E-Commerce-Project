@@ -5,15 +5,22 @@ import {LoginRequest} from "../../../Models/LoginRequest.ts";
 import authService from "../../../Services/AuthService.ts";
 import {toast} from "react-toastify";
 import logo from "../../../assets/logo.png"
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
+import {Store} from "../../../Redux/Store.ts";
+import {login} from "../../../Redux/AuthSlice.ts";
 
 export function Login(): JSX.Element {
 
     const {register, handleSubmit, formState} = useForm<LoginRequest>();
-
+    const navigate = useNavigate();
     const handleLogin = (loginRequest: LoginRequest) => {
         authService.login(loginRequest)
-            .then(() => toast.success("Login successfully"))
+            .then((res) => {
+                navigate("/");
+                localStorage.token = res.token;
+                Store.dispatch(login(res.token));
+                toast.success("Login successfully")
+            })
             .catch(err => toast.error(err.response.data));
     }
 

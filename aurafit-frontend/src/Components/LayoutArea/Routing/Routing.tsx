@@ -16,22 +16,16 @@ export function Routing(): JSX.Element {
         <>
             <div className="mb-20">
                 <Routes>
+
                     <Route path={"/"} element={<Home/>}/>
-                    <Route path={"/men"} element={<Men/>}/>
                     <Route path={"/cart"} element={<Cart/>}/>
                     <Route path={"/login"} element={<Login/>}/>
                     <Route path={"/register"} element={<Register/>}/>
-                    <Route path={"*"} element={<PageNotFound/>}/>
-                </Routes>
-            </div>
-            <div className={"w-4/5"}>
-                <Routes>
                     <Route path={"/test"} element={<ProductPage/>}/>
-                </Routes>
-            </div>
-            <div className="w-full flex justify-center">
-                <Routes>
+                    <Route path={"/men"} element={<Men/>}/>
+                    <Route path={"*"} element={<PageNotFound/>}/>
                     <Route path={"/admin/panel"} element={<AdminPanel/>}/>
+
                 </Routes>
             </div>
         </>

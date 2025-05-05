@@ -1,6 +1,6 @@
 import { Role } from "../Models/Enums/Role";
 import {jwtDecode} from "jwt-decode";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {configureStore, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 
 export interface JwtUser {
@@ -38,3 +38,6 @@ export const authSlice = createSlice({
 })
 
 export const { login, logout } = authSlice.actions;
+export const authStore = configureStore({
+    reducer: authSlice.reducer
+})

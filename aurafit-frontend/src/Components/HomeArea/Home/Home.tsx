@@ -8,9 +8,9 @@ export function Home(): JSX.Element {
     return (
         <div className="w-full flex flex-col items-center gap-10">
             <Hero/>
-            <div className="w-9/10">
-                <LatestProducts/>
+            <div className="flex flex-col w-9/10 gap-15">
                 <BestSellingProducts/>
+                <LatestProducts/>
             </div>
         </div>
     );

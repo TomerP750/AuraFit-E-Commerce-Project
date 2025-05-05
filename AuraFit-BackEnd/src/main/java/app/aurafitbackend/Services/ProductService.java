@@ -28,16 +28,16 @@ public class ProductService {
 
 
 //    -------------------- Clothing Section ----------------------
-    public List<ProductVariantResponseDTO> getLatestItems() {
-        List<ProductVariantResponseDTO> dtos = new ArrayList<>();
-        List<ProductVariant> variants = productVariantRepository.findTop8ByCreatedAtDesc();
-
-        for (ProductVariant variant : variants) {
-            dtos.add(DtoToEntityMapper.variantToDto(variant));
-        }
-
-        return dtos;
-    }
+//    public List<ProductVariantResponseDTO> getLatestItems() {
+//        List<ProductVariantResponseDTO> dtos = new ArrayList<>();
+//        List<ProductVariant> variants = productVariantRepository.findTop8ByCreatedAtDesc();
+//
+//        for (ProductVariant variant : variants) {
+//            dtos.add(DtoToEntityMapper.variantToDto(variant));
+//        }
+//
+//        return dtos;
+//    }
 
     public List<ProductVariantResponseDTO> getAllMensProductVariant() {
         List<Product> allMenClothingProducts = productRepository.findByGenderAndSubCategory(Gender.MEN, Category.CLOTHING);

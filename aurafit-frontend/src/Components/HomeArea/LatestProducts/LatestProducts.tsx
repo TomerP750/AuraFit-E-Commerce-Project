@@ -14,7 +14,7 @@ export function LatestProducts(): JSX.Element {
     return (
         <div className="flex flex-col items-center w-full gap-5">
             <div className="flex justify-between w-full">
-                <h2 className="self-start text-2xl font-bold">Shop Latest Items</h2>
+                <h2 className="self-start text-2xl font-medium">Shop Latest Items</h2>
                 <div className="flex gap-4">
                     <FiChevronLeft
                         className="size-8 cursor-pointer"
@@ -28,7 +28,7 @@ export function LatestProducts(): JSX.Element {
 
 
             {/* ← scroll container */}
-            <div ref={scrollRef} className="w-full overflow-x-auto py-2">
+            <div ref={scrollRef} className="w-full overflow-x-auto py-2 px-5">
                 {/* ← inner flex that can grow past the wrapper’s width */}
                 <div className="flex gap-4">
                     {[...Array(8)].map((_, i) => (

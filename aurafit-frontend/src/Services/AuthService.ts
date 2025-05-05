@@ -4,11 +4,11 @@ import {RegisterRequest} from "../Models/RegisterRequest.ts";
 
 class AuthService {
     async login(loginRequest: LoginRequest) {
-        return (await axios.post("http://localhost:5000/auth/login", loginRequest)).data
+        return (await axios.post("http://localhost:8080/api/auth/login", loginRequest)).data
     }
 
     async register(registerRequest: RegisterRequest) {
-        return (await axios.post("http://localhost:5000/auth/register", registerRequest)).data
+        return (await axios.post("http://localhost:8080/api/auth/register", registerRequest)).data
     }
 }
 

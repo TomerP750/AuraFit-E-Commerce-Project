@@ -1,10 +1,12 @@
 package app.aurafitbackend.Services;
 
+import app.aurafitbackend.Beans.Cart;
 import app.aurafitbackend.Beans.User;
 import app.aurafitbackend.DTOS.AuthDTOS.AuthResponse;
 import app.aurafitbackend.DTOS.AuthDTOS.LoginRequest;
 import app.aurafitbackend.DTOS.AuthDTOS.RegisterRequest;
 import app.aurafitbackend.Enums.Role;
+import app.aurafitbackend.Enums.Status;
 import app.aurafitbackend.Exceptions.InvalidInputException;
 import app.aurafitbackend.Repositories.CartRepository;
 import app.aurafitbackend.Repositories.UserRepository;
@@ -17,6 +19,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
 
 @Service
 @AllArgsConstructor
@@ -38,8 +42,15 @@ public class AuthService {
                     .lastName(registerRequest.getLastName())
                     .password(encodedPassword)
                     .role(Role.USER)
+                    .membershipPoints(0)
                     .build();
             userRepository.save(user);
+
+            Cart cart = Cart.builder()
+                    .user(user)
+                    .totalPrice(BigDecimal.ZERO)
+                    .status(Status.PENDING)
+                    .build();
 
             LoginRequest loginRequest = new LoginRequest(registerRequest.getEmail(), registerRequest.getPassword());
 
