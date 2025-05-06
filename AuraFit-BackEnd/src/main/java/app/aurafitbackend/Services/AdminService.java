@@ -9,6 +9,7 @@ import app.aurafitbackend.DTOS.Utils.DtoToEntityMapper;
 import app.aurafitbackend.Enums.Role;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Repositories.*;
+import app.aurafitbackend.Utils.GeneralValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class AdminService {
 
 
     public void createAdmin(RegisterRequest registerRequest) {
-        if (ValidatorService.successfulUserRegister(registerRequest)) {
+        if (GeneralValidator.successfulUserRegister(registerRequest)) {
             String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
             User admin  = User.builder()
                     .firstName(registerRequest.getFirstName())
@@ -45,7 +46,7 @@ public class AdminService {
 
     @Transactional
     public void createProduct(ProductCreateDTO newProductDTO) {
-        if (ValidatorService.isValidProduct(newProductDTO)) {
+        if (GeneralValidator.isValidProduct(newProductDTO)) {
 
             Product product = DtoToEntityMapper.toEntity(newProductDTO);
             productRepository.save(product);
@@ -54,7 +55,7 @@ public class AdminService {
 
     @Transactional
     public void addVariantToProduct(Long productId , ProductVariant newProductVariant) {
-        if (ValidatorService.isValidProductVariant(newProductVariant)) {
+        if (GeneralValidator.isValidProductVariant(newProductVariant)) {
             Product product = productRepository.findById(productId).orElseThrow(()->new NotExistsException("Product not found"));
             ProductVariant productVariant = ProductVariant.builder()
                     .color(newProductVariant.getColor())

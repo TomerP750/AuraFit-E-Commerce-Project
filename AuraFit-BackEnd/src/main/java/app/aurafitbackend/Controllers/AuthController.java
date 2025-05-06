@@ -1,10 +1,14 @@
 package app.aurafitbackend.Controllers;
 
+import app.aurafitbackend.Beans.User;
 import app.aurafitbackend.DTOS.AuthDTOS.AuthResponse;
 import app.aurafitbackend.DTOS.AuthDTOS.LoginRequest;
 import app.aurafitbackend.DTOS.AuthDTOS.RegisterRequest;
+import app.aurafitbackend.Enums.Role;
+import app.aurafitbackend.Repositories.UserRepository;
 import app.aurafitbackend.Services.AuthService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +32,8 @@ public class AuthController {
     public AuthResponse register(@RequestBody RegisterRequest registerRequest) {
         return authService.register(registerRequest);
     }
+
+
 
 
 }

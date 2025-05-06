@@ -1,4 +1,4 @@
-package app.aurafitbackend.Services;
+package app.aurafitbackend.Utils;
 
 import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.Beans.Review;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.regex.Pattern;
 
 @Service
-public class ValidatorService {
+public class GeneralValidator {
 
 
-    private ValidatorService() {
+    private GeneralValidator() {
 
     }
 
@@ -58,10 +58,10 @@ public class ValidatorService {
 
     public static boolean successfulUserRegister(RegisterRequest registerRequest) {
 
-        return ValidatorService.validateEmail(registerRequest.getEmail())
-                && ValidatorService.validateFirstName(registerRequest.getFirstName())
-                && ValidatorService.validateLastName(registerRequest.getLastName())
-                && ValidatorService.validatePassword(registerRequest.getPassword());
+        return GeneralValidator.validateEmail(registerRequest.getEmail())
+                && GeneralValidator.validateFirstName(registerRequest.getFirstName())
+                && GeneralValidator.validateLastName(registerRequest.getLastName())
+                && GeneralValidator.validatePassword(registerRequest.getPassword());
     }
 
     public static boolean isValidReview(Review review) {
@@ -73,6 +73,10 @@ public class ValidatorService {
     }
 
     public static boolean isValidProductVariant(ProductVariant productVariant) {
+        return false;
+    }
+
+    public static boolean isValidPurchase() {
         return false;
     }
 

@@ -1,18 +1,20 @@
-package app.aurafitbackend.DTOS.AuthDTOS;
+package app.aurafitbackend.DTOS.Cart_And_Orders_DTOS;
 
-import app.aurafitbackend.Enums.Role;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Builder
-public class UserDTO {
+public class CheckoutRequestDTO {
+
     private String firstName;
     private String lastName;
     private String email;
-    private Role role;
+    private String phone;
+    private String address;
+    private String city;
+    private String postalCode;
+
 }

@@ -12,13 +12,13 @@ import app.aurafitbackend.Repositories.CartRepository;
 import app.aurafitbackend.Repositories.UserRepository;
 import app.aurafitbackend.Security.CustomUserDetails;
 import app.aurafitbackend.Security.JwtUtil;
+import app.aurafitbackend.Utils.GeneralValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -33,7 +33,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegisterRequest registerRequest) {
-        if (ValidatorService.successfulUserRegister(registerRequest)) {
+        if (GeneralValidator.successfulUserRegister(registerRequest)) {
             String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
             User user = User.builder()
                     .email(registerRequest.getEmail())
