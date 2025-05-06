@@ -1,4 +1,3 @@
-import {PropTypes} from "@mui/material";
 import {Material} from "./Enums/Material.ts";
 import {Color} from "./Enums/Color.ts";
 import {Size} from "./Size.ts";
@@ -9,7 +8,7 @@ export class ProductVariant {
     id: number;
     size: Size;
     color: Color;
-    meterial: Material
+    material: Material
     sku: string;
     basePrice: number;
     salePrice: number;
@@ -19,12 +18,12 @@ export class ProductVariant {
     productImage?: string[];
 
     constructor(id: number, size: number, color: Color,
-                meterial: Material, sku: string, basePrice: number, salePrice: number,
+                material: Material, sku: string, basePrice: number, salePrice: number,
                 stockQuantity: number, onSale: boolean, product: Product, productImage?: string[]) {
         this.id = id;
         this.size = size;
         this.color = color;
-        this.meterial = meterial;
+        this.material = material;
         this.sku = sku;
         this.basePrice = basePrice;
         this.salePrice = salePrice;

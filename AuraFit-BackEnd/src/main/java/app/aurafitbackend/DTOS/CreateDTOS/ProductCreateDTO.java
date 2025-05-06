@@ -1,7 +1,7 @@
 package app.aurafitbackend.DTOS.CreateDTOS;
 
-import app.aurafitbackend.Enums.Category;
-import app.aurafitbackend.Enums.SubCategory;
+import app.aurafitbackend.Beans.Category;
+import app.aurafitbackend.Beans.SubCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

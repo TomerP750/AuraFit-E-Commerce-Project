@@ -1,6 +1,6 @@
 package app.aurafitbackend.Beans;
 
-import app.aurafitbackend.Enums.SubCategory;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class Size {
     private String size;
 
     @Enumerated(EnumType.STRING)
-    @Column(unique = true ,nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     private SubCategory subCategory;
 
 

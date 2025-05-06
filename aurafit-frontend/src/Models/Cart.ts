@@ -1,4 +1,6 @@
 import {Status} from "./Enums/Status.ts";
+import {CartItem} from "./CartItem.ts";
+import {User} from "./User.ts";
 
 export class Cart {
 
@@ -8,10 +10,12 @@ export class Cart {
     user: User
     items: CartItem[]
 
-    constructor(id: number, totalPrice: number, status: Status) {
+    constructor(id: number, totalPrice: number, status: Status, user: User, items: CartItem[]) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.status = status;
+        this.user = user;
+        this.items = items;
     }
 
 }

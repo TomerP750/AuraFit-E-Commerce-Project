@@ -17,7 +17,4 @@ public class Category {
     private Long id;
     private String name;
 
-    @OneToOne
-    private Product product;
-
 }
