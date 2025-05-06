@@ -1,0 +1,23 @@
+package app.aurafitbackend.Beans;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Table(name = "categories")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
+public class Category {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    private Long id;
+    private String name;
+
+    @OneToOne
+    private Product product;
+
+}

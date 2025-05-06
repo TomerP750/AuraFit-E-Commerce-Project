@@ -1,8 +1,6 @@
 package app.aurafitbackend.Beans;
 
-import app.aurafitbackend.Enums.Category;
 import app.aurafitbackend.Enums.Gender;
-import app.aurafitbackend.Enums.SubCategory;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -37,11 +35,10 @@ public class Product {
     @Column(nullable = false)
     private Gender gender;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
+    @OneToOne
     private Category category;
-    @Column(nullable=false)
-    @Enumerated(EnumType.STRING)
+
+    @OneToOne(cascade = CascadeType.ALL)
     private SubCategory subCategory; // use as productType - can be bottles socks clothing shoes etc...
 
     private Boolean onSale;
