@@ -5,7 +5,7 @@ import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.Beans.User;
 import app.aurafitbackend.DTOS.AuthDTOS.RegisterRequest;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
-import app.aurafitbackend.DTOS.Utils.DtoToEntityMapper;
+import app.aurafitbackend.Utils.EntityDTOMapper;
 import app.aurafitbackend.Enums.Role;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Repositories.*;
@@ -48,7 +48,7 @@ public class AdminService {
     public void createProduct(ProductCreateDTO newProductDTO) {
         if (GeneralValidator.isValidProduct(newProductDTO)) {
 
-            Product product = DtoToEntityMapper.toEntity(newProductDTO);
+            Product product = EntityDTOMapper.toEntity(newProductDTO);
             productRepository.save(product);
         }
     }

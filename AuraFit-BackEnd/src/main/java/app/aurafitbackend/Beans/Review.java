@@ -23,5 +23,7 @@ public class Review {
     private Rating rating;
     private String content;
     private LocalDateTime reviewDate;
+    @ManyToOne
+    private Product product;
 
 }

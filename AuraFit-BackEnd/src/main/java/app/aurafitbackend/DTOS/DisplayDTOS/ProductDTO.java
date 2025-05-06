@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductResponseDTO {
+public class ProductDTO {
     private Long id;
     private String description;
     private Category category;
@@ -22,5 +22,5 @@ public class ProductResponseDTO {
     private boolean onSale;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private List<ProductVariantResponseDTO> variants;
+    private List<ProductVariantDTO> variants;
 }

@@ -1,6 +1,5 @@
 package app.aurafitbackend.DTOS.DisplayDTOS;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import app.aurafitbackend.Beans.Product;
@@ -13,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductVariantResponseDTO {
+public class ProductVariantDTO {
     private Long id;
     private UUID sku;
     private Size size;

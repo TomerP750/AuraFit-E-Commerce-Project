@@ -1,17 +1,17 @@
-package app.aurafitbackend.DTOS.Utils;
+package app.aurafitbackend.Utils;
 
 import app.aurafitbackend.Beans.Product;
 import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
-import app.aurafitbackend.DTOS.DisplayDTOS.ProductResponseDTO;
-import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantResponseDTO;
+import app.aurafitbackend.DTOS.DisplayDTOS.ProductDTO;
+import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class DtoToEntityMapper {
+public final class EntityDTOMapper {
 
-    private DtoToEntityMapper() {}
+    private EntityDTOMapper() {}
 
     public static Product toEntity(ProductCreateDTO dto) {
         Product p = Product.builder()
@@ -37,8 +37,8 @@ public final class DtoToEntityMapper {
         return p;
     }
 
-    public static ProductResponseDTO toDto(Product product) {
-        return ProductResponseDTO.builder()
+    public static ProductDTO toDto(Product product) {
+        return ProductDTO.builder()
                 .id(product.getId())
                 .description(product.getDescription())
                 .category(product.getCategory())
@@ -47,13 +47,13 @@ public final class DtoToEntityMapper {
                 .createdAt(product.getCreatedAt())
                 .updatedAt(product.getUpdatedAt())
                 .variants(product.getVariants().stream()
-                        .map(DtoToEntityMapper::variantToDto)
+                        .map(EntityDTOMapper::variantToDto)
                         .collect(Collectors.toList()))
                 .build();
     }
 
-    public static ProductVariantResponseDTO variantToDto(ProductVariant v) {
-        return ProductVariantResponseDTO.builder()
+    public static ProductVariantDTO variantToDto(ProductVariant v) {
+        return ProductVariantDTO.builder()
                 .id(v.getId())
                 .sku(v.getSku())
                 .size(v.getSize())

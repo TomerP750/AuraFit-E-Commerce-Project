@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/api/auth/**", "/api/product/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/display/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 // We make Spring Security stateless for JWT usage

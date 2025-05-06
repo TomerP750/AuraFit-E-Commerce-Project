@@ -43,7 +43,10 @@ public class ProductVariant {
     private UUID sku = UUID.randomUUID();
 
     @Column(nullable=false)
-    private BigDecimal price;
+    private BigDecimal basePrice;
+
+    @Column(nullable=false)
+    private BigDecimal salePrice = BigDecimal.ZERO;
 
     @Column(nullable=false)
     private Integer stockQuantity;

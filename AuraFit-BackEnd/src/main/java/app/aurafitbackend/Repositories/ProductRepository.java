@@ -15,4 +15,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByCategoryAndSubCategory(Category category, SubCategory subCategory);
 
     List<Product> findByGenderAndSubCategory(Gender gender, Category category);
+
+    List<Product> findByGenderAndCategory(Gender gender, Category category);
 }
