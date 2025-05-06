@@ -4,13 +4,6 @@
 @tailwind base;
 
 
-a.active hr {
-    display: block;
-}
-
 * {
     user-select: none;
-}
-::-webkit-scrollbar {
-    display: none;
 }
