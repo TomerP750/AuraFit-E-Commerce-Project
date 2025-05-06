@@ -21,7 +21,7 @@ export function Filters({onFilterClick, showFilter}: FiltersProps): JSX.Element 
 
             <div className={`border-b border-gray-300 pl-5 py-3 mt-6 ${showFilter ? 'block' : 'hidden'} sm:block`}>
                 <div className="flex items-center justify-between cursor-pointer" onClick={()=>setSortArrow(!sortArrow)}>
-                <p className="mb-3 text-sm font-medium">Sort By</p>
+                <p className="mb-3 text-md font-medium">Sort By</p>
                     <FiChevronDown className={`mb-3 mx-2 ${sortArrow ? "" : 'rotate-180'} transition duration-300`}/>
                 </div>
                 <AnimatePresence initial={false}>
@@ -34,7 +34,7 @@ export function Filters({onFilterClick, showFilter}: FiltersProps): JSX.Element 
                             transition={{ duration: 0.3, ease: "easeInOut" }}
                             style={{ overflow: "hidden" }}
                         >
-                            <div className="flex flex-col gap-2 text-sm">
+                            <div className="flex flex-col gap-2 text-lg">
                                 <label className="flex items-center gap-2 cursor-pointer font-light text-gray-700">
                                     <input
                                         type="radio"
@@ -73,7 +73,7 @@ export function Filters({onFilterClick, showFilter}: FiltersProps): JSX.Element 
             <div className={`border-b border-gray-300 pl-5 py-3 ${showFilter ? 'block' : 'hidden'} sm:block`}>
 
                 <div className="flex items-center justify-between cursor-pointer" onClick={()=>setArrowDown(!arrowDown)}>
-                    <p className="mb-3 text-sm font-medium">Categories</p>
+                    <p className="mb-3 text-md font-medium">Categories</p>
                     <FiChevronDown className={`mb-3 mx-2 ${arrowDown ? "" : 'rotate-180'} transition duration-300`}/>
                 </div>
 
@@ -87,7 +87,7 @@ export function Filters({onFilterClick, showFilter}: FiltersProps): JSX.Element 
                             transition={{ duration: 0.3, ease: 'easeInOut' }}
                             style={{ overflow: 'hidden' }}
                         >
-                            <div className="py-2 flex flex-col gap-2 text-sm font-light text-gray-700">
+                            <div className="py-2 flex flex-col gap-2 text-lg font-light text-gray-700">
                                 <label className="flex items-center gap-2">
                                     <input type="checkbox" className="w-3 accent-black"/> All
                                 </label>
