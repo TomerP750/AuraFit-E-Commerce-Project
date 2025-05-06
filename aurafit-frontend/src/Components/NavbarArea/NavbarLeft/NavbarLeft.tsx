@@ -8,7 +8,7 @@ export function NavbarLeft(): JSX.Element {
 
     return (
         <div className="flex items-center">
-			<NavLink to={"/"}><img src={logo} alt={"logo"} className={" w-[80px] h-full"}/></NavLink>
+			<NavLink to={"/"}><img src={logo} alt={"logo"} className={" w-[70px] h-full"}/></NavLink>
         </div>
     );
 }

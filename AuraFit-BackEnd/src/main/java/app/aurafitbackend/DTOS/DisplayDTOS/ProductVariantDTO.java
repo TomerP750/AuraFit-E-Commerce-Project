@@ -18,7 +18,8 @@ public class ProductVariantDTO {
     private Size size;
     private Color color;
     private Material material;
-    private BigDecimal price;
+    private BigDecimal basePrice;
+    private BigDecimal salePrice;
     private Integer stockQuantity;
     private boolean onSale;
     private Product product;

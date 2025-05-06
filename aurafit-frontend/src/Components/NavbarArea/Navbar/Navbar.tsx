@@ -8,9 +8,9 @@ export function Navbar(): JSX.Element {
     return (
         <div className="flex justify-center items-center font-medium bg-neutral-100 mb-2">
             <div className="flex w-9/10 items-center justify-between">
-			<NavbarLeft/>
-            <NavbarCenter/>
-            <NavbarRight/>
+                <NavbarLeft/>
+                <NavbarCenter/>
+                <NavbarRight/>
             </div>
         </div>
     );

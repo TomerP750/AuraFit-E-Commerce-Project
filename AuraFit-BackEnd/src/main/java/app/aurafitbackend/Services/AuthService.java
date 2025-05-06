@@ -73,6 +73,13 @@ public class AuthService {
         return new AuthResponse(token);
     }
 
+
+//    Temporary delete after it will have cookies
+
+    public void logout(String token) {
+
+    }
+
 }
 
 

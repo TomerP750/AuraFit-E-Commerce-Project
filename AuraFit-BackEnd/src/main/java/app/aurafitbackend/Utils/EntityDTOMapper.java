@@ -26,7 +26,7 @@ public final class EntityDTOMapper {
                         .size(vdto.getSize())
                         .color(vdto.getColor())
                         .material(vdto.getMaterial())
-                        .price(vdto.getPrice())
+                        .basePrice(vdto.getPrice())
                         .stockQuantity(vdto.getStockQuantity())
                         .onSale(false)
                         .product(p)
@@ -59,7 +59,8 @@ public final class EntityDTOMapper {
                 .size(v.getSize())
                 .color(v.getColor())
                 .material(v.getMaterial())
-                .price(v.getPrice())
+                .basePrice(v.getBasePrice())
+                .salePrice(v.getSalePrice())
                 .stockQuantity(v.getStockQuantity())
                 .onSale(v.getOnSale())
                 .build();

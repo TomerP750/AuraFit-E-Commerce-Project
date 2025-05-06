@@ -14,6 +14,7 @@ export function Register(): JSX.Element {
     const {register, handleSubmit, formState} = useForm<RegisterRequest>();
     const navigate = useNavigate();
     const handleRegister = (registerRequest: RegisterRequest) => {
+        console.log(registerRequest);
         authService.register(registerRequest)
             .then((res) =>{
                 navigate("/")
@@ -89,16 +90,7 @@ export function Register(): JSX.Element {
                         className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
-
-                <div className="text-right">
-                    <NavLink
-                        to=""
-                        className="text-sm text-black font-medium hover:underline"
-                    >
-                        Forgot password?
-                    </NavLink>
-                </div>
-
+                
                 <button
                     type="submit"
                     className="w-full py-2 font-semibold rounded bg-black text-white hover:bg-gray-500 transition-colors"

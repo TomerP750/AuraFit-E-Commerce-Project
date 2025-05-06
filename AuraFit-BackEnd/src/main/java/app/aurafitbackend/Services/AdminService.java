@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+
 @Service
 @AllArgsConstructor
 public class AdminService {
@@ -59,7 +61,8 @@ public class AdminService {
             Product product = productRepository.findById(productId).orElseThrow(()->new NotExistsException("Product not found"));
             ProductVariant productVariant = ProductVariant.builder()
                     .color(newProductVariant.getColor())
-                    .price(newProductVariant.getPrice())
+                    .basePrice(newProductVariant.getBasePrice())
+                    .salePrice(BigDecimal.ZERO)
                     .size(newProductVariant.getSize())
                     .material(newProductVariant.getMaterial())
                     .productImages(newProductVariant.getProductImages())
