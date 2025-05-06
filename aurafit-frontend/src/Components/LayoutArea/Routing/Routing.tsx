@@ -5,7 +5,7 @@ import {Home} from "../../HomeArea/Home/Home.tsx";
 import {Men} from "../../ShopPagesArea/Men/Men.tsx";
 import {ProductPage} from "../../ProductPage/ProductPage.tsx";
 import {AdminPanel} from "../../AdminArea/AdminPanel/AdminPanel.tsx";
-import {Cart} from "../../CartAndOrderArea/Cart/Cart.tsx";
+import {CartPage} from "../../CartAndOrderArea/CartPage/CartPage.tsx";
 import {Login} from "../../AuthArea/Login/Login.tsx";
 import {Register} from "../../AuthArea/Register/Register.tsx";
 import {PageNotFound} from "../../PageNotFound/PageNotFound.tsx";
@@ -18,7 +18,7 @@ export function Routing(): JSX.Element {
                 <Routes>
 
                     <Route path={"/"} element={<Home/>}/>
-                    <Route path={"/cart"} element={<Cart/>}/>
+                    <Route path={"/cart"} element={<CartPage/>}/>
                     <Route path={"/login"} element={<Login/>}/>
                     <Route path={"/register"} element={<Register/>}/>
                     <Route path={"/test"} element={<ProductPage/>}/>

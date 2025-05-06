@@ -20,6 +20,7 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private BigDecimal shippingCost;
     private BigDecimal totalPrice;
     @Enumerated(EnumType.STRING)
     private Status status;

@@ -15,7 +15,7 @@ export function Filters({onFilterClick, showFilter}: FiltersProps): JSX.Element 
 
 
     return (
-        <div className="min-w-60">
+        <div className="w-60">
             <p onClick={onFilterClick}
                className={"my-2 text-xl flex items-center cursor-pointer sm:cursor-default gap-2"}>Filters</p>
 
