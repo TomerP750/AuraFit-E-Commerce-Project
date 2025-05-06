@@ -21,4 +21,6 @@ public class Size {
     @Enumerated(EnumType.STRING)
     @Column(unique = true ,nullable = false)
     private SubCategory subCategory;
+
+
 }

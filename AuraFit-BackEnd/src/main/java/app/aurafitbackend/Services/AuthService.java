@@ -31,9 +31,8 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    @Transactional
-    public AuthResponse register(RegisterRequest registerRequest) {
 
+    public AuthResponse register(RegisterRequest registerRequest) {
         if (ValidatorService.successfulUserRegister(registerRequest)) {
             String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
             User user = User.builder()
@@ -51,35 +50,29 @@ public class AuthService {
                     .totalPrice(BigDecimal.ZERO)
                     .status(Status.PENDING)
                     .build();
+            cartRepository.save(cart);
 
             LoginRequest loginRequest = new LoginRequest(registerRequest.getEmail(), registerRequest.getPassword());
-
             return login(loginRequest);
-
         }
-        return null;
+
+        throw new InvalidInputException("One of the credentials is incorrect");
     }
 
     public AuthResponse login(LoginRequest loginRequest) {
 
-        if (loginSuccessful(loginRequest)) {
 
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
-            );
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+        );
 
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-            String token = jwtUtil.generateToken(userDetails.getUser().getId());
+        String token = jwtUtil.generateToken(userDetails.getUser().getId());
 
-            return new AuthResponse(token);
-        }
-
-        throw new InvalidInputException("Email or Password are wrong");
-
+        return new AuthResponse(token);
     }
 
-    private boolean loginSuccessful(LoginRequest loginRequest) {
-        return userRepository.existsByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
-    }
 }
+
+
