@@ -34,14 +34,19 @@ export function ProductPage(): JSX.Element {
                     <Images/>
 
                     {/* Right section */}
-                    <aside className="flex-1 flex flex-col items-start gap-5">
-                        <TitlePriceReviews/>
-                        <Colors/>
-                        <Sizes/>
-                        <Buttons onWishlistClick={() => setAddedToWishlist(!addedToWishlist)}
-                                 isWishlisted={addedToWishlist}/>
-                        <Description/>
-                        <FabricAndCare/>
+                    <aside className="flex-1 flex flex-col items-start gap-20">
+                        <div className="w-full flex flex-col gap-5">
+                            <TitlePriceReviews/>
+                            <Colors/>
+                            <Sizes/>
+                            <Buttons onWishlistClick={() => setAddedToWishlist(!addedToWishlist)}
+                                     isWishlisted={addedToWishlist}/>
+                        </div>
+
+                        <div className="flex flex-col w-full gap-10">
+                            <Description/>
+                            <FabricAndCare/>
+                        </div>
                     </aside>
                 </section>
             </div>
