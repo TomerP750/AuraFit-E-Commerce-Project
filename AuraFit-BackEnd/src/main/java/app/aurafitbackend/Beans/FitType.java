@@ -1,6 +1,5 @@
 package app.aurafitbackend.Beans;
 
-import app.aurafitbackend.Enums.ClothingFitType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,6 +26,7 @@ public class FitType {
     @OneToOne
     private ProductVariant productVariant;
 
-    @Enumerated(EnumType.STRING)
-    private ClothingFitType fitType;
+    @ManyToOne
+    private SubCategory subCategory;
+
 }

@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class WishlistItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
