@@ -3,7 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import {JSX} from "react";
 import {Home} from "../../HomeArea/Home/Home.tsx";
 import {Men} from "../../ShopPagesArea/Men/Men.tsx";
-import {ProductPage} from "../../Product-Area/ProductPage/ProductPage.tsx";
+import {ProductPage} from "../../Product-Area/ProductPage-Area/ProductPage/ProductPage.tsx";
 import {AdminPanel} from "../../AdminArea/AdminPanel/AdminPanel.tsx";
 import {CartPage} from "../../CartAndOrderArea/CartPage/CartPage.tsx";
 import {Login} from "../../AuthArea/Login/Login.tsx";
