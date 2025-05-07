@@ -2,7 +2,6 @@ package app.aurafitbackend.DTOS.CreateDTOS;
 
 import app.aurafitbackend.Beans.Size;
 import app.aurafitbackend.Enums.Color;
-import app.aurafitbackend.Enums.Material;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

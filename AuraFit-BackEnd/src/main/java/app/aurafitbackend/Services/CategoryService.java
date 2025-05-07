@@ -3,6 +3,7 @@ package app.aurafitbackend.Services;
 import app.aurafitbackend.Beans.Category;
 import app.aurafitbackend.Exceptions.InvalidInputException;
 import app.aurafitbackend.Repositories.CategoryRepository;
+import app.aurafitbackend.Utils.CategoryValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +14,12 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     public void addCategory(Category category) {
-        if (category.getName().isEmpty()) {
-            throw new InvalidInputException("Category name cannot be empty");
+        if (CategoryValidator.isValidCategory(category)) {
+            Category categoryToDb = Category.builder()
+                    .name(category.getName())
+                    .build();
+            categoryRepository.save(categoryToDb);
         }
-        Category categoryToDb = Category.builder()
-                .name(category.getName())
-                .build();
-        categoryRepository.save(categoryToDb);
     }
 
     public void deleteCategory(Long categoryId) {

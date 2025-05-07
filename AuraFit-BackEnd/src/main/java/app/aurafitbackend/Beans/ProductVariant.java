@@ -1,7 +1,5 @@
 package app.aurafitbackend.Beans;
 
-import app.aurafitbackend.Enums.Color;
-import app.aurafitbackend.Enums.Material;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -32,12 +31,12 @@ public class ProductVariant {
     private Size size;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @OneToOne //TODO OneToMany or OneToOne
     private Color color;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Material material;
+    @OneToMany(mappedBy = "productVariant")
+    private Set<Material> material;
 
     @Column(unique = true ,nullable=false)
     private UUID sku = UUID.randomUUID();

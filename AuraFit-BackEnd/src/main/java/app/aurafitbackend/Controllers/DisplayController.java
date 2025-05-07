@@ -29,15 +29,15 @@ public class DisplayController {
         return productVariantService.oneProductVariant(id);
     }
 
-    @GetMapping("/men/clothing")
-    public List<ProductVariantDTO> menClothing() {
-        return productVariantService.getAllMensClothing();
-    }
-
-    @GetMapping("/women/clothing")
-    public List<ProductVariantDTO> womenClothing() {
-        return productVariantService.getAllWomensClothing();
-    }
+//    @GetMapping("/men/clothing")
+//    public List<ProductVariantDTO> menClothing() {
+//        return productVariantService.getAllMensClothing();
+//    }
+//
+//    @GetMapping("/women/clothing")
+//    public List<ProductVariantDTO> womenClothing() {
+//        return productVariantService.getAllWomensClothing();
+//    }
 
 
 

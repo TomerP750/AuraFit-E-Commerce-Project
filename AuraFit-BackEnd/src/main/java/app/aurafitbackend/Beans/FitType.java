@@ -14,7 +14,7 @@ import lombok.*;
  *
  * this uses a table for get a fit for clothing type so if the productvariant is clothing
  * get SLIMFIT REGULARFIT etc..
- *
+ * for socks - ankle socks long socks etc...
  */
 
 public class FitType {
@@ -23,8 +23,7 @@ public class FitType {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @OneToOne
-    private ProductVariant productVariant;
+    private String name;
 
     @ManyToOne
     private SubCategory subCategory;
