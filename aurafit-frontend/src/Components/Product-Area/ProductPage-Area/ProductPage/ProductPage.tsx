@@ -7,6 +7,7 @@ import {Sizes} from "../Sizes/Sizes.tsx";
 import {Description} from "../Description/Description.tsx";
 import {Buttons} from "../Buttons/Buttons.tsx";
 import {FabricAndCare} from "../FabricAndCare/FabricAndCare.tsx";
+import {Images} from "../Images/Images.tsx";
 
 export function ProductPage(): JSX.Element {
 
@@ -27,21 +28,10 @@ export function ProductPage(): JSX.Element {
                 </div>
 
                 {/* Main section */}
-                <section className="w-full flex justify-between items-start gap-5">
+                <section className="w-full flex flex-col lg:flex-row justify-between items-start gap-5">
+
                     {/* Left: images */}
-                    <div className="w-2/3 flex items-start gap-2">
-                        {/* Thumbnail column */}
-                        <div className="grid grid-rows-4 gap-2 h-full">
-                            <div className="w-[100px] h-[100px] rounded-lg bg-black"/>
-                            <div className="w-[100px] h-[100px] rounded-lg bg-black"/>
-                            <div className="w-[100px] h-[100px] rounded-lg bg-black"/>
-                            <div className="w-[100px] h-[100px] rounded-lg bg-black"/>
-                        </div>
-
-                        {/* Main placeholder */}
-                        <div className="w-full max-w-[700px] aspect-square rounded-lg bg-black"/>
-                    </div>
-
+                    <Images/>
 
                     {/* Right section */}
                     <aside className="flex-1 flex flex-col items-start gap-5">
