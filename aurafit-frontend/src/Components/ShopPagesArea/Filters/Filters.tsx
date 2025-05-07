@@ -32,7 +32,7 @@ export function Filters({sortSelected, onSortSelected}: FiltersProps): JSX.Eleme
     }, [])
 
     return (
-        <div className="w-full sm:w-60 px-4 py-6 border-r border-gray-200 text-left">
+        <div className="w-full sm:w-70 px-4 py-6 border-r border-gray-200 text-left">
             {/* SORT BY */}
             <div className="mb-4">
                 <div

@@ -1,7 +1,7 @@
 import "./Men.css";
 import {JSX, useEffect, useState} from "react";
 import {Filters} from "../Filters/Filters.tsx";
-import {ProductCard} from "../../ProductCard/ProductCard.tsx";
+import {ProductCard} from "../../Product-Area/ProductCard/ProductCard.tsx";
 import {Product} from "../../../Models/Product.ts";
 import {FiFilter} from "react-icons/fi";
 
@@ -21,30 +21,6 @@ export function Men(): JSX.Element {
     // useEffect(() => {
     //
     // }, []);
-
-    // return (
-    //     <div className="w-full flex flex-col sm:flex-row pt-10 px-4 mx-auto gap-2">
-    //         <aside className="w-full sm:w-1/6 flex-shrink-0">
-    //         <div className="">
-    //             <Filters onFilterClick={() => setShowFilter(!showFilter)} showFilter={showFilter} onSortSelected={setSortBy} sortSelected={sortBy} />
-    //         </div>
-    //         </aside>
-    //         <main className="w-full sm:w-5/6 pl-4 pr-6">
-    //             <h2 className="text-2xl font-medium mb-6">Men’s Collection</h2>
-    //             <div className="grid grid-cols-1 min-w-[1495px]:grid-cols-2 lg:grid-cols-3 justify-items-center lg:gap-0 md:gap-4">
-    //                 {/*{products.map(p => <ProductCard key={p.id} product={p}/>)}*/}
-    //                 <ProductCard/>
-    //                 <ProductCard/>
-    //                 <ProductCard/>
-    //                 <ProductCard/>
-    //                 <ProductCard/>
-    //                 <ProductCard/>
-    //                 <ProductCard/>
-    //             </div>
-    //         </main>
-    //     </div>
-    //
-    // );
 
     return (
         <div className="px-4 pt-10 mx-auto">
