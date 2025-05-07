@@ -11,7 +11,7 @@ export function ProductCard(): JSX.Element {
 
         <NavLink className={"text-gray-700 cursor-pointer my-5"} to={`/`}>
             <div className="overflow-hidden">
-                <div className="w-[380px] h-[380px] bg-gray-800"/>
+                <div className="w-[380px] h-[380px] bg-gray-200"/>
             </div>
             <p className="pt-3 pb-1 text-lg">product</p>
             <p className={"text-md font-medium"}>$15</p>
