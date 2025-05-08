@@ -26,6 +26,7 @@ public class ProductVariant {
     @Setter(AccessLevel.NONE)
     private Long id;
 
+    // TODO ask shaked if oneToMany or OneToOne
     @ManyToOne
     @JoinColumn(name = "size_id",nullable = false)
     private Size size;

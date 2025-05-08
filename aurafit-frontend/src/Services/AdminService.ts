@@ -2,6 +2,7 @@ import axios from "axios";
 import {ProductCreateDTO} from "../Models/DTOS/ProductCreateDTO.ts";
 import {Category} from "../Models/Category.ts";
 import {SubCategory} from "../Models/SubCategory.ts";
+import {Material} from "../Models/Material.ts";
 
 class AdminService {
 
@@ -17,6 +18,10 @@ class AdminService {
         return (await axios.get("http://localhost:8080/api/admin/material/all")).data
     }
 
+    async createMaterial(material: Material) {
+        return (await axios.post("http://localhost:8080/api/material/add", material)).data
+    }
+
     async allFitTypes() {
         return (await axios.get("http://localhost:8080/api/admin/fittype/all")).data
     }
@@ -30,7 +35,7 @@ class AdminService {
     }
 
     async createProduct(product: ProductCreateDTO) {
-        return await axios.post("http://localhost:8080/api/product/create", product)
+        return (await axios.post("http://localhost:8080/api/product/create", product))
     }
 
 }

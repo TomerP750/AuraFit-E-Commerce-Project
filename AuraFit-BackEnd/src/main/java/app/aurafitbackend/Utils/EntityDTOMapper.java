@@ -18,6 +18,7 @@ public final class EntityDTOMapper {
                 .description(dto.getDescription())
                 .category(dto.getCategory())
                 .subCategory(dto.getSubCategory())
+                .gender(dto.getGender())
                 .onSale(false)
                 .variants(new ArrayList<>())
                 .reviews(new ArrayList<>())

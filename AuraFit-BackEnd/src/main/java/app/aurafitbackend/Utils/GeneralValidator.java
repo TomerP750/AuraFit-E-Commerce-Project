@@ -69,7 +69,7 @@ public class GeneralValidator {
     }
 
     public static boolean isValidProduct(ProductCreateDTO product) {
-        return false;
+        return true;
     }
 
     public static boolean isValidProductVariant(ProductVariant productVariant) {

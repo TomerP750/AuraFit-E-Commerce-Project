@@ -1,7 +1,8 @@
-import {Material} from "./Enums/Material.ts";
-import {Color} from "./Enums/Color.ts";
+
 import {Size} from "./Size.ts";
 import {Product} from "./Product.ts";
+import {Color} from "./Color.ts";
+import {Material} from "./Material.ts";
 
 
 export class ProductVariant {
@@ -17,7 +18,7 @@ export class ProductVariant {
     product: Product;
     productImage?: string[];
 
-    constructor(id: number, size: number, color: Color,
+    constructor(id: number, size: Size, color: Color,
                 material: Material, sku: string, basePrice: number, salePrice: number,
                 stockQuantity: number, onSale: boolean, product: Product, productImage?: string[]) {
         this.id = id;

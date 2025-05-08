@@ -2,6 +2,7 @@ package app.aurafitbackend.DTOS.CreateDTOS;
 
 import app.aurafitbackend.Beans.Category;
 import app.aurafitbackend.Beans.SubCategory;
+import app.aurafitbackend.Enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,8 +16,9 @@ import java.util.List;
 @Builder
 public class ProductCreateDTO {
 
+    private String name;
     private String description;
-
+    private Gender gender;
 
     private Category category;
 
