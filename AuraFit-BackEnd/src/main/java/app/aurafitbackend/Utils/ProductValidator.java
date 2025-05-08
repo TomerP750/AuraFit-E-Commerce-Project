@@ -14,4 +14,8 @@ public class ProductValidator {
         return true;
     }
 
+    public static boolean isValidProduct(Product product) {
+        return true;
+    }
+
 }

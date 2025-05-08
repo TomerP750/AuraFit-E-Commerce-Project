@@ -46,35 +46,9 @@ public class AdminService {
 
 //    ----------- Product Section -----------
 
-    @Transactional
-    public void createProduct(ProductCreateDTO newProductDTO) {
-        if (GeneralValidator.isValidProduct(newProductDTO)) {
 
-            Product product = EntityDTOMapper.toEntity(newProductDTO);
-            productRepository.save(product);
-        }
-    }
 
-    @Transactional
-    public void addVariantToProduct(Long productId , ProductVariant newProductVariant) {
-        if (GeneralValidator.isValidProductVariant(newProductVariant)) {
-            Product product = productRepository.findById(productId).orElseThrow(()->new NotExistsException("Product not found"));
-            ProductVariant productVariant = ProductVariant.builder()
-                    .color(newProductVariant.getColor())
-                    .basePrice(newProductVariant.getBasePrice())
-                    .salePrice(BigDecimal.ZERO)
-                    .size(newProductVariant.getSize())
-                    .material(newProductVariant.getMaterial())
-                    .productImages(newProductVariant.getProductImages())
-                    .onSale(false)
-                    .stockQuantity(newProductVariant.getStockQuantity())
-                    .product(product)
-                    .build();
-            product.getVariants().add(productVariant);
-            productRepository.save(product);
-            productVariantRepository.save(productVariant);
-        }
-    }
+
 
 //    Category Section
 

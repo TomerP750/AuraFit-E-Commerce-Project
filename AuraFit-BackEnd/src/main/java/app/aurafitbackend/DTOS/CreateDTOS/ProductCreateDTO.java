@@ -22,5 +22,4 @@ public class ProductCreateDTO {
 
     private SubCategory subCategory;
 
-    private List<ProductVariantCreateDto> variants;
 }

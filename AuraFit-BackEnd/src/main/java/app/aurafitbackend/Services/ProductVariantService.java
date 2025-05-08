@@ -11,9 +11,13 @@ import app.aurafitbackend.Repositories.ProductRepository;
 import app.aurafitbackend.Repositories.ProductVariantRepository;
 import app.aurafitbackend.Repositories.ReviewRepository;
 import app.aurafitbackend.Utils.EntityDTOMapper;
+import app.aurafitbackend.Utils.GeneralValidator;
+import app.aurafitbackend.Utils.ProductVariantValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +28,30 @@ public class ProductVariantService {
     private final ProductVariantRepository productVariantRepository;
     private final ReviewRepository reviewRepository;
     private final ProductRepository productRepository;
+
+
+    @Transactional
+    public void addVariantToProduct(Long productId, ProductVariant newProductVariant) {
+        if (ProductVariantValidator.isValidAddVariantToProduct(newProductVariant)) {
+            Product product = productRepository.findById(productId).orElseThrow(()->new NotExistsException("Product not found"));
+            ProductVariant productVariant = ProductVariant.builder()
+                    .color(newProductVariant.getColor())
+                    .basePrice(newProductVariant.getBasePrice())
+                    .salePrice(BigDecimal.ZERO)
+                    .size(newProductVariant.getSize())
+                    .material(newProductVariant.getMaterial())
+                    .productImages(newProductVariant.getProductImages())
+                    .onSale(false)
+                    .stockQuantity(newProductVariant.getStockQuantity())
+                    .product(product)
+                    .build();
+            product.getVariants().add(productVariant);
+            productRepository.save(product);
+            productVariantRepository.save(productVariant);
+        }
+    }
+
+
 
     public List<Review> getProductVariantReviews(Long productVariantId) {
         ProductVariant productVariant = productVariantRepository.findById(productVariantId).orElseThrow(()->new NotExistsException("Product variant not found"));
