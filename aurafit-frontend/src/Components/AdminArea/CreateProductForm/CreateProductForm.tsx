@@ -49,6 +49,9 @@ export function CreateProductForm(): JSX.Element {
             .catch(err => toast.error(err.repsonse.data));
     };
 
+    console.log(categories);
+    console.log(subCategories);
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="p-6 rounded shadow space-y-10">
             {/* Description */}

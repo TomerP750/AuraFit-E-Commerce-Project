@@ -1,5 +1,4 @@
 import axios from "axios";
-import {ProductVariantCreateDTO} from "../Models/DTOS/ProductVariantCreateDTO.ts";
 import {ProductCreateDTO} from "../Models/DTOS/ProductCreateDTO.ts";
 import {Category} from "../Models/Category.ts";
 import {SubCategory} from "../Models/SubCategory.ts";

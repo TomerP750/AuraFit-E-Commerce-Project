@@ -31,28 +31,33 @@ public class AdminController {
         return categoryService.getAllCategories();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/fittype/all")
-    public List<FitType> allFitTypes() {
+    public List<FitType> allFitTypes(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return fitTypeService.getAllFitTypes();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/subcategory/all")
-    public List<SubCategory> allSubCategories() {
+    public List<SubCategory> allSubCategories(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return subCategoryService.getAllSubCategories();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/material/all")
-    public List<Material> allMaterials() {
+    public List<Material> allMaterials(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return materialService.getAllMaterials();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/size/all")
-    public List<Size> allSizes() {
+    public List<Size> allSizes(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return sizeService.getAllSizes();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/color/all")
-    public List<Color> allColors() {
+    public List<Color> allColors(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return colorService.getAllColors();
     }
 

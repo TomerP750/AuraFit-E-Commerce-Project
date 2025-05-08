@@ -24,9 +24,8 @@ export function NavbarTop(): JSX.Element {
                                     onMouseOver={() => setHovered(true)}
                                     onMouseLeave={() => setHovered(false)}
                                     className={`relative ${navbarTopItem}`}> Hello, {authStore.getState().user?.firstName}
-
-                                    {hovered && <NavbarAccountMenu/>}
                                 </p>
+                                {hovered && <NavbarAccountMenu/>}
                             </li>
 
 

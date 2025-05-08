@@ -9,6 +9,8 @@ import {CartPage} from "../../CartAndOrderArea/CartPage/CartPage.tsx";
 import {Login} from "../../AuthArea/Login/Login.tsx";
 import {Register} from "../../AuthArea/Register/Register.tsx";
 import {PageNotFound} from "../../PageNotFound/PageNotFound.tsx";
+import {authStore} from "../../../Redux/AuthSlice.ts";
+import {Role} from "../../../Models/Enums/Role.ts";
 
 
 export function Routing(): JSX.Element {
@@ -23,8 +25,13 @@ export function Routing(): JSX.Element {
                     <Route path={"/register"} element={<Register/>}/>
                     <Route path={"/test"} element={<ProductPage/>}/>
                     <Route path={"/men"} element={<Men/>}/>
+
+
+                    { authStore.getState().user?.role === Role.ADMIN &&
+                        <Route path={"/admin/panel"} element={<AdminPanel/>}/>
+                    }
+
                     <Route path={"*"} element={<PageNotFound/>}/>
-                    <Route path={"/admin/panel"} element={<AdminPanel/>}/>
 
                 </Routes>
             </div>
