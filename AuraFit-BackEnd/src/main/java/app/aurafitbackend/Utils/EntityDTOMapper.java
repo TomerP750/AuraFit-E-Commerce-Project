@@ -6,7 +6,7 @@ import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public final class EntityDTOMapper {
@@ -19,21 +19,9 @@ public final class EntityDTOMapper {
                 .category(dto.getCategory())
                 .subCategory(dto.getSubCategory())
                 .onSale(false)
+                .variants(new ArrayList<>())
+                .reviews(new ArrayList<>())
                 .build();
-
-        List<ProductVariant> variants = dto.getVariants().stream()
-                .map(vdto -> ProductVariant.builder()
-                        .size(vdto.getSize())
-                        .color(vdto.getColor())
-                        .material(vdto.getMaterial())
-                        .basePrice(vdto.getPrice())
-                        .stockQuantity(vdto.getStockQuantity())
-                        .onSale(false)
-                        .product(p)
-                        .build())
-                .collect(Collectors.toList());
-
-        p.setVariants(variants);
         return p;
     }
 
@@ -58,7 +46,7 @@ public final class EntityDTOMapper {
                 .sku(v.getSku())
                 .size(v.getSize())
                 .color(v.getColor())
-                .material(v.getMaterial())
+                .materials(v.getMaterial())
                 .basePrice(v.getBasePrice())
                 .salePrice(v.getSalePrice())
                 .stockQuantity(v.getStockQuantity())

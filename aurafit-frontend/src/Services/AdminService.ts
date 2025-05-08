@@ -1,15 +1,17 @@
 import axios from "axios";
 import {ProductVariantCreateDTO} from "../Models/DTOS/ProductVariantCreateDTO.ts";
 import {ProductCreateDTO} from "../Models/DTOS/ProductCreateDTO.ts";
+import {Category} from "../Models/Category.ts";
+import {SubCategory} from "../Models/SubCategory.ts";
 
 class AdminService {
 
     async allCategories() {
-        return (await axios.get("http://localhost:8080/api/admin/category/all")).data
+        return (await axios.get<Category[]>("http://localhost:8080/api/admin/category/all")).data
     }
 
     async allSubCategories() {
-        return (await axios.get("http://localhost:8080/api/admin/subcategory/all")).data
+        return (await axios.get<SubCategory[]>("http://localhost:8080/api/admin/subcategory/all")).data
     }
 
     async allMaterials() {

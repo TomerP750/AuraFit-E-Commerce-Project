@@ -1,10 +1,12 @@
 package app.aurafitbackend.DTOS.DisplayDTOS;
 import java.math.BigDecimal;
+import java.util.Set;
 import java.util.UUID;
 
+import app.aurafitbackend.Beans.Color;
+import app.aurafitbackend.Beans.Material;
 import app.aurafitbackend.Beans.Product;
 import app.aurafitbackend.Beans.Size;
-import app.aurafitbackend.Enums.Color;
 import lombok.*;
 
 @Data
@@ -16,7 +18,7 @@ public class ProductVariantDTO {
     private UUID sku;
     private Size size;
     private Color color;
-    private Material material;
+    private Set<Material> materials;
     private BigDecimal basePrice;
     private BigDecimal salePrice;
     private Integer stockQuantity;

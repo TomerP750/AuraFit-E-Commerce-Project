@@ -30,7 +30,6 @@ public class ProductVariant {
     @JoinColumn(name = "size_id",nullable = false)
     private Size size;
 
-    @Column(nullable = false)
     @OneToOne //TODO OneToMany or OneToOne
     private Color color;
 

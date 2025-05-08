@@ -1,8 +1,11 @@
 package app.aurafitbackend.Controllers;
 
 import app.aurafitbackend.Beans.*;
+import app.aurafitbackend.Security.CustomUserDetails;
 import app.aurafitbackend.Services.*;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,8 +25,9 @@ public class AdminController {
     private final ColorService colorService;
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/category/all")
-    public List<Category> allCategories() {
+    public List<Category> allCategories(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return categoryService.getAllCategories();
     }
 
