@@ -4,6 +4,7 @@ import {BiHeart, BiShoppingBag, BiUser} from "react-icons/bi";
 import {NavLink} from "react-router-dom";
 import {FiMenu, FiSearch} from "react-icons/fi";
 import {NavbarSidebar} from "../NavbarSidebar/NavbarSidebar.tsx";
+import {NavbarSearchDrawer} from "../NavbarSearchDrawer/NavbarSearchDrawer.tsx";
 export function NavbarRight(): JSX.Element {
 
     const [cartItemsCounter, setCartItemsCounter] = useState(1);
@@ -18,7 +19,7 @@ export function NavbarRight(): JSX.Element {
 
             <FiSearch className={`${navbarItem}`} onClick={()=>setSearch(true)} />
 
-            {/*{search && ""}*/}
+            {search && <NavbarSearchDrawer open={search} setOpen={setSearch}/>}
 
             {/*<NavLink to={"/login"}><BiUser className={`${navbarItem}`}/></NavLink>*/}
 

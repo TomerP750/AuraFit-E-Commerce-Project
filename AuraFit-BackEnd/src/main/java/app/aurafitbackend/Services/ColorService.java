@@ -1,7 +1,9 @@
 package app.aurafitbackend.Services;
 
 import app.aurafitbackend.Beans.Color;
+import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Repositories.ColorRepository;
+import app.aurafitbackend.Utils.ColorValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,20 @@ public class ColorService {
 
     public List<Color> getAllColors() {
         return colorRepository.findAll();
+    }
+
+    public Color getOneColor(Long id) {
+        return colorRepository.findById(id).orElseThrow(() -> new NotExistsException("Color not found"));
+    }
+
+    public void createColor(Color color) {
+        if (ColorValidator.isValidColor(color)) {
+            colorRepository.save(color);
+        }
+    }
+
+    public void deleteColor(Long id) {
+        colorRepository.deleteById(id);
     }
 
 }

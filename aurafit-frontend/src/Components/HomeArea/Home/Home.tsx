@@ -3,12 +3,14 @@ import {JSX} from "react";
 import {Hero} from "../Hero/Hero.tsx";
 import {LatestProducts} from "../LatestProducts/LatestProducts.tsx";
 import {BestSellingProducts} from "../BestSellingProducts/BestSellingProducts.tsx";
+import {IntroParagraph} from "../IntroParagraph/IntroParagraph.tsx";
 
 export function Home(): JSX.Element {
     return (
-        <div className="w-full flex flex-col items-center gap-10">
+        <div className="w-full flex flex-col items-center gap-20">
             <Hero/>
-            <div className="flex flex-col w-9/10 gap-15">
+            <IntroParagraph/>
+            <div className="flex flex-col w-9/10 gap-20">
                 <BestSellingProducts/>
                 <LatestProducts/>
             </div>

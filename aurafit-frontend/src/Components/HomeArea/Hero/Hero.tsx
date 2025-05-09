@@ -1,5 +1,5 @@
 import "./Hero.css";
-import {JSX, useEffect, useState} from "react";
+import {JSX, useState} from "react";
 import {FiChevronLeft, FiChevronRight} from "react-icons/fi";
 import heroimage1 from "../../../assets/heroImage1.png"
 import heroimage2 from "../../../assets/heroAccessories.png"

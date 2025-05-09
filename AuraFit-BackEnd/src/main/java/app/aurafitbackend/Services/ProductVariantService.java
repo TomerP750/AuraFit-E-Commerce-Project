@@ -63,6 +63,7 @@ public class ProductVariantService {
         return EntityDTOMapper.variantToDto(variant);
     }
 
+
 //    ------------ TEST THESE METHODS AREA
 //    public List<ProductVariantDTO> getAllMensClothing() {
 //

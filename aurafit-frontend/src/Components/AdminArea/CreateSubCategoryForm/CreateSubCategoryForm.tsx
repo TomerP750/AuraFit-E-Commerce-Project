@@ -1,14 +1,12 @@
 import "./CreateSubCategoryForm.css";
 import {JSX} from "react";
 import {useForm} from "react-hook-form";
-import {FitType} from "../../../Models/FitType.ts";
 import adminService from "../../../Services/AdminService.ts";
 import {toast} from "react-toastify";
 import {SubCategory} from "../../../Models/SubCategory.ts";
 
 export function CreateSubCategoryForm(): JSX.Element {
-    const {register, handleSubmit, formState: { errors }} = useForm<SubCategory>();
-
+    const {register, handleSubmit, formState: {errors}} = useForm<SubCategory>();
 
     const onSubmit = (data: SubCategory) => {
         adminService.createMaterial(data)
@@ -43,4 +41,7 @@ export function CreateSubCategoryForm(): JSX.Element {
 
         </form>
     );
+
+
+
 }

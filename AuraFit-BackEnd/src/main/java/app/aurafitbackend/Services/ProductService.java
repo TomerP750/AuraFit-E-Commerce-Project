@@ -2,6 +2,8 @@ package app.aurafitbackend.Services;
 
 import app.aurafitbackend.Beans.Product;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
+import app.aurafitbackend.DTOS.DisplayDTOS.ProductDTO;
+import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Repositories.OrderItemRepository;
 import app.aurafitbackend.Repositories.ProductRepository;
 import app.aurafitbackend.Repositories.ProductVariantRepository;
@@ -12,6 +14,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ProductService {
@@ -20,6 +24,14 @@ public class ProductService {
     private final ProductVariantRepository productVariantRepository;
     private final OrderItemRepository orderItemRepository;
 
+
+    public List<Product> getProducts() {
+        return productRepository.findAll();
+    }
+
+    public Product getProduct(Long id) {
+        return productRepository.findById(id).orElseThrow(()->new NotExistsException("Product not found"));
+    }
 
     @Transactional
     public void createProduct(ProductCreateDTO newProductDTO) {

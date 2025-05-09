@@ -18,6 +18,9 @@ public class SizeService {
         return sizeRepository.findAll();
     }
 
+    public Size getOneSize(Long id) {
+        return sizeRepository.findById(id).orElseThrow();
+    }
 
     public void addSize(Size size) {
         if (SizeValidator.isValidSize(size)) {

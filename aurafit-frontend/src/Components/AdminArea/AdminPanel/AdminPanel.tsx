@@ -8,10 +8,11 @@ import {CreateSizeForm} from "../CreateSizeForm/CreateSizeForm.tsx";
 import {CreateMaterialForm} from "../CreateMaterialForm/CreateMaterialForm.tsx";
 import {CreateFitTypeForm} from "../CreateFitTypeForm/CreateFitTypeForm.tsx";
 import {CreateSubCategoryForm} from "../CreateSubCategoryForm/CreateSubCategoryForm.tsx";
+import {SubCategoriesCrud} from "../SubCategoriesCrud/SubCategoriesCrud.tsx";
 
 export function AdminPanel(): JSX.Element {
 
-    const [activePanel, setActivePanel] = useState<"createSubCategory" | "createFitType" | "createProduct" | "createPV" | "createCategory" | "createSize" | "createMaterial">("createProduct");
+    const [activePanel, setActivePanel] = useState<"subCategoryCrud" | "createFitType" | "createProduct" | "createPV" | "createCategory" | "createSize" | "createMaterial">("createProduct");
 
     const renderContent = () => {
         switch (activePanel) {
@@ -27,15 +28,15 @@ export function AdminPanel(): JSX.Element {
                 return <CreateMaterialForm/>;
             case "createFitType":
                 return <CreateFitTypeForm/>;
-            case "createSubCategory":
-                return <CreateSubCategoryForm/>;
+            case "subCategoryCrud":
+                return <SubCategoriesCrud/>;
             default:
                 return null;
         }
     };
     return (
         <div className="flex justify-start bg-neutral-100 h-screen">
-            <div className="w-4/5 flex justify-between px-10">
+            <div className="w-full flex justify-between px-10">
 
                 {/*    Sidebar*/}
                 <AdminPanelSidebar active={activePanel} onSelect={setActivePanel}/>

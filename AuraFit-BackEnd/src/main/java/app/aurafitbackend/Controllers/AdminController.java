@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,38 +28,74 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/category/all")
-    public List<Category> allCategories(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public List<Category> allCategories() {
         return categoryService.getAllCategories();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/category/{id}")
+    public Category oneCategory(@PathVariable Long id) {
+        return categoryService.getOneCategory(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/fittype/all")
-    public List<FitType> allFitTypes(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public List<FitType> allFitTypes() {
         return fitTypeService.getAllFitTypes();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/fittype/{id}")
+    public FitType oneFitType(@PathVariable Long id) {
+        return fitTypeService.getOneFitType(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/subcategory/all")
-    public List<SubCategory> allSubCategories(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public List<SubCategory> allSubCategories() {
         return subCategoryService.getAllSubCategories();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/subcategory/{id}")
+    public SubCategory oneSubCategory(@PathVariable Long id) {
+        return subCategoryService.getOneSubCategory(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/material/all")
-    public List<Material> allMaterials(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public List<Material> allMaterials() {
         return materialService.getAllMaterials();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/material/{id}")
+    public Material oneMaterial(@PathVariable Long id) {
+        return materialService.getOneMaterial(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/size/all")
-    public List<Size> allSizes(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public List<Size> allSizes() {
         return sizeService.getAllSizes();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/size/{id}")
+    public Size oneSize(@PathVariable Long id) {
+        return sizeService.getOneSize(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/color/all")
-    public List<Color> allColors(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public List<Color> allColors() {
         return colorService.getAllColors();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/color/{id}")
+    public Color oneColor(@PathVariable Long id) {
+        return colorService.getOneColor(id);
     }
 
 

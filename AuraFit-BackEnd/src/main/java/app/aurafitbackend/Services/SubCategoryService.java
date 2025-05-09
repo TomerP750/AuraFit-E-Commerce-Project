@@ -21,6 +21,10 @@ public class SubCategoryService {
         return subCategoryRepository.findAll();
     }
 
+    public SubCategory getOneSubCategory(Long id) {
+        return subCategoryRepository.findById(id).orElseThrow(()->new NotExistsException("Sub Category Not Found"));
+    }
+
 
     public void addSubCategory(SubCategory subCategory) {
         if (SubCategoryValidator.isValidSubCategory(subCategory)) {

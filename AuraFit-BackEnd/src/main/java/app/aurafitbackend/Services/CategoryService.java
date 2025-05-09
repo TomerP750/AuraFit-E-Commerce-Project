@@ -2,6 +2,7 @@ package app.aurafitbackend.Services;
 
 import app.aurafitbackend.Beans.Category;
 import app.aurafitbackend.Exceptions.InvalidInputException;
+import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Repositories.CategoryRepository;
 import app.aurafitbackend.Utils.CategoryValidator;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,10 @@ public class CategoryService {
 
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
+    }
+
+    public Category getOneCategory(Long id) {
+        return categoryRepository.findById(id).orElseThrow(()->new NotExistsException("Category not found"));
     }
 
 
@@ -36,6 +41,8 @@ public class CategoryService {
     public void updateCategory(Category category) {
 
     }
+
+
 
 
 
