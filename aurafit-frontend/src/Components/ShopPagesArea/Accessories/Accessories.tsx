@@ -1,12 +1,13 @@
+import "./Accessories.css";
 import {JSX, useState} from "react";
-import "./Women.css";
 import {FiFilter} from "react-icons/fi";
 import {Filters} from "../Filters/Filters.tsx";
 import {ProductCard} from "../../Product-Area/ProductCard/ProductCard.tsx";
 
 
 type SortOption = 'newest'|'high-low'|'low-high';
-export function Women(): JSX.Element {
+
+export function Accessories(): JSX.Element {
     // const [products, setProducts] = useState([]);
     // const [showFilter, setShowFilter] = useState(true);
     // const [filterProduct, setFilterProducts] = useState([]);
@@ -37,7 +38,7 @@ export function Women(): JSX.Element {
                     <Filters sortSelected={sortBy} onSortSelected={setSortBy}/>
                 </aside>
                 <main className="flex-1">
-                    <h2 className="text-2xl font-medium mb-6">Women’s Collection</h2>
+                    <h2 className="text-2xl font-medium mb-6">Accessories</h2>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {[...Array(9)].map((_, i) => (

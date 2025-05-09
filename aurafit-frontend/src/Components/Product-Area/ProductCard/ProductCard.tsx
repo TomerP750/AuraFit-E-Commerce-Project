@@ -11,7 +11,7 @@ export function ProductCard(): JSX.Element {
 
     return (
 
-        <NavLink className={"text-gray-700 cursor-pointer my-5"} to={`/`}>
+        <NavLink className={"text-gray-700 cursor-pointer my-5"} to={`/product`}>
             <div className="overflow-hidden">
                 <div className="rounded-lg w-[380px] h-[380px] bg-gray-200"/>
             </div>
