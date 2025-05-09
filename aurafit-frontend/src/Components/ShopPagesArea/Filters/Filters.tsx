@@ -23,6 +23,8 @@ export function Filters({sortSelected, onSortSelected}: FiltersProps): JSX.Eleme
     const [sortOpen, setSortOpen] = useState(true);
     const [catOpen, setCatOpen] = useState(true);
     const [typeOpen, setTypeOpen] = useState(true);
+    const [colorOpen, setColorOpen] = useState(false);
+    const [sizeOpen, setSizeOpen] = useState(false);
     const [categories, setCategories] = useState<Category[]>([]);
     const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
 
@@ -32,7 +34,7 @@ export function Filters({sortSelected, onSortSelected}: FiltersProps): JSX.Eleme
     }, [])
 
     return (
-        <div className="w-full sm:w-70 px-4 py-6 border-r border-gray-200 text-left">
+        <div className="w-full sm:w-60 px-4 py-6 border-r border-gray-200 text-left">
             {/* SORT BY */}
             <div className="mb-4">
                 <div
@@ -83,7 +85,7 @@ export function Filters({sortSelected, onSortSelected}: FiltersProps): JSX.Eleme
                                 <input
                                     type="checkbox"
                                     className="w-4 h-4 accent-black"
-                                    // onChange={() => {/* your handler */}}
+                                    // onChange={() => {/*  handle */}}
                                 />
                                 {opt}
                             </label>
@@ -109,7 +111,7 @@ export function Filters({sortSelected, onSortSelected}: FiltersProps): JSX.Eleme
                                 <input
                                     type="checkbox"
                                     className="w-4 h-4 accent-black"
-                                    // onChange={() => {/* your handler */}}
+                                    // onChange={() => {/* handle */}}
                                 />
                                 {opt}
                             </label>
@@ -125,19 +127,19 @@ export function Filters({sortSelected, onSortSelected}: FiltersProps): JSX.Eleme
             <div className="mb-4">
                 <div
                     className="flex justify-between items-center cursor-pointer font-medium text-sm"
-                    onClick={() => setTypeOpen((o) => !o)}
+                    onClick={() => setSizeOpen((o) => !o)}
                 >
                     <span>Size</span>
-                    {typeOpen ? <BiMinus/> : <BiPlus/>}
+                    {sizeOpen ? <BiMinus/> : <BiPlus/>}
                 </div>
-                {typeOpen && (
+                {sizeOpen && (
                     <div className="mt-4 space-y-3 text-sm">
                         {["TSHIRTS", "HOODIES", "SHORTS"].map((opt) => (
                             <label key={opt} className="flex items-center gap-2">
                                 <input
                                     type="checkbox"
                                     className="w-4 h-4 accent-black"
-                                    // onChange={() => {/* your handler */}}
+                                    // onChange={() => {/* handle */}}
                                 />
                                 {opt}
                             </label>
@@ -153,19 +155,19 @@ export function Filters({sortSelected, onSortSelected}: FiltersProps): JSX.Eleme
             <div className="mb-4">
                 <div
                     className="flex justify-between items-center cursor-pointer font-medium text-sm"
-                    onClick={() => setTypeOpen((o) => !o)}
+                    onClick={() => setColorOpen((o) => !o)}
                 >
                     <span>Color</span>
-                    {typeOpen ? <BiMinus/> : <BiPlus/>}
+                    {colorOpen ? <BiMinus/> : <BiPlus/>}
                 </div>
-                {typeOpen && (
+                {colorOpen && (
                     <div className="mt-4 space-y-3 text-sm">
                         {["TSHIRTS", "HOODIES", "SHORTS"].map((opt) => (
                             <label key={opt} className="flex items-center gap-2">
                                 <input
                                     type="checkbox"
                                     className="w-4 h-4 accent-black"
-                                    // onChange={() => {/* your handler */}}
+                                    // onChange={() => {/* handle */}}
                                 />
                                 {opt}
                             </label>
