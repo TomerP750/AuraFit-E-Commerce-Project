@@ -6,7 +6,7 @@ import {useForm} from "react-hook-form";
 import {RegisterRequest} from "../../../Models/RegisterRequest.ts";
 import authService from "../../../Services/AuthService.ts";
 import {toast} from "react-toastify";
-import {store} from "../../../Redux/Store.ts";
+import {store} from "../../../Redux/store.ts";
 import {login} from "../../../Redux/AuthSlice.ts";
 
 export function Register(): JSX.Element {

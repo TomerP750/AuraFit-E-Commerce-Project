@@ -6,7 +6,7 @@ import authService from "../../../Services/AuthService.ts";
 import {toast} from "react-toastify";
 import logo from "../../../assets/logo.png"
 import {NavLink, useNavigate} from "react-router-dom";
-import {store} from "../../../Redux/Store.ts";
+import {store} from "../../../Redux/store.ts";
 import {login} from "../../../Redux/AuthSlice.ts";
 
 export function Login(): JSX.Element {

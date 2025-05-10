@@ -3,7 +3,8 @@ import {JSX} from "react";
 import {logout} from "../../../Redux/AuthSlice.ts";
 import {NavLink, useNavigate} from "react-router-dom";
 import {Role} from "../../../Models/Enums/Role.ts";
-import {store, useUser} from "../../../Redux/Store.ts";
+import {store} from "../../../Redux/store.ts";
+import {useSelector} from "react-redux";
 
 
 interface NavbarAccountMenuProps {
@@ -12,8 +13,7 @@ interface NavbarAccountMenuProps {
 }
 export function NavbarAccountMenu({onMouseOver, onMouseLeave}: NavbarAccountMenuProps): JSX.Element {
 
-    const user = useUser();
-
+    const user = useSelector((state) => state.authSlice.user);
     const accountMenuItems = "px-4 py-2 text-gray-700 rounded hover:font-bold cursor-pointer";
     const navigate = useNavigate();
     const handleLogout = () => {

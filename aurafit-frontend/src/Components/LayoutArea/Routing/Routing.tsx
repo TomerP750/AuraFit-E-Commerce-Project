@@ -15,12 +15,13 @@ import {Accessories} from "../../ShopPagesArea/Accessories/Accessories.tsx";
 import {WishlistPage} from "../../WishlistPage/WishlistPage.tsx";
 import {CheckoutPage} from "../../CartAndOrderArea/CheckoutPage/CheckoutPage.tsx";
 import {OrderSuccessfulPage} from "../../CartAndOrderArea/OrderSuccessfulPage/OrderSuccessfulPage.tsx";
-import {useUser} from "../../../Redux/Store.ts";
+import {useUserSelector} from "../../../Redux/hooks.ts";
+// import {useUser} from "../../../Redux/store.ts";
 
 
 export function Routing(): JSX.Element {
 
-    const user = useUser();
+    const user = useUserSelector((state) => state.authSlice.user);
 
     return (
         <>

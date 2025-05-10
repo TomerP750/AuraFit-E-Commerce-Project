@@ -2,7 +2,8 @@ import "./NavbarTop.css";
 import {JSX, useState} from "react";
 import {NavLink} from "react-router-dom";
 import {NavbarAccountMenu} from "../NavbarAccountMenu/NavbarAccountMenu.tsx";
-import {useUser} from "../../../Redux/Store.ts";
+import {useUserDispatch, useUserSelector} from "../../../Redux/hooks.ts";
+// import {useUser} from "../../../Redux/store.ts";
 
 export function NavbarTop(): JSX.Element {
 
@@ -10,7 +11,7 @@ export function NavbarTop(): JSX.Element {
 
     const navbarTopItem = "cursor-pointer";
 
-    const user = useUser();
+    const user= useUserSelector((state) => state.authSlice.user)
 
     return (
         <div className="flex justify-center h-10 bg-gray-200">

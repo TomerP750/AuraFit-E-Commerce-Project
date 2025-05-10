@@ -4,7 +4,7 @@ import {Layout} from "./Components/LayoutArea/Layout/Layout.tsx";
 import {BrowserRouter} from "react-router-dom";
 import axios from 'axios';
 import {Provider} from "react-redux";
-import {store} from "./Redux/Store.ts";
+import {store} from "./Redux/store.ts";
 
 
 axios.interceptors.request.use(function (config) {

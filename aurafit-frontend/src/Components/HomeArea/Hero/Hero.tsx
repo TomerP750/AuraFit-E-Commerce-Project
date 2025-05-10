@@ -101,7 +101,7 @@ export function Hero(): JSX.Element {
                     />
                 </div>
 
-                {/*DTOS*/}
+                {/*DOTS*/}
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
                     {images.map((_, i) => (
                         <button
