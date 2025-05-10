@@ -14,7 +14,8 @@ export function FullNavbar(): JSX.Element {
         "/register",
         "/men", "/women", "/accessories",
         "/admin/panel",
-        "/cart", "/wishlist"
+        "/cart", "/wishlist",
+        "/product"
     ];
 
     const isExcluded =

@@ -6,7 +6,7 @@ import {useForm} from "react-hook-form";
 import {RegisterRequest} from "../../../Models/RegisterRequest.ts";
 import authService from "../../../Services/AuthService.ts";
 import {toast} from "react-toastify";
-import {Store} from "../../../Redux/Store.ts";
+import {store} from "../../../Redux/Store.ts";
 import {login} from "../../../Redux/AuthSlice.ts";
 
 export function Register(): JSX.Element {
@@ -19,7 +19,7 @@ export function Register(): JSX.Element {
             .then((res) =>{
                 navigate("/")
                 localStorage.token = res.token;
-                Store.dispatch(login(res.token))
+                store.dispatch(login(res.token))
                 toast.success("Register successfully")
             } )
             .catch(err => toast.error(err.response.data));

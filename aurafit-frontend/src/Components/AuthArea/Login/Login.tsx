@@ -6,7 +6,7 @@ import authService from "../../../Services/AuthService.ts";
 import {toast} from "react-toastify";
 import logo from "../../../assets/logo.png"
 import {NavLink, useNavigate} from "react-router-dom";
-import {Store} from "../../../Redux/Store.ts";
+import {store} from "../../../Redux/Store.ts";
 import {login} from "../../../Redux/AuthSlice.ts";
 
 export function Login(): JSX.Element {
@@ -18,7 +18,7 @@ export function Login(): JSX.Element {
             .then((res) => {
                 navigate("/");
                 localStorage.token = res.token;
-                Store.dispatch(login(res.token));
+                store.dispatch(login(res.token));
                 toast.success("Login successfully")
             })
             .catch(err => toast.error(err.response.data));

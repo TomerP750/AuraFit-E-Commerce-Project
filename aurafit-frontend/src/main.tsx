@@ -1,8 +1,10 @@
-import { createRoot } from 'react-dom/client'
+import {createRoot} from 'react-dom/client'
 import './index.css'
 import {Layout} from "./Components/LayoutArea/Layout/Layout.tsx";
 import {BrowserRouter} from "react-router-dom";
 import axios from 'axios';
+import {Provider} from "react-redux";
+import {store} from "./Redux/Store.ts";
 
 
 axios.interceptors.request.use(function (config) {
@@ -14,7 +16,9 @@ axios.interceptors.request.use(function (config) {
 
 
 createRoot(document.getElementById('root')!).render(
-  <BrowserRouter>
-    <Layout/>
-  </BrowserRouter>,
+    <Provider store={store}>
+        <BrowserRouter>
+            <Layout/>
+        </BrowserRouter>
+    </Provider>
 )

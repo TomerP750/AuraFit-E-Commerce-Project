@@ -38,6 +38,4 @@ export const authSlice = createSlice({
 })
 
 export const { login, logout } = authSlice.actions;
-export const authStore = configureStore({
-    reducer: authSlice.reducer
-})
+export const authReducer = authSlice.reducer;

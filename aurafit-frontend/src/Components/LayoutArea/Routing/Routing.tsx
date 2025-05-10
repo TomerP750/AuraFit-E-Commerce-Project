@@ -9,16 +9,19 @@ import {CartPage} from "../../CartAndOrderArea/CartPage/CartPage.tsx";
 import {Login} from "../../AuthArea/Login/Login.tsx";
 import {Register} from "../../AuthArea/Register/Register.tsx";
 import {PageNotFound} from "../../PageNotFound/PageNotFound.tsx";
-import {authStore} from "../../../Redux/AuthSlice.ts";
 import {Role} from "../../../Models/Enums/Role.ts";
 import {Women} from "../../ShopPagesArea/Women/Women.tsx";
 import {Accessories} from "../../ShopPagesArea/Accessories/Accessories.tsx";
 import {WishlistPage} from "../../WishlistPage/WishlistPage.tsx";
 import {CheckoutPage} from "../../CartAndOrderArea/CheckoutPage/CheckoutPage.tsx";
 import {OrderSuccessfulPage} from "../../CartAndOrderArea/OrderSuccessfulPage/OrderSuccessfulPage.tsx";
+import {useUser} from "../../../Redux/Store.ts";
 
 
 export function Routing(): JSX.Element {
+
+    const user = useUser();
+
     return (
         <>
             <div className="mb-20">
@@ -37,7 +40,7 @@ export function Routing(): JSX.Element {
                     <Route path={"/order/success"} element={<OrderSuccessfulPage/>}/>
 
 
-                    { authStore.getState().user?.role === Role.ADMIN &&
+                    { user?.role === Role.ADMIN &&
                         <Route path={"/admin/panel"} element={<AdminPanel/>}/>
                     }
 

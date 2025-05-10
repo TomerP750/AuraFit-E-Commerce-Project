@@ -1,8 +1,8 @@
 import "./NavbarTop.css";
 import {JSX, useState} from "react";
-import {authStore} from "../../../Redux/AuthSlice.ts";
 import {NavLink} from "react-router-dom";
 import {NavbarAccountMenu} from "../NavbarAccountMenu/NavbarAccountMenu.tsx";
+import {useUser} from "../../../Redux/Store.ts";
 
 export function NavbarTop(): JSX.Element {
 
@@ -10,12 +10,13 @@ export function NavbarTop(): JSX.Element {
 
     const navbarTopItem = "cursor-pointer";
 
+    const user = useUser();
 
     return (
         <div className="flex justify-center h-10 bg-gray-200">
             <div className="w-9/10 flex justify-end items-center h-full items-center">
                 <div className="flex items-center">
-                    {authStore.getState().user ?
+                    {user ?
                         <ul className={"flex items-center gap-4 text-sm font-medium"}>
                             <li>2</li>
                             <p className={"font-light"}>|</p>
@@ -23,7 +24,7 @@ export function NavbarTop(): JSX.Element {
                                 <p
                                     onMouseOver={() => setHovered(true)}
                                     onMouseLeave={() => setHovered(false)}
-                                    className={`relative ${navbarTopItem}`}> Hello, {authStore.getState().user?.firstName}
+                                    className={`relative ${navbarTopItem}`}> Hello, {user?.firstName}
                                 </p>
                                 {hovered && <NavbarAccountMenu onMouseLeave={() => setHovered(false)} onMouseOver={() => setHovered(true)}/>}
                             </li>

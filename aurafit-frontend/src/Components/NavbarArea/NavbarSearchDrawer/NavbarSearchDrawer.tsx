@@ -22,7 +22,7 @@ export function NavbarSearchDrawer({open, setOpen}: NavbarSearchDrawerProps): JS
                             animate={{ y: 0 }}
                             exit={{ y: '-100%' }}
                             transition={{ type: 'tween', duration: 0.4 }}
-                            className="fixed inset-x-0 top-0 z-50 bg-white shadow-md h-20"
+                            className="fixed inset-x-0 top-0 z-50 bg-white shadow-md h-50 cursor-default"
                         >
                             <div className="flex items-center h-full px-4">
                                 <input
@@ -34,7 +34,7 @@ export function NavbarSearchDrawer({open, setOpen}: NavbarSearchDrawerProps): JS
                                 <button
                                     onClick={() => setOpen(false)}
                                     aria-label="Close search"
-                                    className="ml-4 text-gray-700 hover:text-gray-900 focus:outline-none"
+                                    className="ml-4 text-gray-700 hover:text-gray-900 focus:outline-none cursor-pointer"
                                 >
                                     <FiX size={24} />
                                 </button>
@@ -47,7 +47,7 @@ export function NavbarSearchDrawer({open, setOpen}: NavbarSearchDrawerProps): JS
                             animate={{ opacity: 0.5 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.3 }}
-                            className="fixed inset-0 bg-black z-40"
+                            className="fixed inset-0 bg-black z-40 cursor-default"
                             onClick={() => setOpen(false)}
                         />
                     </>

@@ -1,8 +1,9 @@
 import "./NavbarAccountMenu.css";
 import {JSX} from "react";
-import {authStore} from "../../../Redux/AuthSlice.ts";
-import {NavLink} from "react-router-dom";
+import {logout} from "../../../Redux/AuthSlice.ts";
+import {NavLink, useNavigate} from "react-router-dom";
 import {Role} from "../../../Models/Enums/Role.ts";
+import {store, useUser} from "../../../Redux/Store.ts";
 
 
 interface NavbarAccountMenuProps {
@@ -11,10 +12,13 @@ interface NavbarAccountMenuProps {
 }
 export function NavbarAccountMenu({onMouseOver, onMouseLeave}: NavbarAccountMenuProps): JSX.Element {
 
+    const user = useUser();
+
     const accountMenuItems = "px-4 py-2 text-gray-700 rounded hover:font-bold cursor-pointer";
-
+    const navigate = useNavigate();
     const handleLogout = () => {
-
+        store.dispatch(logout());
+        navigate("/login");
     }
 
 
@@ -22,9 +26,9 @@ export function NavbarAccountMenu({onMouseOver, onMouseLeave}: NavbarAccountMenu
         <div onMouseOver={onMouseOver} onMouseLeave={onMouseLeave} className="absolute right-[4rem] w-64 bg-gray-100 p-5 shadow-gray-300 rounded-lg z-10 ">
             {/* Header */}
             <div className="px-4 py-3">
-                <p className="text-lg font-semibold text-gray-800">Hello, {authStore.getState().user?.firstName}</p>
+                <p className="text-lg font-semibold text-gray-800">Hello, {user?.firstName}</p>
                 <p className="text-sm text-gray-500 truncate">
-                    {authStore.getState().user?.email}
+                    {user?.email}
                 </p>
             </div>
 
@@ -32,7 +36,7 @@ export function NavbarAccountMenu({onMouseOver, onMouseLeave}: NavbarAccountMenu
 
             {/* Menu Items */}
             <ul className="py-2">
-                {authStore.getState().user?.role === Role.ADMIN && <li className={`${accountMenuItems}`}><NavLink to={"/admin/panel"}>Admin Panel</NavLink></li>}
+                {user?.role === Role.ADMIN && <li className={`${accountMenuItems}`}><NavLink to={"/admin/panel"}>Admin Panel</NavLink></li>}
                 <li className={`${accountMenuItems}`}>
                     My Profile
                 </li>
