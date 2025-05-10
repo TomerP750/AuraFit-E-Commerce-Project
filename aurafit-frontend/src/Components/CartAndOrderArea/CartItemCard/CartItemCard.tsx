@@ -11,29 +11,43 @@ interface CartItemCardProps {
 }
 
 export function CartItemCard({name, basePrice, size, color}: CartItemCardProps): JSX.Element {
+
     return (
-        <>
-            <div className="flex w-full justify-between items-center h-[200px]">
-                {/*    Left Section*/}
-                <div className={"w-[200px] h-full bg-gray-500"}/>
-                {/*	Right Section*/}
-                <div className="w-3/4 justify-between flex flex-col h-full">
-                    {/*    right section top*/}
-                    <div className="flex justify-between w-9/10 pl-5">
-                        <ul className={"flex flex-col gap-2"}>
-                            <li className={"font-medium text-xl"}>{name}</li>
-                            <div className="flex gap-3 items-center">
-                                <li className={"text-md"}>{size}</li>
-                                <p className={"mx-2 text-gray-500/30 font-light"}>|</p>
-                                <li className={"text-md"}>{color}</li>
+        <div className="flex flex-col sm:flex-row w-full bg-white rounded-md shadow-sm overflow-hidden">
+            {/* Image Placeholder */}
+            <div className="w-full sm:w-1/3 md:w-1/4 aspect-square bg-gray-200 flex-shrink-0"/>
+
+            {/* Details & Actions */}
+            <div className="flex flex-col flex-1 p-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    {/* Text Info */}
+                    <div className="flex-1">
+                        <div className="flex justify-between items-center">
+                            <p className="font-medium text-lg truncate">{name}</p>
+                            <button className="text-gray-500 hover:text-gray-800 cursor-pointer">
+                                <BiX size={25}/>
+                            </button>
+                        </div>
+                        <div className="flex flex-col items-start gap-2 text-sm text-gray-600 mt-1">
+                            <div className="flex gap-5">
+                                <span>{size}</span>
+                                <span className="text-gray-400 font-light">|</span>
+                                <span>{color}</span>
                             </div>
-                            <li className={"text-md"}>${basePrice}</li>
-                        </ul>
-                        <BiX className={"text-gray-500 cursor-pointer hover:text-black"} size={20}/>
+                            <p className="font-semibold text-md">${basePrice}</p>
+                        </div>
+                    </div>
+
+                    {/* Price & Remove */}
+                    <div className="flex justify-between sm:justify-start items-center gap-4">
+
+
                     </div>
                 </div>
+
+                {/* Bottom divider on small screens */}
+                <hr className="block sm:hidden mt-4 border-gray-300"/>
             </div>
-            <hr className={"w-4/5 h-px bg-gray-300 border-0 my-4"}/>
-        </>
+        </div>
     );
 }

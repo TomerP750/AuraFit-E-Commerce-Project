@@ -10,18 +10,17 @@ interface ProductCardProps {
 export function ProductCard(): JSX.Element {
 
     return (
+        <NavLink to="/product" className="block text-gray-700 cursor-pointer">
+            {/* Image / Placeholder */}
+            <div className="w-full aspect-square bg-gray-200 rounded-lg overflow-hidden" />
 
-        <NavLink className={"text-gray-700 cursor-pointer my-5"} to={`/product`}>
-            <div className="overflow-hidden">
-                <div className="rounded-lg w-[380px] h-[380px] bg-gray-200"/>
+            {/* Details */}
+            <div className="flex justify-between items-center pt-2 px-2">
+                <p className="text-lg truncate">Product Name</p>
+                <p className="text-xl font-medium">$15</p>
             </div>
-            <div className="flex flex-col px-2">
-                <div className="flex justify-between items-center pt-2">
-                    <p className="pb-1 text-lg">product</p>
-                    <p className={"text-xl font-medium"}>$15</p>
-                </div>
-                <p>Black</p>
-            </div>
+
+            <p className="px-2 text-sm text-gray-600">Black</p>
         </NavLink>
-    )
+    );
 }
