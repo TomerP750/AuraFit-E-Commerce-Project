@@ -7,7 +7,7 @@ import {IntroParagraph} from "../IntroParagraph/IntroParagraph.tsx";
 
 export function Home(): JSX.Element {
     return (
-        <div className="w-full flex flex-col items-center gap-20">
+        <div className="w-full flex flex-col items-center gap-20 pt-40">
             <Hero/>
             <IntroParagraph/>
             <div className="flex flex-col w-9/10 gap-20">

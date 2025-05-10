@@ -11,7 +11,7 @@ export function NavbarBottom(): JSX.Element {
     const arrowItem = "size-7 cursor-pointer text-gray-500 hover:text-black"
 
     return (
-        <div className="flex justify-center h-15 bg-gray-100">
+        <div className="flex justify-center h-10 bg-gray-100">
             <div className="w-9/10 flex justify-center items-center h-full items-center">
                 <div className="flex items-center w-1/2 justify-between">
                     <BiChevronLeft className={`${arrowItem}`}/>

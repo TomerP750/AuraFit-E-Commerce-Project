@@ -53,7 +53,7 @@ export function Hero(): JSX.Element {
         }
     };
 
-    const arrow = "size-12 cursor-pointer h-full";
+    const arrow = "size-12 block cursor-pointer h-full hover:bg-white/10";
 
     return (
         <div className="w-full border border-black">
@@ -81,7 +81,7 @@ export function Hero(): JSX.Element {
                     />
                 </AnimatePresence>
 
-                {/*…inside the Hero component… */}
+                {/*inside Hero component*/}
 
                 {/*ARROWS*/}
                 <div className="absolute inset-0 z-20 flex justify-between items-center h-full text-white">
@@ -111,7 +111,7 @@ export function Hero(): JSX.Element {
                                 goTo(i);
                             }}
                             className={`w-3 h-3 rounded-full transition ${
-                                i === idx ? "bg-white scale-110" : "bg-gray-400 hover:bg-white"
+                                i === idx ? "bg-white scale-110" : "bg-gray-400 hover:bg-white cursor-pointer"
                             }`}
                         />
                     ))}
