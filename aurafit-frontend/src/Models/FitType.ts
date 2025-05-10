@@ -1,11 +1,11 @@
-import {SubCategory} from "./SubCategory.ts";
+import {ProductType} from "./ProductType.ts";
 
 export class FitType {
     id: number
     name: string
-    subCategory: SubCategory
+    subCategory: ProductType
 
-    constructor(id:number, name: string, subCategory: SubCategory) {
+    constructor(id:number, name: string, subCategory: ProductType) {
         this.id = id
         this.name = name
         this.subCategory = subCategory

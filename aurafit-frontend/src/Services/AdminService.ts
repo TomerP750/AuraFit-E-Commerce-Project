@@ -1,7 +1,7 @@
 import axios from "axios";
 import {ProductCreateDTO} from "../Models/DTOS/ProductCreateDTO.ts";
 import {Category} from "../Models/Category.ts";
-import {SubCategory} from "../Models/SubCategory.ts";
+import {ProductType} from "../Models/ProductType.ts";
 import {Material} from "../Models/Material.ts";
 
 class AdminService {
@@ -10,8 +10,8 @@ class AdminService {
         return (await axios.get<Category[]>("http://localhost:8080/api/admin/category/all")).data
     }
 
-    async allSubCategories() {
-        return (await axios.get<SubCategory[]>("http://localhost:8080/api/admin/subcategory/all")).data
+    async allProductTypes() {
+        return (await axios.get<ProductType[]>("http://localhost:8080/api/admin/producttype/all")).data
     }
 
     async allMaterials() {

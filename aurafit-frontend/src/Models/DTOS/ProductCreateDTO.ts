@@ -1,4 +1,4 @@
-import {SubCategory} from "../SubCategory.ts";
+import {ProductType} from "../ProductType.ts";
 import {Category} from "../Category.ts";
 import {Gender} from "../Enums/Gender.ts";
 
@@ -8,10 +8,10 @@ export class ProductCreateDTO {
     description: string;
     gender: Gender;
     category: Category;
-    subCategory: SubCategory;
+    subCategory: ProductType;
 
 
-    constructor(name:string ,description: string, gender: Gender  ,category: Category ,subCategory: SubCategory) {
+    constructor(name:string ,description: string, gender: Gender  ,category: Category ,subCategory: ProductType) {
         this.name = name;
         this.description = description;
         this.gender = gender;

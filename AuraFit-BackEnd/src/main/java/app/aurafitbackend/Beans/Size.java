@@ -19,7 +19,7 @@ public class Size {
     private String size;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private SubCategory subCategory;
+    private ProductType productType;
 
 
 }

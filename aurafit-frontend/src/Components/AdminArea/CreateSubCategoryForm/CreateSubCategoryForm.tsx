@@ -3,12 +3,12 @@ import {JSX} from "react";
 import {useForm} from "react-hook-form";
 import adminService from "../../../Services/AdminService.ts";
 import {toast} from "react-toastify";
-import {SubCategory} from "../../../Models/SubCategory.ts";
+import {ProductType} from "../../../Models/ProductType.ts";
 
 export function CreateSubCategoryForm(): JSX.Element {
-    const {register, handleSubmit, formState: {errors}} = useForm<SubCategory>();
+    const {register, handleSubmit, formState: {errors}} = useForm<ProductType>();
 
-    const onSubmit = (data: SubCategory) => {
+    const onSubmit = (data: ProductType) => {
         adminService.createMaterial(data)
             .then(() => toast.success("Created successfully"))
             .catch(error => {toast.error(error.response?.data)})

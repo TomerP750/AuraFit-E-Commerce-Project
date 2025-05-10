@@ -4,7 +4,7 @@ import {FiChevronDown} from "react-icons/fi";
 import {AnimatePresence, motion} from "framer-motion";
 import {BiMinus, BiPlus} from "react-icons/bi";
 import {Category} from "../../../Models/Category.ts";
-import {SubCategory} from "../../../Models/SubCategory.ts";
+import {ProductType} from "../../../Models/ProductType.ts";
 
 
 type SortOption = 'newest'|'high-low'|'low-high';
@@ -26,7 +26,7 @@ export function Filters({sortSelected, onSortSelected}: FiltersProps): JSX.Eleme
     const [colorOpen, setColorOpen] = useState(false);
     const [sizeOpen, setSizeOpen] = useState(false);
     const [categories, setCategories] = useState<Category[]>([]);
-    const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
+    const [subCategories, setSubCategories] = useState<ProductType[]>([]);
 
     // TODO set the categories and subcategories and replace the .map hardcoded string arrays
     useEffect(() => {

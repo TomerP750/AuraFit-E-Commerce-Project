@@ -16,7 +16,7 @@ public class ProductVariantValidator {
 
 
     public static boolean isValidAddVariantToProduct(ProductVariant productVariant) {
-        if (!productVariant.getSize().getSubCategory().equals(productVariant.getProduct().getSubCategory())) {
+        if (!productVariant.getSize().getProductType().equals(productVariant.getProduct().getProductType())) {
             throw new RequestException("Product variant size does not match product variant subcategory");
         }
         return true;

@@ -3,6 +3,7 @@ import {JSX, useState} from "react";
 import {Cart} from "../../../Models/Cart.ts";
 import {CartItemCard} from "../CartItemCard/CartItemCard.tsx";
 import {useNavigate} from "react-router-dom";
+import {BiCart} from "react-icons/bi";
 
 export function CartPage(): JSX.Element {
 
@@ -24,7 +25,10 @@ export function CartPage(): JSX.Element {
             <div className="w-4/5 flex justify-between items-start mt-20">
                 {/*Left Section*/}
                 <div className="flex flex-col w-full gap-10">
-                    <h2 className={"font-bold text-3xl"}>Cart</h2>
+                    <div className={"flex gap-3 items-center font-medium text-3xl"}>
+                        <BiCart/>
+                        <p>Cart</p>
+                    </div>
                     {/*{dummyProducts?.length > 0 ? dummyProducts.map(item => */}
                     {/*    <CartItemCard/>) : <span>עגלת הקניות שלך ריקה</span>}*/}
                     <CartItemCard basePrice={dummyProducts[0].basePrice}

@@ -20,7 +20,7 @@ public class SizeValidator {
         if (size.getSize().isEmpty()) {
             throw new InvalidInputException("Size cannot be empty");
         }
-        if (size.getSubCategory() == null) {
+        if (size.getProductType() == null) {
             throw new InvalidInputException("SubCategory cannot be empty");
         }
         return true;

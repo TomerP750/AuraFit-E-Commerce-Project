@@ -2,7 +2,7 @@
 import {JSX, useEffect, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {toast} from 'react-toastify';
-import {SubCategory} from "../../../Models/SubCategory.ts";
+import {ProductType} from "../../../Models/ProductType.ts";
 import {Category} from "../../../Models/Category.ts";
 import adminService from "../../../Services/AdminService.ts";
 import {ProductCreateDTO} from "../../../Models/DTOS/ProductCreateDTO.ts";
@@ -11,7 +11,7 @@ import {Gender} from "../../../Models/Enums/Gender.ts";
 
 export function CreateProductForm(): JSX.Element {
     const [categories, setCategories] = useState<Category[]>([]);
-    const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
+    const [subCategories, setSubCategories] = useState<ProductType[]>([]);
 
 
     useEffect(() => {
@@ -114,7 +114,7 @@ export function CreateProductForm(): JSX.Element {
                 )}
             </div>
 
-            {/* SubCategory */}
+            {/* ProductType */}
             <div>
                 <label className="block text-sm font-medium">SubCategory</label>
                 <Controller

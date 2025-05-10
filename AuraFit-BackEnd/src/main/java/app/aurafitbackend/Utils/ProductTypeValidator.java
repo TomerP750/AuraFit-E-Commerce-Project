@@ -1,24 +1,23 @@
 package app.aurafitbackend.Utils;
 
-import app.aurafitbackend.Beans.SubCategory;
-import app.aurafitbackend.Exceptions.ExistsException;
+import app.aurafitbackend.Beans.ProductType;
 import app.aurafitbackend.Exceptions.InvalidInputException;
-import app.aurafitbackend.Repositories.SubCategoryRepository;
+import app.aurafitbackend.Repositories.ProductTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SubCategoryValidator {
+public class ProductTypeValidator {
 
-    private static SubCategoryRepository subCategoryRepository;
+    private static ProductTypeRepository productTypeRepository;
 
     @Autowired
-    private SubCategoryValidator(SubCategoryRepository subCategoryRepository) {
-        SubCategoryValidator.subCategoryRepository = subCategoryRepository;
+    private ProductTypeValidator(ProductTypeRepository productTypeRepository) {
+        ProductTypeValidator.productTypeRepository = productTypeRepository;
     }
 
-    public static boolean isValidSubCategory(SubCategory subCategory) {
-        if (subCategory.getName().isEmpty()) {
+    public static boolean isValidProductType(ProductType productType) {
+        if (productType.getName().isEmpty()) {
             throw new InvalidInputException("SubCategory name cannot be empty");
         }
 //        boolean exists = subCategoryRepository.existsById(subCategory.getId());

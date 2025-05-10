@@ -1,11 +1,9 @@
 package app.aurafitbackend.Controllers;
 
 import app.aurafitbackend.Beans.*;
-import app.aurafitbackend.Security.CustomUserDetails;
 import app.aurafitbackend.Services.*;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api/admin")
 public class AdminController {
 
-    private final SubCategoryService subCategoryService;
+    private final ProductTypeService productTypeService;
     private final CategoryService categoryService;
     private final MaterialService materialService;
     private final FitTypeService fitTypeService;
@@ -51,15 +49,15 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/subcategory/all")
-    public List<SubCategory> allSubCategories() {
-        return subCategoryService.getAllSubCategories();
+    @GetMapping("/producttype/all")
+    public List<ProductType> allSubCategories() {
+        return productTypeService.getAllSubCategories();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/subcategory/{id}")
-    public SubCategory oneSubCategory(@PathVariable Long id) {
-        return subCategoryService.getOneSubCategory(id);
+    @GetMapping("/producttype/{id}")
+    public ProductType oneSubCategory(@PathVariable Long id) {
+        return productTypeService.getOneSubCategory(id);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

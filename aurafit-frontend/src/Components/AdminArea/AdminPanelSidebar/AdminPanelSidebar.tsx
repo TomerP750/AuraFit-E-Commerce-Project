@@ -9,7 +9,7 @@ export type PanelKey =
     | "createSize"
     | "createMaterial"
     | "createFitType"
-    | "subCategoryCrud"
+    | "productTypeCrud"
 
 interface AdminPanelSidebarProps {
     active: PanelKey;
@@ -29,7 +29,7 @@ export function AdminPanelSidebar({ active, onSelect }: AdminPanelSidebarProps):
                 <li className={itemClass("createPV")} onClick={() => onSelect("createPV")}>Product Variants</li>
                 <li className={itemClass("createCategory")} onClick={() => onSelect("createCategory")}>Categories
                 </li>
-                <li className={itemClass("subCategoryCrud")} onClick={() => onSelect("subCategoryCrud")}>
+                <li className={itemClass("productTypeCrud")} onClick={() => onSelect("productTypeCrud")}>
                     SubCategories
                 </li>
                 <li className={itemClass("createSize")} onClick={() => onSelect("createSize")}>Sizes</li>

@@ -8,11 +8,11 @@ import {CreateSizeForm} from "../CreateSizeForm/CreateSizeForm.tsx";
 import {CreateMaterialForm} from "../CreateMaterialForm/CreateMaterialForm.tsx";
 import {CreateFitTypeForm} from "../CreateFitTypeForm/CreateFitTypeForm.tsx";
 import {CreateSubCategoryForm} from "../CreateSubCategoryForm/CreateSubCategoryForm.tsx";
-import {SubCategoriesCrud} from "../SubCategoriesCrud/SubCategoriesCrud.tsx";
+import {ProductTypeCrud} from "../ProductTypeCrud/ProductTypeCrud.tsx";
 
 export function AdminPanel(): JSX.Element {
 
-    const [activePanel, setActivePanel] = useState<"subCategoryCrud" | "createFitType" | "createProduct" | "createPV" | "createCategory" | "createSize" | "createMaterial">("createProduct");
+    const [activePanel, setActivePanel] = useState<"productTypeCrud" | "createFitType" | "createProduct" | "createPV" | "createCategory" | "createSize" | "createMaterial">("createProduct");
 
     const renderContent = () => {
         switch (activePanel) {
@@ -28,21 +28,23 @@ export function AdminPanel(): JSX.Element {
                 return <CreateMaterialForm/>;
             case "createFitType":
                 return <CreateFitTypeForm/>;
-            case "subCategoryCrud":
-                return <SubCategoriesCrud/>;
+            case "productTypeCrud":
+                return <ProductTypeCrud/>;
             default:
                 return null;
         }
     };
     return (
         <div className="flex justify-start bg-neutral-100 h-screen">
-            <div className="w-full flex justify-between px-10">
-
+            <div className="w-full flex flex-col items-start justify-between px-10 gap-5 mt-10">
+                <p className={"text-5xl"}>Admin Panel</p>
                 {/*    Sidebar*/}
-                <AdminPanelSidebar active={activePanel} onSelect={setActivePanel}/>
-                {/*Forms */}
-                <div className="flex-1 h-full">
-                    {renderContent()}
+                <div className="flex justify-between w-full h-full border-t border-black">
+                    <AdminPanelSidebar active={activePanel} onSelect={setActivePanel}/>
+                    {/*Forms */}
+                    <div className="flex-1 h-full">
+                        {renderContent()}
+                    </div>
                 </div>
 
             </div>

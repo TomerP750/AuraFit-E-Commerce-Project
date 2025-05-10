@@ -26,6 +26,6 @@ public class FitType {
     private String name;
 
     @ManyToOne
-    private SubCategory subCategory;
+    private ProductType productType;
 
 }

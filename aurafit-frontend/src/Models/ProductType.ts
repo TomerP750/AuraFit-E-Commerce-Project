@@ -1,6 +1,6 @@
 
 
-export class SubCategory {
+export class ProductType {
     id: number;
     name: string;
 

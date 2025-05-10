@@ -4,7 +4,7 @@ import {logout} from "../../../Redux/AuthSlice.ts";
 import {NavLink, useNavigate} from "react-router-dom";
 import {Role} from "../../../Models/Enums/Role.ts";
 import {store} from "../../../Redux/store.ts";
-import {useSelector} from "react-redux";
+import {useUserSelector} from "../../../Redux/hooks.ts";
 
 
 interface NavbarAccountMenuProps {
@@ -13,7 +13,7 @@ interface NavbarAccountMenuProps {
 }
 export function NavbarAccountMenu({onMouseOver, onMouseLeave}: NavbarAccountMenuProps): JSX.Element {
 
-    const user = useSelector((state) => state.authSlice.user);
+    const user = useUserSelector((state) => state.authSlice.user);
     const accountMenuItems = "px-4 py-2 text-gray-700 rounded hover:font-bold cursor-pointer";
     const navigate = useNavigate();
     const handleLogout = () => {
@@ -23,7 +23,7 @@ export function NavbarAccountMenu({onMouseOver, onMouseLeave}: NavbarAccountMenu
 
 
     return (
-        <div onMouseOver={onMouseOver} onMouseLeave={onMouseLeave} className="absolute right-[4rem] w-64 bg-gray-100 p-5 shadow-gray-300 rounded-lg z-10 ">
+        <div onMouseOver={onMouseOver} onMouseLeave={onMouseLeave} className="absolute right-[4rem] w-64 bg-gray-100 p-5 shadow-gray-800 rounded-lg z-10 ">
             {/* Header */}
             <div className="px-4 py-3">
                 <p className="text-lg font-semibold text-gray-800">Hello, {user?.firstName}</p>

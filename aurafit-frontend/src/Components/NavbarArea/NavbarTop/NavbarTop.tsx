@@ -2,7 +2,7 @@ import "./NavbarTop.css";
 import {JSX, useState} from "react";
 import {NavLink} from "react-router-dom";
 import {NavbarAccountMenu} from "../NavbarAccountMenu/NavbarAccountMenu.tsx";
-import {useUserDispatch, useUserSelector} from "../../../Redux/hooks.ts";
+import {useUserSelector} from "../../../Redux/hooks.ts";
 // import {useUser} from "../../../Redux/store.ts";
 
 export function NavbarTop(): JSX.Element {

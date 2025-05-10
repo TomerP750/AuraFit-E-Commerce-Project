@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Data
 @Builder
-public class SubCategory {
+public class ProductType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

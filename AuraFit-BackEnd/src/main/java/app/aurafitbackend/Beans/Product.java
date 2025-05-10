@@ -45,7 +45,7 @@ public class Product {
     private Category category;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private SubCategory subCategory; // use as productType - can be bottles socks clothing shoes etc...
+    private ProductType productType; // use as productType - can be bottles socks clothing shoes etc...
 
     private Boolean onSale;
 
