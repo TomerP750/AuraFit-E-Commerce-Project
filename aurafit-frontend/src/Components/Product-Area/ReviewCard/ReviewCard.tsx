@@ -10,7 +10,7 @@ interface ReviewCardProps {
 
 export function ReviewCard(): JSX.Element {
     return (
-        <div className="flex flex-col items-start flex-1 gap-5">
+        <div className="w-full flex flex-col items-start flex-1 gap-5">
             <div className="flex flex-col gap-1">
                 <div className="flex gap-2">
                     <p>First name</p>
