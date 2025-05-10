@@ -38,6 +38,10 @@ class AdminService {
         return (await axios.post("http://localhost:8080/api/product/create", product))
     }
 
+    async getOneProduct(productId: number) {
+
+    }
+
 }
 
 const adminService = new AdminService();

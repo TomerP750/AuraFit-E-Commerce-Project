@@ -1,9 +1,13 @@
 import "./LatestProducts.css";
-import {JSX, useRef} from "react";
+import {JSX, useEffect, useRef, useState} from "react";
 import {FiChevronLeft, FiChevronRight} from "react-icons/fi";
 
 export function LatestProducts(): JSX.Element {
+
     const scrollRef = useRef<HTMLDivElement>(null);
+    const [isMostLeft, setIsMostLeft]   = useState(true);
+    const [isMostRight, setIsMostRight] = useState(false);
+
     const scrollLeft = () => {
         scrollRef.current?.scrollBy({ left: -220, behavior: "smooth" });
     };
@@ -11,30 +15,50 @@ export function LatestProducts(): JSX.Element {
         scrollRef.current?.scrollBy({ left: 220, behavior: "smooth" });
     };
 
+    const onScroll = () => {
+        const el = scrollRef.current;
+        if (!el) return;
+        const { scrollLeft, clientWidth, scrollWidth } = el;
+        setIsMostLeft(scrollLeft <= 0);
+        setIsMostRight(scrollLeft + clientWidth >= scrollWidth);
+    };
+
+    useEffect(() => {
+        onScroll();
+    }, []);
+
     return (
         <div className="flex flex-col items-center w-full gap-5">
             <div className="flex justify-between w-full">
                 <h2 className="self-start text-2xl font-medium">Shop Latest Items</h2>
                 <div className="flex gap-4">
-                    <FiChevronLeft
-                        className="size-8 cursor-pointer"
+                    <button
                         onClick={scrollLeft}
-                    />
-                    <FiChevronRight
+                        disabled={isMostLeft}
+                        className="p-2 rounded disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                    >
+                        <FiChevronLeft className=" w-8 h-8" />
+                    </button>
+                    <button
                         onClick={scrollRight}
-                        className="size-8 cursor-pointer" />
+                        disabled={isMostRight}
+                        className="p-2 rounded disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                    >
+                        <FiChevronRight className="w-8 h-8" />
+                    </button>
                 </div>
             </div>
 
-
-            {/* ← scroll container */}
-            <div ref={scrollRef} className="w-full overflow-x-auto py-2 px-5">
-                {/* ← inner flex that can grow past the wrapper’s width */}
+            <div
+                ref={scrollRef}
+                onScroll={onScroll}
+                className="w-full overflow-x-auto py-2 px-5"
+            >
                 <div className="flex gap-4">
-                    {[...Array(8)].map((_, i) => (
+                    {[...Array(6)].map((_, i) => (
                         <div
                             key={i}
-                            className="flex-shrink-0 w-[300px] h-[300px] bg-yellow-200"
+                            className="flex-shrink-0 w-[300px] h-[300px] bg-yellow-200 rounded-lg"
                         />
                     ))}
                 </div>

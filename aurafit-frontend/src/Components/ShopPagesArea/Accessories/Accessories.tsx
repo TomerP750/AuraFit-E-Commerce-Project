@@ -20,8 +20,8 @@ export function Accessories(): JSX.Element {
     // }, []);
 
     return (
-        <div className="px-4 pt-10 mx-auto">
-            {/* Mobile filter toggle */}
+        <div className="container mx-auto px-4 pt-10">
+            {/* Mobile: filter toggle */}
             <button
                 className="flex items-center gap-2 mb-4 text-lg sm:hidden"
                 onClick={() => setShowFilters((p) => !p)}
@@ -30,19 +30,22 @@ export function Accessories(): JSX.Element {
             </button>
 
             <div className="flex flex-col sm:flex-row gap-6">
+                {/* Sidebar */}
                 <aside
-                    className={`transition-all duration-200 ${
-                        showFilters ? "h-auto" : "h-0 overflow-hidden"
-                    } sm:h-auto sm:block`}
+                    className={`w-full sm:w-60 transition-all duration-200 ${
+                        showFilters ? "block" : "hidden"
+                    } sm:block`}
                 >
-                    <Filters sortSelected={sortBy} onSortSelected={setSortBy}/>
+                    <Filters sortSelected={sortBy} onSortSelected={setSortBy} />
                 </aside>
+
+                {/* Product Grid */}
                 <main className="flex-1">
                     <h2 className="text-2xl font-medium mb-6">Accessories</h2>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {[...Array(9)].map((_, i) => (
-                            <ProductCard key={i}/>
+                            <ProductCard key={i} />
                         ))}
                     </div>
                 </main>
