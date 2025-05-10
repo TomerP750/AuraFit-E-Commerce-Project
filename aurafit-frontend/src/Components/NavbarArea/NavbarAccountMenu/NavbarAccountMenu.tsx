@@ -19,7 +19,7 @@ export function NavbarAccountMenu({onMouseOver, onMouseLeave}: NavbarAccountMenu
 
 
     return (
-        <div onMouseOver={onMouseOver} onMouseLeave={onMouseLeave} className="absolute right-[4rem] w-64 bg-white shadow-gray-300 rounded-lg z-10 ">
+        <div onMouseOver={onMouseOver} onMouseLeave={onMouseLeave} className="absolute right-[4rem] w-64 bg-gray-100 p-5 shadow-gray-300 rounded-lg z-10 ">
             {/* Header */}
             <div className="px-4 py-3">
                 <p className="text-lg font-semibold text-gray-800">Hello, {authStore.getState().user?.firstName}</p>

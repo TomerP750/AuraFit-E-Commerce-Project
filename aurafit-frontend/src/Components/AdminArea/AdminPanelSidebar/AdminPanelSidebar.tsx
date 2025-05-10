@@ -35,7 +35,7 @@ export function AdminPanelSidebar({ active, onSelect }: AdminPanelSidebarProps):
                 <li className={itemClass("createSize")} onClick={() => onSelect("createSize")}>Sizes</li>
                 <li className={itemClass("createMaterial")} onClick={() => onSelect("createMaterial")}>Materials
                 </li>
-                <li className={itemClass("createFitType")} onClick={() => onSelect("createFitType")}>FitTypes
+                <li className={itemClass("createFitType")} onClick={() => onSelect("createFitType")}>Fit Types
                 </li>
 
             </ul>
