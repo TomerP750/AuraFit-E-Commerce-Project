@@ -11,15 +11,15 @@ import {Gender} from "../../../Models/Enums/Gender.ts";
 
 export function CreateProductForm(): JSX.Element {
     const [categories, setCategories] = useState<Category[]>([]);
-    const [subCategories, setSubCategories] = useState<ProductType[]>([]);
+    const [productTypes, setProductTypes] = useState<ProductType[]>([]);
 
 
     useEffect(() => {
         adminService.allCategories()
             .then(setCategories)
             .catch(err => toast.error(err));
-        adminService.allSubCategories()
-            .then(setSubCategories)
+        adminService.allProductTypes()
+            .then(setProductTypes)
             .catch(err => toast.error(err));
     }, []);
 
@@ -118,7 +118,7 @@ export function CreateProductForm(): JSX.Element {
             <div>
                 <label className="block text-sm font-medium">SubCategory</label>
                 <Controller
-                    name="subCategory"
+                    name="productType"
                     control={control}
                     rules={{required: 'Required'}}
                     render={({field}) => (
@@ -127,13 +127,13 @@ export function CreateProductForm(): JSX.Element {
                             onChange={e => {
                                 // parse the string back into a number
                                 const selectedId = Number(e.target.value);
-                                const selected = subCategories.find(sc => sc.id === selectedId) || null;
+                                const selected = productTypes.find(sc => sc.id === selectedId) || null;
                                 field.onChange(selected);
                             }}
                             className="mt-1 w-full border rounded p-2"
                         >
                             <option value="">Select...</option>
-                            {subCategories.map(sc => (
+                            {productTypes.map(sc => (
                                 <option key={sc.id} value={sc.id}>
                                     {sc.name}
                                 </option>

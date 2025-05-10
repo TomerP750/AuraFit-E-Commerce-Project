@@ -29,24 +29,11 @@ export function BestSellingProducts(): JSX.Element {
             </div>
 
 
-            {/*/!* ← scroll container *!/*/}
-            {/*<div ref={scrollRef} className="w-full overflow-x-auto py-2 px-5">*/}
-            {/*    /!* ← inner flex that can grow past the wrapper’s width *!/*/}
-            {/*    <div className="flex gap-4">*/}
-            {/*        {[...Array(8)].map((_, i) => (*/}
-            {/*            <div*/}
-            {/*                key={i}*/}
-            {/*                className="flex-shrink-0 w-[300px] h-[300px] bg-blue-200 cursor-pointer"*/}
-            {/*            />*/}
-            {/*        ))}*/}
-            {/*    </div>*/}
-            {/*</div>*/}
-
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[...Array(4)].map((_, i) => (
                     <div
                         key={i}
-                        className="h-[600px] bg-cyan-500"
+                        className="aspect-square bg-cyan-500"
                     />
                 ))}
             </div>

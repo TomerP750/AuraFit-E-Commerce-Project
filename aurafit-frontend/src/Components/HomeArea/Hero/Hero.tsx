@@ -59,9 +59,7 @@ export function Hero(): JSX.Element {
         <div className="w-full border border-black">
             <div
                 onClick={() => heroNavigate(idx)}
-                className={`relative w-full h-180 overflow-hidden ${
-                    idx !== 0 && "cursor-pointer"
-                }`}
+                className={`relative w-full aspect-video overflow-hidden ${idx!==0&&"cursor-pointer"}`}
             >
                 {/* Slides */}
                 <AnimatePresence initial={false} custom={dir}>
