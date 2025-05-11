@@ -3,6 +3,7 @@ package app.aurafitbackend.DTOS.DisplayDTOS;
 
 import app.aurafitbackend.Beans.Category;
 import app.aurafitbackend.Beans.ProductType;
+import app.aurafitbackend.Enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class ProductDTO {
     private Long id;
     private String description;
     private Category category;
+    private Gender gender;
     private ProductType productType;
     private boolean onSale;
     private LocalDateTime createdAt;

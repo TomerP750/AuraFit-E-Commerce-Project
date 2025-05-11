@@ -4,10 +4,7 @@ import app.aurafitbackend.Beans.*;
 import app.aurafitbackend.Services.*;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +19,8 @@ public class AdminController {
     private final FitTypeService fitTypeService;
     private final SizeService sizeService;
     private final ColorService colorService;
+    private final ProductService productService;
+    private final ProductVariantService productVariantService;
 
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -56,7 +55,7 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/producttype/{id}")
-    public ProductType oneSubCategory(@PathVariable Long id) {
+    public ProductType oneProductType(@PathVariable Long id) {
         return productTypeService.getOneProductType(id);
     }
 
@@ -96,6 +95,41 @@ public class AdminController {
         return colorService.getOneColor(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/product/all")
+    public List<Product> allProducts() {
+        return productService.getProducts();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/product/{id}")
+    public Product oneProduct(@PathVariable Long id) {
+        return productService.getProduct(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/product/delete/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/variant/all")
+    public List<ProductVariant> allProductVariants() {
+        return productVariantService.getAllProductVariants();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/variant/{id}")
+    public ProductVariant oneProductVariant(@PathVariable Long id) {
+        return productVariantService.getProductVariant(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/variant/delete/{id}")
+    public void deleteProductVariant(@PathVariable Long id) {
+        productVariantService.deleteVariant(id);
+    }
 
 
 

@@ -4,6 +4,7 @@ import app.aurafitbackend.Beans.Product;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductDTO;
 import app.aurafitbackend.Exceptions.NotExistsException;
+import app.aurafitbackend.Exceptions.RequestException;
 import app.aurafitbackend.Repositories.OrderItemRepository;
 import app.aurafitbackend.Repositories.ProductRepository;
 import app.aurafitbackend.Repositories.ProductVariantRepository;
@@ -41,6 +42,7 @@ public class ProductService {
             System.err.println(product);
             productRepository.save(product);
         }
+        throw new RequestException("Missing information");
 
     }
 

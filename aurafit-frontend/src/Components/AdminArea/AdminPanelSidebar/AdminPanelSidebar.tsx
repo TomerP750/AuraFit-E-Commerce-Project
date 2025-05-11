@@ -10,6 +10,8 @@ export type PanelKey =
     | "materialCrud"
     | "fitTypeCrud"
     | "productTypeCrud"
+    | "userCrud"
+    | "promotionCrud"
 
 interface AdminPanelSidebarProps {
     active: PanelKey;
@@ -27,6 +29,8 @@ export function AdminPanelSidebar({ active, onSelect }: AdminPanelSidebarProps):
             <ul className="flex flex-col w-full items-end text-lg gap-5 mt-10">
                 <li className={itemClass("productCrud")} onClick={() => onSelect("productCrud")}>Products</li>
                 <li className={itemClass("variantCrud")} onClick={() => onSelect("variantCrud")}>Product Variants</li>
+                <li className={itemClass("promotionCrud")} onClick={() => onSelect("promotionCrud")}>Promotions</li>
+                <li className={itemClass("userCrud")} onClick={() => onSelect("userCrud")}>Users</li>
                 <li className={itemClass("categoryCrud")} onClick={() => onSelect("categoryCrud")}>Categories
                 </li>
                 <li className={itemClass("productTypeCrud")} onClick={() => onSelect("productTypeCrud")}>

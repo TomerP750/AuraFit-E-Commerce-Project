@@ -34,12 +34,33 @@ class AdminService {
         return (await axios.get("http://localhost:8080/api/admin/color/all")).data
     }
 
+    // Products
+
+    async allProducts() {
+        return (await axios.get("http://localhost:8080/api/admin/product/all")).data
+    }
+
     async createProduct(product: ProductCreateDTO) {
         return (await axios.post("http://localhost:8080/api/product/create", product))
     }
 
     async getOneProduct(productId: number) {
+        return (await axios.get(`http://localhost:8080/api/admin/product/${productId}`)).data
+    }
 
+    async deleteProduct(productId: number) {
+        return (await axios.delete(`http://localhost:8080/api/admin/product/delete/${productId}`))
+    }
+
+    async getAllProductVariants() {
+        return (await axios.get("http://localhost:8080/api/admin/variant/all")).data
+    }
+    async getOneProductVariant(variantId: number) {
+        return (await axios.get(`http://localhost:8080/api/admin/variant/${variantId}`)).data
+    }
+
+    async deleteProductVariant(variantId: number) {
+        return (await axios.delete(`http://localhost:8080/api/admin/variant/delete/${variantId}`)).data
     }
 
 }

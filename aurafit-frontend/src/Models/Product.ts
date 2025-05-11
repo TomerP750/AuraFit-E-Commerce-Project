@@ -11,18 +11,18 @@ export class Product {
     description: string;
     gender: Gender
     category: Category
-    subCategory: ProductType;
+    productType: ProductType;
     onSale: boolean;
     variants: ProductVariant[];
     reviews: Review[];
 
-    constructor(id: number, name:string , description: string, gender: Gender, category: Category, subCategory: ProductType, onSale: boolean , variants: ProductVariant[], reviews: Review[]) {
+    constructor(id: number, name:string , description: string, gender: Gender, category: Category, productType: ProductType, onSale: boolean , variants: ProductVariant[], reviews: Review[]) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.gender = gender;
         this.category = category;
-        this.subCategory = subCategory;
+        this.productType = productType;
         this.onSale = onSale;
         this.variants = variants;
         this.reviews = reviews;

@@ -16,7 +16,7 @@ export function ProductTypeCrud(): JSX.Element {
                 setProductTypes(res)
             })
             .catch((err) => toast.error(err));
-    })
+    },[])
 
     return (
         <div className={"flex flex-col"}>

@@ -8,8 +8,11 @@ import adminService from "../../../../Services/AdminService.ts";
 import {ProductCreateDTO} from "../../../../Models/DTOS/ProductCreateDTO.ts";
 import {Gender} from "../../../../Models/Enums/Gender.ts";
 
-
-export function CreateProductForm(): JSX.Element {
+interface CreateProductFormProps {
+    onSave: () => void;
+    setFormOpen: () => void
+}
+export function CreateProductForm({onSave, setFormOpen}: CreateProductFormProps): JSX.Element {
     const [categories, setCategories] = useState<Category[]>([]);
     const [productTypes, setProductTypes] = useState<ProductType[]>([]);
 
@@ -32,10 +35,13 @@ export function CreateProductForm(): JSX.Element {
         if (productType) {
             const dto = new ProductCreateDTO(data.name ,data.description, data.gender, data.category!, productType);
             adminService.createProduct(dto)
-                .then(() => toast.success('Product created!'))
+                .then(() => {
+                    onSave();
+                    toast.success('Product created!')
+                })
                 .catch(err => {
                     console.error('Create product error:', err);
-                    toast.error(err.response?.data || err.message || 'Create failed');
+                    toast.error(err.response.data);
                 });
         }
 
@@ -43,12 +49,18 @@ export function CreateProductForm(): JSX.Element {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="p-6 rounded shadow space-y-6">
+            <button
+                onClick={() => setFormOpen()}
+                className="mb-4 text-sm text-gray-700 hover:underline"
+            >
+                ← Back to list
+            </button>
             {/*Name*/}
             <div>
                 <label className="block text-sm font-medium">Name</label>
                 <input type={"text"}
-                    {...register('name', {required: 'Required'})}
-                    className="mt-1 w-full border rounded p-2 resize-none"
+                       {...register('name', {required: 'Required'})}
+                       className="mt-1 w-full border rounded p-2 resize-none"
                 />
                 {errors.description && (
                     <p className="text-red-600 text-sm">{errors.description.message}</p>

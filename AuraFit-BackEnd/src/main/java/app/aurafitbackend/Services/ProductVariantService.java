@@ -30,6 +30,19 @@ public class ProductVariantService {
     private final ProductRepository productRepository;
 
 
+    public List<ProductVariant> getAllProductVariants() {
+        return productVariantRepository.findAll();
+    }
+
+    public ProductVariant getProductVariant(Long id) {
+        return productVariantRepository.findById(id).orElseThrow(()->new NotExistsException("Product variant not found"));
+    }
+
+    public void deleteVariant(Long id) {
+        productRepository.deleteById(id);
+    }
+
+
     @Transactional
     public void addVariantToProduct(Long productId, ProductVariant newProductVariant) {
         if (ProductVariantValidator.isValidAddVariantToProduct(newProductVariant)) {

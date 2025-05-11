@@ -10,33 +10,44 @@ import {ProductTypeCrud} from "../Cruds/ProductTypeCrud/ProductTypeCrud.tsx";
 import {FaHome, FaMoon, FaSun} from "react-icons/fa";
 import {NavLink} from "react-router-dom";
 import {ProductCrud} from "../Cruds/ProductCrud/ProductCrud.tsx";
+import {ProductVariantCrud} from "../Cruds/ProductVariantCrud/ProductVariantCrud.tsx";
+import {FitTypeCrud} from "../Cruds/FitTypeCrud/FitTypeCrud.tsx";
+import {MaterialCrud} from "../Cruds/MaterialCrud/MaterialCrud.tsx";
+import {SizeCrud} from "../Cruds/SizeCrud/SizeCrud.tsx";
+import {CategoryCrud} from "../Cruds/CategoryCrud/CategoryCrud.tsx";
+import {UserCrud} from "../Cruds/UserCrud/UserCrud.tsx";
+import {PromotionCrud} from "../Cruds/PromotionCrud/PromotionCrud.tsx";
 
 export function AdminPanel(): JSX.Element {
 
-    const [activePanel, setActivePanel] = useState<"productCrud" | "variantCrud" | "categoryCrud" | "sizeCrud" | "materialCrud" | "productTypeCrud" | "fitTypeCrud">("productCrud");
+    const [activePanel, setActivePanel] = useState<"promotionCrud" | "userCrud" | "productCrud" | "variantCrud" | "categoryCrud" | "sizeCrud" | "materialCrud" | "productTypeCrud" | "fitTypeCrud">("productCrud");
 
     const renderContent = () => {
         switch (activePanel) {
             case "productCrud":
                 return <ProductCrud/>;
             case "variantCrud":
-                return <CreateProductVariantForm/>;
+                return <ProductVariantCrud/>;
             case "categoryCrud":
-                return <CreateCategoryForm/>;
+                return <CategoryCrud/>;
             case "sizeCrud":
-                return <CreateSizeForm/>;
+                return <SizeCrud/>;
             case "materialCrud":
-                return <CreateMaterialForm/>;
+                return <MaterialCrud/>;
             case "fitTypeCrud":
-                return <CreateFitTypeForm/>;
+                return <FitTypeCrud/>;
             case "productTypeCrud":
                 return <ProductTypeCrud/>;
+            case "userCrud":
+                return <UserCrud/>;
+            case "promotionCrud":
+                return <PromotionCrud/>;
             default:
                 return null;
         }
     };
     return (
-        <div className="flex justify-start bg-neutral-100 h-screen">
+        <div className="flex justify-start bg-neutral-100 min-h-screen">
             <div className="w-full flex flex-col items-start justify-between px-10 gap-5 mt-10">
                 {/*Header*/}
                 <div className="w-full flex items-center justify-between">
