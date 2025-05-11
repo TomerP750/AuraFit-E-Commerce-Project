@@ -43,6 +43,17 @@ export function ProductCrud(): JSX.Element {
 
     const fields: string[] = ["Id", "Name", "Description", "Gender", "Type", "On Sale", "Actions"];
 
+    if (formOpen) {
+        return (
+            <div className="p-4 w-full">
+                <button onClick={() => setFormOpen(false)} className="mb-4 text-sm text-gray-700">
+                    ← Back to list
+                </button>
+                <CreateProductForm onSave={() => setFormOpen(false)} />
+            </div>
+        );
+    }
+
     return (
         <div className="p-4 w-full">
             {/* Header */}
@@ -58,13 +69,19 @@ export function ProductCrud(): JSX.Element {
 
             {/* Desktop grid */}
             <div className="hidden lg:block">
-                <div className="grid grid-cols-6 place-items-center bg-gray-100 py-2">
-                    {fields.map((field) => (<span>{field}</span>))}
+                {/* Header row: 7 columns */}
+                <div className="grid grid-cols-7 place-items-center bg-gray-100 py-2">
+                    {fields.map((field, idx) => (
+                        <span key={idx} className="text-sm font-medium text-gray-700">
+              {field}
+            </span>
+                    ))}
                 </div>
                 {products.map(p => (
-                    <div key={p.id} className="grid grid-cols-6 place-items-center py-2 border-b">
+                    <div key={p.id} className="grid grid-cols-7 place-items-center py-2 border-b">
                         <span>{p.id}</span>
                         <span>{p.name}</span>
+                        <span>{p.description}</span>
                         <span>{p.gender}</span>
                         <span>{p.productType.name}</span>
                         <span>{p.onSale ? <BiCheckboxChecked /> : <BiX />}</span>
@@ -82,6 +99,7 @@ export function ProductCrud(): JSX.Element {
                     <div key={p.id} className="p-4 border rounded shadow-sm">
                         <p><strong>Id:</strong> {p.id}</p>
                         <p><strong>Name:</strong> {p.name}</p>
+                        <p><strong>Description:</strong> {p.description}</p>
                         <p><strong>Gender:</strong> {p.gender}</p>
                         <p><strong>Type:</strong> {p.productType.name}</p>
                         <p><strong>On Sale:</strong> {p.onSale ? 'Yes' : 'No'}</p>
