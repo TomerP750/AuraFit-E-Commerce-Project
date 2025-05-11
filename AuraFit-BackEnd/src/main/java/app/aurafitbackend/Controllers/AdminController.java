@@ -51,13 +51,13 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/producttype/all")
     public List<ProductType> allSubCategories() {
-        return productTypeService.getAllSubCategories();
+        return productTypeService.getAllProductTypes();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/producttype/{id}")
     public ProductType oneSubCategory(@PathVariable Long id) {
-        return productTypeService.getOneSubCategory(id);
+        return productTypeService.getOneProductType(id);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

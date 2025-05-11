@@ -10,10 +10,12 @@ import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Exceptions.RequestException;
 import app.aurafitbackend.Repositories.*;
 import app.aurafitbackend.Utils.ProductValidator;
+import app.aurafitbackend.Utils.ShippingPolicy;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -26,10 +28,11 @@ public class CartService {
     private final WishlistItemRepository wishlistItemRepository;
     private final PromotionRepository promotionRepository;
     private final ProductVariantRepository productVariantRepository;
+    private final ShippingPolicy shippingPolicy;
 
 
     public Cart getOrCreateCart(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(()->new NotExistsException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotExistsException("User not found"));
         Cart openCart = cartRepository.findByUserIdAndStatus(userId, Status.PENDING);
 
         if (openCart != null) {
@@ -40,41 +43,56 @@ public class CartService {
                 .status(Status.PENDING)
                 .user(user)
                 .totalPrice(BigDecimal.ZERO)
+                .shippingCost(BigDecimal.ZERO)
                 .build();
         return cartRepository.save(cart);
 
     }
 
-    public Cart addItemToCart(Long userId, AddToCartRequestDTO addToCartRequest) {
-
-//        TODO add Validations
-
+    public Cart addItemToCart(Long userId, AddToCartRequestDTO req) {
         Cart cart = getOrCreateCart(userId);
-        ProductVariant variant = productVariantRepository.findById(addToCartRequest.getVariantId()).orElseThrow(()->new NotExistsException("Variant not found"));
-        if (!ProductValidator.isValidAddToCart(addToCartRequest)) {
-            throw new RequestException("Something went wrong");
+
+        ProductVariant variant = productVariantRepository.findById(req.getVariantId())
+                .orElseThrow(() -> new NotExistsException("Variant not found"));
+
+        if (!ProductValidator.isValidAddToCart(req)) {
+            throw new RequestException("Invalid add-to-cart request");
         }
 
+        BigDecimal unitPrice = variant.getOnSale()
+                ? variant.getSalePrice()
+                : variant.getBasePrice();
 
-        CartItem cartItem = CartItem.builder()
-                .quantity(addToCartRequest.getQuantity())
+        CartItem item = CartItem.builder()
+                .quantity(req.getQuantity())
+                .unitPrice(unitPrice.setScale(2, RoundingMode.HALF_EVEN))
                 .variant(variant)
-                .unitPrice(variant.getOnSale() ? variant.getSalePrice() : variant.getBasePrice())
                 .cart(cart)
                 .build();
 
-        cart.getItems().add(cartItem);
-        cart.setTotalPrice(cart.getTotalPrice().add(cartItem.getUnitPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity()))));
+        cart.getItems().add(item);
+
+        // Recompute items total
+        BigDecimal itemsTotal = cart.getItems().stream()
+                .map(i -> i.getUnitPrice()
+                        .multiply(BigDecimal.valueOf(i.getQuantity()))
+                        .setScale(2, RoundingMode.HALF_EVEN))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        // Apply shipping policy
+        BigDecimal shippingCost = shippingPolicy.calculate(itemsTotal);
+
+        cart.setShippingCost(shippingCost);
+        cart.setTotalPrice(itemsTotal.add(shippingCost));
 
         return cartRepository.save(cart);
-
     }
 
 
     public Cart removeCartItemFromCart(Long userId, Long cartItemId) {
         Cart cart = getOrCreateCart(userId);
 
-        CartItem cartItem = cartItemRepository.findByIdAndCartId(cartItemId,cart.getId());
+        CartItem cartItem = cartItemRepository.findByIdAndCartId(cartItemId, cart.getId());
 
         BigDecimal totalToSubtract = cartItem.getUnitPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity()));
 
@@ -89,19 +107,17 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
-    public int getCartItemCount(Long userId) {
-        Cart cart = getOrCreateCart(userId);
-        if (cart == null) {
-            return 0;
-        }
-        return cart.getItems().size();
-    }
-
-    public List<CartItem> getCartItemsFromCart(Long cartId) {
-        return cartItemRepository.cartItemsFromCart(cartId);
-    }
-
-
+//    public int getCartItemCount(Long userId) {
+//        Cart cart = getOrCreateCart(userId);
+//        if (cart == null) {
+//            return 0;
+//        }
+//        return cart.getItems().size();
+//    }
+//
+//    public List<CartItem> getCartItemsFromCart(Long cartId) {
+//        return cartItemRepository.cartItemsFromCart(cartId);
+//    }
 
 
 }

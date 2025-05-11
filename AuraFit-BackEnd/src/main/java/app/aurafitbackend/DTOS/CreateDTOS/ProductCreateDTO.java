@@ -17,9 +17,7 @@ public class ProductCreateDTO {
     private String name;
     private String description;
     private Gender gender;
-
     private Category category;
-
     private ProductType productType;
 
 }

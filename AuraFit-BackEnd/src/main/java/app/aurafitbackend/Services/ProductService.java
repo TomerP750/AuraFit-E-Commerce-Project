@@ -35,11 +35,13 @@ public class ProductService {
 
     @Transactional
     public void createProduct(ProductCreateDTO newProductDTO) {
+//        System.err.println(newProductDTO);
         if (GeneralValidator.isValidProduct(newProductDTO)) {
-
             Product product = EntityDTOMapper.toEntity(newProductDTO);
+            System.err.println(product);
             productRepository.save(product);
         }
+
     }
 
     public void updateProduct(Product product) {

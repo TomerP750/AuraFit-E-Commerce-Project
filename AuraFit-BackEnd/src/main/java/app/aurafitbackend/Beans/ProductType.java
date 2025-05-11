@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "sub_categories")
+@Table(name = "product_types")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -16,5 +16,6 @@ public class ProductType {
     @Setter(AccessLevel.NONE)
     private Long id;
     private String name;
+    //TODO add manytoone to category
 
 }

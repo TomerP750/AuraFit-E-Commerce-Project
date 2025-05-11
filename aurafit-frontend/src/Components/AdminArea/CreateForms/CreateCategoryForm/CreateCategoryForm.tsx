@@ -1,10 +1,10 @@
 import "./CreateCategoryForm.css";
 import {JSX} from "react";
 import {useForm} from "react-hook-form";
-import {FitType} from "../../../Models/FitType.ts";
-import adminService from "../../../Services/AdminService.ts";
+import {FitType} from "../../../../Models/FitType.ts";
+import adminService from "../../../../Services/AdminService.ts";
 import {toast} from "react-toastify";
-import {Category} from "../../../Models/Category.ts";
+import {Category} from "../../../../Models/Category.ts";
 
 export function CreateCategoryForm(): JSX.Element {
     const {register, handleSubmit, formState: { errors }} = useForm<Category>();

@@ -1,10 +1,10 @@
 import "./CreateSizeForm.css";
 import {JSX} from "react";
 import {useForm} from "react-hook-form";
-import {FitType} from "../../../Models/FitType.ts";
-import adminService from "../../../Services/AdminService.ts";
+import {FitType} from "../../../../Models/FitType.ts";
+import adminService from "../../../../Services/AdminService.ts";
 import {toast} from "react-toastify";
-import {Size} from "../../../Models/Size.ts";
+import {Size} from "../../../../Models/Size.ts";
 
 export function CreateSizeForm(): JSX.Element {
     const {register, handleSubmit, formState: { errors }} = useForm<Size>();

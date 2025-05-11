@@ -8,14 +8,14 @@ export class ProductCreateDTO {
     description: string;
     gender: Gender;
     category: Category;
-    subCategory: ProductType;
+    productType: ProductType;
 
 
-    constructor(name:string ,description: string, gender: Gender  ,category: Category ,subCategory: ProductType) {
+    constructor(name:string ,description: string, gender: Gender  ,category: Category ,productType: ProductType) {
         this.name = name;
         this.description = description;
         this.gender = gender;
         this.category = category;
-        this.subCategory = subCategory;
+        this.productType = productType;
     }
 }

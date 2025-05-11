@@ -3,12 +3,12 @@ import {JSX} from "react";
 
 
 export type PanelKey =
-    | "createProduct"
-    | "createPV"
-    | "createCategory"
-    | "createSize"
-    | "createMaterial"
-    | "createFitType"
+    | "productCrud"
+    | "variantCrud"
+    | "categoryCrud"
+    | "sizeCrud"
+    | "materialCrud"
+    | "fitTypeCrud"
     | "productTypeCrud"
 
 interface AdminPanelSidebarProps {
@@ -25,17 +25,17 @@ export function AdminPanelSidebar({ active, onSelect }: AdminPanelSidebarProps):
     return (
         <div className="w-60 border-r border-black h-full">
             <ul className="flex flex-col w-full items-end text-lg gap-5 mt-10">
-                <li className={itemClass("createProduct")} onClick={() => onSelect("createProduct")}>Products</li>
-                <li className={itemClass("createPV")} onClick={() => onSelect("createPV")}>Product Variants</li>
-                <li className={itemClass("createCategory")} onClick={() => onSelect("createCategory")}>Categories
+                <li className={itemClass("productCrud")} onClick={() => onSelect("productCrud")}>Products</li>
+                <li className={itemClass("variantCrud")} onClick={() => onSelect("variantCrud")}>Product Variants</li>
+                <li className={itemClass("categoryCrud")} onClick={() => onSelect("categoryCrud")}>Categories
                 </li>
                 <li className={itemClass("productTypeCrud")} onClick={() => onSelect("productTypeCrud")}>
                     Product Types
                 </li>
-                <li className={itemClass("createSize")} onClick={() => onSelect("createSize")}>Sizes</li>
-                <li className={itemClass("createMaterial")} onClick={() => onSelect("createMaterial")}>Materials
+                <li className={itemClass("sizeCrud")} onClick={() => onSelect("sizeCrud")}>Sizes</li>
+                <li className={itemClass("materialCrud")} onClick={() => onSelect("materialCrud")}>Materials
                 </li>
-                <li className={itemClass("createFitType")} onClick={() => onSelect("createFitType")}>Fit Types
+                <li className={itemClass("fitTypeCrud")} onClick={() => onSelect("fitTypeCrud")}>Fit Types
                 </li>
 
             </ul>

@@ -5,6 +5,7 @@ import {BrowserRouter} from "react-router-dom";
 import axios from 'axios';
 import {Provider} from "react-redux";
 import {store} from "./Redux/store.ts";
+import {ToastContainer} from "react-toastify";
 
 
 axios.interceptors.request.use(function (config) {
@@ -17,6 +18,7 @@ axios.interceptors.request.use(function (config) {
 
 createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
+        <ToastContainer/>
         <BrowserRouter>
             <Layout/>
         </BrowserRouter>

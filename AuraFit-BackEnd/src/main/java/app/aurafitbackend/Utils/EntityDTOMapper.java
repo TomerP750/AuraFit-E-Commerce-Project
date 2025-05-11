@@ -15,6 +15,7 @@ public final class EntityDTOMapper {
 
     public static Product toEntity(ProductCreateDTO dto) {
         Product p = Product.builder()
+                .name(dto.getName())
                 .description(dto.getDescription())
                 .category(dto.getCategory())
                 .productType(dto.getProductType())

@@ -41,11 +41,15 @@ public class Product {
     @Column(nullable = false)
     private Gender gender;
 
-    @OneToOne
-    private Category category;
+    //    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category; // CLOTHING FOOTWEAR
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private ProductType productType; // use as productType - can be bottles socks clothing shoes etc...
+    //    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "product_type_id", nullable = false)
+    private ProductType productType; // TSHIRT SHOES
 
     private Boolean onSale;
 

@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
 
     @PostMapping("/login")
@@ -33,6 +35,19 @@ public class AuthController {
         return authService.register(registerRequest);
     }
 
+
+    @PostMapping("/createadmin")
+    public void createAdmin() {
+        User newUser = User.builder()
+                .role(Role.ADMIN)
+                .email("admin@admin.com")
+                .membershipPoints(0)
+                .firstName("admin")
+                .lastName("admin")
+                .password(passwordEncoder.encode("123456"))
+                .build();
+        userRepository.save(newUser);
+    }
 
 
 

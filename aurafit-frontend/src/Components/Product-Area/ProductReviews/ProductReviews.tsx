@@ -18,9 +18,7 @@ export function ProductReviews({product}: ProductReviewsProps): JSX.Element {
                 <ReviewsList product={product} />
                 {/*right section*/}
                 <div className={"flex flex-col w-full gap-30"}>
-                    {/*{product.reviews.length > 0 */}
-                    {/*    ? product.reviews.map(review => <ReviewCard review={review} key={review.id}/>) */}
-                    {/*    : <span>Loading...</span>}*/}
+                    {/*{product.reviews.map(review => <ReviewCard review={review} key={review.id}/>)}*/}
                     <ReviewCard/>
                     <ReviewCard/>
                 </div>

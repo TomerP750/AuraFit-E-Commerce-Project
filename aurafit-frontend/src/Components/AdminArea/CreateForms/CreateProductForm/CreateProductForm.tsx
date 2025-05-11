@@ -2,11 +2,11 @@
 import {JSX, useEffect, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {toast} from 'react-toastify';
-import {ProductType} from "../../../Models/ProductType.ts";
-import {Category} from "../../../Models/Category.ts";
-import adminService from "../../../Services/AdminService.ts";
-import {ProductCreateDTO} from "../../../Models/DTOS/ProductCreateDTO.ts";
-import {Gender} from "../../../Models/Enums/Gender.ts";
+import {ProductType} from "../../../../Models/ProductType.ts";
+import {Category} from "../../../../Models/Category.ts";
+import adminService from "../../../../Services/AdminService.ts";
+import {ProductCreateDTO} from "../../../../Models/DTOS/ProductCreateDTO.ts";
+import {Gender} from "../../../../Models/Enums/Gender.ts";
 
 
 export function CreateProductForm(): JSX.Element {
@@ -27,14 +27,18 @@ export function CreateProductForm(): JSX.Element {
 
     const onSubmit = (data: ProductCreateDTO): void => {
 
-        const dto = new ProductCreateDTO(data.name ,data.description, data.gender, data.category!, data.subCategory!);
+        const productType: ProductType | undefined = productTypes.find(p => p.id === data.productType.id)
 
-        adminService.createProduct(dto)
-            .then(() => toast.success('Product created!'))
-            .catch(err => {
-                console.error('Create product error:', err);
-                toast.error(err.response?.data || err.message || 'Create failed');
-            });
+        if (productType) {
+            const dto = new ProductCreateDTO(data.name ,data.description, data.gender, data.category!, productType);
+            adminService.createProduct(dto)
+                .then(() => toast.success('Product created!'))
+                .catch(err => {
+                    console.error('Create product error:', err);
+                    toast.error(err.response?.data || err.message || 'Create failed');
+                });
+        }
+
     };
 
     return (
@@ -94,8 +98,7 @@ export function CreateProductForm(): JSX.Element {
                             value={field.value?.id ?? ''}
                             onChange={e => {
                                 const selectedId = Number(e.target.value);
-                                const selected =
-                                    categories.find(c => c.id === selectedId) || null;
+                                const selected = categories.find(c => c.id === selectedId) || null;
                                 field.onChange(selected);
                             }}
                             className="mt-1 w-full border rounded p-2"
@@ -116,7 +119,7 @@ export function CreateProductForm(): JSX.Element {
 
             {/* ProductType */}
             <div>
-                <label className="block text-sm font-medium">SubCategory</label>
+                <label className="block text-sm font-medium">Product Type</label>
                 <Controller
                     name="productType"
                     control={control}
@@ -141,8 +144,8 @@ export function CreateProductForm(): JSX.Element {
                         </select>
                     )}
                 />
-                {errors.subCategory && (
-                    <p className="text-red-600 text-sm">{errors.subCategory.message}</p>
+                {errors.productType && (
+                    <p className="text-red-600 text-sm">{errors.productType.message}</p>
                 )}
             </div>
 
