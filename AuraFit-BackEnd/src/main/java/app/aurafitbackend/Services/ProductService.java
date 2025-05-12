@@ -1,8 +1,10 @@
 package app.aurafitbackend.Services;
 
 import app.aurafitbackend.Beans.Product;
+import app.aurafitbackend.Beans.Review;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductDTO;
+import app.aurafitbackend.Enums.Rating;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Exceptions.RequestException;
 import app.aurafitbackend.Repositories.OrderItemRepository;
@@ -31,7 +33,7 @@ public class ProductService {
     }
 
     public Product getProduct(Long id) {
-        return productRepository.findById(id).orElseThrow(()->new NotExistsException("Product not found"));
+        return productRepository.findById(id).orElseThrow(() -> new NotExistsException("Product not found"));
     }
 
     @Transactional
@@ -54,10 +56,35 @@ public class ProductService {
         productRepository.deleteById(productId);
     }
 
+    public int getProductReviewsAverage(Long productId) {
+        Product product = getProduct(productId);
+        int sum = 0;
 
+        for (Review review : product.getReviews()) {
+            sum += extractReviewNumber(review.getRating());
+        }
 
+        return sum / product.getReviews().size();
+    }
 
+    private int extractReviewNumber(Rating rating) {
 
+        switch (rating) {
+            case ONE:
+                return 1;
+            case TWO:
+                return 2;
+            case THREE:
+                return 3;
+            case FOUR:
+                return 4;
+            case FIVE:
+                return 5;
+            default:
+                return 0;
+
+        }
+    }
 
 
 }

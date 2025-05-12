@@ -70,7 +70,7 @@ export function ProductPage(): JSX.Element {
 
                         <div className="flex flex-col w-full gap-10">
                             <Description variant={variant} />
-                            <FabricAndCare/>
+                            <FabricAndCare variant={variant}/>
                         </div>
                     </aside>
                 </section>

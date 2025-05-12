@@ -18,6 +18,7 @@ import java.util.List;
 public class DisplayController {
 
     private final ProductVariantService productVariantService;
+    private final ProductService productService;
 
 
     @GetMapping("/product/reviews/{id}")
@@ -30,6 +31,12 @@ public class DisplayController {
         return productVariantService.oneProductVariant(id);
     }
 
+    @GetMapping("/product/rating/avg/{id}")
+    public int getProductRatingAvg(@PathVariable Long id) {
+        return productService.getProductReviewsAverage(id);
+    }
+
+
     @GetMapping("/men/clothing")
     public List<ProductVariant> menClothing() {
         return productVariantService.getAllMensClothing();
@@ -39,6 +46,7 @@ public class DisplayController {
     public ProductVariant oneVariant(@PathVariable Long id) {
         return productVariantService.getProductVariant(id);
     }
+
 //
 //    @GetMapping("/women/clothing")
 //    public List<ProductVariantDTO> womenClothing() {

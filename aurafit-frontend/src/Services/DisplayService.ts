@@ -10,6 +10,10 @@ class DisplayService {
     async getOneProductVariant(id: number) {
         return (await axios.get(`http://localhost:8080/api/display/variant/${id}`)).data
     }
+
+    async getProductReviewAvg(id: number) {
+        return (await axios.get(`http://localhost:8080/api/display/product/rating/avg/${id}`)).data
+    }
 }
 
 const displayService = new DisplayService();
