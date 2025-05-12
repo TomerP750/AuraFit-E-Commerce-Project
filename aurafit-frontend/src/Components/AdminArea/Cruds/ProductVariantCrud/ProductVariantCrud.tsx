@@ -7,6 +7,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { BiCheckboxChecked, BiPlus, BiX } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import {CreateProductVariantForm} from "../../CreateForms/CreateProductVariantForm/CreateProductVariantForm.tsx";
 
 export function ProductVariantCrud(): JSX.Element {
     const [variants, setVariants] = useState<ProductVariant[]>([]);
@@ -20,12 +21,11 @@ export function ProductVariantCrud(): JSX.Element {
     }, []);
 
     const deleteVariant = (id: number) => {
-        // if (confirm("Delete variant?")) {
-        //     adminService
-        //         .deleteVariant(id)
-        //         .then(() => setVariants(prev => prev.filter(v => v.id !== id)))
-        //         .catch(err => toast.error(err.response?.data || err.message));
-        // }
+        if (confirm("Delete variant?")) {
+            adminService.deleteProductVariant(id)
+                .then(() => setVariants(prev => prev.filter(v => v.id !== id)))
+                .catch(err => toast.error(err.response?.data || err.message));
+        }
     };
 
     const fields = [
@@ -46,7 +46,7 @@ export function ProductVariantCrud(): JSX.Element {
                 <button onClick={() => setFormOpen(false)} className="mb-4 text-sm text-gray-700">
                     ← Back to variants
                 </button>
-                {/*<CreateVariantForm onSave={() => setFormOpen(false)} />*/}
+                <CreateProductVariantForm onSave={() => setFormOpen(false)} />
             </div>
         );
     }

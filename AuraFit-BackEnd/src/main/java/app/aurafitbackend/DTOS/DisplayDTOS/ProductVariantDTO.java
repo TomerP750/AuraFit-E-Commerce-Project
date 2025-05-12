@@ -15,10 +15,10 @@ import lombok.*;
 @Builder
 public class ProductVariantDTO {
     private Long id;
-    private UUID sku;
+    private String sku;
     private Size size;
     private Color color;
-    private Set<Material> materials;
+    private Material materials;
     private BigDecimal basePrice;
     private BigDecimal salePrice;
     private Integer stockQuantity;

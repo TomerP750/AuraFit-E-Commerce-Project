@@ -24,7 +24,7 @@ public class ProductVariantCreateDto {
     private Color color;
 
 
-    private Set<Material> materials;
+    private Material material;
 
     private BigDecimal basePrice;
     private BigDecimal salePrice;

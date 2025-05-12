@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -53,15 +54,16 @@ public class ProductVariantService {
                     .basePrice(newProductVariant.getBasePrice())
                     .salePrice(BigDecimal.ZERO)
                     .size(newProductVariant.getSize())
-                    .material(newProductVariant.getMaterials())
+
+                    .material(newProductVariant.getMaterial())
 //                    .productImages(newProductVariant.getProduct())
                     .onSale(false)
+                    .sku( "AF"+System.currentTimeMillis())
                     .stockQuantity(newProductVariant.getStockQuantity())
                     .product(newProductVariant.getProduct())
                     .build();
             product.getVariants().add(productVariant);
             productRepository.save(product);
-            productVariantRepository.save(productVariant);
         }
     }
 
