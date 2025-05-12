@@ -10,9 +10,8 @@ import {Gender} from "../../../../Models/Enums/Gender.ts";
 
 interface CreateProductFormProps {
     onSave: () => void;
-    setFormOpen: () => void
 }
-export function CreateProductForm({onSave, setFormOpen}: CreateProductFormProps): JSX.Element {
+export function CreateProductForm({onSave}: CreateProductFormProps): JSX.Element {
     const [categories, setCategories] = useState<Category[]>([]);
     const [productTypes, setProductTypes] = useState<ProductType[]>([]);
 
@@ -34,12 +33,14 @@ export function CreateProductForm({onSave, setFormOpen}: CreateProductFormProps)
 
         if (productType) {
             const dto = new ProductCreateDTO(data.name ,data.description, data.gender, data.category!, productType);
+
             adminService.createProduct(dto)
                 .then(() => {
                     onSave();
                     toast.success('Product created!')
                 })
                 .catch(err => {
+                    console.log(dto)
                     console.error('Create product error:', err);
                     toast.error(err.response.data);
                 });
@@ -49,12 +50,6 @@ export function CreateProductForm({onSave, setFormOpen}: CreateProductFormProps)
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="p-6 rounded shadow space-y-6">
-            <button
-                onClick={() => setFormOpen()}
-                className="mb-4 text-sm text-gray-700 hover:underline"
-            >
-                ← Back to list
-            </button>
             {/*Name*/}
             <div>
                 <label className="block text-sm font-medium">Name</label>

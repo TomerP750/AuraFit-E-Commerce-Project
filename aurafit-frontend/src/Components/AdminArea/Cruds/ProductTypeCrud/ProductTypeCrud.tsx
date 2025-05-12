@@ -1,49 +1,95 @@
 import "./ProductTypeCrud.css";
-import {BiPencil, BiPlus} from "react-icons/bi";
-import {MdDeleteForever} from "react-icons/md";
-import {JSX, useEffect, useState} from "react";
-import {ProductType} from "../../../../Models/ProductType.ts";
+import { Fragment, JSX, useEffect, useState } from "react";
 import adminService from "../../../../Services/AdminService.ts";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
+import { ProductType } from "../../../../Models/ProductType.ts";
+import { MdDeleteForever } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
+import { BiPlus } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 export function ProductTypeCrud(): JSX.Element {
-
-    const [productTypes, setProductTypes] = useState<ProductType[]>([]);
+    const [types, setTypes] = useState<ProductType[]>([]);
+    const [formOpen, setFormOpen] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        adminService.allProductTypes()
-            .then((res) => {
-                setProductTypes(res)
-            })
-            .catch((err) => toast.error(err));
-    },[])
+        adminService
+            .allProductTypes()
+            .then(setTypes)
+            .catch(err => toast.error(err.response?.data || err.message));
+    }, []);
+
+    const deleteProductType = (id: number) => {
+        // if (confirm("Delete product type?")) {
+        //     adminService
+        //         .deleteProductType(id)
+        //         .then(() => setTypes(prev => prev.filter(t => t.id !== id)))
+        //         .catch(err => toast.error(err.response?.data || err.message));
+        // }
+    };
+
+    if (formOpen) {
+        return (
+            <div className="p-4 w-full">
+                <button onClick={() => setFormOpen(false)} className="mb-4 text-sm text-gray-700">
+                    ← Back to list
+                </button>
+                {/*<CreateProductTypeForm onSave={() => setFormOpen(false)} setFormOpen={() => setFormOpen(false)} />*/}
+            </div>
+        );
+    }
+
+    const fields: string[] = ["Id", "Name", "Actions"];
 
     return (
-        <div className={"flex flex-col"}>
-            <h1 className={"ml-5 text-2xl mt-5"}>Product Type</h1>
-            <div className={"flex flex-col mx-5 w-full"}>
-                <div className="flex w-full justify-end">
-                    <button
-                        className={"bg-blue-500 text-white py-2 px-5 rounded-lg flex items-center gap-3 cursor-pointer hover:bg-blue-400 transition duration-300"}><BiPlus size={20}/> CREATE NEW</button>
+        <div className="p-4 w-full">
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-2xl font-semibold">Product Types</h1>
+                <button
+                    onClick={() => setFormOpen(true)}
+                    className="bg-gray-800 text-white py-1 px-3 rounded flex items-center gap-1"
+                >
+                    <BiPlus size={16} /> New
+                </button>
+            </div>
+
+            <div className="hidden lg:block">
+                <div className="grid grid-cols-3 place-items-center bg-gray-100 py-2">
+                    {fields.map((field, idx) => (
+                        <span key={idx} className="text-sm font-medium text-gray-700">
+              {field}
+            </span>
+                    ))}
                 </div>
-                {/*table*/}
-                <div className="flex flex-col gap-5">
-                    <ul className="flex justify-start gap-20 border-b border-black">
-                        <li>Id</li>
-                        <li>Name</li>
-                    </ul>
-                    {productTypes.map(pt => <div className={"flex justify-between gap-20"} key={pt.id}>
-                        <div className="flex gap-20">
-                            <span>{pt.id}</span>
-                            <span>{pt.name}</span>
+                {types.map(t => (
+                    <div key={t.id} className="grid grid-cols-3 place-items-center py-2 border-b">
+                        <span>{t.id}</span>
+                        <span>{t.name}</span>
+                        <div className="flex gap-2">
+                            <FaEdit className="cursor-pointer" onClick={() => navigate(`/producttype/edit/${t.id}`)} />
+                            <MdDeleteForever className="cursor-pointer" onClick={() => deleteProductType(t.id)} />
                         </div>
-                        <div className={"flex gap-5"}>
-                            <span className={"cursor-pointer"}><BiPencil size={30}/></span>
-                            <span className={"cursor-pointer"}><MdDeleteForever size={30}/></span>
+                    </div>
+                ))}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:hidden gap-4">
+                {types.map(t => (
+                    <div key={t.id} className="p-4 border rounded shadow-sm">
+                        <p><strong>Id:</strong> {t.id}</p>
+                        <p><strong>Name:</strong> {t.name}</p>
+                        <div className="mt-2 flex gap-2">
+                            <button onClick={() => navigate(`/producttype/edit/${t.id}`)} className="text-sm underline">
+                                Edit
+                            </button>
+                            <button onClick={() => deleteProductType(t.id)} className="text-sm underline">
+                                Delete
+                            </button>
                         </div>
-                    </div>)}
-                </div>
+                    </div>
+                ))}
             </div>
         </div>
-    )
+    );
 }

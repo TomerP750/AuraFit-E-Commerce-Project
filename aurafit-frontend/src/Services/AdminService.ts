@@ -3,6 +3,8 @@ import {ProductCreateDTO} from "../Models/DTOS/ProductCreateDTO.ts";
 import {Category} from "../Models/Category.ts";
 import {ProductType} from "../Models/ProductType.ts";
 import {Material} from "../Models/Material.ts";
+import {ProductVariantCreateDTO} from "../Models/DTOS/ProductVariantCreateDTO.ts";
+import {User} from "../Models/User.ts";
 
 class AdminService {
 
@@ -52,6 +54,8 @@ class AdminService {
         return (await axios.delete(`http://localhost:8080/api/admin/product/delete/${productId}`))
     }
 
+    // Product Variants -------------
+
     async getAllProductVariants() {
         return (await axios.get("http://localhost:8080/api/admin/variant/all")).data
     }
@@ -59,9 +63,21 @@ class AdminService {
         return (await axios.get(`http://localhost:8080/api/admin/variant/${variantId}`)).data
     }
 
+    async createProductVariant(variant: ProductVariantCreateDTO) {
+        return (await axios.post("http://localhost:8080/api/variant/create", variant))
+    }
+
     async deleteProductVariant(variantId: number) {
         return (await axios.delete(`http://localhost:8080/api/admin/variant/delete/${variantId}`)).data
     }
+
+    // Users --------------------
+
+    async allUsers() {
+        return (await axios.get<User[]>("http://localhost:8080/api/admin/user/all")).data
+    }
+
+
 
 }
 

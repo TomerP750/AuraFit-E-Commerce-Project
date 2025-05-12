@@ -1,6 +1,7 @@
 package app.aurafitbackend.Utils;
 
 import app.aurafitbackend.Beans.ProductVariant;
+import app.aurafitbackend.DTOS.CreateDTOS.ProductVariantCreateDto;
 import app.aurafitbackend.Exceptions.RequestException;
 import app.aurafitbackend.Repositories.ProductVariantRepository;
 import org.springframework.stereotype.Component;
@@ -15,10 +16,10 @@ public class ProductVariantValidator {
     }
 
 
-    public static boolean isValidAddVariantToProduct(ProductVariant productVariant) {
-        if (!productVariant.getSize().getProductType().equals(productVariant.getProduct().getProductType())) {
-            throw new RequestException("Product variant size does not match product variant subcategory");
-        }
+    public static boolean isValidNewProductVariant(ProductVariantCreateDto productVariant) {
+//        if (!productVariant.getSize().getProductType().equals(productVariant.getProduct().getProductType())) {
+//            throw new RequestException("Product variant size does not match product variant subcategory");
+//        }
         return true;
     }
 }

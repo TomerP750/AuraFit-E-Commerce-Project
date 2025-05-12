@@ -35,14 +35,12 @@ public class ProductService {
     }
 
     @Transactional
-    public void createProduct(ProductCreateDTO newProductDTO) {
-//        System.err.println(newProductDTO);
-        if (GeneralValidator.isValidProduct(newProductDTO)) {
-            Product product = EntityDTOMapper.toEntity(newProductDTO);
-            System.err.println(product);
-            productRepository.save(product);
+    public void createProduct(ProductCreateDTO dto) {
+        if (!GeneralValidator.isValidProduct(dto)) {
+            throw new RequestException("Missing information");
         }
-        throw new RequestException("Missing information");
+        Product product = EntityDTOMapper.toEntity(dto);
+        productRepository.save(product);
 
     }
 

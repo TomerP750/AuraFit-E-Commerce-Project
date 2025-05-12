@@ -2,6 +2,8 @@ package app.aurafitbackend.Utils;
 
 import app.aurafitbackend.Beans.Product;
 import app.aurafitbackend.Beans.ProductVariant;
+import app.aurafitbackend.Beans.User;
+import app.aurafitbackend.DTOS.AuthDTOS.UserDTO;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
@@ -53,6 +55,16 @@ public final class EntityDTOMapper {
                 .salePrice(v.getSalePrice())
                 .stockQuantity(v.getStockQuantity())
                 .onSale(v.getOnSale())
+                .build();
+    }
+
+
+    public static UserDTO userEntityToDto(User user) {
+        return UserDTO.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .role(user.getRole())
                 .build();
     }
 }

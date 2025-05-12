@@ -4,6 +4,7 @@ import app.aurafitbackend.Beans.Product;
 import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.Beans.User;
 import app.aurafitbackend.DTOS.AuthDTOS.RegisterRequest;
+import app.aurafitbackend.DTOS.AuthDTOS.UserDTO;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
 import app.aurafitbackend.Utils.EntityDTOMapper;
 import app.aurafitbackend.Enums.Role;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -44,13 +47,25 @@ public class AdminService {
         }
     }
 
-//    ----------- Product Section -----------
 
+    public List<UserDTO> allUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserDTO> userDTOList = new ArrayList<>();
 
+        for (User user : users) {
+            UserDTO dto = UserDTO.builder()
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .email(user.getEmail())
+                    .role(user.getRole())
+                    .build();
+            userDTOList.add(dto);
+        }
 
+        return userDTOList;
 
+    }
 
-//    Category Section
 
 
 

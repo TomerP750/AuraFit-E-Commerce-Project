@@ -41,7 +41,7 @@ export function ProductCrud(): JSX.Element {
         );
     }
 
-    const fields: string[] = ["Id", "Name", "Description", "Gender", "Type", "On Sale", "Actions"];
+    const fields: string[] = ["Id", "Name", "Gender", "Type", "On Sale", "Actions"];
 
     if (formOpen) {
         return (
@@ -81,7 +81,7 @@ export function ProductCrud(): JSX.Element {
                     <div key={p.id} className="grid grid-cols-7 place-items-center py-2 border-b">
                         <span>{p.id}</span>
                         <span>{p.name}</span>
-                        <span>{p.description}</span>
+                        {/*<span>{p.description}</span>*/}
                         <span>{p.gender}</span>
                         <span>{p.productType.name}</span>
                         <span>{p.onSale ? <BiCheckboxChecked /> : <BiX />}</span>
@@ -99,7 +99,7 @@ export function ProductCrud(): JSX.Element {
                     <div key={p.id} className="p-4 border rounded shadow-sm">
                         <p><strong>Id:</strong> {p.id}</p>
                         <p><strong>Name:</strong> {p.name}</p>
-                        <p><strong>Description:</strong> {p.description}</p>
+                        {/*<p><strong>Description:</strong> {p.description}</p>*/}
                         <p><strong>Gender:</strong> {p.gender}</p>
                         <p><strong>Type:</strong> {p.productType.name}</p>
                         <p><strong>On Sale:</strong> {p.onSale ? 'Yes' : 'No'}</p>

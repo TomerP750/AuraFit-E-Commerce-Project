@@ -4,6 +4,7 @@ import app.aurafitbackend.Beans.Category;
 import app.aurafitbackend.Beans.Product;
 import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.Beans.Review;
+import app.aurafitbackend.DTOS.CreateDTOS.ProductVariantCreateDto;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
 import app.aurafitbackend.Enums.Gender;
 import app.aurafitbackend.Exceptions.NotExistsException;
@@ -44,19 +45,19 @@ public class ProductVariantService {
 
 
     @Transactional
-    public void addVariantToProduct(Long productId, ProductVariant newProductVariant) {
-        if (ProductVariantValidator.isValidAddVariantToProduct(newProductVariant)) {
-            Product product = productRepository.findById(productId).orElseThrow(()->new NotExistsException("Product not found"));
+    public void createNewProductVariant(ProductVariantCreateDto newProductVariant) {
+        if (ProductVariantValidator.isValidNewProductVariant(newProductVariant)) {
+            Product product = productRepository.findById(newProductVariant.getProduct().getId()).orElseThrow(()->new NotExistsException("Product not found"));
             ProductVariant productVariant = ProductVariant.builder()
                     .color(newProductVariant.getColor())
                     .basePrice(newProductVariant.getBasePrice())
                     .salePrice(BigDecimal.ZERO)
                     .size(newProductVariant.getSize())
-                    .material(newProductVariant.getMaterial())
-                    .productImages(newProductVariant.getProductImages())
+                    .material(newProductVariant.getMaterials())
+//                    .productImages(newProductVariant.getProduct())
                     .onSale(false)
                     .stockQuantity(newProductVariant.getStockQuantity())
-                    .product(product)
+                    .product(newProductVariant.getProduct())
                     .build();
             product.getVariants().add(productVariant);
             productRepository.save(product);

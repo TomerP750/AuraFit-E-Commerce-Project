@@ -1,6 +1,7 @@
 package app.aurafitbackend.Controllers;
 
 import app.aurafitbackend.Beans.*;
+import app.aurafitbackend.DTOS.AuthDTOS.UserDTO;
 import app.aurafitbackend.Services.*;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +22,7 @@ public class AdminController {
     private final ColorService colorService;
     private final ProductService productService;
     private final ProductVariantService productVariantService;
+    private final AdminService adminService;
 
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -129,6 +131,12 @@ public class AdminController {
     @DeleteMapping("/variant/delete/{id}")
     public void deleteProductVariant(@PathVariable Long id) {
         productVariantService.deleteVariant(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/user/all")
+    public List<UserDTO> allUsers() {
+        return adminService.allUsers();
     }
 
 

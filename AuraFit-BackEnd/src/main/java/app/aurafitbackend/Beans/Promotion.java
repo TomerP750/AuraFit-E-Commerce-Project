@@ -21,6 +21,6 @@ public class Promotion {
     private LocalDateTime endTime;
     private Boolean isActive = false;
     @ManyToOne
-    private ProductVariant productVariant;
+    private Product product;
 
 }

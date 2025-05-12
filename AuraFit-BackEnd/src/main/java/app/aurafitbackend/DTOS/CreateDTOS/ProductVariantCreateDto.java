@@ -2,6 +2,7 @@ package app.aurafitbackend.DTOS.CreateDTOS;
 
 import app.aurafitbackend.Beans.Color;
 import app.aurafitbackend.Beans.Material;
+import app.aurafitbackend.Beans.Product;
 import app.aurafitbackend.Beans.Size;
 
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -22,9 +24,12 @@ public class ProductVariantCreateDto {
     private Color color;
 
 
-    private Material material;
+    private Set<Material> materials;
 
-    private BigDecimal price;
+    private BigDecimal basePrice;
+    private BigDecimal salePrice;
 
     private Integer stockQuantity;
+
+    private Product product;
 }
