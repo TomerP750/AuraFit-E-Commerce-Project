@@ -14,7 +14,7 @@ interface PostReviewFormProps {
 
 export function PostReviewForm({ product, onCancel }: PostReviewFormProps): JSX.Element {
     // Numeric rating (1-5)
-    const [rating, setRating] = useState<number>(0);
+    const [rating, setRating] = useState<number>(5);
     // Hover state for stars
     const [hoverRating, setHoverRating] = useState<number>(0);
     // Review text
@@ -23,35 +23,35 @@ export function PostReviewForm({ product, onCancel }: PostReviewFormProps): JSX.
     // Handler for form submission
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (rating < 1 || rating > 5) {
-            toast.error("Please select a star rating before submitting.");
-            return;
-        }
+        // if (rating < 1 || rating > 5) {
+        //     toast.error("Please select a star rating before submitting.");
+        //     return;
+        // }
 
         // Map numeric rating to enum
-        let ratingEnum: Rating;
-        switch (rating) {
-            case 1:
-                ratingEnum = Rating.ONE;
-                break;
-            case 2:
-                ratingEnum = Rating.TWO;
-                break;
-            case 3:
-                ratingEnum = Rating.THREE;
-                break;
-            case 4:
-                ratingEnum = Rating.FOUR;
-                break;
-            case 5:
-                ratingEnum = Rating.FIVE;
-                break;
-            default:
-                ratingEnum = Rating.ONE;
-        }
+        // let ratingEnum: Rating;
+        // switch (rating) {
+        //     case 1:
+        //         ratingEnum = Rating.ONE;
+        //         break;
+        //     case 2:
+        //         ratingEnum = Rating.TWO;
+        //         break;
+        //     case 3:
+        //         ratingEnum = Rating.THREE;
+        //         break;
+        //     case 4:
+        //         ratingEnum = Rating.FOUR;
+        //         break;
+        //     case 5:
+        //         ratingEnum = Rating.FIVE;
+        //         break;
+        //     default:
+        //         ratingEnum = Rating.ONE;
+        // }
 
         // Create DTO and post
-        const reviewDto = new PostReviewRequestDTO(text, ratingEnum, product);
+        const reviewDto = new PostReviewRequestDTO(text, rating, product);
         console.log(reviewDto);
         reviewService
             .postReview(reviewDto)

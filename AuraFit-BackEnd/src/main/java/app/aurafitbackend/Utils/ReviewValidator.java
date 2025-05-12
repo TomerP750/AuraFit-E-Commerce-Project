@@ -2,6 +2,7 @@ package app.aurafitbackend.Utils;
 
 import app.aurafitbackend.Beans.Review;
 import app.aurafitbackend.DTOS.PostReviewRequestDTO;
+import app.aurafitbackend.Exceptions.InvalidInputException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,9 @@ public class ReviewValidator {
         LocalDateTime now = LocalDateTime.now();
         if (review.getContent().isEmpty()) {
             return false;
+        }
+        if (review.getRating() <= 0 || review.getRating() > 5) {
+            throw new InvalidInputException("Rating should be between 1 and 5");
         }
 //        if (review.getReviewDate().isAfter(now)) {
 //            return false;

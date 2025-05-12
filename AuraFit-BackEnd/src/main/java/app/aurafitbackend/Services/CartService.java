@@ -1,9 +1,6 @@
 package app.aurafitbackend.Services;
 
-import app.aurafitbackend.Beans.Cart;
-import app.aurafitbackend.Beans.CartItem;
-import app.aurafitbackend.Beans.ProductVariant;
-import app.aurafitbackend.Beans.User;
+import app.aurafitbackend.Beans.*;
 import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.AddToCartRequestDTO;
 import app.aurafitbackend.Enums.Status;
 import app.aurafitbackend.Exceptions.NotExistsException;
@@ -105,6 +102,14 @@ public class CartService {
         cart.getItems().remove(cartItem);
 
         return cartRepository.save(cart);
+    }
+
+    //TODO check if works
+    public ProductVariant variantExists(Long productId, Size size, Color color) {
+        if (productVariantRepository.existsByProductIdAndSizeAndColor(productId ,size, color)) {
+            return productVariantRepository.findByProductIdAndSizeAndColor(productId, size, color);
+        }
+        throw new NotExistsException("Product is unavailable");
     }
 
 //    public int getCartItemCount(Long userId) {

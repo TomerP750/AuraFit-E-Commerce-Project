@@ -61,7 +61,7 @@ public class ProductService {
         int sum = 0;
 
         for (Review review : product.getReviews()) {
-            sum += extractReviewNumber(review.getRating());
+            sum += review.getRating();
         }
 
         return sum / product.getReviews().size();

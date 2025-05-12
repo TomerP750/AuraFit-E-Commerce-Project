@@ -14,6 +14,9 @@ import {Product} from "../../../../Models/Product.ts";
 import {toast} from "react-toastify";
 import {ProductVariant} from "../../../../Models/ProductVariant.ts";
 import displayService from "../../../../Services/DisplayService.ts";
+import { Size } from "../../../../Models/Size.ts";
+import {Color} from "../../../../Models/Color.ts";
+
 
 export function ProductPage(): JSX.Element {
 
@@ -23,6 +26,12 @@ export function ProductPage(): JSX.Element {
 
     const params = useParams();
     const id = +params.id!;
+
+    const [selectedSize, setSelectedSize] = useState<Size>();
+    const [selectedColor, setSelectedColor] = useState<Color>();
+    // const addToCart = (variant: ProductVariant) => {
+    //
+    // }
 
 
     useEffect(() => {

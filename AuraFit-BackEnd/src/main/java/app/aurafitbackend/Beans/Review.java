@@ -25,7 +25,7 @@ public class Review {
     private Long id;
     @ManyToOne
     private User user;
-    private Rating rating;
+    private Integer rating;
     private String content;
     @CreatedDate
     @Column(updatable = false)

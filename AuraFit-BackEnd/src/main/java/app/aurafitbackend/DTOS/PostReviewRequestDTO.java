@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class PostReviewRequestDTO {
 
     private String content;
-    private Rating rating;
+    private Integer rating;
     private Product product;
 
 }

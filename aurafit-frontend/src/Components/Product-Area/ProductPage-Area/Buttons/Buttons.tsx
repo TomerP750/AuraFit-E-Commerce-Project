@@ -19,11 +19,6 @@ export function Buttons({onAddToCartClick, onWishlistClick, isWishlisted}: Butto
                     className={"cursor-pointer hover:bg-gray-700 transition duration-200 bg-black w-9/10 text-white py-3 rounded-lg"}>Add
                 To Cart
             </button>
-            {/*<button*/}
-            {/*    onClick={onWishlistClick}*/}
-            {/*    className={"cursor-pointer"}>{!isWishlisted ? <BiHeart className={"size-6 cursor-pointer"}/> :*/}
-            {/*    <AiFillHeart className={"size-6 cursor-pointer"}/>}*/}
-            {/*</button>*/}
             <button
                 onClick={onWishlistClick}
                 onMouseEnter={() => setWishlistHovered(true)}
