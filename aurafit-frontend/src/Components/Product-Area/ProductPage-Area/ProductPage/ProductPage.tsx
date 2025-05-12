@@ -78,7 +78,7 @@ export function ProductPage(): JSX.Element {
             {/*Reviews Section*/}
             <section className={"flex flex-col w-full items-center gap-20"}>
                 <p className={"text-4xl font-medium"}>Reviews</p>
-                {/*<ProductReviews product={variant!.product} />*/}
+                <ProductReviews product={variant.product} />
             </section>
         </div>
     );

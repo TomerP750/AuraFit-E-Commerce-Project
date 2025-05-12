@@ -13,7 +13,6 @@ import app.aurafitbackend.Repositories.ProductRepository;
 import app.aurafitbackend.Repositories.ProductVariantRepository;
 import app.aurafitbackend.Repositories.ReviewRepository;
 import app.aurafitbackend.Utils.EntityDTOMapper;
-import app.aurafitbackend.Utils.GeneralValidator;
 import app.aurafitbackend.Utils.ProductVariantValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -83,35 +82,16 @@ public class ProductVariantService {
 
 
 //    ------------ TEST THESE METHODS AREA
-    public List<ProductVariant> getAllMensClothing() {
-        Category category = categoryRepository.findByName("Clothing");
-        List<Product> allMenClothingProducts = productRepository.findByGenderAndCategory(Gender.MEN,category);
-        List<ProductVariant> menMerch = new ArrayList<>();
-        // LA LAKERS SHIRT - get all variants like purple and yellow
-        // MIAMI HEAT - red and white
 
-        for (Product product : allMenClothingProducts) {
-            for (ProductVariant variant : product.getVariants()) {
-                menMerch.add(variant);
-            }
-        }
-
-        return menMerch;
+    public List<ProductVariant> allClothingByGender(Gender gender) {
+        Category clothingCategory = categoryRepository.findByName("Clothing");
+        return productRepository
+                .findByGenderAndCategory(gender, clothingCategory).stream()
+                .flatMap(p -> p.getVariants().stream())
+                .collect(Collectors.toList());
 
     }
-//
-//    public List<ProductVariantDTO> getAllWomensClothing() {
-//        List<Product> allWomenClothingProducts = productRepository.findByGenderAndCategory(Gender.WOMEN, Category.CLOTHING);
-//        List<ProductVariantDTO> womenMerch = new ArrayList<>();
-//
-//        for (Product product : allWomenClothingProducts) {
-//            for (ProductVariant variant : product.getVariants()) {
-//                womenMerch.add(EntityDTOMapper.variantToDto(variant));
-//            }
-//        }
-//
-//        return womenMerch;
-//    }
+
 
 //    -------------- END TEST THESE METHODS AREA ----------------
 

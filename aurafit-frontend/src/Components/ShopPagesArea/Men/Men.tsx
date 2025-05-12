@@ -2,11 +2,11 @@ import "./Men.css";
 import {JSX, useEffect, useState} from "react";
 import {Filters} from "../Filters/Filters.tsx";
 import {ProductCard} from "../../Product-Area/ProductCard/ProductCard.tsx";
-import {Product} from "../../../Models/Product.ts";
 import {FiFilter} from "react-icons/fi";
 import displayService from "../../../Services/DisplayService.ts";
 import {toast} from "react-toastify";
 import {ProductVariant} from "../../../Models/ProductVariant.ts";
+import {Gender} from "../../../Models/Enums/Gender.ts";
 
 
 type SortOption = 'newest'|'high-low'|'low-high';
@@ -22,7 +22,7 @@ export function Men(): JSX.Element {
 
 
     useEffect(() => {
-        displayService.allMenClothing()
+        displayService.allClothingByGender(Gender.MEN)
             .then(res => setProducts(res))
             .catch(err => toast.error(err));
     }, []);

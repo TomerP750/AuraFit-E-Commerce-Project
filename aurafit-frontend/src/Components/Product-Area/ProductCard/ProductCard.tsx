@@ -26,7 +26,8 @@ export function ProductCard({variant}: ProductCardProps): JSX.Element {
             <div className="flex justify-between items-center pt-2 px-2">
                 <p className="text-lg truncate">{variant.product.name}</p>
                 {/*//TODO add sale price if onsale*/}
-                <p className="text-xl font-medium">{variant.basePrice}</p>
+                {variant.onSale ? <p className="text-xl font-medium text-green-500">${variant.salePrice}</p> :
+                    <p className="text-xl font-medium">${variant.basePrice}</p>}
             </div>
 
             <p className="px-2 text-sm text-gray-600">{variant.color.color}</p>
