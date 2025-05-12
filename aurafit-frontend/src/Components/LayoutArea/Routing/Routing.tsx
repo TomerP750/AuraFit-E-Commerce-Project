@@ -12,7 +12,7 @@ import {PageNotFound} from "../../PageNotFound/PageNotFound.tsx";
 import {Role} from "../../../Models/Enums/Role.ts";
 import {Women} from "../../ShopPagesArea/Women/Women.tsx";
 import {Accessories} from "../../ShopPagesArea/Accessories/Accessories.tsx";
-import {WishlistPage} from "../../WishlistPage/WishlistPage.tsx";
+import {WishlistPage} from "../../WishlistArea/WishlistPage/WishlistPage.tsx";
 import {CheckoutPage} from "../../CartAndOrderArea/CheckoutPage/CheckoutPage.tsx";
 import {OrderSuccessfulPage} from "../../CartAndOrderArea/OrderSuccessfulPage/OrderSuccessfulPage.tsx";
 import {useUserSelector} from "../../../Redux/hooks.ts";

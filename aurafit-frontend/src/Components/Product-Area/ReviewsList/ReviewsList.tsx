@@ -40,8 +40,8 @@ export function ReviewsList({product, onPostClick}: ReviewsListProps): JSX.Eleme
                 </div>
                 <p>Based on {product.reviews.length} reviews</p>
             </div>
-            <div className="h-[200px] border border-black w-full">
-            </div>
+            {/*<div className="h-[200px] border border-black w-full">*/}
+            {/*</div>*/}
             <div className={"flex flex-col gap-3"}>
                 <p className={"text-xl font-medium"}>Share your thoughts</p>
                 <p>if you've used this product, share your thoughts with other customers</p>

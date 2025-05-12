@@ -17,7 +17,7 @@ public class WishlistItem {
 
     private Integer quantity;
 
-    @OneToOne
+    @ManyToOne
     private ProductVariant productVariant;
 
     @ManyToOne

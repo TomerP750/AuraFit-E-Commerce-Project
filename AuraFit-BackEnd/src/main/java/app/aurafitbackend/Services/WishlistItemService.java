@@ -12,6 +12,8 @@ import app.aurafitbackend.Utils.WishlistValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class WishlistItemService {
@@ -19,6 +21,10 @@ public class WishlistItemService {
     private WishlistItemRepository wishlistItemRepository;
     private final UserRepository userRepository;
     private final ProductVariantRepository productVariantRepository;
+
+    public List<WishlistItem> getAllWishlistItems(Long userId) {
+        return wishlistItemRepository.findByUserId(userId);
+    }
 
     public void addProductToWishlist(Long userId, Long variantId) {
         if (WishlistValidator.isValidAddToWishlistRequest()) {
