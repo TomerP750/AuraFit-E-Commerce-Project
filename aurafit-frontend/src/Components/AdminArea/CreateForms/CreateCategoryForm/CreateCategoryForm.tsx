@@ -6,13 +6,17 @@ import adminService from "../../../../Services/AdminService.ts";
 import {toast} from "react-toastify";
 import {Category} from "../../../../Models/Category.ts";
 
+
+
 export function CreateCategoryForm(): JSX.Element {
     const {register, handleSubmit, formState: { errors }} = useForm<Category>();
 
 
     const onSubmit = (data: Category) => {
-        adminService.createMaterial(data)
-            .then(() => toast.success("Created successfully"))
+        adminService.createCategory(data)
+            .then(() => {
+                toast.success("Created successfully")
+            })
             .catch(error => {toast.error(error.response?.data)})
     }
 

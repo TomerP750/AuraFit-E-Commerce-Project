@@ -20,7 +20,7 @@ public class Promotion {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Boolean isActive = false;
-    @ManyToOne
+    @ManyToOne // TODO Product or ProductVariant
     private Product product;
 
 }

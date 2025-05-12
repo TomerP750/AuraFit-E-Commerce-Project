@@ -3,11 +3,13 @@ import "./UserCrud.css";
 import { JSX, useEffect, useState } from "react";
 import adminService from "../../../../Services/AdminService.ts";
 import { toast } from "react-toastify";
-import { UserDTO } from "../../../../Models/UserDTO.ts";
+
 import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { BiPlus } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import {UserDTO} from "../../../../Models/DTOS/UserDTO.ts";
+// import { CreateUserForm } from "../../CreateForms/CreateUserForm/CreateUserForm.tsx";
 
 export function UserCrud(): JSX.Element {
     const [users, setUsers] = useState<UserDTO[]>([]);
@@ -15,16 +17,17 @@ export function UserCrud(): JSX.Element {
     const navigate = useNavigate();
 
     useEffect(() => {
-        adminService.allUsers()
-            .then(res => setUsers(res))
+        adminService
+            .allUsers()
+            .then(setUsers)
             .catch(err => toast.error(err.response?.data || err.message));
     }, []);
 
-    const deleteUser = (email: string) => {
+    const deleteUser = (id: number) => {
         // if (confirm("Delete user?")) {
         //     adminService
-        //         .deleteUser(email)
-        //         .then(() => setUsers(prev => prev.filter(u => u.email !== email)))
+        //         .deleteUser(id)
+        //         .then(() => setUsers(prev => prev.filter(u => u.id !== id)))
         //         .catch(err => toast.error(err.response?.data || err.message));
         // }
     };
@@ -43,24 +46,18 @@ export function UserCrud(): JSX.Element {
         );
     }
 
-    const fields = ["First Name", "Last Name", "Email", "Role", "Actions"];
+    const fields = ["Id", "First Name", "Last Name", "Email", "Role", "Actions"];
 
     return (
         <div className="p-4 w-full">
             {/* Header */}
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-semibold">Users</h1>
-                <button
-                    onClick={() => setFormOpen(true)}
-                    className="bg-gray-800 text-white py-1 px-3 rounded flex items-center gap-1"
-                >
-                    <BiPlus size={16} /> New
-                </button>
             </div>
 
             {/* Desktop grid */}
             <div className="hidden lg:block">
-                <div className="grid grid-cols-5 place-items-center bg-gray-100 py-2">
+                <div className="grid grid-cols-6 place-items-center bg-gray-100 py-2">
                     {fields.map((f, i) => (
                         <span key={i} className="text-sm font-medium text-gray-700">
               {f}
@@ -68,7 +65,8 @@ export function UserCrud(): JSX.Element {
                     ))}
                 </div>
                 {users.map(u => (
-                    <div key={u.email} className="grid grid-cols-5 place-items-center py-2 border-b">
+                    <div key={u.id} className="grid grid-cols-6 place-items-center py-2 border-b">
+                        <span>{u.id}</span>
                         <span>{u.firstName}</span>
                         <span>{u.lastName}</span>
                         <span>{u.email}</span>
@@ -76,11 +74,11 @@ export function UserCrud(): JSX.Element {
                         <div className="flex gap-2">
                             <FaEdit
                                 className="cursor-pointer"
-                                onClick={() => navigate(`/user/edit/${encodeURIComponent(u.email)}`)}
+                                onClick={() => navigate(`/user/edit/${u.id}`)}
                             />
                             <MdDeleteForever
                                 className="cursor-pointer"
-                                onClick={() => deleteUser(u.email)}
+                                onClick={() => deleteUser(u.id)}
                             />
                         </div>
                     </div>
@@ -90,19 +88,20 @@ export function UserCrud(): JSX.Element {
             {/* Mobile cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:hidden gap-4">
                 {users.map(u => (
-                    <div key={u.email} className="p-4 border rounded shadow-sm">
+                    <div key={u.id} className="p-4 border rounded shadow-sm">
+                        <p><strong>Id:</strong> {u.id}</p>
                         <p><strong>First Name:</strong> {u.firstName}</p>
                         <p><strong>Last Name:</strong> {u.lastName}</p>
                         <p><strong>Email:</strong> {u.email}</p>
                         <p><strong>Role:</strong> {u.role}</p>
                         <div className="mt-2 flex gap-2">
                             <button
-                                onClick={() => navigate(`/user/edit/${encodeURIComponent(u.email)}`)}
+                                onClick={() => navigate(`/user/edit/${u.id}`)}
                                 className="text-sm underline"
                             >
                                 Edit
                             </button>
-                            <button onClick={() => deleteUser(u.email)} className="text-sm underline">
+                            <button onClick={() => deleteUser(u.id)} className="text-sm underline">
                                 Delete
                             </button>
                         </div>

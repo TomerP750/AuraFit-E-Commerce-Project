@@ -3,7 +3,7 @@ package app.aurafitbackend.Utils;
 import app.aurafitbackend.Beans.Product;
 import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.Beans.User;
-import app.aurafitbackend.DTOS.AuthDTOS.UserDTO;
+import app.aurafitbackend.DTOS.DisplayDTOS.UserDTO;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;

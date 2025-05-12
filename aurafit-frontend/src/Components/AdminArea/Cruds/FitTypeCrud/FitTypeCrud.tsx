@@ -17,9 +17,8 @@ export function FitTypeCrud(): JSX.Element {
     const navigate = useNavigate();
 
     useEffect(() => {
-        adminService
-            .allFitTypes()
-            .then(setFitTypes)
+        adminService.allFitTypes()
+            .then(res => setFitTypes(res))
             .catch(err => toast.error(err.response?.data || err.message));
     }, []);
 
@@ -69,7 +68,7 @@ export function FitTypeCrud(): JSX.Element {
                     <div key={f.id} className="grid grid-cols-4 place-items-center py-2 border-b">
                         <span>{f.id}</span>
                         <span>{f.name}</span>
-                        <span>{f.subCategory.name}</span>
+                        <span>{f.productType.name}</span>
                         <div className="flex gap-2">
                             <FaEdit className="cursor-pointer" onClick={() => navigate(`/fittype/edit/${f.id}`)} />
                             <MdDeleteForever className="cursor-pointer" onClick={() => deleteFitType(f.id)} />
@@ -83,7 +82,7 @@ export function FitTypeCrud(): JSX.Element {
                     <div key={f.id} className="p-4 border rounded shadow-sm">
                         <p><strong>Id:</strong> {f.id}</p>
                         <p><strong>Name:</strong> {f.name}</p>
-                        <p><strong>SubCategory:</strong> {f.subCategory.name}</p>
+                        <p><strong>SubCategory:</strong> {f.productType.name}</p>
                         <div className="mt-2 flex gap-2">
                             <button onClick={() => navigate(`/fittype/edit/${f.id}`)} className="text-sm underline">
                                 Edit

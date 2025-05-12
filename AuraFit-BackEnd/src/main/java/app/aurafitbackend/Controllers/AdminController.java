@@ -1,7 +1,7 @@
 package app.aurafitbackend.Controllers;
 
 import app.aurafitbackend.Beans.*;
-import app.aurafitbackend.DTOS.AuthDTOS.UserDTO;
+import app.aurafitbackend.DTOS.DisplayDTOS.UserDTO;
 import app.aurafitbackend.Services.*;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -4,12 +4,12 @@ export class Size {
 
     id: number
     size: string
-    subCategory: ProductType
+    productType: ProductType
 
-    constructor(id: number, size: string, subCategory: ProductType) {
+    constructor(id: number, size: string, productType: ProductType) {
         this.id = id
         this.size = size
-        this.subCategory = subCategory
+        this.productType = productType
     }
 
 }

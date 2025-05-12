@@ -1,4 +1,4 @@
-package app.aurafitbackend.DTOS.AuthDTOS;
+package app.aurafitbackend.DTOS.DisplayDTOS;
 
 import app.aurafitbackend.Enums.Role;
 import lombok.AllArgsConstructor;
@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class UserDTO {
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;

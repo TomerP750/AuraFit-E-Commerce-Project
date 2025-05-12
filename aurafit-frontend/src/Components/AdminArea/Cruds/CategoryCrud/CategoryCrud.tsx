@@ -23,12 +23,12 @@ export function CategoryCrud(): JSX.Element {
     }, []);
 
     const deleteCategory = (id: number) => {
-        // if (confirm("Delete category?")) {
-        //     adminService
-        //         .deleteCategory(id)
-        //         .then(() => setCategories(prev => prev.filter(c => c.id !== id)))
-        //         .catch(err => toast.error(err.response?.data || err.message));
-        // }
+        if (confirm("Delete category?")) {
+            adminService
+                .deleteCategory(id)
+                .then(() => setCategories(prev => prev.filter(c => c.id !== id)))
+                .catch(err => toast.error(err.response?.data || err.message));
+        }
     };
 
     if (formOpen) {

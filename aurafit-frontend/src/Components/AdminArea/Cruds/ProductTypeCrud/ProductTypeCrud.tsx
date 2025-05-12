@@ -21,12 +21,12 @@ export function ProductTypeCrud(): JSX.Element {
     }, []);
 
     const deleteProductType = (id: number) => {
-        // if (confirm("Delete product type?")) {
-        //     adminService
-        //         .deleteProductType(id)
-        //         .then(() => setTypes(prev => prev.filter(t => t.id !== id)))
-        //         .catch(err => toast.error(err.response?.data || err.message));
-        // }
+        if (confirm("Delete product type?")) {
+            adminService
+                .deleteProductType(id)
+                .then(() => setTypes(prev => prev.filter(t => t.id !== id)))
+                .catch(err => toast.error(err.response?.data || err.message));
+        }
     };
 
     if (formOpen) {

@@ -12,8 +12,28 @@ class AdminService {
         return (await axios.get<Category[]>("http://localhost:8080/api/admin/category/all")).data
     }
 
+    async createCategory(category: Category) {
+        return (await axios.post(`http://localhost:8080/api/category/add`, category)).data
+    }
+
+    async deleteCategory(id: number) {
+        return (await axios.delete(`http://localhost:8080/api/category/delete/${id}`)).data
+    }
+
     async allProductTypes() {
         return (await axios.get<ProductType[]>("http://localhost:8080/api/admin/producttype/all")).data
+    }
+
+    async createProductType(category: ProductType) {
+        return (await axios.post(`http://localhost:8080/api/producttype/create`, category)).data
+    }
+
+    async deleteProductType(id: number) {
+        return (await axios.delete(`http://localhost:8080/api/producttype/delete/${id}`)).data
+    }
+
+    async updateProductType(productType: ProductType) {
+        return (await axios.put("http://localhost:8080/api/producttype/update", productType)).data
     }
 
     async allMaterials() {

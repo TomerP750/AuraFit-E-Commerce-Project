@@ -16,10 +16,11 @@ export function SizeCrud(): JSX.Element {
     const navigate = useNavigate();
 
     useEffect(() => {
-        adminService
-            .allSizes()
-            .then(setSizes)
-            .catch(err => toast.error(err.response?.data || err.message));
+        adminService.allSizes()
+            .then(res => setSizes(res))
+            .catch(err => {
+                toast.error(err.response?.data || err.message)
+            });
     }, []);
 
     const deleteSize = (id: number) => {
@@ -70,7 +71,7 @@ export function SizeCrud(): JSX.Element {
                     <div key={s.id} className="grid grid-cols-4 place-items-center py-2 border-b">
                         <span>{s.id}</span>
                         <span>{s.size}</span>
-                        <span>{s.subCategory.name}</span>
+                        <span>{s.productType.name}</span>
                         <div className="flex gap-2">
                             <FaEdit className="cursor-pointer" onClick={() => navigate(`/size/edit/${s.id}`)} />
                             <MdDeleteForever className="cursor-pointer" onClick={() => deleteSize(s.id)} />
@@ -85,7 +86,7 @@ export function SizeCrud(): JSX.Element {
                     <div key={s.id} className="p-4 border rounded shadow-sm">
                         <p><strong>Id:</strong> {s.id}</p>
                         <p><strong>Size:</strong> {s.size}</p>
-                        <p><strong>SubCategory:</strong> {s.subCategory.name}</p>
+                        <p><strong>SubCategory:</strong> {s.productType.name}</p>
                         <div className="mt-2 flex gap-2">
                             <button onClick={() => navigate(`/size/edit/${s.id}`)} className="text-sm underline">
                                 Edit

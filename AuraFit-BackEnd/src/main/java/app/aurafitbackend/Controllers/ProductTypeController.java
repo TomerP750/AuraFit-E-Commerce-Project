@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/subcategory")
+@RequestMapping("/api/producttype")
 @AllArgsConstructor
 public class ProductTypeController {
 
@@ -15,20 +15,20 @@ public class ProductTypeController {
 
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/add")
-    public void addSubCategory(@RequestBody ProductType productType) {
+    @PostMapping("/create")
+    public void createProductType(@RequestBody ProductType productType) {
         productTypeService.addProductType(productType);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
-    public void deleteSubCategory(@PathVariable Long id) {
+    public void deleteProductType(@PathVariable Long id) {
         productTypeService.deleteProductType(id);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update")
-    public void updateSubCategory(@RequestBody ProductType productType) {
+    public void updateProductType(@RequestBody ProductType productType) {
         productTypeService.updateProductType(productType);
     }
 
