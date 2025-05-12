@@ -1,13 +1,18 @@
 import "./TitlePriceReviews.css";
 import {FaStar} from "react-icons/fa";
 import {JSX} from "react";
+import {ProductVariant} from "../../../../Models/ProductVariant.ts";
 
-export function TitlePriceReviews(): JSX.Element {
+
+interface TitlePriceReviewsProps {
+    variant: ProductVariant;
+}
+export function TitlePriceReviews({variant}: TitlePriceReviewsProps): JSX.Element {
     return (
         <div className="w-full flex justify-between flex-col gap-1">
             <div className="flex justify-between">
-                <p className="text-3xl">Basic Tee</p>
-                <p className={"text-3xl"}>$35</p>
+                <p className="text-3xl">{variant.product.name}</p>
+                <p className={"text-3xl"}>${variant.onSale ? variant.salePrice : variant.basePrice}</p>
             </div>
 
             {/*    Reviews*/}

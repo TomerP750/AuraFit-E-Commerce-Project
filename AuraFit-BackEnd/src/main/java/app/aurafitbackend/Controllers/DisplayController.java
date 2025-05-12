@@ -1,5 +1,6 @@
 package app.aurafitbackend.Controllers;
 
+import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.Beans.Review;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
 import app.aurafitbackend.Services.*;
@@ -29,10 +30,15 @@ public class DisplayController {
         return productVariantService.oneProductVariant(id);
     }
 
-//    @GetMapping("/men/clothing")
-//    public List<ProductVariantDTO> menClothing() {
-//        return productVariantService.getAllMensClothing();
-//    }
+    @GetMapping("/men/clothing")
+    public List<ProductVariant> menClothing() {
+        return productVariantService.getAllMensClothing();
+    }
+
+    @GetMapping("/variant/{id}")
+    public ProductVariant oneVariant(@PathVariable Long id) {
+        return productVariantService.getProductVariant(id);
+    }
 //
 //    @GetMapping("/women/clothing")
 //    public List<ProductVariantDTO> womenClothing() {

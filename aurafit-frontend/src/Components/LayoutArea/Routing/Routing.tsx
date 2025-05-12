@@ -32,7 +32,7 @@ export function Routing(): JSX.Element {
                     <Route path={"/cart"} element={<CartPage/>}/>
                     <Route path={"/login"} element={<Login/>}/>
                     <Route path={"/register"} element={<Register/>}/>
-                    <Route path={"/product"} element={<ProductPage/>}/>
+                    <Route path={"/product/:id"} element={<ProductPage/>}/>
                     <Route path={"/men"} element={<Men/>}/>
                     <Route path={"/women"} element={<Women/>}/>
                     <Route path={"/accessories"} element={<Accessories/>}/>

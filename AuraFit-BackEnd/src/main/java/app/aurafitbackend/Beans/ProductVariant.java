@@ -61,7 +61,7 @@ public class ProductVariant {
     private List<ProductVariantImage> productImages;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
+//    @JsonBackReference
     private Product product;
 
     @CreatedDate

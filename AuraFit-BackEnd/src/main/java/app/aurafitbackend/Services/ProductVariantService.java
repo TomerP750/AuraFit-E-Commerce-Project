@@ -8,6 +8,7 @@ import app.aurafitbackend.DTOS.CreateDTOS.ProductVariantCreateDto;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
 import app.aurafitbackend.Enums.Gender;
 import app.aurafitbackend.Exceptions.NotExistsException;
+import app.aurafitbackend.Repositories.CategoryRepository;
 import app.aurafitbackend.Repositories.ProductRepository;
 import app.aurafitbackend.Repositories.ProductVariantRepository;
 import app.aurafitbackend.Repositories.ReviewRepository;
@@ -30,6 +31,7 @@ public class ProductVariantService {
     private final ProductVariantRepository productVariantRepository;
     private final ReviewRepository reviewRepository;
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
 
     public List<ProductVariant> getAllProductVariants() {
@@ -81,22 +83,22 @@ public class ProductVariantService {
 
 
 //    ------------ TEST THESE METHODS AREA
-//    public List<ProductVariantDTO> getAllMensClothing() {
-//
-//
-//        List<Product> allMenClothingProducts = productRepository.findByGenderAndCategory(Gender.MEN, Category.CLOTHING);
-//        List<ProductVariantDTO> menMerch = new ArrayList<>();
-//        // LA LAKERS SHIRT - get all variants like purple and yellow
-//        // MIAMI HEAT - red and white
-//
-//        for (Product product : allMenClothingProducts) {
-//            for (ProductVariant variant : product.getVariants()) {
-//                menMerch.add(EntityDTOMapper.variantToDto(variant));
-//            }
-//        }
-//
-//        return menMerch;
-//    }
+    public List<ProductVariant> getAllMensClothing() {
+        Category category = categoryRepository.findByName("Clothing");
+        List<Product> allMenClothingProducts = productRepository.findByGenderAndCategory(Gender.MEN,category);
+        List<ProductVariant> menMerch = new ArrayList<>();
+        // LA LAKERS SHIRT - get all variants like purple and yellow
+        // MIAMI HEAT - red and white
+
+        for (Product product : allMenClothingProducts) {
+            for (ProductVariant variant : product.getVariants()) {
+                menMerch.add(variant);
+            }
+        }
+
+        return menMerch;
+
+    }
 //
 //    public List<ProductVariantDTO> getAllWomensClothing() {
 //        List<Product> allWomenClothingProducts = productRepository.findByGenderAndCategory(Gender.WOMEN, Category.CLOTHING);

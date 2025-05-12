@@ -1,13 +1,15 @@
 import "./Description.css";
 import {JSX} from "react";
+import {ProductVariant} from "../../../../Models/ProductVariant.ts";
 
-export function Description(): JSX.Element {
+interface DescriptionProps {
+    variant: ProductVariant;
+}
+export function Description({variant}: DescriptionProps): JSX.Element {
     return (
         <div className="flex flex-col gap-2">
             <p>Description</p>
-            <p className={"text-gray-500"}>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Accusamus adipisci aperiam eum expedita, explicabo fugit id laudantium magnam molestiae
-                nulla, quaerat quam quis, recusandae repellat sit sunt tempora temporibus vel.</p>
+            <p className={"text-gray-500"}>{variant.product.description}</p>
         </div>
     );
 }

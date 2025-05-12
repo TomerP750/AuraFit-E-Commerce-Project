@@ -1,7 +1,11 @@
 import "./Sizes.css";
 import {JSX} from "react";
+import {ProductVariant} from "../../../../Models/ProductVariant.ts";
 
-export function Sizes(): JSX.Element {
+interface SizesProps {
+    variant: ProductVariant;
+}
+export function Sizes({variant}: SizesProps): JSX.Element {
     return (
         <div className="w-full flex flex-col gap-4">
             <div className="flex items-center justify-between">
@@ -14,6 +18,8 @@ export function Sizes(): JSX.Element {
                 <button className={"border border-gray-300 px-5 py-1 cursor-pointer"}>L</button>
                 <button className={"border border-gray-300 px-5 py-1 cursor-pointer"}>XL</button>
                 <button className={"border border-gray-300 px-5 py-1 cursor-pointer"}>XXL</button>
+            {/*        TODO give all the sizes based on the product type maybe make a service method*/}
+
             </div>
         </div>
     );

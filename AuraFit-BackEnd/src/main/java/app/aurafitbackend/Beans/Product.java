@@ -1,6 +1,7 @@
 package app.aurafitbackend.Beans;
 
 import app.aurafitbackend.Enums.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,6 +20,7 @@ import java.util.List;
 @Data
 @Builder
 @EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties({"variants", "hibernateLazyInitializer", "handler"})
 
 /**
  * i use it to generalize ProductVariants so i dont have duplicates with description, categories, etc..
@@ -54,7 +56,7 @@ public class Product {
     private Boolean onSale;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+//    @JsonManagedReference
     private List<ProductVariant> variants = new ArrayList<>();
 
     @CreatedDate

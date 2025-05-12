@@ -1,6 +1,6 @@
 import "./ProductPage.css";
 import {JSX, useEffect, useState} from "react";
-import {NavLink} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import {TitlePriceReviews} from "../TitlePriceReviews/TitlePriceReviews.tsx";
 import {Colors} from "../Colors/Colors.tsx";
 import {Sizes} from "../Sizes/Sizes.tsx";
@@ -11,27 +11,45 @@ import {Images} from "../Images/Images.tsx";
 import {ProductReviews} from "../../ProductReviews/ProductReviews.tsx";
 import adminService from "../../../../Services/AdminService.ts";
 import {Product} from "../../../../Models/Product.ts";
+import {toast} from "react-toastify";
+import {ProductVariant} from "../../../../Models/ProductVariant.ts";
+import displayService from "../../../../Services/DisplayService.ts";
 
 export function ProductPage(): JSX.Element {
 
     // const [addedToWishlist, setAddedToWishlist] = useState(false);
-    const [product, setProduct] = useState<Product>();
+    const [variant, setVariant] = useState<ProductVariant>();
     const [addedToWishlist, setAddedToWishlist] = useState(false);
 
-    // useEffect(() => {
-    //     adminService
-    // })
+    const params = useParams();
+    const id = +params.id!;
+
+
+    useEffect(() => {
+        displayService.getOneProductVariant(id)
+            .then(res => {
+                setVariant(res)
+            })
+            .catch(err => {
+                toast.error(err.response.data)
+            });
+
+    },[id])
+
+    if (!variant) {
+        return <div className="text-center py-20">Loading product…</div>;
+    }
 
     return (
-        <div className="w-full flex flex-col items-center gap-20">
+        <div className="w-full flex flex-col items-center gap-20 py-40">
             <div className="w-4/5 flex flex-col items-start mt-6 gap-5">
                 {/* navigation links */}
                 <div className="flex justify-start gap-5">
+                    <NavLink to={"/"}>Home</NavLink>
+                    <p className="text-gray-400">/</p>
                     <NavLink to={"/"}>Men</NavLink>
                     <p className="text-gray-400">/</p>
-                    <NavLink to={"/"}>Clothing</NavLink>
-                    <p className="text-gray-400">/</p>
-                    <NavLink to={"/"}>T-Shirt</NavLink>
+                    <NavLink to={"/"}>{variant.product.name}</NavLink>
                 </div>
 
                 {/* Main section */}
@@ -43,15 +61,15 @@ export function ProductPage(): JSX.Element {
                     {/* Right section */}
                     <aside className="flex-1 flex flex-col items-start gap-20">
                         <div className="w-full flex flex-col gap-5">
-                            <TitlePriceReviews/>
-                            <Colors/>
-                            <Sizes/>
+                            <TitlePriceReviews variant={variant} />
+                            <Colors variant={variant}/>
+                            <Sizes variant={variant}/>
                             <Buttons onWishlistClick={() => setAddedToWishlist(!addedToWishlist)}
                                      isWishlisted={addedToWishlist}/>
                         </div>
 
                         <div className="flex flex-col w-full gap-10">
-                            <Description/>
+                            <Description variant={variant} />
                             <FabricAndCare/>
                         </div>
                     </aside>
@@ -60,7 +78,7 @@ export function ProductPage(): JSX.Element {
             {/*Reviews Section*/}
             <section className={"flex flex-col w-full items-center gap-20"}>
                 <p className={"text-4xl font-medium"}>Reviews</p>
-                <ProductReviews product={product} />
+                {/*<ProductReviews product={variant!.product} />*/}
             </section>
         </div>
     );
