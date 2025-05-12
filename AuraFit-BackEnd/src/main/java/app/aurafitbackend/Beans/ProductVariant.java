@@ -35,7 +35,7 @@ public class ProductVariant {
     private Color color;
 
     @Column(nullable = false)
-    @OneToMany(mappedBy = "productVariant")
+    @OneToMany
     private Set<Material> material;
 
     @Column(unique = true ,nullable=false)

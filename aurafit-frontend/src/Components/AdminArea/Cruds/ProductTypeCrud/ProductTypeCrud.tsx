@@ -7,6 +7,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { BiPlus } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import {CreateProductTypeForm} from "../../CreateForms/CreateProductTypeForm/CreateProductTypeForm.tsx";
 
 export function ProductTypeCrud(): JSX.Element {
     const [types, setTypes] = useState<ProductType[]>([]);
@@ -35,7 +36,7 @@ export function ProductTypeCrud(): JSX.Element {
                 <button onClick={() => setFormOpen(false)} className="mb-4 text-sm text-gray-700">
                     ← Back to list
                 </button>
-                {/*<CreateProductTypeForm onSave={() => setFormOpen(false)} setFormOpen={() => setFormOpen(false)} />*/}
+                <CreateProductTypeForm onSave={() => setFormOpen(false)} setFormOpen={() => setFormOpen(false)} />
             </div>
         );
     }

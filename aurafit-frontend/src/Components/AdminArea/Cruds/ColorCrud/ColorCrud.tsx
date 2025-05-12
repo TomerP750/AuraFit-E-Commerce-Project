@@ -7,6 +7,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { BiPlus } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import {CreateColorForm} from "../../CreateForms/CreateColorForm/CreateColorForm.tsx";
 
 export function ColorCrud(): JSX.Element {
     const [colors, setColors] = useState<Color[]>([]);
@@ -21,12 +22,12 @@ export function ColorCrud(): JSX.Element {
     }, []);
 
     const deleteColor = (id: number) => {
-        // if (confirm("Delete color?")) {
-        //     adminService
-        //         .deleteColor(id)
-        //         .then(() => setColors(prev => prev.filter(c => c.id !== id)))
-        //         .catch(err => toast.error(err.response?.data || err.message));
-        // }
+        if (confirm("Delete color?")) {
+            adminService
+                .deleteColor(id)
+                .then(() => setColors(prev => prev.filter(c => c.id !== id)))
+                .catch(err => toast.error(err.response?.data || err.message));
+        }
     };
 
     if (formOpen) {
@@ -35,7 +36,7 @@ export function ColorCrud(): JSX.Element {
                 <button onClick={() => setFormOpen(false)} className="mb-4 text-sm text-gray-700">
                     ← Back to list
                 </button>
-                {/*<CreateColorForm onSave={() => setFormOpen(false)} setFormOpen={() => setFormOpen(false)} />*/}
+                <CreateColorForm onSave={() => setFormOpen(false)} setFormOpen={() => setFormOpen(false)} />
             </div>
         );
     }

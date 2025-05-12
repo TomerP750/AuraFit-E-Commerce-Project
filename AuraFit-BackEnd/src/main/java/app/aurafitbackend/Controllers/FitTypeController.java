@@ -16,7 +16,7 @@ public class FitTypeController {
     private final FitTypeService fitTypeService;
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/add")
+    @PostMapping("/create")
     public void addFitType(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody FitType fitType) {
         fitTypeService.addFitType(fitType);
     }

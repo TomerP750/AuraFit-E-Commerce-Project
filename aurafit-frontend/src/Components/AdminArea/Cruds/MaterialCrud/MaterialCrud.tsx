@@ -15,9 +15,8 @@ export function MaterialCrud(): JSX.Element {
     const navigate = useNavigate();
 
     useEffect(() => {
-        adminService
-            .allMaterials()
-            .then(setMaterials)
+        adminService.allMaterials()
+            .then(res => setMaterials(res))
             .catch(err => toast.error(err.response?.data || err.message));
     }, []);
 
@@ -41,7 +40,7 @@ export function MaterialCrud(): JSX.Element {
         );
     }
 
-    const fields: string[] = ["Id", "Name", "Material Percent", "Product Variant", "Actions"];
+    const fields: string[] = ["Id", "Name", "Material Percent", "Actions"];
 
     return (
         <div className="p-4 w-full">
@@ -68,7 +67,6 @@ export function MaterialCrud(): JSX.Element {
                         <span>{m.id}</span>
                         <span>{m.name}</span>
                         <span>{m.materialPercent}</span>
-                        <span>{m.productVariant.id}</span>
                         <div className="flex gap-2">
                             <FaEdit className="cursor-pointer" onClick={() => navigate(`/material/edit/${m.id}`)} />
                             <MdDeleteForever className="cursor-pointer" onClick={() => deleteMaterial(m.id)} />
@@ -83,7 +81,6 @@ export function MaterialCrud(): JSX.Element {
                         <p><strong>Id:</strong> {m.id}</p>
                         <p><strong>Name:</strong> {m.name}</p>
                         <p><strong>Material Percent:</strong> {m.materialPercent}</p>
-                        <p><strong>Product Variant Id:</strong> {m.productVariant.id}</p>
                         <div className="mt-2 flex gap-2">
                             <button onClick={() => navigate(`/material/edit/${m.id}`)} className="text-sm underline">
                                 Edit

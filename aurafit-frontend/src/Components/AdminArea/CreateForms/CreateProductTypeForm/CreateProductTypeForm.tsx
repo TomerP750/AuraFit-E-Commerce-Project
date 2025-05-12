@@ -1,15 +1,15 @@
-import "./CreateSubCategoryForm.css";
+import "./CreateProductTypeForm.css";
 import {JSX} from "react";
 import {useForm} from "react-hook-form";
 import adminService from "../../../../Services/AdminService.ts";
 import {toast} from "react-toastify";
 import {ProductType} from "../../../../Models/ProductType.ts";
 
-export function CreateSubCategoryForm(): JSX.Element {
+export function CreateProductTypeForm(): JSX.Element {
     const {register, handleSubmit, formState: {errors}} = useForm<ProductType>();
 
     const onSubmit = (data: ProductType) => {
-        adminService.createMaterial(data)
+        adminService.createProductType(data)
             .then(() => toast.success("Created successfully"))
             .catch(error => {toast.error(error.response?.data)})
     }
@@ -34,7 +34,7 @@ export function CreateSubCategoryForm(): JSX.Element {
                     type="submit"
                     className="px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 cursor-pointer"
                 >
-                    Create Sub Category
+                    Create Product Type
                 </button>
             </div>
 

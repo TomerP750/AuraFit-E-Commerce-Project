@@ -12,6 +12,7 @@ export type PanelKey =
     | "productTypeCrud"
     | "userCrud"
     | "promotionCrud"
+    | "colorCrud"
 
 interface AdminPanelSidebarProps {
     active: PanelKey;
@@ -37,6 +38,8 @@ export function AdminPanelSidebar({ active, onSelect }: AdminPanelSidebarProps):
                     Product Types
                 </li>
                 <li className={itemClass("sizeCrud")} onClick={() => onSelect("sizeCrud")}>Sizes</li>
+                <li className={itemClass("colorCrud")} onClick={() => onSelect("colorCrud")}>Colors</li>
+
                 <li className={itemClass("materialCrud")} onClick={() => onSelect("materialCrud")}>Materials
                 </li>
                 <li className={itemClass("fitTypeCrud")} onClick={() => onSelect("fitTypeCrud")}>Fit Types

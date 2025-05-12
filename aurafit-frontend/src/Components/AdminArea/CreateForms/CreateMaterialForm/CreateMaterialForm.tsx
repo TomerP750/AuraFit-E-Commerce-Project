@@ -32,7 +32,7 @@ export function CreateMaterialForm(): JSX.Element {
 
             <div>
                 <label className="block text-sm font-medium">Percent</label>
-                <input type={"text"}
+                <input type={"number"}
                     {...register("materialPercent", {required: 'Required'})}
                     className="mt-1 w-full border rounded p-2 resize-none"
                 />

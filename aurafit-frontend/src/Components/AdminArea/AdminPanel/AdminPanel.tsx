@@ -17,10 +17,11 @@ import {SizeCrud} from "../Cruds/SizeCrud/SizeCrud.tsx";
 import {CategoryCrud} from "../Cruds/CategoryCrud/CategoryCrud.tsx";
 import {UserCrud} from "../Cruds/UserCrud/UserCrud.tsx";
 import {PromotionCrud} from "../Cruds/PromotionCrud/PromotionCrud.tsx";
+import {ColorCrud} from "../Cruds/ColorCrud/ColorCrud.tsx";
 
 export function AdminPanel(): JSX.Element {
 
-    const [activePanel, setActivePanel] = useState<"promotionCrud" | "userCrud" | "productCrud" | "variantCrud" | "categoryCrud" | "sizeCrud" | "materialCrud" | "productTypeCrud" | "fitTypeCrud">("productCrud");
+    const [activePanel, setActivePanel] = useState<"colorCrud" | "promotionCrud" | "userCrud" | "productCrud" | "variantCrud" | "categoryCrud" | "sizeCrud" | "materialCrud" | "productTypeCrud" | "fitTypeCrud">("productCrud");
 
     const renderContent = () => {
         switch (activePanel) {
@@ -42,6 +43,8 @@ export function AdminPanel(): JSX.Element {
                 return <UserCrud/>;
             case "promotionCrud":
                 return <PromotionCrud/>;
+            case "colorCrud":
+                return <ColorCrud/>;
             default:
                 return null;
         }

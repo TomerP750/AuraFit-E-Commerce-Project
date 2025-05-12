@@ -23,12 +23,12 @@ export function FitTypeCrud(): JSX.Element {
     }, []);
 
     const deleteFitType = (id: number) => {
-        // if (confirm("Delete fit type?")) {
-        //     adminService
-        //         .deleteFitType(id)
-        //         .then(() => setFitTypes(prev => prev.filter(f => f.id !== id)))
-        //         .catch(err => toast.error(err.response?.data || err.message));
-        // }
+        if (confirm("Delete fit type?")) {
+            adminService
+                .deleteFitType(id)
+                .then(() => setFitTypes(prev => prev.filter(f => f.id !== id)))
+                .catch(err => toast.error(err.response?.data || err.message));
+        }
     };
 
     if (formOpen) {

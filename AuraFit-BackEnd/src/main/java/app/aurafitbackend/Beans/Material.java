@@ -20,7 +20,6 @@ public class Material { // Cotton 80% Nylon 20%
     private String name;
     private Integer materialPercent;
 
-    @ManyToOne
-    private ProductVariant productVariant;
+
 
 }

@@ -13,8 +13,8 @@ public class SizeController {
     private final SizeService sizeService;
 
 
-    @PostMapping("/add")
-    public void addSize(@RequestBody Size size) {
+    @PostMapping("/create")
+    public void createSize(@RequestBody Size size) {
         sizeService.addSize(size);
     }
 
@@ -22,5 +22,7 @@ public class SizeController {
     public void deleteSize(@PathVariable Long id) {
         sizeService.deleteSize(id);
     }
+
+
 
 }
