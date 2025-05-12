@@ -20,7 +20,9 @@ export function ProductReviews({product}: ProductReviewsProps): JSX.Element {
     const [reviewPostOpen, setReviewPostOpen] = useState(false);
     const user = useUserSelector((state) => state.authSlice.user);
 
-
+    if (!product) {
+        return <div className="text-center py-20">Loading product…</div>;
+    }
 
     return (
         <div className="min-h-screen flex justify-center w-full">
@@ -29,9 +31,10 @@ export function ProductReviews({product}: ProductReviewsProps): JSX.Element {
                 <ReviewsList onPostClick={()=>setReviewPostOpen(true)} product={product} />
                 {/*right section*/}
                 <div className={"flex flex-col w-full gap-30"}>
-                    {/*{product.reviews.length === 0 ? <span>No Reviews Yet</span>*/}
-                    {/*    : product.reviews.map(review => <ReviewCard review={review} key={review.id}/>)}*/}
                     <PostReviewForm product={product} />
+                    {product.reviews.length === 0 ? <span>No Reviews Yet</span>
+                        : product.reviews.map(review => <ReviewCard review={review} key={review.id}/>)}
+
 
                 </div>
             </div>

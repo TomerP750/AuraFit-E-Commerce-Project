@@ -15,7 +15,7 @@ export function FullNavbar(): JSX.Element {
         "/men", "/women", "/accessories",
         "/admin/panel",
         "/cart", "/wishlist",
-        "/product"
+        `${pathname.startsWith("/product")}`
     ];
 
     const isExcluded =

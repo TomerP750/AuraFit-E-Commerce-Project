@@ -1,6 +1,7 @@
 package app.aurafitbackend.Beans;
 
 import app.aurafitbackend.Enums.Rating;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,7 @@ public class Review {
     @Column(updatable = false)
     private LocalDateTime reviewDate;
     @ManyToOne
+    @JsonBackReference
     private Product product;
 
 }

@@ -33,6 +33,7 @@ export function ProductPage(): JSX.Element {
             .catch(err => {
                 toast.error(err.response.data)
             });
+        console.log(variant);
 
     },[id])
 
@@ -49,7 +50,7 @@ export function ProductPage(): JSX.Element {
                     <p className="text-gray-400">/</p>
                     <NavLink to={"/"}>Men</NavLink>
                     <p className="text-gray-400">/</p>
-                    <NavLink to={"/"}>{variant.product.name}</NavLink>
+                    <p>{variant.product.name}</p>
                 </div>
 
                 {/* Main section */}

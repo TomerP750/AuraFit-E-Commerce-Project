@@ -66,6 +66,7 @@ public class Product {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "product")
+    @JsonManagedReference
     private List<Review> reviews = new ArrayList<>();
 
 }
