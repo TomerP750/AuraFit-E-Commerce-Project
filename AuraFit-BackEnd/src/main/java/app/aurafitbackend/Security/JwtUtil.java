@@ -46,6 +46,7 @@ public class JwtUtil {
         User user = userRepository.findById(userId).orElseThrow(()->new NotExistsException("User not found"));
         return Jwts.builder()
                 .setSubject(String.valueOf(userId))
+                .claim("id", user.getId())
                 .claim("firstName", user.getFirstName())
                 .claim("lastName", user.getLastName())
                 .claim("email", user.getEmail())

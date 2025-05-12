@@ -2,15 +2,23 @@ package app.aurafitbackend.Utils;
 
 import app.aurafitbackend.Beans.Review;
 import app.aurafitbackend.DTOS.PostReviewRequestDTO;
+import app.aurafitbackend.DTOS.UpdateReviewDTO;
 import app.aurafitbackend.Exceptions.InvalidInputException;
+import app.aurafitbackend.Repositories.ReviewRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 
-@AllArgsConstructor
 public class ReviewValidator {
+
+
+    private static ReviewRepository reviewRepository;
+    private ReviewValidator(ReviewRepository reviewRepository) {
+        ReviewValidator.reviewRepository = reviewRepository;
+    }
+
     public static boolean isValidReview(PostReviewRequestDTO review) {
         LocalDateTime now = LocalDateTime.now();
         if (review.getContent().isEmpty()) {
@@ -22,6 +30,13 @@ public class ReviewValidator {
 //        if (review.getReviewDate().isAfter(now)) {
 //            return false;
 //        }
+        return true;
+    }
+
+    public static boolean isValidContent(UpdateReviewDTO updatedReview) {
+        if (updatedReview.getContent().isEmpty()) {
+            throw new InvalidInputException("Content should not be empty");
+        }
         return true;
     }
 }

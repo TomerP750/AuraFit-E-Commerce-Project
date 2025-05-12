@@ -2,6 +2,7 @@ package app.aurafitbackend.Controllers;
 
 import app.aurafitbackend.Beans.Review;
 import app.aurafitbackend.DTOS.PostReviewRequestDTO;
+import app.aurafitbackend.DTOS.UpdateReviewDTO;
 import app.aurafitbackend.Security.CustomUserDetails;
 import app.aurafitbackend.Services.ReviewService;
 import lombok.AllArgsConstructor;
@@ -22,8 +23,8 @@ public class ReviewController {
     }
 
     @PutMapping("/update")
-    public void updateReview() {
-
+    public void updateReview(@RequestBody UpdateReviewDTO review) {
+        reviewService.updateReview(review);
     }
 
     @DeleteMapping("/delete/{id}")

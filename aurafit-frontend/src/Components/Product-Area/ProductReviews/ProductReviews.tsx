@@ -18,7 +18,8 @@ interface ProductReviewsProps {
 export function ProductReviews({product}: ProductReviewsProps): JSX.Element {
 
     const [reviewPostOpen, setReviewPostOpen] = useState(false);
-    const user = useUserSelector((state) => state.authSlice.user);
+
+
 
     if (!product) {
         return <div className="text-center py-20">Loading product…</div>;

@@ -3,6 +3,7 @@ package app.aurafitbackend.Services;
 import app.aurafitbackend.Beans.Review;
 import app.aurafitbackend.Beans.User;
 import app.aurafitbackend.DTOS.PostReviewRequestDTO;
+import app.aurafitbackend.DTOS.UpdateReviewDTO;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Exceptions.UnauthorizedException;
 import app.aurafitbackend.Repositories.ReviewRepository;
@@ -32,8 +33,13 @@ public class ReviewService {
         }
     }
 
-    public void updateReview() {
-
+    public void updateReview(UpdateReviewDTO updatedReview) {
+        Review review = reviewRepository.findById(updatedReview.getId()).orElseThrow(() -> new NotExistsException("Review not found"));
+        if (ReviewValidator.isValidContent(updatedReview)) {
+            review.setContent(updatedReview.getContent());
+            review.setRating(updatedReview.getRating());
+            reviewRepository.save(review);
+        }
     }
 
     public void deleteReview(Long userId ,Long reviewId) {
