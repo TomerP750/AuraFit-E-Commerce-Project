@@ -1,6 +1,7 @@
 package app.aurafitbackend.Controllers;
 
 import app.aurafitbackend.Beans.Review;
+import app.aurafitbackend.DTOS.PostReviewRequestDTO;
 import app.aurafitbackend.Security.CustomUserDetails;
 import app.aurafitbackend.Services.ReviewService;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @PostMapping("/post")
-    public void postReview(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody Review review) {
+    public void postReview(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody PostReviewRequestDTO review) {
         Long userId = userDetails.getUser().getId();
         reviewService.postReview(userId, review);
     }

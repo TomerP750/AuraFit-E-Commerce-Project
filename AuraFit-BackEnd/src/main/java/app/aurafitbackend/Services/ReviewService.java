@@ -2,6 +2,7 @@ package app.aurafitbackend.Services;
 
 import app.aurafitbackend.Beans.Review;
 import app.aurafitbackend.Beans.User;
+import app.aurafitbackend.DTOS.PostReviewRequestDTO;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Exceptions.UnauthorizedException;
 import app.aurafitbackend.Repositories.ReviewRepository;
@@ -18,11 +19,16 @@ public class ReviewService {
     private final UserRepository userRepository;
 
 
-    public void postReview(Long userId, Review review) {
+    public void postReview(Long userId, PostReviewRequestDTO review) {
         if (ReviewValidator.isValidReview(review)) {
+            Review newReview = Review.builder()
+                    .content(review.getContent())
+                    .rating(review.getRating())
+                    .product(review.getProduct())
+                    .build();
             User user = userRepository.findById(userId).orElseThrow(() -> new NotExistsException("User not found"));
-            review.setUser(user);
-            reviewRepository.save(review);
+            newReview.setUser(user);
+            reviewRepository.save(newReview);
         }
     }
 

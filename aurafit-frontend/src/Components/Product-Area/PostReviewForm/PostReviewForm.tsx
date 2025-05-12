@@ -1,52 +1,107 @@
 // PostReviewForm.tsx
-import {JSX, useState} from "react";
-import {FaStar} from "react-icons/fa";
-import {Rating} from "../../../Models/Enums/Rating.ts";
+import { JSX, useState } from "react";
+import { FaStar } from "react-icons/fa";
+import { Rating } from "../../../Models/Enums/Rating.ts";
+import { PostReviewRequestDTO } from "../../../Models/DTOS/PostReviewRequestDTO.ts";
+import reviewService from "../../../Services/ReviewService.ts";
+import { Product } from "../../../Models/Product.ts";
+import { toast } from "react-toastify";
 
 interface PostReviewFormProps {
+    product: Product;
     onCancel?: () => void;
 }
 
-export function PostReviewForm({onCancel}: PostReviewFormProps): JSX.Element {
-    const [rating, setRating] = useState<Rating>(null);
+export function PostReviewForm({ product, onCancel }: PostReviewFormProps): JSX.Element {
+    // Numeric rating (1-5)
+    const [rating, setRating] = useState<number>(0);
+    // Hover state for stars
     const [hoverRating, setHoverRating] = useState<number>(0);
+    // Review text
     const [text, setText] = useState<string>("");
 
-    const handleSubmit = () => {
+    // Handler for form submission
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (rating < 1 || rating > 5) {
+            toast.error("Please select a star rating before submitting.");
+            return;
+        }
 
+        // Map numeric rating to enum
+        let ratingEnum: Rating;
+        switch (rating) {
+            case 1:
+                ratingEnum = Rating.ONE;
+                break;
+            case 2:
+                ratingEnum = Rating.TWO;
+                break;
+            case 3:
+                ratingEnum = Rating.THREE;
+                break;
+            case 4:
+                ratingEnum = Rating.FOUR;
+                break;
+            case 5:
+                ratingEnum = Rating.FIVE;
+                break;
+            default:
+                ratingEnum = Rating.ONE;
+        }
+
+        // Create DTO and post
+        const reviewDto = new PostReviewRequestDTO(text, ratingEnum, product);
+        console.log(reviewDto);
+        reviewService
+            .postReview(reviewDto)
+            .then(() => {
+                toast.success("Review has been submitted!");
+                // Reset form
+                setRating(0);
+                setHoverRating(0);
+                setText("");
+                if (onCancel) onCancel();
+            })
+            .catch(err => {
+                console.error("Error posting review:", err);
+                toast.error(err.response?.data || err.message);
+            });
     };
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            className="w-full border p-4 rounded shadow space-y-4"
-        >
+        <form onSubmit={handleSubmit} className="w-full border p-4 rounded shadow space-y-4">
+            {/* Star Rating Input */}
             <div className="flex items-center gap-1">
                 {Array.from({ length: 5 }, (_, i) => {
                     const starIndex = i + 1;
-                    const fill = hoverRating ? starIndex <= hoverRating : starIndex <= rating;
+                    const fill = hoverRating
+                        ? starIndex <= hoverRating
+                        : starIndex <= rating;
                     return (
                         <FaStar
                             key={i}
                             size={24}
                             className={fill ? "text-yellow-500" : "text-gray-400"}
+                            style={{ cursor: "pointer" }}
                             onMouseEnter={() => setHoverRating(starIndex)}
                             onMouseLeave={() => setHoverRating(0)}
                             onClick={() => setRating(starIndex)}
-                            style={{ cursor: "pointer" }}
                         />
                     );
                 })}
             </div>
 
+            {/* Review Textarea */}
             <textarea
                 value={text}
-                onChange={(e) => setText(e.target.value)}
+                onChange={e => setText(e.target.value)}
                 rows={6}
                 placeholder="Write your review here..."
                 className="w-full border-b rounded p-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
 
+            {/* Buttons */}
             <div className="flex justify-end gap-2">
                 {onCancel && (
                     <button
@@ -60,7 +115,7 @@ export function PostReviewForm({onCancel}: PostReviewFormProps): JSX.Element {
                 <button
                     type="submit"
                     className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
-                    disabled={!rating}
+                    disabled={rating === 0}
                 >
                     Submit
                 </button>

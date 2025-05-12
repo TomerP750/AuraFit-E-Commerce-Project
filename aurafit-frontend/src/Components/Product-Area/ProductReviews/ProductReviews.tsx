@@ -31,7 +31,7 @@ export function ProductReviews({product}: ProductReviewsProps): JSX.Element {
                 <div className={"flex flex-col w-full gap-30"}>
                     {/*{product.reviews.length === 0 ? <span>No Reviews Yet</span>*/}
                     {/*    : product.reviews.map(review => <ReviewCard review={review} key={review.id}/>)}*/}
-                    <PostReviewForm />
+                    <PostReviewForm product={product} />
 
                 </div>
             </div>
