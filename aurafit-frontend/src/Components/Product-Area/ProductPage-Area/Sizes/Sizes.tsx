@@ -35,7 +35,7 @@ export function Sizes({sizes, availableSizes, selected, onSelect}: SizesProps): 
         <div className="flex flex-col gap-2">
             <div className="flex justify-between items-center">
                 <p className="font-medium">Size</p>
-                <p className="text-sm text-blue-600 cursor-pointer">
+                <p className="text-sm text-black cursor-pointer">
                     Sizing chart
                 </p>
             </div>

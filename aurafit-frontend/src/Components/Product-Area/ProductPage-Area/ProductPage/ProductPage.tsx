@@ -71,27 +71,46 @@ export function ProductPage(): JSX.Element {
     }
 
     const defaultVariant = variants[0];
-    const availableColors = Array.from(new Set(variants.map(v => v.color)));
+
+    const availableColors = variants.reduce<Color[]>((acc, v) => {
+        if (!acc.find(c => c.id === v.color.id)) {
+            acc.push(v.color);
+        }
+        return acc;
+    }, []);
+
+
     const availableSizes = selectedColor
-        ? variants.filter(v => v.color === selectedColor).map(v => v.size)
+        ? variants
+            .filter(v => v.color.id === selectedColor.id)
+            .map(v => v.size)
         : [];
+
 
     const currentVariant = (() => {
         if (selectedColor) {
-            const ofThatColor = variants.filter(v => v.color === selectedColor);
+            const colorGroup = variants.filter(v => v.color.id === selectedColor.id);
+            // if the user has also picked a size, find that one
             if (selectedSize) {
-                return ofThatColor.find(v => v.size === selectedSize)!;
+                return (
+                    colorGroup.find(v => v.size.id === selectedSize.id)
+                    // fallback to the first size of that color
+                    || colorGroup[0]
+                );
             }
-            return ofThatColor[0];
+            // no size yet → just grab the first variant of that color
+            return colorGroup[0];
         }
+        // no color yet → use your original default
         return defaultVariant;
     })();
 
     // Handlers
     const onColorSelect = (color: Color) => {
-        setSelectedColor(color);
-        const firstSize = variants.find(v => v.color === color)?.size;
-        setSelectedSize(firstSize || null);
+        const canon = variants.find(v => v.color.id === color.id)!.color;
+        setSelectedColor(canon);
+        // reset the size; DON’T auto-pick anything here
+        setSelectedSize(null);
     };
 
     const onSizeSelect = (size: Size) => {

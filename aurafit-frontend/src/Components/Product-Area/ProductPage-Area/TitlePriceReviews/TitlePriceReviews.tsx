@@ -11,34 +11,46 @@ interface TitlePriceReviewsProps {
 }
 export function TitlePriceReviews({variant}: TitlePriceReviewsProps): JSX.Element {
 
-    const [productAvg, setProductAvg] = useState<number>(3);
+    const reviews = variant.product.reviews ?? [];
+    const reviewCount = reviews.length;
 
-    useEffect(() => {
-        displayService.getProductReviewAvg(variant.product.id)
-            .then(res => setProductAvg(res))
-            .catch(err => toast.error(err));
-    }, [])
+    // hard-code a default avg, or compute from the reviews array:
+    // const productAvg = 3; // ← if you really want it always 3
+    const productAvg =
+        reviewCount > 0
+            ? Math.round(
+                reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount
+            )
+            : 0;
 
     return (
-        <div className="w-full flex justify-between flex-col gap-1">
-            <div className="flex justify-between">
-                <p className="text-3xl">{variant.product.name}</p>
-                <p className={"text-3xl"}>${variant.onSale ? variant.salePrice : variant.basePrice}</p>
+        <div className="w-full flex flex-col gap-2">
+            {/* Title & Price */}
+            <div className="flex justify-between items-center">
+                <p className="text-2xl font-semibold">{variant.product.name}</p>
+                <p className="text-2xl font-semibold">
+                    ${variant.onSale ? variant.salePrice : variant.basePrice}
+                </p>
             </div>
 
-            {/*    Reviews*/}
-            <div className="flex justify-between">
-                <div className="flex items-center gap-1">
-                    {Array.from({ length: 5 }, (_, i) => (
-                        <FaStar
-                            key={i}
-                            className={i < productAvg ? "text-yellow-500" : "text-gray-400"}
-                        />
-                    ))}
-                    {variant.product.reviews.length === 0 ? <p className={"ml-4 cursor-pointer hover:underline"}>No Reviews</p>
-                        : <p className={"ml-4 cursor-pointer hover:underline"}>See
-                            all {variant.product.reviews.length} reviews</p>}
-                </div>
+            {/* Stars & link */}
+            <div className="flex items-center gap-1">
+                {Array.from({ length: 5 }, (_, i) => (
+                    <FaStar
+                        key={i}
+                        className={`text-md ${i < productAvg ? "text-yellow-500" : "text-gray-400"}`}
+                    />
+                ))}
+
+                {reviewCount === 0 ? (
+                    <p className="ml-4 text-sm text-gray-600 cursor-pointer hover:underline">
+                        No Reviews
+                    </p>
+                ) : (
+                    <p className="ml-4 text-sm text-gray-600 cursor-pointer hover:underline">
+                        See all {reviewCount} review{reviewCount > 1 ? "s" : ""}
+                    </p>
+                )}
             </div>
         </div>
     );
