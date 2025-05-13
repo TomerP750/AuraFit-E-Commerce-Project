@@ -18,6 +18,7 @@ import java.util.List;
 @Builder
 public class ProductDTO {
     private Long id;
+    private String name;
     private String description;
     private Category category;
     private Gender gender;
@@ -25,5 +26,5 @@ public class ProductDTO {
     private boolean onSale;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private List<ProductVariantDTO> variants;
+//    private List<ProductVariantDTO> variants;
 }

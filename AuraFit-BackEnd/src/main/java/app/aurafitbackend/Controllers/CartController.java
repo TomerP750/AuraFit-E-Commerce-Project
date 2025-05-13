@@ -54,5 +54,16 @@ public class CartController {
         cartService.mergeGuestCartIntoUser(userId, cartToken);
     }
 
+    @GetMapping("/user/get")
+    public CartDTO getUserCart(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return cartService.getUserCartDto(userDetails.getUser().getId());
+    }
+
+    @GetMapping("/guest/get")
+    public CartDTO getGuestCart(@CookieValue("cart_token") String cartToken) {
+        return cartService.getGuestCartDto(cartToken);
+    }
+
+
 
 }

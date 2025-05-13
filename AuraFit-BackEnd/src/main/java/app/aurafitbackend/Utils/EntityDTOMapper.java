@@ -39,9 +39,9 @@ public final class EntityDTOMapper {
                 .onSale(product.getOnSale())
                 .createdAt(product.getCreatedAt())
                 .updatedAt(product.getUpdatedAt())
-                .variants(product.getVariants().stream()
-                        .map(EntityDTOMapper::variantToDto)
-                        .collect(Collectors.toList()))
+//                .variants(product.getVariants().stream()
+//                        .map(EntityDTOMapper::variantToDto)
+//                        .collect(Collectors.toList()))
                 .build();
     }
 
@@ -59,41 +59,86 @@ public final class EntityDTOMapper {
                 .build();
     }
 
+    public static ProductVariantDTO toVariantDTO(ProductVariant variant) {
+        if (variant == null) return null;
 
-    public static UserDTO userEntityToDto(User user) {
-        return UserDTO.builder()
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
-                .role(user.getRole())
+        // build a minimal ProductDTO without nesting variants
+        Product product = variant.getProduct();
+        ProductDTO productDto = ProductDTO.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .category(product.getCategory())
+                .gender(product.getGender())
+                .productType(product.getProductType())
+                .onSale(product.getOnSale())
+                .createdAt(product.getCreatedAt())
+                .updatedAt(product.getUpdatedAt())
+                // no .variants(...) here!
+                .build();
+
+        return ProductVariantDTO.builder()
+                .id(variant.getId())
+                .sku(variant.getSku())
+                .size(variant.getSize())
+                .color(variant.getColor())
+                .materials(variant.getMaterial())
+                .basePrice(variant.getBasePrice())
+                .salePrice(variant.getSalePrice())
+                .stockQuantity(variant.getStockQuantity())
+                .onSale(variant.getOnSale())
+                .product(productDto)
                 .build();
     }
 
 
-    public static CartItemDTO toDto(CartItem item) {
+
+    public static ProductDTO toProductDTO(Product product) {
+        if (product == null) return null;
+        return ProductDTO.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .category(product.getCategory())
+                .gender(product.getGender())
+                .productType(product.getProductType())
+                .onSale(product.getOnSale())
+                .createdAt(product.getCreatedAt())
+                .updatedAt(product.getUpdatedAt())
+//                .variants(product.getVariants().stream()
+//                        .map(EntityDTOMapper::toVariantDTO)
+//                        .collect(Collectors.toList()))
+                .build();
+    }
+
+
+    public static CartItemDTO toCartItemDTO(CartItem item, Long cartId) {
+        if (item == null) return null;
         return CartItemDTO.builder()
                 .id(item.getId())
-                .cartId(item.getCart().getId())
-                .unitPrice(item.getUnitPrice())
+                .variant(toVariantDTO(item.getVariant()))
                 .quantity(item.getQuantity())
-                .variantId(item.getVariant().getId())
+                .unitPrice(item.getUnitPrice())
+                .cartId(cartId)
                 .build();
     }
 
-    public static CartDTO toDto(Cart cart) {
+    public static CartDTO toCartDTO(Cart cart) {
+        if (cart == null) return null;
+
+        // 1) Map each CartItem → CartItemDTO, passing in the cart’s ID
+        List<CartItemDTO> items = cart.getItems().stream()
+                .map(item -> toCartItemDTO(item, cart.getId()))
+                .collect(Collectors.toList());
+
+        // 2) Build your CartDTO with that flat list of CartItemDTOs
         return CartDTO.builder()
                 .id(cart.getId())
-                .items(cart.getItems().stream()
-                        .map(EntityDTOMapper::toDto)      // or CartItemDTO::toDto if it's a static there
-                        .collect(Collectors.toList())
-                )
+                .items(items)
                 .shippingCost(cart.getShippingCost())
                 .totalPrice(cart.getTotalPrice())
                 .status(cart.getStatus())
-                .userId(cart.getUser() != null
-                        ? cart.getUser().getId()
-                        : null
-                )
+                .userId(cart.getUser() != null ? cart.getUser().getId() : null)
                 .cartToken(cart.getCartToken())
                 .build();
     }

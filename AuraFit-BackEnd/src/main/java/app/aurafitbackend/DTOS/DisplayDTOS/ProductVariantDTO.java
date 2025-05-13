@@ -23,5 +23,5 @@ public class ProductVariantDTO {
     private BigDecimal salePrice;
     private Integer stockQuantity;
     private boolean onSale;
-    private Product product;
+    private ProductDTO product;
 }

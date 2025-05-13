@@ -35,7 +35,20 @@ public class CartService {
     private final ShippingPolicy shippingPolicy;
 
 
-    private Cart getOrCreateUserCart(Long userId) {
+    @Transactional
+    public CartDTO getUserCartDto(Long userId) {
+        Cart cart = getOrCreateUserCart(userId);
+        return EntityDTOMapper.toCartDTO(cart);
+    }
+
+    @Transactional
+    public CartDTO getGuestCartDto(String token) {
+        Cart cart = getOrCreateGuestCart(token);
+        return EntityDTOMapper.toCartDTO(cart);
+    }
+
+
+    public Cart getOrCreateUserCart(Long userId) {
         User user = userRepository.getReferenceById(userId);
 
         return cartRepository.findByUserIdAndStatus(userId, Status.PENDING)
@@ -49,7 +62,7 @@ public class CartService {
                                 .build()));
     }
 
-    private Cart getOrCreateGuestCart(String token) {
+    public Cart getOrCreateGuestCart(String token) {
         return cartRepository.findByCartTokenAndStatus(token, Status.PENDING)
                 .orElseGet(() -> cartRepository.save(
                         Cart.builder()
@@ -134,7 +147,7 @@ public class CartService {
         }
 
         // finally map to DTO
-        return EntityDTOMapper.toDto(cart);
+        return EntityDTOMapper.toCartDTO(cart);
 
     }
 

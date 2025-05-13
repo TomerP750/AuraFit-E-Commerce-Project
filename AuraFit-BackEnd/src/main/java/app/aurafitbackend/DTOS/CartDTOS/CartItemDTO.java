@@ -1,5 +1,6 @@
 package app.aurafitbackend.DTOS.CartDTOS;
 
+import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
 public class CartItemDTO {
 
     private Long id;
-    private Long variantId;
+    private ProductVariantDTO variant;
     private Integer quantity;
     private BigDecimal unitPrice;
     private Long cartId;

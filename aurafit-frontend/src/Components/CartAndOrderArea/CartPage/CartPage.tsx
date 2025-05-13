@@ -1,24 +1,34 @@
 import "./CartPage.css";
-import {JSX, useState} from "react";
-import {Cart} from "../../../Models/Cart.ts";
+import {JSX, useEffect, useState} from "react";
 import {CartItemCard} from "../CartItemCard/CartItemCard.tsx";
 import {useNavigate} from "react-router-dom";
 import {BiCart} from "react-icons/bi";
+import cartService from "../../../Services/CartService.ts";
+import {useUserSelector} from "../../../Redux/hooks.ts";
+import {toast} from "react-toastify";
+import {CartDTO} from "../../../Models/DTOS/CartDTO.ts";
 
 export function CartPage(): JSX.Element {
 
     const navigate = useNavigate();
 
-    const dummyProducts = [
-        {
-            name: "cartItem one",
-            basePrice: 200,
-            color: "black",
-            size: "L",
-        },
-    ]
+    const user = useUserSelector(state => state.authSlice.user);
 
-    const [cart, setCart] = useState<Cart>();
+    const [cart, setCart] = useState<CartDTO>();
+
+    useEffect(() => {
+        const loader = user ? cartService.getUserCart() : cartService.getGuestCart()
+
+        loader.then(res => setCart(res))
+            .catch(err => toast.error(err));
+
+        console.log(cart);
+
+    },[user])
+
+    if (!cart) {
+        return <span>Loading...</span>;
+    }
 
 
     return (
@@ -30,19 +40,7 @@ export function CartPage(): JSX.Element {
                         <BiCart />
                         <p>Cart</p>
                     </div>
-                    {dummyProducts.length > 0 ? (
-                        dummyProducts.map((item, index) => (
-                            <CartItemCard
-                                key={index}
-                                basePrice={item.basePrice}
-                                size={item.size}
-                                name={item.name}
-                                color={item.color}
-                            />
-                        ))
-                    ) : (
-                        <span>Your Cart is empty</span>
-                    )}
+                    {cart.items.map(ci => <CartItemCard cartItem={ci} key={ci.id} />)}
                 </div>
 
                 {/* Right Section: Order Summary */}
@@ -66,7 +64,7 @@ export function CartPage(): JSX.Element {
                     </div>
 
                     <button
-                        disabled={dummyProducts.length === 0}
+                        disabled={cart.items.length === 0}
                         onClick={() => navigate("/checkout")}
                         className="cursor-pointer disabled:bg-black/30 bg-[#1a1a1a] hover:bg-black text-white w-full py-4 self-center rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition"
                     >

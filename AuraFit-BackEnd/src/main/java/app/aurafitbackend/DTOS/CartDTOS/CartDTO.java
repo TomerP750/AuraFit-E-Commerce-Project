@@ -20,7 +20,7 @@ public class CartDTO {
     private BigDecimal shippingCost;
     private BigDecimal totalPrice;
     private Status status;
-    private Long userId;      // may be null for guest
+    private Long userId;
     private String cartToken;
 
 
