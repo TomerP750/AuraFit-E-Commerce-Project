@@ -47,7 +47,8 @@ public class AuthService {
 
             Cart cart = Cart.builder()
                     .user(user)
-                    .totalPrice(BigDecimal.ZERO)
+                    .subTotal(BigDecimal.ZERO)
+                    .totalCartPrice(BigDecimal.ZERO)
                     .shippingCost(BigDecimal.ZERO)
                     .status(Status.PENDING)
                     .build();

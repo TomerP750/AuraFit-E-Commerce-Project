@@ -24,7 +24,8 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private BigDecimal shippingCost;
-    private BigDecimal totalPrice;
+    private BigDecimal subTotal;
+    private BigDecimal totalCartPrice;
     @Enumerated(EnumType.STRING)
     private Status status;
     @ManyToOne
@@ -34,6 +35,7 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @Builder.Default
     private List<CartItem> items = new ArrayList<>();
 
 

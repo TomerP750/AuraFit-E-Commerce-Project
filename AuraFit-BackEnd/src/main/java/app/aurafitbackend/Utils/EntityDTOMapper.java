@@ -126,20 +126,20 @@ public final class EntityDTOMapper {
     public static CartDTO toCartDTO(Cart cart) {
         if (cart == null) return null;
 
-        // 1) Map each CartItem → CartItemDTO, passing in the cart’s ID
         List<CartItemDTO> items = cart.getItems().stream()
                 .map(item -> toCartItemDTO(item, cart.getId()))
                 .collect(Collectors.toList());
 
-        // 2) Build your CartDTO with that flat list of CartItemDTOs
         return CartDTO.builder()
                 .id(cart.getId())
                 .items(items)
+                .subTotal(cart.getSubTotal())
                 .shippingCost(cart.getShippingCost())
-                .totalPrice(cart.getTotalPrice())
+                .totalCartPrice(cart.getTotalCartPrice())
                 .status(cart.getStatus())
                 .userId(cart.getUser() != null ? cart.getUser().getId() : null)
                 .cartToken(cart.getCartToken())
                 .build();
     }
+
 }

@@ -18,7 +18,8 @@ public class CartDTO {
     private Long id;
     private List<CartItemDTO> items;
     private BigDecimal shippingCost;
-    private BigDecimal totalPrice;
+    private BigDecimal subTotal;
+    private BigDecimal totalCartPrice;
     private Status status;
     private Long userId;
     private String cartToken;

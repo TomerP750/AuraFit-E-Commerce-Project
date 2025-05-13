@@ -7,9 +7,10 @@ import {CartDTO} from "../../../Models/DTOS/CartDTO.ts";
 
 interface CartItemCardProps {
     cartItem: CartItemDTO;
+    onDelete: () => void
 }
 
-export function CartItemCard({cartItem}: CartItemCardProps): JSX.Element {
+export function CartItemCard({cartItem, onDelete}: CartItemCardProps): JSX.Element {
 
     return (
         <div className="flex flex-col sm:flex-row w-full bg-white rounded-md shadow-sm overflow-hidden">
@@ -24,7 +25,7 @@ export function CartItemCard({cartItem}: CartItemCardProps): JSX.Element {
                         <div className="flex justify-between items-center">
                             <p className="font-medium text-lg truncate">{cartItem.variant.product.name}</p>
                             <button className="text-gray-500 hover:text-gray-800 cursor-pointer">
-                                <BiX size={25}/>
+                                <BiX size={25} onClick={onDelete}/>
                             </button>
                         </div>
                         <div className="flex flex-col items-start gap-2 text-sm text-gray-600 mt-1">
@@ -33,6 +34,7 @@ export function CartItemCard({cartItem}: CartItemCardProps): JSX.Element {
                                 <span className="text-gray-400 font-light">|</span>
                                 <span>{cartItem.variant.color.color}</span>
                             </div>
+                            <p>Qty: {cartItem.quantity}</p>
                             <p className="font-semibold text-md">${cartItem.quantity * cartItem.unitPrice}</p>
                         </div>
                     </div>

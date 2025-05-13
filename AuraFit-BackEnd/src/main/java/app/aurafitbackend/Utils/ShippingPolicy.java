@@ -14,7 +14,11 @@ public class ShippingPolicy {
     public ShippingPolicy() {
     }
 
-    public BigDecimal calculate(BigDecimal subTotal) {
-        return (subTotal.compareTo(FREE_THRESHOLD) > 0) ? BigDecimal.ZERO : FLAT_FEE;
+    public BigDecimal calculate(BigDecimal itemsTotal) {
+        if (itemsTotal.compareTo(FREE_THRESHOLD) > 0) {
+            return BigDecimal.ZERO;   // free shipping for any items
+        }
+        return BigDecimal.ZERO;     // empty cart → no shipping
     }
+
 }

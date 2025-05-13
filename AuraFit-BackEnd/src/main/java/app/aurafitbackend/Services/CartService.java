@@ -50,16 +50,17 @@ public class CartService {
 
     public Cart getOrCreateUserCart(Long userId) {
         User user = userRepository.getReferenceById(userId);
-
         return cartRepository.findByUserIdAndStatus(userId, Status.PENDING)
                 .orElseGet(() -> cartRepository.save(
                         Cart.builder()
                                 .status(Status.PENDING)
                                 .user(user)
-                                .totalPrice(BigDecimal.ZERO)
+                                .subTotal(BigDecimal.ZERO)           // ← initialize subTotal
                                 .shippingCost(BigDecimal.ZERO)
+                                .totalCartPrice(BigDecimal.ZERO)     // ← initialize totalCartPrice
                                 .cartToken(null)
-                                .build()));
+                                .build()
+                ));
     }
 
     public Cart getOrCreateGuestCart(String token) {
@@ -68,9 +69,11 @@ public class CartService {
                         Cart.builder()
                                 .status(Status.PENDING)
                                 .cartToken(token)
-                                .totalPrice(BigDecimal.ZERO)
+                                .subTotal(BigDecimal.ZERO)           // ← initialize subTotal
                                 .shippingCost(BigDecimal.ZERO)
-                                .build()));
+                                .totalCartPrice(BigDecimal.ZERO)     // ← initialize totalCartPrice
+                                .build()
+                ));
     }
 
     private Cart addItemToGuestCart(String cartToken, AddToCartRequestDTO dto) {
@@ -214,35 +217,50 @@ public class CartService {
     }
 
     @Transactional
-    public Cart removeItem(Long userId, String cartToken, Long cartItemId) {
+    public CartDTO removeItem(Long userId, String cartToken, Long cartItemId) {
+        Cart updatedCart;
 
         if (userId != null) {
-            return removeCartItemFromUserCart(userId, cartItemId);
+            // removes the line, recalculates totals, saves, and returns the updated Cart
+            updatedCart = removeCartItemFromUserCart(userId, cartItemId);
+        } else if (cartToken != null && !cartToken.isBlank()) {
+            updatedCart = removeCartItemFromGuestCart(cartItemId, cartToken);
+        } else {
+            throw new RequestException("No cart to modify");
         }
-        if (cartToken != null && !cartToken.isBlank()) {
-            return removeCartItemFromGuestCart(cartItemId, cartToken);
-        }
-        throw new RequestException("No cart to modify");
+
+        // now map *that* updatedCart—complete with new totals—to a DTO
+        return EntityDTOMapper.toCartDTO(updatedCart);
     }
 
 
 
     private void recalculateCartSubTotal(Cart cart) {
-        BigDecimal itemsTotal = cart.getItems().stream()
-                .map(i -> i.getUnitPrice()
-                        .multiply(BigDecimal.valueOf(i.getQuantity())))
+        // 1) compute subTotal
+        BigDecimal subTotal = cart.getItems().stream()
+                .map(ci -> ci.getUnitPrice()
+                        .multiply(BigDecimal.valueOf(ci.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .setScale(2, RoundingMode.HALF_EVEN);
 
-        BigDecimal shippingCost = shippingPolicy
-                .calculate(itemsTotal)
-                .setScale(2, RoundingMode.HALF_EVEN);
+        // 2) determine shipping
+        BigDecimal shippingCost;
+        if (subTotal.compareTo(BigDecimal.ZERO) == 0) {
+            shippingCost = BigDecimal.ZERO;
+        } else if (subTotal.compareTo(BigDecimal.valueOf(75)) > 0) {
+            shippingCost = BigDecimal.ZERO;
+        } else {
+            shippingCost = BigDecimal.valueOf(10);
+        }
+        shippingCost = shippingCost.setScale(2, RoundingMode.HALF_EVEN);
 
+        // 3) update cart fields
+        cart.setSubTotal(subTotal);
         cart.setShippingCost(shippingCost);
-        cart.setTotalPrice(itemsTotal.add(shippingCost));
+        cart.setTotalCartPrice(subTotal.add(shippingCost)
+                .setScale(2, RoundingMode.HALF_EVEN));
     }
 
-
-
-
+    // … your add/remove methods that call recalculateCartSubTotal() …
 }
+

@@ -43,7 +43,7 @@ public class CartController {
     }
 
     @DeleteMapping("/removeItemFromCart/{id}")
-    public Cart removeItemFromCart(@AuthenticationPrincipal CustomUserDetails userDetails, @CookieValue(value = "cart_token", required = false) String cartToken ,@PathVariable Long id) {
+    public CartDTO removeItemFromCart(@AuthenticationPrincipal CustomUserDetails userDetails, @CookieValue(value = "cart_token", required = false) String cartToken ,@PathVariable Long id) {
         Long userId = userDetails.getUser().getId();
         return cartService.removeItem(userId, cartToken, id);
     }

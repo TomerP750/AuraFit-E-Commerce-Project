@@ -31,6 +31,18 @@ export function CartPage(): JSX.Element {
     }
 
 
+    function handleDeleteCartItem(id: number) {
+        const answer = window.confirm("Are you sure you want to remove this item from the cart?");
+        if (answer) {
+            cartService.removeItemFromCart(id)
+                .then(res => {
+                    setCart(res)
+                    cart!.items.filter(item => item.id !== id)
+                })
+                .catch(err => toast.error(err));
+        }
+    }
+
     return (
         <div className="min-h-screen flex flex-col lg:flex-row items-start justify-center bg-white font-medium pb-10">
             <div className="container mx-auto px-4 flex flex-col-reverse lg:flex-row w-4/5 gap-10 mt-20">
@@ -40,7 +52,9 @@ export function CartPage(): JSX.Element {
                         <BiCart />
                         <p>Cart</p>
                     </div>
-                    {cart.items.map(ci => <CartItemCard cartItem={ci} key={ci.id} />)}
+                    {cart.items.map(ci => <CartItemCard
+                        onDelete={()=>handleDeleteCartItem(ci.id)}
+                        cartItem={ci} key={ci.id} />)}
                 </div>
 
                 {/* Right Section: Order Summary */}
@@ -48,19 +62,15 @@ export function CartPage(): JSX.Element {
                     <p className="font-medium text-xl">Order Summary</p>
                     <div className="flex justify-between w-full">
                         <span className="font-light">Subtotal</span>
-                        <span>$15</span>
+                        <span>${cart.subTotal}</span>
                     </div>
                     <div className="flex justify-between w-full">
                         <span className="font-light">Shipping & Handling</span>
-                        <span>$15</span>
-                    </div>
-                    <div className="flex justify-between w-full">
-                        <span className="font-light">Tax</span>
-                        <span>$15</span>
+                        <span>${cart.shippingCost}</span>
                     </div>
                     <div className="flex justify-between w-full">
                         <span>Total</span>
-                        <span className="font-medium">$15</span>
+                        <span className="font-medium">${cart.totalCartPrice}</span>
                     </div>
 
                     <button

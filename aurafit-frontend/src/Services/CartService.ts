@@ -16,6 +16,10 @@ class CartService {
         return (await axios.get(`http://localhost:8080/api/cart/guest/get`)).data
     }
 
+    async removeItemFromCart(id: number) {
+        return (await axios.delete(`http://localhost:8080/api/cart/removeItemFromCart/${id}`)).data
+    }
+
 }
 
 const cartService = new CartService();
