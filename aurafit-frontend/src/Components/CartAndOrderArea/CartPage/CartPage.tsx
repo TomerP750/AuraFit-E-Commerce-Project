@@ -7,6 +7,7 @@ import cartService from "../../../Services/CartService.ts";
 import {useUserSelector} from "../../../Redux/hooks.ts";
 import {toast} from "react-toastify";
 import {CartDTO} from "../../../Models/DTOS/CartDTO.ts";
+import {AddToCartRequestDTO} from "../../../Models/DTOS/AddToCartRequestDTO.ts";
 
 export function CartPage(): JSX.Element {
 
@@ -43,6 +44,14 @@ export function CartPage(): JSX.Element {
         }
     }
 
+    function handleAddToCart(variantId: number) {
+        const dto = new AddToCartRequestDTO(variantId, 1);
+
+        cartService.addToCart(dto)
+            .then(res => setCart(res))
+            .catch(err => toast.error(err));
+    }
+
     return (
         <div className="min-h-screen flex flex-col lg:flex-row items-start justify-center bg-white font-medium pb-10">
             <div className="container mx-auto px-4 flex flex-col-reverse lg:flex-row w-4/5 gap-10 mt-20">
@@ -53,6 +62,7 @@ export function CartPage(): JSX.Element {
                         <p>Cart</p>
                     </div>
                     {cart.items.length > 0 ? cart.items.map(ci => <CartItemCard
+                        onAddToCart={()=>handleAddToCart(ci.variant.id)}
                         onDelete={()=>handleDeleteCartItem(ci.id)}
                         cartItem={ci} key={ci.id} />) : <p className={"text-2xl"}>Your cart is empty</p>}
                 </div>

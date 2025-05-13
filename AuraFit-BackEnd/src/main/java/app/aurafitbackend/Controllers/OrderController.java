@@ -15,7 +15,7 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping("/user")
+    @PostMapping("/user/placeOrder")
     public Order checkoutUser(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody CheckoutRequestDTO dto) {
         Long userId = userDetails.getUser().getId();
         Order order = orderService.placeOrder(userId, dto, /*cartToken=*/null);

@@ -1,16 +1,17 @@
 import "./CartItemCard.css";
 import {JSX} from "react";
 import {BiMinus, BiPlus, BiX} from "react-icons/bi";
-import {CartItem} from "../../../Models/CartItem.ts";
 import {CartItemDTO} from "../../../Models/DTOS/CartItemDTO.ts";
 
 
 interface CartItemCardProps {
     cartItem: CartItemDTO;
     onDelete: () => void
+    onAddToCart: () => void;
 }
 
-export function CartItemCard({cartItem, onDelete}: CartItemCardProps): JSX.Element {
+export function CartItemCard({cartItem, onDelete, onAddToCart}: CartItemCardProps): JSX.Element {
+
 
     return (
         <div className="flex flex-col sm:flex-row w-full bg-white rounded-md shadow-sm overflow-hidden">
@@ -41,7 +42,7 @@ export function CartItemCard({cartItem, onDelete}: CartItemCardProps): JSX.Eleme
                             <p>Qty: {cartItem.quantity}</p>
                             <p className="font-semibold text-md">${(cartItem.quantity * cartItem.unitPrice).toFixed(2)}</p>
                             <div className="flex gap-5 mt-10 text-gray-500">
-                                <button className={"hover:text-black cursor-pointer"}><BiPlus size={20}/></button>
+                                <button onClick={onAddToCart} className={"hover:text-black cursor-pointer"}><BiPlus size={20}/></button>
                                 <button className={"hover:text-black cursor-pointer"}><BiMinus size={20}/></button>
                             </div>
                         </div>
