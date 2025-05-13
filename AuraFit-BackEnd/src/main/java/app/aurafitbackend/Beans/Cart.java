@@ -31,8 +31,8 @@ public class Cart {
     private Status status;
     @ManyToOne
     private User user;
-//    @Column(name = "cart_token", length = 36, unique = true)
-//    private String cartToken;
+    @Column(name = "cart_token", length = 36, unique = true)
+    private String cartToken;
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> items;
 

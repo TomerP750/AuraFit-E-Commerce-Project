@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,102 +29,156 @@ public class CartService {
     private final ShippingPolicy shippingPolicy;
 
 
-    public Cart getOrCreateCart(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotExistsException("User not found"));
-//        Cart openCart = cartRepository.findByUserIdAndStatus(userId, Status.PENDING);
+    private Cart getOrCreateUserCart(Long userId) {
+        User user = userRepository.getReferenceById(userId);
 
-        return cartRepository.findByUserIdAndStatus(userId, Status.PENDING).orElseGet(() -> {
-                    Cart cart = Cart.builder()
-                            .status(Status.PENDING)
-                            .user(user)
-                            .totalPrice(BigDecimal.ZERO)
-                            .shippingCost(BigDecimal.ZERO)
-                            .build();
-                    return cartRepository.save(cart);
-                });
-
+        return cartRepository.findByUserIdAndStatus(userId, Status.PENDING)
+                .orElseGet(() -> cartRepository.save(
+                        Cart.builder()
+                                .status(Status.PENDING)
+                                .user(user)
+                                .totalPrice(BigDecimal.ZERO)
+                                .shippingCost(BigDecimal.ZERO)
+                                .cartToken(null)
+                                .build()));
     }
 
-    public Cart getOrCreateCart(String cartToken) {
-        return cartRepository.existsByCartTokenAndStatus(cartToken, Status.PENDING)
+    private Cart getOrCreateGuestCart(String token) {
+        return cartRepository.findByCartTokenAndStatus(token, Status.PENDING)
+                .orElseGet(() -> cartRepository.save(
+                        Cart.builder()
+                                .status(Status.PENDING)
+                                .cartToken(token)
+                                .totalPrice(BigDecimal.ZERO)
+                                .shippingCost(BigDecimal.ZERO)
+                                .build()));
+    }
 
+
+    @Transactional
+    public void mergeGuestCartIntoUser(String token, Long userId) {
+        Cart guestCart = cartRepository.findByCartTokenAndStatus(token, Status.PENDING)
+                .orElse(null);
+        if (guestCart == null) return;
+
+        Cart userCart = cartRepository.findByUserIdAndStatus(userId, Status.PENDING)
+                .orElse(null);
+
+        if (userCart == null) {
+            guestCart.setUser(userRepository.getReferenceById(userId));
+            guestCart.setCartToken(null);
+            cartRepository.save(guestCart);
+        } else {
+            guestCart.getItems().forEach(i ->
+                    addItemToUserCart(userId, new AddToCartRequestDTO(i.getVariant().getId(), i.getQuantity())));
+        }
     }
 
     @Transactional
-    public Cart addItemToCart(Long userId, AddToCartRequestDTO req) {
-        Cart cart = getOrCreateCart(userId);
+    public Cart addItemToGuestCart(String cartToken, AddToCartRequestDTO dto) {
 
-        ProductVariant variant = productVariantRepository.findById(req.getVariantId())
+        if (!ProductValidator.isValidAddToCart(dto))
+            throw new RequestException("Invalid add-to-cart request");
+
+        if (cartToken == null || cartToken.isBlank())
+            throw new RequestException("Missing cart token");
+
+        Cart cart = getOrCreateGuestCart(cartToken);
+        return addOrMergeLine(cart, dto);        // <- shared helper (see below)
+    }
+
+    @Transactional
+    public Cart addItemToUserCart(Long userId ,AddToCartRequestDTO dto) {
+
+        if (!ProductValidator.isValidAddToCart(dto))
+            throw new RequestException("Invalid add-to-cart request");
+
+        Cart cart = getOrCreateUserCart(userId);
+        return addOrMergeLine(cart, dto);        // <- same helper
+    }
+
+    @Transactional
+    public Cart addItemToCart(Long userId, String cartToken, AddToCartRequestDTO dto) {
+        if (userId != null) {
+            return addItemToUserCart(userId, dto);            // signed-in flow
+        }
+        return addItemToGuestCart(cartToken, dto);        // guest flow
+    }
+
+
+    private Cart addOrMergeLine(Cart cart, AddToCartRequestDTO dto) {
+
+        ProductVariant variant = productVariantRepository.findById(dto.getVariantId())
                 .orElseThrow(() -> new NotExistsException("Variant not found"));
 
-        if (!ProductValidator.isValidAddToCart(req)) {
-            throw new RequestException("Invalid add-to-cart request");
-        }
-
-        Optional<CartItem> existing = cart.getItems()
-                .stream()
+        Optional<CartItem> existing = cart.getItems().stream()
                 .filter(ci -> ci.getVariant().getId().equals(variant.getId()))
                 .findFirst();
 
+        int newQty = dto.getQuantity() + existing.map(CartItem::getQuantity).orElse(0);
+        if (newQty > variant.getStockQuantity())
+            throw new RequestException("Insufficient stock");
 
         if (existing.isPresent()) {
-            CartItem cartItem = existing.get();
-            int newQty = cartItem.getQuantity() + req.getQuantity();
-            if (newQty > variant.getStockQuantity()) {
-                throw new RequestException("Insufficient stock");
-            }
-            cartItem.setQuantity(cartItem.getQuantity() + req.getQuantity());
+            existing.get().setQuantity(newQty);
         } else {
-
-            BigDecimal unitPrice = variant.getOnSale()
-                    ? variant.getSalePrice()
-                    : variant.getBasePrice();
-
-            CartItem item = CartItem.builder()
-                    .quantity(req.getQuantity())
-                    .unitPrice(unitPrice)
+            cart.getItems().add(CartItem.builder()
+                    .quantity(dto.getQuantity())
+                    .unitPrice(variant.getOnSale() ? variant.getSalePrice() : variant.getBasePrice())
                     .variant(variant)
                     .cart(cart)
-                    .build();
-
-            cart.getItems().add(item);
+                    .build());
         }
 
+        recalculateCartSubTotal(cart);
+        return cartRepository.save(cart);
+    }
+
+
+    private Cart removeCartItemFromGuestCart(Long cartItemId, String cartToken) {
+        Cart cart = getOrCreateGuestCart(cartToken);
+
+        CartItem line = cartItemRepository.findByIdAndCartId(cartItemId, cart.getId());
+        if (line == null)
+            throw new NotExistsException("Cart item not found");
+
+        cart.getItems().remove(line);
+        recalculateCartSubTotal(cart);
+        return cartRepository.save(cart);
+    }
+
+
+    private Cart removeCartItemFromUserCart(Long userId, Long cartItemId) {
+        Cart cart = getOrCreateUserCart(userId);
+
+        CartItem line = cartItemRepository.findByIdAndCartId(cartItemId, cart.getId());
+        if (line == null)
+            throw new NotExistsException("Cart item not found");
+
+        cart.getItems().remove(line);
         recalculateCartSubTotal(cart);
 
         return cartRepository.save(cart);
     }
 
+    @Transactional
+    public Cart removeItem(Long userId, String cartToken, Long cartItemId) {
 
-    public void removeCartItemFromCart(Long userId, Long cartItemId) {
-        Cart cart = getOrCreateCart(userId);
-
-        CartItem cartItem = cartItemRepository
-                .findByIdAndCartId(cartItemId, cart.getId());
-
-        if (cartItem == null) {
-            throw new NotExistsException("Cart item not found");
+        if (userId != null) {
+            return removeCartItemFromUserCart(userId, cartItemId);
         }
-
-        cart.getItems().remove(cartItem);
-        recalculateCartSubTotal(cart);
-
-        cartRepository.save(cart);
+        if (cartToken != null && !cartToken.isBlank()) {
+            return removeCartItemFromGuestCart(cartItemId, cartToken);
+        }
+        throw new RequestException("No cart to modify");
     }
 
-    //TODO check if works
-    public ProductVariant variantExists(Long productId, Size size, Color color) {
-        if (productVariantRepository.existsByProductIdAndSizeAndColor(productId ,size, color)) {
-            return productVariantRepository.findByProductIdAndSizeAndColor(productId, size, color);
-        }
-        throw new NotExistsException("Product is unavailable");
-    }
+
 
     private void recalculateCartSubTotal(Cart cart) {
         BigDecimal itemsTotal = cart.getItems().stream()
                 .map(i -> i.getUnitPrice()
-                        .multiply(BigDecimal.valueOf(i.getQuantity()))
-                        .setScale(2, RoundingMode.HALF_EVEN))
+                        .multiply(BigDecimal.valueOf(i.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .setScale(2, RoundingMode.HALF_EVEN);
 
