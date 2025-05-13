@@ -8,6 +8,10 @@ import {store} from "./Redux/store.ts";
 import {ToastContainer} from "react-toastify";
 
 
+export const http = axios.create({
+    withCredentials: true,
+});
+
 axios.interceptors.request.use(function (config) {
     if (localStorage.token) { // if token exists
         config.headers.Authorization = "Bearer " + localStorage.token;

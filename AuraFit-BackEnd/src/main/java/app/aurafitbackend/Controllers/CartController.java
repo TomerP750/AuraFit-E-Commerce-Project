@@ -5,8 +5,12 @@ import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.AddToCartRequestDTO;
 import app.aurafitbackend.Security.CustomUserDetails;
 import app.aurafitbackend.Services.CartService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import java.time.Duration;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -16,13 +20,34 @@ public class CartController {
     private final CartService cartService;
 
 
-    @PostMapping("/addToCart")
-    public Cart addToCart(@AuthenticationPrincipal CustomUserDetails userDetails,
-                          @CookieValue(value = "cart_token", required = false) String cartToken,
-                          @RequestBody AddToCartRequestDTO dto) {
+//    @PostMapping("/addToCart")
+//    public Cart addToCart(@AuthenticationPrincipal CustomUserDetails userDetails, @CookieValue(value = "cart_token", required = false) String cartToken, @RequestBody AddToCartRequestDTO dto) {
+//        Long userId = (userDetails != null) ? userDetails.getUser().getId() : null;
+//
+//        if (userId == null && (cartToken == null || cartToken.isBlank())) {
+//            cartToken = UUID.randomUUID().toString();
+//            ResponseCookie cookie = ResponseCookie.from("cart_token", cartToken)
+//                    .maxAge(Duration.ofDays(30))
+//                    .httpOnly(true)
+//                    .sameSite("Lax")
+//                    .path("/")
+//                    .build();
+//            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+//        }
+//
+//        return cartService.addItemToCart(userId, cartToken, dto);
+//    }
 
-        Long userId = userDetails.getUser().getId() != null ? userDetails.getUser().getId() : null;
-        return cartService.addItemToCart(userId, cartToken, dto);
+    @DeleteMapping("/removeItemFromCart/{id}")
+    public Cart removeItemFromCart(@AuthenticationPrincipal CustomUserDetails userDetails, @CookieValue(value = "cart_token", required = false) String cartToken ,@PathVariable Long id) {
+        Long userId = userDetails.getUser().getId();
+        return cartService.removeItem(userId, cartToken, id);
+    }
+
+    @PostMapping("/merge")
+    public void mergeGuestCartIntoUserCart(@AuthenticationPrincipal CustomUserDetails userDetails, @CookieValue(value = "cart_token", required = false) String cartToken) {
+        Long userId = userDetails.getUser().getId();
+        cartService.mergeGuestCartIntoUser(userId, cartToken);
     }
 
 

@@ -9,12 +9,16 @@ import app.aurafitbackend.Repositories.*;
 import app.aurafitbackend.Utils.ProductValidator;
 import app.aurafitbackend.Utils.ShippingPolicy;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Duration;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -54,10 +58,36 @@ public class CartService {
                                 .build()));
     }
 
+    private Cart addItemToGuestCart(String cartToken, AddToCartRequestDTO dto) {
 
+        if (!ProductValidator.isValidAddToCart(dto))
+            throw new RequestException("Invalid add-to-cart request");
+
+        if (cartToken == null || cartToken.isBlank())
+            throw new RequestException("Missing cart token");
+
+
+        Cart cart = getOrCreateGuestCart(cartToken);
+        return addOrMergeLine(cart, dto);
+    }
+
+    private Cart addItemToUserCart(Long userId ,AddToCartRequestDTO dto) {
+
+        if (!ProductValidator.isValidAddToCart(dto))
+            throw new RequestException("Invalid add-to-cart request");
+
+        Cart cart = getOrCreateUserCart(userId);
+        return addOrMergeLine(cart, dto);
+    }
+
+    /**
+     * This is when guest is register, and added cartitems to cart before registration, so the cartitems will move to his user cart.
+     * @param cartToken
+     * @param userId
+     */
     @Transactional
-    public void mergeGuestCartIntoUser(String token, Long userId) {
-        Cart guestCart = cartRepository.findByCartTokenAndStatus(token, Status.PENDING)
+    public void mergeGuestCartIntoUser(Long userId ,String cartToken) {
+        Cart guestCart = cartRepository.findByCartTokenAndStatus(cartToken, Status.PENDING)
                 .orElse(null);
         if (guestCart == null) return;
 
@@ -74,37 +104,35 @@ public class CartService {
         }
     }
 
+    /**
+     *
+     * @param userId
+     * @param cartToken
+     * @param dto
+     * @return
+     */
     @Transactional
-    public Cart addItemToGuestCart(String cartToken, AddToCartRequestDTO dto) {
-
+    public Cart addItemToCart(Long userId, String cartToken, AddToCartRequestDTO dto) {
         if (!ProductValidator.isValidAddToCart(dto))
             throw new RequestException("Invalid add-to-cart request");
+
+        if (userId != null) {
+            return addItemToUserCart(userId, dto);
+        }
 
         if (cartToken == null || cartToken.isBlank())
             throw new RequestException("Missing cart token");
 
-        Cart cart = getOrCreateGuestCart(cartToken);
-        return addOrMergeLine(cart, dto);        // <- shared helper (see below)
+        return addItemToGuestCart(cartToken, dto);
+
     }
 
-    @Transactional
-    public Cart addItemToUserCart(Long userId ,AddToCartRequestDTO dto) {
-
-        if (!ProductValidator.isValidAddToCart(dto))
-            throw new RequestException("Invalid add-to-cart request");
-
-        Cart cart = getOrCreateUserCart(userId);
-        return addOrMergeLine(cart, dto);        // <- same helper
-    }
-
-    @Transactional
-    public Cart addItemToCart(Long userId, String cartToken, AddToCartRequestDTO dto) {
-        if (userId != null) {
-            return addItemToUserCart(userId, dto);            // signed-in flow
-        }
-        return addItemToGuestCart(cartToken, dto);        // guest flow
-    }
-
+    /**
+     * This does that if you add to cart an exists item in the cart, it will increase the quantity and not add new cartitem
+     * @param cart
+     * @param dto
+     * @return
+     */
 
     private Cart addOrMergeLine(Cart cart, AddToCartRequestDTO dto) {
 
