@@ -17,6 +17,32 @@ export function Women(): JSX.Element {
     const [showFilters, setShowFilters] = useState(false);
     const [sortBy, setSortBy] = useState<SortOption>('newest');
 
+    const [cards, setCards] = useState<{ productId: number; variants: ProductVariant[] }[]>([]);
+
+    useEffect(() => {
+        //TODO change to groupby lodash
+        displayService.allClothingByGender(Gender.WOMEN)
+            .then((res: ProductVariant[]) => {
+
+                const map = res.reduce<Record<number, ProductVariant[]>>((acc, v) => {
+                    const id = v.product.id;
+                    if (!acc[id]) acc[id] = [];
+                    acc[id].push(v);
+                    return acc;
+                }, {});
+
+                // Convert to card shape
+                const arr: {productId: number, variants: ProductVariant[]}[] = Object.values(map).map(variants => ({
+                    productId: variants[0].product.id,
+                    variants,
+                }));
+
+                setCards(arr);
+            })
+
+            .catch(err => toast.error(err));
+    }, []);
+
 
     useEffect(() => {
         displayService.allClothingByGender(Gender.WOMEN)
@@ -46,11 +72,15 @@ export function Women(): JSX.Element {
 
                 {/* Product Grid */}
                 <main className="flex-1">
-                    <h2 className="text-2xl font-medium mb-6">Women’s Collection</h2>
+                    <h2 className="text-2xl font-medium mb-6">Men’s Collection</h2>
 
+                    {/*{products.map((variant) => <ProductCard key={variant.id} variant={variant}  />)}*/}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {products.map(p => <ProductCard key={p.id} variant={p} />)}
+                        {cards.map(({productId, variants}) => (
+                            <ProductCard key={productId} variants={variants}/>
+                        ))}
                     </div>
+
                 </main>
             </div>
         </div>

@@ -36,18 +36,6 @@ public class AuthController {
     }
 
 
-    @PostMapping("/createadmin")
-    public void createAdmin() {
-        User newUser = User.builder()
-                .role(Role.ADMIN)
-                .email("admin@admin.com")
-                .membershipPoints(0)
-                .firstName("admin")
-                .lastName("admin")
-                .password(passwordEncoder.encode("123456"))
-                .build();
-        userRepository.save(newUser);
-    }
 
 
 

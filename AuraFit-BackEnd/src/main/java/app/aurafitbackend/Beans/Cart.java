@@ -2,12 +2,10 @@ package app.aurafitbackend.Beans;
 
 import app.aurafitbackend.Enums.Status;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -34,7 +32,9 @@ public class Cart {
     @Column(name = "cart_token", length = 36, unique = true)
     private String cartToken;
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItem> items;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<CartItem> items = new ArrayList<>();
 
 
 }

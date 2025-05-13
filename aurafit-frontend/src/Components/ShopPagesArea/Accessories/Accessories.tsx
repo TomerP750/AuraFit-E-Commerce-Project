@@ -1,23 +1,55 @@
 import "./Accessories.css";
-import {JSX, useState} from "react";
+import {JSX, useEffect, useState} from "react";
 import {FiFilter} from "react-icons/fi";
 import {Filters} from "../Filters/Filters.tsx";
 import {ProductCard} from "../../Product-Area/ProductCard/ProductCard.tsx";
+import {ProductVariant} from "../../../Models/ProductVariant.ts";
+import displayService from "../../../Services/DisplayService.ts";
+import {Gender} from "../../../Models/Enums/Gender.ts";
+import {toast} from "react-toastify";
 
 
 type SortOption = 'newest'|'high-low'|'low-high';
 
 export function Accessories(): JSX.Element {
-    // const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState([]);
     // const [showFilter, setShowFilter] = useState(true);
     // const [filterProduct, setFilterProducts] = useState([]);
     const [showFilters, setShowFilters] = useState(false);
     const [sortBy, setSortBy] = useState<SortOption>('newest');
 
+    const [cards, setCards] = useState<{ productId: number; variants: ProductVariant[] }[]>([]);
 
-    // useEffect(() => {
-    //
-    // }, []);
+    useEffect(() => {
+        //TODO change to groupby lodash
+        displayService.allClothingByGender(Gender.UNISEX)
+            .then((res: ProductVariant[]) => {
+
+                const map = res.reduce<Record<number, ProductVariant[]>>((acc, v) => {
+                    const id = v.product.id;
+                    if (!acc[id]) acc[id] = [];
+                    acc[id].push(v);
+                    return acc;
+                }, {});
+
+                // Convert to card shape
+                const arr: {productId: number, variants: ProductVariant[]}[] = Object.values(map).map(variants => ({
+                    productId: variants[0].product.id,
+                    variants,
+                }));
+
+                setCards(arr);
+            })
+
+            .catch(err => toast.error(err));
+    }, []);
+
+
+    useEffect(() => {
+        displayService.allClothingByGender(Gender.WOMEN)
+            .then(res => setProducts(res))
+            .catch(err => toast.error(err));
+    }, []);
 
     return (
         <div className="container mx-auto px-4 pt-10">
@@ -41,13 +73,15 @@ export function Accessories(): JSX.Element {
 
                 {/* Product Grid */}
                 <main className="flex-1">
-                    <h2 className="text-2xl font-medium mb-6">Accessories</h2>
+                    <h2 className="text-2xl font-medium mb-6">Men’s Collection</h2>
 
+                    {/*{products.map((variant) => <ProductCard key={variant.id} variant={variant}  />)}*/}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {[...Array(9)].map((_, i) => (
-                            <ProductCard key={i} />
+                        {cards.map(({productId, variants}) => (
+                            <ProductCard key={productId} variants={variants}/>
                         ))}
                     </div>
+
                 </main>
             </div>
         </div>

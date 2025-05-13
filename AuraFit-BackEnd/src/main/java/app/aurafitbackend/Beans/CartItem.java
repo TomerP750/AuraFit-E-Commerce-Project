@@ -1,10 +1,7 @@
 package app.aurafitbackend.Beans;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -23,5 +20,7 @@ public class CartItem {
     @ManyToOne
     private ProductVariant variant;
     @ManyToOne
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Cart cart;
 }

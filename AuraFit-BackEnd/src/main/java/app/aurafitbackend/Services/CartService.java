@@ -1,11 +1,13 @@
 package app.aurafitbackend.Services;
 
 import app.aurafitbackend.Beans.*;
+import app.aurafitbackend.DTOS.CartDTOS.CartDTO;
 import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.AddToCartRequestDTO;
 import app.aurafitbackend.Enums.Status;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Exceptions.RequestException;
 import app.aurafitbackend.Repositories.*;
+import app.aurafitbackend.Utils.EntityDTOMapper;
 import app.aurafitbackend.Utils.ProductValidator;
 import app.aurafitbackend.Utils.ShippingPolicy;
 import lombok.AllArgsConstructor;
@@ -77,6 +79,8 @@ public class CartService {
             throw new RequestException("Invalid add-to-cart request");
 
         Cart cart = getOrCreateUserCart(userId);
+        System.out.println("service cart " + cart);
+        System.out.println("service dto" + dto);
         return addOrMergeLine(cart, dto);
     }
 
@@ -112,18 +116,25 @@ public class CartService {
      * @return
      */
     @Transactional
-    public Cart addItemToCart(Long userId, String cartToken, AddToCartRequestDTO dto) {
-        if (!ProductValidator.isValidAddToCart(dto))
+    public CartDTO addItemToCart(Long userId, String cartToken, AddToCartRequestDTO dto) {
+        if (!ProductValidator.isValidAddToCart(dto)) {
             throw new RequestException("Invalid add-to-cart request");
-
-        if (userId != null) {
-            return addItemToUserCart(userId, dto);
         }
 
-        if (cartToken == null || cartToken.isBlank())
-            throw new RequestException("Missing cart token");
+        Cart cart;
+        if (userId != null) {
+            // logged-in user → merge into their cart, then stop
+            cart = addItemToUserCart(userId, dto);
+        } else {
+            // guest → must have a token
+            if (cartToken == null || cartToken.isBlank()) {
+                throw new RequestException("Missing cart token");
+            }
+            cart = addItemToGuestCart(cartToken, dto);
+        }
 
-        return addItemToGuestCart(cartToken, dto);
+        // finally map to DTO
+        return EntityDTOMapper.toDto(cart);
 
     }
 

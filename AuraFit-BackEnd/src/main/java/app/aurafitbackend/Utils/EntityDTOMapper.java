@@ -1,14 +1,15 @@
 package app.aurafitbackend.Utils;
 
-import app.aurafitbackend.Beans.Product;
-import app.aurafitbackend.Beans.ProductVariant;
-import app.aurafitbackend.Beans.User;
+import app.aurafitbackend.Beans.*;
+import app.aurafitbackend.DTOS.CartDTOS.CartDTO;
+import app.aurafitbackend.DTOS.CartDTOS.CartItemDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.UserDTO;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public final class EntityDTOMapper {
@@ -65,6 +66,35 @@ public final class EntityDTOMapper {
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .role(user.getRole())
+                .build();
+    }
+
+
+    public static CartItemDTO toDto(CartItem item) {
+        return CartItemDTO.builder()
+                .id(item.getId())
+                .cartId(item.getCart().getId())
+                .unitPrice(item.getUnitPrice())
+                .quantity(item.getQuantity())
+                .variantId(item.getVariant().getId())
+                .build();
+    }
+
+    public static CartDTO toDto(Cart cart) {
+        return CartDTO.builder()
+                .id(cart.getId())
+                .items(cart.getItems().stream()
+                        .map(EntityDTOMapper::toDto)      // or CartItemDTO::toDto if it's a static there
+                        .collect(Collectors.toList())
+                )
+                .shippingCost(cart.getShippingCost())
+                .totalPrice(cart.getTotalPrice())
+                .status(cart.getStatus())
+                .userId(cart.getUser() != null
+                        ? cart.getUser().getId()
+                        : null
+                )
+                .cartToken(cart.getCartToken())
                 .build();
     }
 }
