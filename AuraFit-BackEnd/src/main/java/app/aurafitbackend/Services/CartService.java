@@ -387,10 +387,7 @@ public class CartService {
     public Cart removeFromCart(Long userId,
                                String guestToken,
                                Long cartItemId) {
-        Cart cart = (userId != null)
-                ? getOrCreateUserCart(userId)
-                : getOrCreateGuestCart(guestToken);
-
+        Cart cart = (userId != null) ? getOrCreateUserCart(userId) : getOrCreateGuestCart(guestToken);
         return removeLine(cart, cartItemId);
     }
 
