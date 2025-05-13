@@ -129,6 +129,14 @@ export function ProductPage(): JSX.Element {
             .catch(err => toast.error(err.response.data));
     }, [variants]);
 
+    useEffect(() => {
+        if (!variants.length) return;
+
+        const defaultVariant = variants[0];
+
+        setSelectedColor(defaultVariant.color);
+    }, [variants]);
+
     if (loading) {
         return <div className="text-center py-20">Loading product…</div>;
     }
@@ -158,14 +166,13 @@ export function ProductPage(): JSX.Element {
     };
 
     const onSizeSelect = (size: Size) => {
-        if (availableSizes.includes(size)) {
-            setSelectedSize(size);
-        }
+        setSelectedSize(size);
     };
 
     const handleWishlist = () => setAddedToWishlist(prev => !prev);
     const handleAddToCart = () => {
-        // Implement your cart logic here
+
+
         console.log('Adding to cart:', currentVariant);
     };
 

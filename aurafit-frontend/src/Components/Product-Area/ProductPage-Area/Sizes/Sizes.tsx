@@ -46,11 +46,11 @@ export function Sizes({sizes, availableSizes, selected, onSelect}: SizesProps): 
 
                     return (
                         <button
-                            key={size.id}                       // must be a primitive
+                            key={size.id}
                             onClick={() => isAvailable && onSelect(size)}
                             disabled={!isAvailable}
-                            className={`px-4 py-1 border rounded${isSelected ? "bg-black text-white" 
-                                : isAvailable ? "hover:bg-gray-200" : "opacity-50 cursor-not-allowed"}`}
+                            className={`px-4 py-1 border rounded ${isSelected ? "bg-black text-white" 
+                                : isAvailable ? "hover:bg-gray-200 cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
                         >
                             {size.size}
                         </button>

@@ -1,20 +1,21 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 
-// interface CartState {
-//
+// export interface Cart {
+//     cart: Cart;
 // }
 //
-// interface InitialState {
-//
+// interface initState {
+//     cart: null;
 // }
 //
-// const cartSlice = createSlice({
-//     name: "cart",
-//     initialState: string,
+// export const cartSlice = createSlice({
+//     name="cart",
+//     initialState: initState;
 //     reducers: {
 //
 //     }
 // })
+
 
 // export const {} = cartSlice.actions;

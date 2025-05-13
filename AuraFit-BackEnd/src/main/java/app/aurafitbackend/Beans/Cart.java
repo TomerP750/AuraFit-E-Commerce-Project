@@ -11,7 +11,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table(name = "carts")
+@Table(name = "carts"
+//uniqueConstraints = @UniqueConstraint(
+//        name  = "uc_user_status",
+//        columnNames = {"user_id", "status"}
+//)
+)
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -26,7 +31,9 @@ public class Cart {
     private Status status;
     @ManyToOne
     private User user;
-    @OneToMany(mappedBy = "cart")
+//    @Column(name = "cart_token", length = 36, unique = true)
+//    private String cartToken;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> items;
 
 

@@ -10,10 +10,12 @@ import app.aurafitbackend.Utils.ProductValidator;
 import app.aurafitbackend.Utils.ShippingPolicy;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -30,22 +32,26 @@ public class CartService {
 
     public Cart getOrCreateCart(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NotExistsException("User not found"));
-        Cart openCart = cartRepository.findByUserIdAndStatus(userId, Status.PENDING);
+//        Cart openCart = cartRepository.findByUserIdAndStatus(userId, Status.PENDING);
 
-        if (openCart != null) {
-            return openCart;
-        }
-
-        Cart cart = Cart.builder()
-                .status(Status.PENDING)
-                .user(user)
-                .totalPrice(BigDecimal.ZERO)
-                .shippingCost(BigDecimal.ZERO)
-                .build();
-        return cartRepository.save(cart);
+        return cartRepository.findByUserIdAndStatus(userId, Status.PENDING).orElseGet(() -> {
+                    Cart cart = Cart.builder()
+                            .status(Status.PENDING)
+                            .user(user)
+                            .totalPrice(BigDecimal.ZERO)
+                            .shippingCost(BigDecimal.ZERO)
+                            .build();
+                    return cartRepository.save(cart);
+                });
 
     }
 
+    public Cart getOrCreateCart(String cartToken) {
+        return cartRepository.existsByCartTokenAndStatus(cartToken, Status.PENDING)
+
+    }
+
+    @Transactional
     public Cart addItemToCart(Long userId, AddToCartRequestDTO req) {
         Cart cart = getOrCreateCart(userId);
 
@@ -56,52 +62,55 @@ public class CartService {
             throw new RequestException("Invalid add-to-cart request");
         }
 
-        BigDecimal unitPrice = variant.getOnSale()
-                ? variant.getSalePrice()
-                : variant.getBasePrice();
+        Optional<CartItem> existing = cart.getItems()
+                .stream()
+                .filter(ci -> ci.getVariant().getId().equals(variant.getId()))
+                .findFirst();
 
-        CartItem item = CartItem.builder()
-                .quantity(req.getQuantity())
-                .unitPrice(unitPrice.setScale(2, RoundingMode.HALF_EVEN))
-                .variant(variant)
-                .cart(cart)
-                .build();
 
-        cart.getItems().add(item);
+        if (existing.isPresent()) {
+            CartItem cartItem = existing.get();
+            int newQty = cartItem.getQuantity() + req.getQuantity();
+            if (newQty > variant.getStockQuantity()) {
+                throw new RequestException("Insufficient stock");
+            }
+            cartItem.setQuantity(cartItem.getQuantity() + req.getQuantity());
+        } else {
 
-        // Recompute items total
-        BigDecimal itemsTotal = cart.getItems().stream()
-                .map(i -> i.getUnitPrice()
-                        .multiply(BigDecimal.valueOf(i.getQuantity()))
-                        .setScale(2, RoundingMode.HALF_EVEN))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            BigDecimal unitPrice = variant.getOnSale()
+                    ? variant.getSalePrice()
+                    : variant.getBasePrice();
 
-        // Apply shipping policy
-        BigDecimal shippingCost = shippingPolicy.calculate(itemsTotal);
+            CartItem item = CartItem.builder()
+                    .quantity(req.getQuantity())
+                    .unitPrice(unitPrice)
+                    .variant(variant)
+                    .cart(cart)
+                    .build();
 
-        cart.setShippingCost(shippingCost);
-        cart.setTotalPrice(itemsTotal.add(shippingCost));
+            cart.getItems().add(item);
+        }
+
+        recalculateCartSubTotal(cart);
 
         return cartRepository.save(cart);
     }
 
 
-    public Cart removeCartItemFromCart(Long userId, Long cartItemId) {
+    public void removeCartItemFromCart(Long userId, Long cartItemId) {
         Cart cart = getOrCreateCart(userId);
 
-        CartItem cartItem = cartItemRepository.findByIdAndCartId(cartItemId, cart.getId());
-
-        BigDecimal totalToSubtract = cartItem.getUnitPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity()));
-
+        CartItem cartItem = cartItemRepository
+                .findByIdAndCartId(cartItemId, cart.getId());
 
         if (cartItem == null) {
             throw new NotExistsException("Cart item not found");
         }
 
-        cart.setTotalPrice(cart.getTotalPrice().subtract(totalToSubtract));
         cart.getItems().remove(cartItem);
+        recalculateCartSubTotal(cart);
 
-        return cartRepository.save(cart);
+        cartRepository.save(cart);
     }
 
     //TODO check if works
@@ -112,17 +121,23 @@ public class CartService {
         throw new NotExistsException("Product is unavailable");
     }
 
-//    public int getCartItemCount(Long userId) {
-//        Cart cart = getOrCreateCart(userId);
-//        if (cart == null) {
-//            return 0;
-//        }
-//        return cart.getItems().size();
-//    }
-//
-//    public List<CartItem> getCartItemsFromCart(Long cartId) {
-//        return cartItemRepository.cartItemsFromCart(cartId);
-//    }
+    private void recalculateCartSubTotal(Cart cart) {
+        BigDecimal itemsTotal = cart.getItems().stream()
+                .map(i -> i.getUnitPrice()
+                        .multiply(BigDecimal.valueOf(i.getQuantity()))
+                        .setScale(2, RoundingMode.HALF_EVEN))
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .setScale(2, RoundingMode.HALF_EVEN);
+
+        BigDecimal shippingCost = shippingPolicy
+                .calculate(itemsTotal)
+                .setScale(2, RoundingMode.HALF_EVEN);
+
+        cart.setShippingCost(shippingCost);
+        cart.setTotalPrice(itemsTotal.add(shippingCost));
+    }
+
+
 
 
 }

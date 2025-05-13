@@ -14,9 +14,7 @@ public class ShippingPolicy {
     public ShippingPolicy() {
     }
 
-    public BigDecimal calculate(BigDecimal totalItemsPrice) {
-        return (totalItemsPrice.compareTo(FREE_THRESHOLD) > 0)
-                ? BigDecimal.ZERO
-                : FLAT_FEE;
+    public BigDecimal calculate(BigDecimal subTotal) {
+        return (subTotal.compareTo(FREE_THRESHOLD) > 0) ? BigDecimal.ZERO : FLAT_FEE;
     }
 }
