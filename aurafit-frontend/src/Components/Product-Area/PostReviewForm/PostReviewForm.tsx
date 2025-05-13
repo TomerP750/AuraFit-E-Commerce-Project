@@ -1,25 +1,25 @@
 // PostReviewForm.tsx
-import { JSX, useState } from "react";
-import { FaStar } from "react-icons/fa";
-import { Rating } from "../../../Models/Enums/Rating.ts";
-import { PostReviewRequestDTO } from "../../../Models/DTOS/PostReviewRequestDTO.ts";
+import {JSX, useState} from "react";
+import {FaStar} from "react-icons/fa";
+import {Rating} from "../../../Models/Enums/Rating.ts";
+import {PostReviewRequestDTO} from "../../../Models/DTOS/PostReviewRequestDTO.ts";
 import reviewService from "../../../Services/ReviewService.ts";
-import { Product } from "../../../Models/Product.ts";
-import { toast } from "react-toastify";
+import {Product} from "../../../Models/Product.ts";
+import {toast} from "react-toastify";
+import {BiX} from "react-icons/bi";
 
 interface PostReviewFormProps {
     product: Product;
     onCancel?: () => void;
 }
 
-export function PostReviewForm({ product, onCancel }: PostReviewFormProps): JSX.Element {
+export function PostReviewForm({product, onCancel}: PostReviewFormProps): JSX.Element {
 
     const [rating, setRating] = useState<number>(5);
 
     const [hoverRating, setHoverRating] = useState<number>(0);
 
     const [text, setText] = useState<string>("");
-
 
 
     // Handler for form submission
@@ -48,24 +48,27 @@ export function PostReviewForm({ product, onCancel }: PostReviewFormProps): JSX.
     return (
         <form onSubmit={handleSubmit} className="w-full border p-4 rounded shadow space-y-4">
             {/* Star Rating Input */}
-            <div className="flex items-center gap-1">
-                {Array.from({ length: 5 }, (_, i) => {
-                    const starIndex = i + 1;
-                    const fill = hoverRating
-                        ? starIndex <= hoverRating
-                        : starIndex <= rating;
-                    return (
-                        <FaStar
-                            key={i}
-                            size={24}
-                            className={fill ? "text-yellow-500" : "text-gray-400"}
-                            style={{ cursor: "pointer" }}
-                            onMouseEnter={() => setHoverRating(starIndex)}
-                            onMouseLeave={() => setHoverRating(0)}
-                            onClick={() => setRating(starIndex)}
-                        />
-                    );
-                })}
+            <div className="flex justify-between items-center">
+                <div className="flex items-center gap-1">
+                    {Array.from({length: 5}, (_, i) => {
+                        const starIndex = i + 1;
+                        const fill = hoverRating
+                            ? starIndex <= hoverRating
+                            : starIndex <= rating;
+                        return (
+                            <FaStar
+                                key={i}
+                                size={24}
+                                className={fill ? "text-yellow-500" : "text-gray-400"}
+                                style={{cursor: "pointer"}}
+                                onMouseEnter={() => setHoverRating(starIndex)}
+                                onMouseLeave={() => setHoverRating(0)}
+                                onClick={() => setRating(starIndex)}
+                            />
+                        );
+                    })}
+                </div>
+                <BiX className={"cursor-pointer"} size={30} onClick={onCancel} />
             </div>
 
             {/* Review Textarea */}
@@ -83,14 +86,14 @@ export function PostReviewForm({ product, onCancel }: PostReviewFormProps): JSX.
                     <button
                         type="button"
                         onClick={onCancel}
-                        className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+                        className="cursor-pointer px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
                     >
                         Cancel
                     </button>
                 )}
                 <button
                     type="submit"
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+                    className="cursor-pointer px-4 py-2 bg-gray-600 text-white rounded hover:bg-black disabled:opacity-50"
                     disabled={rating === 0}
                 >
                     Submit

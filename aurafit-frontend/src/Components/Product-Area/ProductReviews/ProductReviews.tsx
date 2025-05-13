@@ -32,7 +32,7 @@ export function ProductReviews({product}: ProductReviewsProps): JSX.Element {
                 <ReviewsList onPostClick={()=>setReviewPostOpen(true)} product={product} />
                 {/*right section*/}
                 <div className={"flex flex-col w-full gap-30"}>
-                    <PostReviewForm product={product} />
+                    {reviewPostOpen && <PostReviewForm onCancel={()=>setReviewPostOpen(false)} product={product} />}
                     {product.reviews.length === 0 ? <span>No Reviews Yet</span>
                         : product.reviews.map(review => <ReviewCard review={review} key={review.id}/>)}
 
