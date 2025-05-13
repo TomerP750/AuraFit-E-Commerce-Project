@@ -14,6 +14,8 @@ public interface ProductVariantRepository extends JpaRepository<ProductVariant, 
 
     ProductVariant findByProductIdAndSizeAndColor(Long productId, Size size, Color color);
 
+    List<ProductVariant> findByProductId(Long productId);
+
 
 //    List<ProductVariant> findTop8ByCreatedAtDesc();
 

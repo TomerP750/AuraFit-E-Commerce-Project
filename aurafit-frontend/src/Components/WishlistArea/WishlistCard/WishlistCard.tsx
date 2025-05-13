@@ -13,10 +13,13 @@ export function WishlistCard({wishlistItem}: WishlistCardProps): JSX.Element {
     return (
         <div className="flex w-[300px]">
 		    {/*	Image*/}
-            <div
-                onMouseOver={()=>setHover(true)}
-                onMouseLeave={()=>setHover(false)}
-                className="bg-grey-700 aspect-square "/>
+            <div onMouseOver={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
+                 className={`relative bg-grey-700 aspect-square ${hover ? "bg-grey-700/50" : ""}`}>
+                {hover && <div className={"flex items-center justify-between"}>
+                    <button>Go To Product</button>
+                    <button>Add To Cart</button>
+                </div>}
+            </div>
         </div>
     );
 }

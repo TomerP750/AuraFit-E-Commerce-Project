@@ -23,6 +23,14 @@ class DisplayService {
     async getProductReviewAvg(id: number) {
         return (await axios.get(`http://localhost:8080/api/display/product/rating/avg/${id}`)).data
     }
+
+    async allVariantsByProductId(id: number) {
+        return (await axios.get(`http://localhost:8080/api/display/variants/byProductId/${id}`)).data
+    }
+
+    async allSizesByProductType(id: number) {
+        return (await axios.get(`http://localhost:8080/api/display/variants/sizesByProductTypeId/${id}`)).data
+    }
 }
 
 const displayService = new DisplayService();

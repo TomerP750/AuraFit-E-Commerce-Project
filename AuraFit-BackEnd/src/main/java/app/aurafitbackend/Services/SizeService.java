@@ -22,6 +22,10 @@ public class SizeService {
         return sizeRepository.findById(id).orElseThrow();
     }
 
+    public List<Size> getSizesByProductType(Long productTypeId) {
+        return sizeRepository.findByProductTypeId(productTypeId);
+    }
+
     public void addSize(Size size) {
         if (SizeValidator.isValidSize(size)) {
             sizeRepository.save(size);

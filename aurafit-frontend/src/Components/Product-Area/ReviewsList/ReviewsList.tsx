@@ -16,6 +16,7 @@ interface ReviewsListProps {
 export function ReviewsList({product, onPostClick}: ReviewsListProps): JSX.Element {
 
     const [avg, setAvg] = useState<number>(3);
+    const user = useUserSelector(state => state.authSlice.user);
 
     useEffect(() => {
         displayService.getProductReviewAvg(product.id)
@@ -45,11 +46,14 @@ export function ReviewsList({product, onPostClick}: ReviewsListProps): JSX.Eleme
             <div className={"flex flex-col gap-3"}>
                 <p className={"text-xl font-medium"}>Share your thoughts</p>
                 <p>if you've used this product, share your thoughts with other customers</p>
-                <button
+                {user === null
+                    ? <button disabled={true} className={"disabled:bg-gray-500/50 cursor-not-allowed"}>Login To Review</button>
+                    : <button
                     onClick={onPostClick}
                     className={"w-full border border-gray-500 py-3 cursor-pointer hover:bg-black hover:text-white transition duration-300 ease-in"}>Write
                     a review
-                </button>
+                </button>}
+
             </div>
         </div>
     );

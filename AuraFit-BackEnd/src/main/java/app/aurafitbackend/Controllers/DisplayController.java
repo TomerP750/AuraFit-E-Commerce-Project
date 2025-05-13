@@ -2,6 +2,7 @@ package app.aurafitbackend.Controllers;
 
 import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.Beans.Review;
+import app.aurafitbackend.Beans.Size;
 import app.aurafitbackend.Beans.WishlistItem;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
 import app.aurafitbackend.Enums.Gender;
@@ -22,6 +23,7 @@ public class DisplayController {
     private final ProductVariantService productVariantService;
     private final ProductService productService;
     private final WishlistItemService wishlistItemService;
+    private final SizeService sizeService;
 
 
     @GetMapping("/product/reviews/{id}")
@@ -51,7 +53,15 @@ public class DisplayController {
         return productVariantService.getProductVariant(id);
     }
 
+    @GetMapping("/variants/byProductId/{id}")
+    public List<ProductVariant> allVariantsByProductId(@PathVariable Long id) {
+        return productVariantService.getProductVariantsByProductId(id);
+    }
 
+    @GetMapping("/variants/sizesByProductTypeId/{id}")
+    public List<Size> allSizesByProductTypeId(@PathVariable Long id) {
+        return sizeService.getSizesByProductType(id);
+    }
 
 
 

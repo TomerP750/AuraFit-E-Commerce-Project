@@ -33,6 +33,9 @@ public class ProductVariantService {
     private final CategoryRepository categoryRepository;
 
 
+    public List<ProductVariant> getProductVariantsByProductId(Long productId) {
+        return productVariantRepository.findByProductId(productId);
+    }
     public List<ProductVariant> getAllProductVariants() {
         return productVariantRepository.findAll();
     }

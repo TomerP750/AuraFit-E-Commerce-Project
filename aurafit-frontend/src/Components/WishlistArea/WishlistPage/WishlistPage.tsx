@@ -27,7 +27,7 @@ export function WishlistPage(): JSX.Element {
                 {/*    Left section*/}
                 <div className="flex flex-col">
                     <p className={"text-4xl font-medium"}>Your Wishlist</p>
-                    <div className="grid grid-cols-5">
+                    <div className="grid grid-cols1 sm:grid-cols-2 md:grid-cols-3 grid-cols-5">
                         {wishlistItems.map(w => <WishlistCard key={w.id} wishlistItem={w}/>)}
                     </div>
                 </div>
