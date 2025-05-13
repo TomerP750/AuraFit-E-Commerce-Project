@@ -76,17 +76,22 @@ export function ProductPage(): JSX.Element {
         ? variants.filter(v => v.color === selectedColor).map(v => v.size)
         : [];
 
-    const currentVariant =
-        selectedColor && selectedSize
-            ? variants.find(
-            v => v.color === selectedColor && v.size === selectedSize
-        ) || defaultVariant
-            : defaultVariant;
+    const currentVariant = (() => {
+        if (selectedColor) {
+            const ofThatColor = variants.filter(v => v.color === selectedColor);
+            if (selectedSize) {
+                return ofThatColor.find(v => v.size === selectedSize)!;
+            }
+            return ofThatColor[0];
+        }
+        return defaultVariant;
+    })();
 
     // Handlers
     const onColorSelect = (color: Color) => {
         setSelectedColor(color);
-        setSelectedSize(null);
+        const firstSize = variants.find(v => v.color === color)?.size;
+        setSelectedSize(firstSize || null);
     };
 
     const onSizeSelect = (size: Size) => {
