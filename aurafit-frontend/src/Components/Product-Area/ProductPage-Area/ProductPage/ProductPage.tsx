@@ -9,8 +9,6 @@ import {Buttons} from "../Buttons/Buttons.tsx";
 import {FabricAndCare} from "../FabricAndCare/FabricAndCare.tsx";
 import {Images} from "../Images/Images.tsx";
 import {ProductReviews} from "../../ProductReviews/ProductReviews.tsx";
-import adminService from "../../../../Services/AdminService.ts";
-import {Product} from "../../../../Models/Product.ts";
 import {toast} from "react-toastify";
 import {ProductVariant} from "../../../../Models/ProductVariant.ts";
 import displayService from "../../../../Services/DisplayService.ts";
@@ -19,11 +17,6 @@ import {Color} from "../../../../Models/Color.ts";
 import cartService from "../../../../Services/CartService.ts";
 import {AddToCartRequestDTO} from "../../../../Models/DTOS/AddToCartRequestDTO.ts";
 
-
-type ProductCardData = {
-    productId: number;
-    variants: ProductVariant[];
-};
 
 export function ProductPage(): JSX.Element {
     const { id } = useParams();
@@ -98,10 +91,8 @@ export function ProductPage(): JSX.Element {
                     || colorGroup[0]
                 );
             }
-            // no size yet → just grab the first variant of that color
             return colorGroup[0];
         }
-        // no color yet → use your original default
         return defaultVariant;
     })();
 
@@ -109,7 +100,6 @@ export function ProductPage(): JSX.Element {
     const onColorSelect = (color: Color) => {
         const canon = variants.find(v => v.color.id === color.id)!.color;
         setSelectedColor(canon);
-        // reset the size; DON’T auto-pick anything here
         setSelectedSize(null);
     };
 

@@ -1,8 +1,8 @@
 import "./CartItemCard.css";
 import {JSX} from "react";
-import {BiX} from "react-icons/bi";
+import {BiMinus, BiPlus, BiX} from "react-icons/bi";
+import {CartItem} from "../../../Models/CartItem.ts";
 import {CartItemDTO} from "../../../Models/DTOS/CartItemDTO.ts";
-import {CartDTO} from "../../../Models/DTOS/CartDTO.ts";
 
 
 interface CartItemCardProps {
@@ -22,28 +22,33 @@ export function CartItemCard({cartItem, onDelete}: CartItemCardProps): JSX.Eleme
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     {/* Text Info */}
                     <div className="flex-1">
+                        {/*Name and Delete button*/}
                         <div className="flex justify-between items-center">
                             <p className="font-medium text-lg truncate">{cartItem.variant.product.name}</p>
                             <button className="text-gray-500 hover:text-gray-800 cursor-pointer">
                                 <BiX size={25} onClick={onDelete}/>
                             </button>
                         </div>
-                        <div className="flex flex-col items-start gap-2 text-sm text-gray-600 mt-1">
+                        {/*Cart Item information details*/}
+                        <div className="flex flex-col justify-between items-start gap-2 text-sm text-gray-600 mt-1">
+                            {/*Size and color*/}
                             <div className="flex gap-5">
                                 <span>{cartItem.variant.size.size}</span>
                                 <span className="text-gray-400 font-light">|</span>
                                 <span>{cartItem.variant.color.color}</span>
                             </div>
+
                             <p>Qty: {cartItem.quantity}</p>
-                            <p className="font-semibold text-md">${cartItem.quantity * cartItem.unitPrice}</p>
+                            <p className="font-semibold text-md">${(cartItem.quantity * cartItem.unitPrice).toFixed(2)}</p>
+                            <div className="flex gap-5 mt-10 text-gray-500">
+                                <button className={"hover:text-black cursor-pointer"}><BiPlus size={20}/></button>
+                                <button className={"hover:text-black cursor-pointer"}><BiMinus size={20}/></button>
+                            </div>
                         </div>
-                    </div>
-
-                    {/* Price & Remove */}
-                    <div className="flex justify-between sm:justify-start items-center gap-4">
-
 
                     </div>
+
+
                 </div>
 
                 {/* Bottom divider on small screens */}

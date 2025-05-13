@@ -47,7 +47,7 @@ export function ReviewsList({product, onPostClick}: ReviewsListProps): JSX.Eleme
                 <p className={"text-xl font-medium"}>Share your thoughts</p>
                 <p>if you've used this product, share your thoughts with other customers</p>
                 {user === null
-                    ? <button disabled={true} className={"disabled:bg-gray-500/50 cursor-not-allowed"}>Login To Review</button>
+                    ? <button disabled={true} className={"py-3 border border-black cursor-not-allowed"}>Login To Review</button>
                     : <button
                     onClick={onPostClick}
                     className={"w-full border border-gray-500 py-3 cursor-pointer hover:bg-black hover:text-white transition duration-300 ease-in"}>Write

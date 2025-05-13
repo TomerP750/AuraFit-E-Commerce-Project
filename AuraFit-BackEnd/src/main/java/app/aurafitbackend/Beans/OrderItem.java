@@ -1,10 +1,7 @@
 package app.aurafitbackend.Beans;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -17,9 +14,11 @@ import java.math.BigDecimal;
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
-    private BigDecimal purchasePrice;
+    private BigDecimal totalPrice;
+    private BigDecimal unitPrice;
     private Integer quantity;
 
     @ManyToOne

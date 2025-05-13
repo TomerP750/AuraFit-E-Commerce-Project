@@ -52,9 +52,9 @@ export function CartPage(): JSX.Element {
                         <BiCart />
                         <p>Cart</p>
                     </div>
-                    {cart.items.map(ci => <CartItemCard
+                    {cart.items.length > 0 ? cart.items.map(ci => <CartItemCard
                         onDelete={()=>handleDeleteCartItem(ci.id)}
-                        cartItem={ci} key={ci.id} />)}
+                        cartItem={ci} key={ci.id} />) : <p className={"text-2xl"}>Your cart is empty</p>}
                 </div>
 
                 {/* Right Section: Order Summary */}
