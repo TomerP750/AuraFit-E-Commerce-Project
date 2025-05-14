@@ -166,7 +166,7 @@ public final class EntityDTOMapper {
         return orderItems.stream()
                 .map(item -> OrderItemResponseDTO.builder()
                         .id(item.getId())
-                        .productVariant(item.getVariant())
+                        .variant(item.getVariant())
                         .quantity(item.getQuantity())
                         .unitPrice(item.getUnitPrice())
                         // compute totalPrice = unitPrice * quantity

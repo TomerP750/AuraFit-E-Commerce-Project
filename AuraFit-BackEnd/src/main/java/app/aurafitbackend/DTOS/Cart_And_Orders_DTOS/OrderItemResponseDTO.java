@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Builder
 public class OrderItemResponseDTO {
     private Long id;
-    private ProductVariant productVariant;
+    private ProductVariant variant;
     private Integer quantity;
     private Integer totalPrice;
     private BigDecimal unitPrice;

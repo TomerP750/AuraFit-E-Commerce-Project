@@ -18,12 +18,12 @@ export function CartPage(): JSX.Element {
     const [cart, setCart] = useState<CartDTO>();
 
     useEffect(() => {
+
         const loader = user ? cartService.getUserCart() : cartService.getGuestCart()
 
         loader.then(res => setCart(res))
             .catch(err => toast.error(err));
 
-        console.log(cart);
 
     },[user])
 
@@ -62,6 +62,7 @@ export function CartPage(): JSX.Element {
                         <p>Cart</p>
                     </div>
                     {cart.items.length > 0 ? cart.items.map(ci => <CartItemCard
+                        page={"cartPage"}
                         onAddToCart={()=>handleAddToCart(ci.variant.id)}
                         onDelete={()=>handleDeleteCartItem(ci.id)}
                         cartItem={ci} key={ci.id} />) : <p className={"text-2xl"}>Your cart is empty</p>}

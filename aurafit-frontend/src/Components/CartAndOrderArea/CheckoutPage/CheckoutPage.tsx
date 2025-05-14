@@ -11,6 +11,7 @@ import {useUserSelector} from "../../../Redux/hooks.ts";
 import {NavLink} from "react-router-dom";
 import {FiArrowLeft} from "react-icons/fi";
 import {ContactInformation} from "../../../Models/ContactInformation.ts";
+import {CartItemCard} from "../CartItemCard/CartItemCard.tsx";
 
 export function CheckoutPage(): JSX.Element {
 
@@ -64,7 +65,7 @@ export function CheckoutPage(): JSX.Element {
                                 <span>${cart.totalCartPrice}</span>
                             </div>
                             <div className="w-full flex flex-col gap-4">
-                                {cart.items.map(ci => <OrderItemCard page={"checkout"} key={ci.id} cartItem={ci}/>)}
+                                {cart.items.map(ci => <CartItemCard page={"checkout"} key={ci.id} cartItem={ci}/>)}
                             </div>
                         </div>
                     </div>
