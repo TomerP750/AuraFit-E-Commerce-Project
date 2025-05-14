@@ -64,7 +64,7 @@ export function CheckoutPage(): JSX.Element {
                                 <span>${cart.totalCartPrice}</span>
                             </div>
                             <div className="w-full flex flex-col gap-4">
-                                {cart.items.map(ci => <OrderItemCard key={ci.id} cartItem={ci}/>)}
+                                {cart.items.map(ci => <OrderItemCard page={"checkout"} key={ci.id} cartItem={ci}/>)}
                             </div>
                         </div>
                     </div>

@@ -38,10 +38,10 @@ export function NavbarAccountMenu({onMouseOver, onMouseLeave}: NavbarAccountMenu
             <ul className="py-2">
                 {user?.role === Role.ADMIN && <li className={`${accountMenuItems}`}><NavLink to={"/admin/panel"}>Admin Panel</NavLink></li>}
                 <li className={`${accountMenuItems}`}>
-                    My Profile
+                    <NavLink to={`/account`}>My Account</NavLink>
                 </li>
                 <li className={`${accountMenuItems}`}>
-                    Orders
+                    <NavLink to={"/order/history"}>Order</NavLink>
                 </li>
                 <li className={`${accountMenuItems}`}>
                     Settings

@@ -5,8 +5,10 @@ import {CartItemDTO} from "../../../Models/DTOS/CartItemDTO.ts";
 
 interface OrderItemCardProps {
     cartItem: CartItemDTO;
+    page: string;
 }
-export function OrderItemCard({cartItem}: OrderItemCardProps): JSX.Element {
+export function OrderItemCard({cartItem, page}: OrderItemCardProps): JSX.Element {
+    if (page === "checkout"){
     return (
         <div className="w-full">
             <div className="flex justify-between w-full items-center gap-4">
@@ -27,5 +29,9 @@ export function OrderItemCard({cartItem}: OrderItemCardProps): JSX.Element {
                 </div>
             </div>
         </div>
-    );
+    )}
+
+    return (
+        <div className="w-full"></div>
+    )
 }

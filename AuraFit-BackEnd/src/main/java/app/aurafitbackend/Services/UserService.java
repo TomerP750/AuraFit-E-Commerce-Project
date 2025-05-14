@@ -7,6 +7,7 @@ import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.OrderResponseDTO;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Repositories.OrderRepository;
 import app.aurafitbackend.Repositories.UserRepository;
+import app.aurafitbackend.Utils.EntityDTOMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,24 +57,6 @@ public class UserService {
         }
     }
 
-    public List<OrderResponseDTO> getUserOrders(Long userId) {
-
-        List<Order> userOrders = orderRepository.findByUserId(userId);
-        List<OrderResponseDTO> orderResponseDTOS = new ArrayList<>();
-
-        for (Order order : userOrders) {
-            orderResponseDTOS.add(OrderResponseDTO.builder()
-                    .id(order.getId())
-                    .orderDate(order.getOrderDate())
-                    .totalPrice(order.getTotalPrice())
-                    .orderItems(order.getOrderItems())
-                    .status(order.getStatus())
-                    .build());
-        }
-
-        return orderResponseDTOS;
-
-    }
 
 
 

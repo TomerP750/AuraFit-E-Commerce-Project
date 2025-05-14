@@ -2,11 +2,13 @@ package app.aurafitbackend.Services;
 
 import app.aurafitbackend.Beans.*;
 import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.ContactInformationDTO;
+import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.OrderResponseDTO;
 import app.aurafitbackend.Enums.Status;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Exceptions.RequestException;
 import app.aurafitbackend.Exceptions.UnauthorizedException;
 import app.aurafitbackend.Repositories.*;
+import app.aurafitbackend.Utils.EntityDTOMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,8 +36,8 @@ public class OrderService {
 //    private final ContactInformationRepository contactInformationRepository;
 
 
-    public List<Order> getUserOrderHistory(Long userId) {
-        return orderRepository.findByUserId(userId);
+    public List<OrderResponseDTO> getUserOrderHistory(Long userId) {
+        return EntityDTOMapper.toOrdersListDTOS(orderRepository.findByUserId(userId));
     }
 
 
@@ -49,7 +51,7 @@ public class OrderService {
         List<OrderItem> orderItems = mapCartItemsToOrderItems(order, cart.getItems());
         order.setOrderItems(orderItems);
         orderRepository.save(order);
-        
+
         cartRepository.delete(cart);
 
         // create a fresh empty cart for the user

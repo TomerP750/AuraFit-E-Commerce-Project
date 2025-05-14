@@ -1,6 +1,7 @@
 package app.aurafitbackend.DTOS.Cart_And_Orders_DTOS;
 
 
+import app.aurafitbackend.Beans.ContactInformation;
 import app.aurafitbackend.Beans.OrderItem;
 import app.aurafitbackend.Enums.Status;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,9 @@ import java.util.List;
 public class OrderResponseDTO {
     private Long id;
     private BigDecimal totalPrice;
-    private List<OrderItem> orderItems;
+    private List<OrderItemResponseDTO> orderItems;
     private LocalDateTime orderDate;
     private Status status;
+    private String orderNumber;
+    private ContactInformation contactInformation;
 }

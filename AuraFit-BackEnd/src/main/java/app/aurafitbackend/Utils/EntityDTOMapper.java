@@ -3,11 +3,14 @@ package app.aurafitbackend.Utils;
 import app.aurafitbackend.Beans.*;
 import app.aurafitbackend.DTOS.CartDTOS.CartDTO;
 import app.aurafitbackend.DTOS.CartDTOS.CartItemDTO;
+import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.OrderItemResponseDTO;
+import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.OrderResponseDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.UserDTO;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -141,5 +144,43 @@ public final class EntityDTOMapper {
                 .cartToken(cart.getCartToken())
                 .build();
     }
+
+
+    public static List<OrderResponseDTO> toOrdersListDTOS(List<Order> orders) {
+        return orders.stream()
+                .map(order -> OrderResponseDTO.builder()
+                        .id(order.getId())
+                        .orderNumber(order.getOrderNumber())
+                        .orderDate(order.getOrderDate())
+                        .contactInformation(order.getContactInformation())
+                        .totalPrice(order.getTotalPrice())
+                        .status(order.getStatus())
+                        // use the helper to map the items:
+                        .orderItems(toOrderItemResponseDTOS(order.getOrderItems()))
+                        .build()
+                )
+                .collect(Collectors.toList());
+    }
+
+    private static List<OrderItemResponseDTO> toOrderItemResponseDTOS(List<OrderItem> orderItems) {
+        return orderItems.stream()
+                .map(item -> OrderItemResponseDTO.builder()
+                        .id(item.getId())
+                        .productVariant(item.getVariant())
+                        .quantity(item.getQuantity())
+                        .unitPrice(item.getUnitPrice())
+                        // compute totalPrice = unitPrice * quantity
+                        .totalPrice(
+                                item.getUnitPrice()
+                                        .multiply(BigDecimal.valueOf(item.getQuantity()))
+                                        .intValue()
+                        )
+                        .build()
+                )
+                .collect(Collectors.toList());
+    }
+
+
+
 
 }

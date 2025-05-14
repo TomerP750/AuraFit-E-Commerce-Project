@@ -8,6 +8,10 @@ class OrderService {
         return (await axios.post("http://localhost:8080/api/order/user/placeOrder", data)).data
     }
 
+    async userOrderHistory() {
+        return (await axios.get("http://localhost:8080/api/order/user/history")).data
+    }
+
 }
 
 const orderService = new OrderService();
