@@ -31,7 +31,7 @@ export function OrderHistoryPage(): JSX.Element {
                     <p className={"text-4xl font-bold"}>Order History</p>
                     <p>Check the status of your recent orders</p>
                 </div>
-                {orders.map(order => <OrderCard key={order.id} order={order}/>)}
+                {orders.map(order => <OrderCard  key={order.id} order={order}/>)}
             </div>
 
         </div>

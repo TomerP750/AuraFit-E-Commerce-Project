@@ -2,6 +2,7 @@ import "./OrderItemCard.css";
 import {JSX} from "react";
 import {OrderItemDTO} from "../../../Models/OrderItemDTO.ts";
 import {NavLink} from "react-router-dom";
+import {OrderResponseDTO} from "../../../Models/DTOS/OrderResponseDTO.ts";
 
 
 interface OrderItemCardProps {
@@ -35,6 +36,9 @@ export function OrderItemCard({orderItem, page}: OrderItemCardProps): JSX.Elemen
                 <p className={"text-gray-300 font-light"}>|</p>
                 <button className={"cursor-pointer hover:text-violet-400"}>Buy Again</button>
             </div>
+
+            <hr className="border-gray-200"/>
+
         </>
     )
 }
