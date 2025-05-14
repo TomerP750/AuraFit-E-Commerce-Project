@@ -10,6 +10,7 @@ import {OrderItemCard} from "../OrderItemCard/OrderItemCard.tsx";
 import {useUserSelector} from "../../../Redux/hooks.ts";
 import {NavLink} from "react-router-dom";
 import {FiArrowLeft} from "react-icons/fi";
+import {ContactInformation} from "../../../Models/ContactInformation.ts";
 
 export function CheckoutPage(): JSX.Element {
 
@@ -22,9 +23,9 @@ export function CheckoutPage(): JSX.Element {
             .catch(err => toast.error(err.response.data));
     }, [])
 
-    function placeOrder(data: CheckoutRequestDTO) {
+    function placeOrder(data: ContactInformation) {
         if (user) {
-            orderService.placeOrder(data)
+            orderService.checkoutUser(data)
                 .then(res => toast.success("Order Placed, Thanks for shopping!"))
                 .catch((err) => toast.error(err.response.data))
         }

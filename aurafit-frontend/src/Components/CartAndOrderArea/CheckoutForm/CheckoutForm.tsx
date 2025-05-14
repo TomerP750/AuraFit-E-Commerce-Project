@@ -1,17 +1,15 @@
 import "./CheckoutForm.css";
 import {JSX} from "react";
-import {CheckoutRequestDTO} from "../../../Models/DTOS/CheckoutRequestDTO.ts";
 import {useForm} from "react-hook-form";
-import orderService from "../../../Services/OrderService.ts";
-import {toast} from "react-toastify";
+import {ContactInformation} from "../../../Models/ContactInformation.ts";
 
 interface CheckoutFormProps {
-    onSubmit: (data: CheckoutRequestDTO) => void;
+    onSubmit: (data: ContactInformation) => void;
 }
 
 export function CheckoutForm({ onSubmit }: CheckoutFormProps): JSX.Element {
 
-    const {register, handleSubmit, formState: { errors, isSubmitting }} = useForm<CheckoutRequestDTO>();
+    const {register, handleSubmit, formState: { errors, isSubmitting }} = useForm<ContactInformation>();
 
     return (
         <form id={"checkoutForm"} onSubmit={handleSubmit(onSubmit)} className="space-y-6 w-full">
@@ -53,22 +51,22 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps): JSX.Element {
             <div>
                 <label className="block text-sm font-medium">Phone</label>
                 <input
-                    {...register('phone', { required: 'Phone number is required' })}
+                    {...register('phoneNumber', { required: 'Phone number is required' })}
                     type="tel"
                     className="mt-1 block w-full border rounded p-2"
                 />
-                {errors.phone && <p className="text-red-600 text-sm">{errors.phone.message}</p>}
+                {errors.phoneNumber && <p className="text-red-600 text-sm">{errors.phoneNumber.message}</p>}
             </div>
 
             {/* Address */}
             <div>
                 <label className="block text-sm font-medium">Address</label>
                 <input
-                    {...register('address', { required: 'Address is required' })}
+                    {...register('street', { required: 'Address is required' })}
                     type="text"
                     className="mt-1 block w-full border rounded p-2"
                 />
-                {errors.address && <p className="text-red-600 text-sm">{errors.address.message}</p>}
+                {errors.street && <p className="text-red-600 text-sm">{errors.street.message}</p>}
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="sm:col-span-2">

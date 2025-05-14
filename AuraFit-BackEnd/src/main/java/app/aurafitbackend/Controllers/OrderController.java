@@ -1,7 +1,8 @@
 package app.aurafitbackend.Controllers;
 
+import app.aurafitbackend.Beans.ContactInformation;
 import app.aurafitbackend.Beans.Order;
-import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.CheckoutRequestDTO;
+import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.ContactInformationDTO;
 import app.aurafitbackend.Security.CustomUserDetails;
 import app.aurafitbackend.Services.OrderService;
 import lombok.AllArgsConstructor;
@@ -16,17 +17,15 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/user/placeOrder")
-    public Order checkoutUser(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody CheckoutRequestDTO dto) {
+    public void checkoutUser(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody ContactInformation contactInformation) {
         Long userId = userDetails.getUser().getId();
-        Order order = orderService.placeOrder(userId, dto, /*cartToken=*/null);
-        return order;
+        orderService.placeOrderForUser(userId, contactInformation);
     }
 
     // guest: read cart_token cookie
     @PostMapping("/guest")
-    public Order checkoutGuest(@CookieValue("cart_token") String cartToken, @RequestBody CheckoutRequestDTO dto) {
-        Order order = orderService.placeOrder(/*userId=*/null, dto, cartToken);
-        return order;
+    public Order checkoutGuest(@CookieValue("cart_token") String cartToken, @RequestBody ContactInformation contactInformation) {
+        return orderService.placeOrderForGuest(cartToken, contactInformation);
     }
 }
 

@@ -19,6 +19,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
+    private BigDecimal subTotal;
+    private BigDecimal shippingCost;
     private BigDecimal totalPrice;
     private String orderNumber;
 
@@ -30,15 +32,11 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Embedded
+    private ContactInformation contactInformation;
 
-//    Guest Purchase Details
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
-    private String address;
-    private String city;
-    private String postalCode;
+//    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+//    private PaymentDetail paymentDetails;
 
 
 }

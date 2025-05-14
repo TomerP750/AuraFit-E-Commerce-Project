@@ -25,6 +25,6 @@ public class OrderItem {
     private ProductVariant variant;
     @ManyToOne
     private Order order;
-    @ManyToOne
-    private User user;
+//    @ManyToOne
+//    private User user;
 }

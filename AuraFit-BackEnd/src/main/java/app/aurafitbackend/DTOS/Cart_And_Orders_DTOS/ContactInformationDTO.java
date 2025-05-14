@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CheckoutRequestDTO {
+public class ContactInformationDTO {
 
     private String firstName;
     private String lastName;
     private String email;
-    private String phone;
-    private String address;
+    private String phoneNumber;
+    private String street;
     private String city;
     private String postalCode;
 

@@ -1,10 +1,10 @@
-import {CheckoutRequestDTO} from "../Models/DTOS/CheckoutRequestDTO.ts";
 import axios from "axios";
+import {ContactInformation} from "../Models/ContactInformation.ts";
 
 
 class OrderService {
 
-    async placeOrder(data: CheckoutRequestDTO) {
+    async checkoutUser(data: ContactInformation) {
         return (await axios.post("http://localhost:8080/api/order/user/placeOrder", data)).data
     }
 

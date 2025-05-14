@@ -1,25 +1,18 @@
 package app.aurafitbackend.Services;
 
 import app.aurafitbackend.Beans.*;
-import app.aurafitbackend.DTOS.CartDTOS.CartDTO;
-import app.aurafitbackend.DTOS.CartDTOS.CartItemDTO;
-import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.CheckoutRequestDTO;
+import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.ContactInformationDTO;
 import app.aurafitbackend.Enums.Status;
 import app.aurafitbackend.Exceptions.NotExistsException;
-import app.aurafitbackend.Exceptions.PurchaseException;
 import app.aurafitbackend.Exceptions.RequestException;
 import app.aurafitbackend.Exceptions.UnauthorizedException;
 import app.aurafitbackend.Repositories.*;
-import app.aurafitbackend.Utils.EntityDTOMapper;
-import app.aurafitbackend.Utils.GeneralValidator;
-import app.aurafitbackend.Utils.OrderValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -37,147 +30,92 @@ public class OrderService {
     private final PromotionRepository promotionRepository;
     private final OrderItemRepository orderItemRepository;
     private final CartService cartService;
+//    private final PaymentDetailRepository paymentDetailRepository;
+//    private final ContactInformationRepository contactInformationRepository;
 
 
-    public List<Order> getUserOrderHistory(Long userId){
+    public List<Order> getUserOrderHistory(Long userId) {
         return orderRepository.findByUserId(userId);
     }
 
 
-    /**
-     * Place an order for a registered user.
-     */
     @Transactional
-    public Order placeOrderForUser(Long userId, CheckoutRequestDTO dto) {
-        // 1) load user & their pending cart
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotExistsException("User not found"));
+    public void placeOrderForUser(Long userId, ContactInformation contactInformation) {
+
         Cart cart = cartService.getOrCreateUserCart(userId);
 
-        // 2) build & save basic Order (to get an ID)
-        Order order = Order.builder()
-                .orderNumber("ORD-" + UUID.randomUUID())
-                .user(user)
-                .firstName(dto.getFirstName())
-                .lastName(dto.getLastName())
-                .email(dto.getEmail())
-                .phone(dto.getPhone())
-                .address(dto.getAddress())
-                .city(dto.getCity())
-                .postalCode(dto.getPostalCode())
-                .totalPrice(cart.getTotalCartPrice())
-                .status(Status.COMPLETED)
-                .build();
-        order = orderRepository.save(order);
+        Order order = buildOrder(contactInformation, cart);
+        List<OrderItem> orderItems = mapCartItemsToOrderItems(order, cart.getItems());
+        orderItemRepository.saveAll(orderItems);
 
-        // 3) map cart lines → order items
-        List<OrderItem> items = mapCartItemsToOrderItems(order, cart.getItems());
-        orderItemRepository.saveAll(items);
+        order.setOrderItems(orderItems);
+        orderRepository.save(order);
 
-        // 4) attach items & finalize
-        order.setOrderItems(items);
-        order = orderRepository.save(order);
-
-        // 5) clear the user’s cart
-        cartService.clearCart(userId, null);
-
-        return order;
     }
 
-    /**
-     * Place an order for a guest (by cartToken).
-     */
     @Transactional
-    public Order placeOrderForGuest(CheckoutRequestDTO dto, String guestToken) {
-        // 1) load guest cart
-        Cart cart = cartService.getOrCreateGuestCart(guestToken);
+    public Order placeOrderForGuest(String cartToken ,ContactInformation contactInformation) {
+        Cart cart = cartService.getOrCreateGuestCart(cartToken);
 
-        // 2) build & save basic Order
-        Order order = Order.builder()
-                .orderNumber("ORD-" + UUID.randomUUID())
-                .firstName(dto.getFirstName())
-                .lastName(dto.getLastName())
-                .email(dto.getEmail())
-                .phone(dto.getPhone())
-                .address(dto.getAddress())
-                .city(dto.getCity())
-                .postalCode(dto.getPostalCode())
-                .totalPrice(cart.getTotalCartPrice())
-                .status(Status.COMPLETED)
-                .build();
-        order = orderRepository.save(order);
-
-        List<OrderItem> items = mapCartItemsToOrderItems(order, cart.getItems());
-        orderItemRepository.saveAll(items);
-
-        order.setOrderItems(items);
-        order = orderRepository.save(order);
-
-        cartService.clearCart(null, guestToken);
-
-        return order;
+        Order order = buildOrder(contactInformation, cart);
+        List<OrderItem> orderItems = mapCartItemsToOrderItems(order, cart.getItems());
+        orderItemRepository.saveAll(orderItems);
+        order.setOrderItems(orderItems);
+        return orderRepository.save(order);
     }
 
-    /**
-     * Facade: decide between user or guest checkout.
-     */
-    public Order placeOrder(Long userId, CheckoutRequestDTO dto, String guestToken) {
-        if (userId != null) {
-            return placeOrderForUser(userId, dto);
-        } else {
-            return placeOrderForGuest(dto, guestToken);
-        }
+
+    private List<OrderItem> mapCartItemsToOrderItems(Order order, List<CartItem> cartItems) {
+
+        return cartItems.stream()
+                .map(ci -> OrderItem.builder()
+                        .order(order)
+                        .variant(ci.getVariant())
+                        .unitPrice(ci.getUnitPrice())
+                        .quantity(ci.getQuantity())
+                        .totalPrice(ci.getUnitPrice()
+                                .multiply(BigDecimal.valueOf(ci.getQuantity())))
+                        .build())
+                .collect(Collectors.toList());
+
     }
 
-    /**
-     * Cancel an existing order, enforcing that only the owner (user or guest email) can cancel.
-     */
     @Transactional
     public void cancelOrder(Long orderId, String principalEmail) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new NotExistsException("Order not found"));
-
-        // check ownership
         if (order.getUser() != null) {
             if (!order.getUser().getEmail().equals(principalEmail)) {
                 throw new UnauthorizedException("Not your order");
             }
         } else {
-            if (!order.getEmail().equals(principalEmail)) {
+            if (!order.getContactInformation().getEmail().equals(principalEmail)) {
                 throw new UnauthorizedException("Not your order");
             }
         }
-
         order.setStatus(Status.CANCELLED);
         orderRepository.save(order);
     }
 
-    // UTIL METHODS
 
-    /**
-     * Turn each CartItem into an OrderItem, preserving pricing and variant link.
-     */
-    private List<OrderItem> mapCartItemsToOrderItems(Order order, List<CartItem> cartItems) {
-        return cartItems.stream()
-                .map(ci -> {
-                    // ensure variant still exists
-                    ProductVariant variant = productVariantRepository.findById(ci.getVariant().getId())
-                            .orElseThrow(() -> new NotExistsException("Variant not found"));
-                    return OrderItem.builder()
-                            .order(order)
-                            .variant(variant)
-                            .quantity(ci.getQuantity())
-                            .unitPrice(ci.getUnitPrice())
-                            .totalPrice(
-                                    ci.getUnitPrice()
-                                            .multiply(BigDecimal.valueOf(ci.getQuantity()))
-                            )
-                            .build();
-                })
-                .collect(Collectors.toList());
+    private Order buildOrder(ContactInformation contactInformation, Cart cart) {
+
+        LocalDateTime now = LocalDateTime.now();
+
+        Order order = Order.builder()
+                .orderDate(now)
+                .user(cart.getUser())
+                .contactInformation(contactInformation)
+                .shippingCost(cart.getShippingCost())
+                .subTotal(cart.getSubTotal())
+                .totalPrice(cart.getTotalCartPrice())
+                .orderNumber("AF-ORD" + UUID.randomUUID())
+                .status(Status.PENDING)
+//                .paymentDetails(null)
+                .build();
+        return orderRepository.save(order);
+
+
     }
-
-
-
 
 }
