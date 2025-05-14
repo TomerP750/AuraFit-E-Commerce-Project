@@ -12,6 +12,7 @@ export function OrderCard({order}: OrderCardProps): JSX.Element {
         <div className="flex flex-col w-4/5 text-black border border-black gap-5 py-5">
 
             {/*    Top*/}
+
             <div className="flex justify-between items-center px-8">
                 <div className="flex gap-6">
                     <div className="flex flex-col">
