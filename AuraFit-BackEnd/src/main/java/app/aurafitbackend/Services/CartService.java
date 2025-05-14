@@ -28,9 +28,6 @@ public class CartService {
 
 
 
-    public Cart clearCart() {
-        return null;
-    }
 
 
     /**
@@ -39,8 +36,7 @@ public class CartService {
     @Transactional
     public Cart getOrCreateUserCart(Long userId) {
         User user = userRepository.getReferenceById(userId);
-        return cartRepository
-                .findByUserIdAndStatus(userId, Status.PENDING)
+        return cartRepository.findByUserIdAndStatus(userId, Status.PENDING)
                 .orElseGet(() -> cartRepository.save(
                         Cart.builder()
                                 .user(user)

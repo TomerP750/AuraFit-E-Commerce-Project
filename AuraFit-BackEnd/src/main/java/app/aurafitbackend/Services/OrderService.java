@@ -44,14 +44,18 @@ public class OrderService {
 
         Cart cart = cartService.getOrCreateUserCart(userId);
 
+        // build & persist the order
         Order order = buildOrder(contactInformation, cart);
         List<OrderItem> orderItems = mapCartItemsToOrderItems(order, cart.getItems());
-        orderItemRepository.saveAll(orderItems);
-
         order.setOrderItems(orderItems);
         orderRepository.save(order);
+        
+        cartRepository.delete(cart);
 
+        // create a fresh empty cart for the user
+        cartService.getOrCreateUserCart(userId);
     }
+
 
     @Transactional
     public Order placeOrderForGuest(String cartToken ,ContactInformation contactInformation) {
