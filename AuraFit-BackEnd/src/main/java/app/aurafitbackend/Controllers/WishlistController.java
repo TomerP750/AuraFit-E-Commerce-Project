@@ -34,4 +34,10 @@ public class WishlistController {
         wishlistItemService.removeProductFromWishlist(userId, id);
     }
 
+    @GetMapping("/wishlisted/{variantId}")
+    public boolean isWishlisted(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long variantId) {
+        Long userId = userDetails.getUser().getId();
+        return wishlistItemService.isWishlisted(userId, variantId);
+    }
+
 }

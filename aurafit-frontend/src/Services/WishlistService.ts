@@ -1,6 +1,4 @@
 import axios from "axios";
-import {ProductVariant} from "../Models/ProductVariant.ts";
-
 
 class WishlistService {
 

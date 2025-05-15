@@ -48,6 +48,10 @@ public class WishlistItemService {
         wishlistItemRepository.deleteById(wishlistItem.getId());
     }
 
+    public boolean isWishlisted(Long userId, Long productVariantId) {
+        return wishlistItemRepository.existsByUserIdAndProductVariantId(userId, productVariantId);
+    }
+
 
 
 

@@ -8,4 +8,6 @@ import java.util.List;
 public interface WishlistItemRepository extends JpaRepository<WishlistItem, Long> {
 
     List<WishlistItem> findByUserId(Long id);
+
+    boolean existsByUserIdAndProductVariantId(Long userId, Long productVariantId);
 }
