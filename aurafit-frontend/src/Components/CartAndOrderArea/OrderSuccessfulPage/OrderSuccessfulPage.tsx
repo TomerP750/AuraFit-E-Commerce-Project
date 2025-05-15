@@ -12,46 +12,56 @@ export function OrderSuccessfulPage(): JSX.Element {
     console.log(order)
 
     return (
-        <div className="flex justify-center items-center w-full min-h-screen py-5">
-            <div className="flex justify-center items-start w-3/4">
-                {/*Left section - image*/}
-                <div className="bg-yellow-200 flex-1 h-[800px]">
+        <div className="min-h-screen flex justify-center items-center py-5 px-4 bg-gray-50">
+            <div className="flex flex-col md:flex-row w-full md:w-3/4 bg-white shadow-lg rounded-lg overflow-hidden">
 
-                </div>
-                {/*right section*/}
-                <div className="w-1/2 flex flex-col items-start px-8 mt-20 gap-10">
-                    {/*Top*/}
-                    <div className="space-y-15">
-                        <div>
-                            <p className={"text-purple-500"}>Payment Successful</p>
-                            <p className="text-5xl font-bold">Thank You For Your Purchase</p>
-                            <p className={"text-lg text-gray-500"}>We appreciate your order, we're currently processing
-                                it.
-                                and will send you confirmation
-                                soon</p>
-                        </div>
-                        <div className="flex flex-col">
-                            <p className={"font-medium"}>Order number</p>
-                            <p className={"text-purple-600"}>{order.orderNumber}</p>
-                        </div>
+                <div className="bg-yellow-200 w-full md:w-1/2 h-64 md:h-auto flex-shrink-0" />
+
+                {/* Right section */}
+                <div className="w-full md:w-1/2 p-8 flex flex-col gap-8">
+                    {/* Header */}
+                    <div className="space-y-4">
+                        <p className="text-purple-500">Payment Successful</p>
+                        <p className="text-3xl md:text-5xl font-bold">Thank You For Your Purchase</p>
+                        <p className="text-gray-500">
+                            We appreciate your order, we're currently processing it and
+                            will send you confirmation soon.
+                        </p>
                     </div>
 
-                    <hr className={"text-gray-400 font-medium w-full"} />
-                {/*    Middle*/}
-                    {order.orderItems.map(oi => <OrderItemCard key={oi.id} page={"success"} orderItem={oi}/>)}
+                    {/* Order number */}
+                    <div className="space-y-1">
+                        <p className="font-medium">Order number</p>
+                        <p className="text-purple-600">{order.orderNumber}</p>
+                    </div>
 
-                    <div className={"grid grid-cols-2"}>
-                        <ul className={"flex flex-col items-start"}>
-                            <li><p>Shipping Address</p></li>
-                            <div>
-                                <li><p>{order.contactInformation.firstName} {order.contactInformation.lastName}</p></li>
-                                <li><p>{order.contactInformation.postalCode} {order.contactInformation.street}</p></li>
-                                <li><p>{order.contactInformation.city}</p></li>
-                            </div>
-                        </ul>
-                        <ul className={"flex flex-col items-start"}>
+                    <hr className="border-gray-300" />
 
-                        </ul>
+                    {/* Order items */}
+                    <div className="space-y-4">
+                        {order.orderItems.map((oi) => (
+                            <OrderItemCard key={oi.id} page="success" orderItem={oi} />
+                        ))}
+                    </div>
+
+                    {/* Address & summary */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <p className="font-medium mb-1">Shipping Address</p>
+                            <p>
+                                {order.contactInformation.firstName}{" "}
+                                {order.contactInformation.lastName}
+                            </p>
+                            <p>
+                                {order.contactInformation.postalCode}{" "}
+                                {order.contactInformation.street}
+                            </p>
+                            <p>{order.contactInformation.city}</p>
+                        </div>
+                        <div>
+                            <p className="font-medium mb-1">Total Paid</p>
+                            <p>${order.totalPrice.toFixed(2)}</p>
+                        </div>
                     </div>
                 </div>
             </div>

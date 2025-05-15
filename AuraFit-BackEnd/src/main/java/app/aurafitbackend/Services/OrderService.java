@@ -52,6 +52,16 @@ public class OrderService {
         order.setOrderItems(orderItems);
         orderRepository.save(order);
 
+        orderItems.forEach(orderItem -> {
+            ProductVariant variant = orderItem.getVariant();
+            //TODO what if two customer purchase same time make it lock
+            if (variant.getStockQuantity() - orderItem.getQuantity() <= 0) {
+                throw new RequestException("Insufficient Stock");
+            }
+            variant.setStockQuantity(variant.getStockQuantity() - orderItem.getQuantity());
+            productVariantRepository.save(variant);
+        });
+
         cartRepository.delete(cart);
 
         // create a fresh empty cart for the user
@@ -68,6 +78,18 @@ public class OrderService {
         Order order = buildOrder(contactInformation, cart);
         List<OrderItem> orderItems = mapCartItemsToOrderItems(order, cart.getItems());
         orderItemRepository.saveAll(orderItems);
+
+        orderItems.forEach(orderItem -> {
+            ProductVariant variant = orderItem.getVariant();
+            //TODO what if two customer purchase same time make it lock
+            if (variant.getStockQuantity() - orderItem.getQuantity() <= 0) {
+                throw new RequestException("Insufficient Stock");
+            }
+            variant.setStockQuantity(variant.getStockQuantity() - orderItem.getQuantity());
+            productVariantRepository.save(variant);
+        });
+
+
         order.setOrderItems(orderItems);
         return orderRepository.save(order);
     }
