@@ -11,7 +11,10 @@ export function WishlistPage(): JSX.Element {
 
     useEffect(() => {
         wishlistService.allWishlistItems()
-            .then(res => setWishlistItems(res))
+            .then(res => {
+                setWishlistItems(res)
+                console.log(res)
+            })
             .catch(err => toast.error(err));
     }, [])
 

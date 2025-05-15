@@ -19,7 +19,7 @@ public class WishlistController {
     @GetMapping("/all")
     public List<WishlistItem> allWishlistItems(@AuthenticationPrincipal CustomUserDetails userDetails) {
         Long userId = userDetails.getUser().getId();
-        return wishlistItemService.getAllWishlistItems(userId);
+        return wishlistItemService.getUserWishlistItems(userId);
     }
 
     @PostMapping("/addToWishlist/{id}")

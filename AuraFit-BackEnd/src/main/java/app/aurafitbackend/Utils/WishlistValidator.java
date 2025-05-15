@@ -7,6 +7,6 @@ public class WishlistValidator {
 
 
     public static boolean isValidAddToWishlistRequest() {
-        return false;
+        return true;
     }
 }

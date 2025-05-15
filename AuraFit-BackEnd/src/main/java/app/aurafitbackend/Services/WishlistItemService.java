@@ -22,7 +22,7 @@ public class WishlistItemService {
     private final UserRepository userRepository;
     private final ProductVariantRepository productVariantRepository;
 
-    public List<WishlistItem> getAllWishlistItems(Long userId) {
+    public List<WishlistItem> getUserWishlistItems(Long userId) {
         return wishlistItemRepository.findByUserId(userId);
     }
 
@@ -31,13 +31,9 @@ public class WishlistItemService {
             User user = userRepository.findById(userId).orElseThrow(() -> new NotExistsException("User Not Found"));
             ProductVariant productVariant = productVariantRepository.findById(variantId).orElseThrow(() -> new NotExistsException("Product Variant Not Found"));
 
-            WishlistItem wishlistItem = user != null ? WishlistItem.builder()
+            WishlistItem wishlistItem = WishlistItem.builder()
                     .productVariant(productVariant)
                     .user(user)
-                    .build()
-                    : WishlistItem.builder()
-                    .productVariant(productVariant)
-                    .user(null)
                     .build();
             wishlistItemRepository.save(wishlistItem);
         }

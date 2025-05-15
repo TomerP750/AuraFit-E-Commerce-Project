@@ -8,7 +8,7 @@ class WishlistService {
         return (await axios.get("http://localhost:8080/api/wishlist/all")).data
     }
 
-    async addToProductToWishlist(variantId: number) {
+    async addProductToWishlist(variantId: number) {
         return (await axios.post(`http://localhost:8080/api/wishlist/addToWishlist/${variantId}`))
     }
 
