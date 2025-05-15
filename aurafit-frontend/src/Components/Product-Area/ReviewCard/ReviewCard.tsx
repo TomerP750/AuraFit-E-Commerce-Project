@@ -60,7 +60,7 @@ export function ReviewCard({review}: ReviewCardProps): JSX.Element {
 
 
     return (
-        <div className="w-full flex flex-col items-start flex-1 gap-5">
+        <div className="w-full flex flex-col items-start flex-1 gap-8">
             <div className="flex flex-col gap-1 w-full">
                 <div className="flex gap-2 justify-between items-center">
                     <div className="flex gap-2">
@@ -91,6 +91,8 @@ export function ReviewCard({review}: ReviewCardProps): JSX.Element {
 
                 </div>
             </div>
+
+            <hr className={`${onEdit ? "hidden" : "text-gray-500/50 w-full"}`}/>
 
             {onEdit ?
                 <form onSubmit={handleSubmit(sendUpdatedReview)} className="flex flex-col w-full gap-3">

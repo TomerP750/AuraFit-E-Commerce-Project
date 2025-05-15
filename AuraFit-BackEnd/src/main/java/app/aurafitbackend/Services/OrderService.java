@@ -9,6 +9,7 @@ import app.aurafitbackend.Exceptions.RequestException;
 import app.aurafitbackend.Exceptions.UnauthorizedException;
 import app.aurafitbackend.Repositories.*;
 import app.aurafitbackend.Utils.EntityDTOMapper;
+import app.aurafitbackend.Utils.OrderValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -114,17 +115,10 @@ public class OrderService {
     public void cancelOrder(Long orderId, String principalEmail) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new NotExistsException("Order not found"));
-        if (order.getUser() != null) {
-            if (!order.getUser().getEmail().equals(principalEmail)) {
-                throw new UnauthorizedException("Not your order");
-            }
-        } else {
-            if (!order.getContactInformation().getEmail().equals(principalEmail)) {
-                throw new UnauthorizedException("Not your order");
-            }
+        if (OrderValidator.isValidOrderForCancel(order, principalEmail)) {
+            order.setStatus(Status.CANCELLED);
+            orderRepository.save(order);
         }
-        order.setStatus(Status.CANCELLED);
-        orderRepository.save(order);
     }
 
 

@@ -1,8 +1,9 @@
 import "./OrderSuccessfulPage.css";
 import {JSX} from "react";
-import {useLocation} from "react-router-dom";
+import {NavLink, useLocation} from "react-router-dom";
 import {OrderResponseDTO} from "../../../Models/DTOS/OrderResponseDTO.ts";
 import {OrderItemCard} from "../OrderItemCard/OrderItemCard.tsx";
+import {FiArrowRight} from "react-icons/fi";
 
 export function OrderSuccessfulPage(): JSX.Element {
 
@@ -15,7 +16,7 @@ export function OrderSuccessfulPage(): JSX.Element {
         <div className="min-h-screen flex justify-center items-center py-5 px-4 bg-gray-50">
             <div className="flex flex-col md:flex-row w-full md:w-3/4 bg-white shadow-lg rounded-lg overflow-hidden">
 
-                <div className="bg-yellow-200 w-full md:w-1/2 h-64 md:h-auto flex-shrink-0" />
+                <div className="bg-yellow-200 w-full md:w-1/2 h-64 md:h-auto flex-shrink-0"/>
 
                 {/* Right section */}
                 <div className="w-full md:w-1/2 p-8 flex flex-col gap-8">
@@ -35,12 +36,12 @@ export function OrderSuccessfulPage(): JSX.Element {
                         <p className="text-purple-600">{order.orderNumber}</p>
                     </div>
 
-                    <hr className="border-gray-300" />
+                    <hr className="border-gray-300"/>
 
                     {/* Order items */}
                     <div className="space-y-4">
                         {order.orderItems.map((oi) => (
-                            <OrderItemCard key={oi.id} page="success" orderItem={oi} />
+                            <OrderItemCard key={oi.id} page="success" orderItem={oi}/>
                         ))}
                     </div>
 
@@ -63,6 +64,10 @@ export function OrderSuccessfulPage(): JSX.Element {
                             <p>${order.totalPrice.toFixed(2)}</p>
                         </div>
                     </div>
+                    <NavLink to={"/"} className="flex items-center self-end text-purple-600 cursor-pointer">
+                        <p>Continue Shopping</p>
+                        <FiArrowRight/>
+                    </NavLink>
                 </div>
             </div>
         </div>

@@ -15,9 +15,10 @@ import app.aurafitbackend.Repositories.ReviewRepository;
 import app.aurafitbackend.Utils.EntityDTOMapper;
 import app.aurafitbackend.Utils.ProductVariantValidator;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.data.domain.Pageable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,10 @@ public class ProductVariantService {
     public List<ProductVariant> getAllProductVariants() {
         return productVariantRepository.findAll();
     }
+
+//    public Page<ProductVariant> getAllProductVariants(Pageable pageable) {
+//        return productVariantRepository.findAll(pageable);
+//    }
 
     public ProductVariant getProductVariant(Long id) {
         return productVariantRepository.findById(id).orElseThrow(()->new NotExistsException("Product variant not found"));

@@ -32,7 +32,7 @@ export function ProductVariantCrud(): JSX.Element {
         "Id",
         "Size",
         "Color",
-        "Material",
+        // "Material",
         "Base Price",
         "Sale Price",
         "Stock",

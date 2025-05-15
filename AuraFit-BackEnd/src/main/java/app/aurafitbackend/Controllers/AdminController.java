@@ -4,8 +4,13 @@ import app.aurafitbackend.Beans.*;
 import app.aurafitbackend.DTOS.DisplayDTOS.UserDTO;
 import app.aurafitbackend.Services.*;
 import lombok.AllArgsConstructor;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+
 
 import java.util.List;
 
@@ -120,6 +125,12 @@ public class AdminController {
     public List<ProductVariant> allProductVariants() {
         return productVariantService.getAllProductVariants();
     }
+
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @GetMapping("/variant/all")
+//    public Page<ProductVariant> allProductVariants(@PageableDefault(size = 10) Pageable pageable) {
+//        return productVariantService.getAllProductVariants(pageable);
+//    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/variant/{id}")

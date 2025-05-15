@@ -5,6 +5,7 @@ import app.aurafitbackend.Enums.Status;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Exceptions.RequestException;
 import app.aurafitbackend.Exceptions.TimeExpiredException;
+import app.aurafitbackend.Exceptions.UnauthorizedException;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +20,7 @@ public class OrderValidator {
     }
 
 
-    public static boolean isValidOrderForCancel(Order order) {
+    public static boolean isValidOrderForCancel(Order order, String principalEmail) {
         LocalDateTime now = LocalDateTime.now();
 
         if (order == null) {
