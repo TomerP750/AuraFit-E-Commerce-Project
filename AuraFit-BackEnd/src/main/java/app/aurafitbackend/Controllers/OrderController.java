@@ -6,6 +6,7 @@ import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.ContactInformationDTO;
 import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.OrderResponseDTO;
 import app.aurafitbackend.Security.CustomUserDetails;
 import app.aurafitbackend.Services.OrderService;
+import app.aurafitbackend.Utils.EntityDTOMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,9 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/user/placeOrder")
-    public void checkoutUser(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody ContactInformation contactInformation) {
+    public OrderResponseDTO checkoutUser(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody ContactInformation contactInformation) {
         Long userId = userDetails.getUser().getId();
-        orderService.placeOrderForUser(userId, contactInformation);
+        return EntityDTOMapper.toOrderResponseDTO(orderService.placeOrderForUser(userId, contactInformation));
     }
 
     // guest: read cart_token cookie

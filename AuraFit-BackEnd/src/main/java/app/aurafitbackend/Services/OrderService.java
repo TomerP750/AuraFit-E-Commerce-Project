@@ -42,7 +42,7 @@ public class OrderService {
 
 
     @Transactional
-    public void placeOrderForUser(Long userId, ContactInformation contactInformation) {
+    public Order placeOrderForUser(Long userId, ContactInformation contactInformation) {
 
         Cart cart = cartService.getOrCreateUserCart(userId);
 
@@ -56,6 +56,8 @@ public class OrderService {
 
         // create a fresh empty cart for the user
         cartService.getOrCreateUserCart(userId);
+
+        return order;
     }
 
 
@@ -116,7 +118,7 @@ public class OrderService {
                 .subTotal(cart.getSubTotal())
                 .totalPrice(cart.getTotalCartPrice())
                 .orderNumber("AF-ORD" + UUID.randomUUID())
-                .status(Status.PENDING)
+                .status(Status.COMPLETED)
 //                .paymentDetails(null)
                 .build();
         return orderRepository.save(order);

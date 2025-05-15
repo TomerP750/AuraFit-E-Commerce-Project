@@ -181,6 +181,20 @@ public final class EntityDTOMapper {
     }
 
 
+    public static OrderResponseDTO toOrderResponseDTO(Order order) {
+
+        return OrderResponseDTO.builder()
+                .id(order.getId())
+                .contactInformation(order.getContactInformation())
+                .totalPrice(order.getTotalPrice())
+                .orderItems(toOrderItemResponseDTOS(order.getOrderItems()))
+                .status(order.getStatus())
+                .orderDate(order.getOrderDate())
+                .orderNumber(order.getOrderNumber())
+                .build();
+
+    }
+
 
 
 }

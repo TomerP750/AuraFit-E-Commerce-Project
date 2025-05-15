@@ -17,6 +17,7 @@ import {CheckoutPage} from "../../CartAndOrderArea/CheckoutPage/CheckoutPage.tsx
 import {OrderSuccessfulPage} from "../../CartAndOrderArea/OrderSuccessfulPage/OrderSuccessfulPage.tsx";
 import {useUserSelector} from "../../../Redux/hooks.ts";
 import {OrderHistoryPage} from "../../CartAndOrderArea/OrderHistoryPage/OrderHistoryPage.tsx";
+import {AccountPage} from "../../User-Area/AccountPage/AccountPage.tsx";
 // import {useUser} from "../../../Redux/store.ts";
 
 
@@ -41,6 +42,7 @@ export function Routing(): JSX.Element {
                     <Route path={"/checkout"} element={<CheckoutPage/>}/>
                     <Route path={"/order/success"} element={<OrderSuccessfulPage/>}/>
                     <Route path={"/order/history"} element={<OrderHistoryPage/>}/>
+                    <Route path={"/account"} element={<AccountPage/>}/>
 
 
                     { user?.role === Role.ADMIN &&

@@ -15,6 +15,7 @@ export function FullNavbar(): JSX.Element {
         "/men", "/women", "/accessories",
         "/admin/panel",
         "/cart", "/wishlist","/checkout","/order/history",
+        "/order/success",
         `${pathname.startsWith("/product")}`
     ];
 

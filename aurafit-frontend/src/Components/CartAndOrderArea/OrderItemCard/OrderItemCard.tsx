@@ -12,6 +12,33 @@ interface OrderItemCardProps {
 
 export function OrderItemCard({orderItem, page}: OrderItemCardProps): JSX.Element {
 
+    if (page === "success") {
+        return (
+            <>
+                <div className="w-full flex justify-between h-[150px] gap-5">
+                    {/*    Left section - image*/}
+                    <div className="w-1/2 aspect-square bg-gray-200 aspect-square"/>
+                    {/*    Right section*/}
+                    <div className="flex flex-col w-full gap-2 h-full">
+                        <div className="flex justify-between font-medium">
+                            <p>{orderItem.variant.product.name}</p>
+                            <p>${orderItem.variant.onSale ? orderItem.variant.salePrice : orderItem.variant.basePrice}</p>
+                        </div>
+                        <div>
+                            <p>Size: {orderItem.variant.size.size}</p>
+                            <p>Color: {orderItem.variant.color.color}</p>
+                            <p>Qty: {orderItem.quantity}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <hr className="border-gray-200 w-full" />
+
+            </>
+        )
+    }
+
+
     return (
         <>
             <div className="w-full flex justify-between h-[150px] gap-5 px-8">

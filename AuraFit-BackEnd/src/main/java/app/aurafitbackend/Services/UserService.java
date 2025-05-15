@@ -4,6 +4,7 @@ import app.aurafitbackend.Beans.Order;
 import app.aurafitbackend.Beans.User;
 import app.aurafitbackend.DTOS.DisplayDTOS.UserDTO;
 import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.OrderResponseDTO;
+import app.aurafitbackend.DTOS.UpdateUserDTO;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Repositories.OrderRepository;
 import app.aurafitbackend.Repositories.UserRepository;
@@ -35,9 +36,9 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserDetails(User user) {
-        User userFromDb = userRepository.findById(user.getId()).orElseThrow(()->new NotExistsException("User not found"));
+    public void updateUserDetails(UpdateUserDTO user) {
 
+        User userFromDb = userRepository.findById(user.getId()).orElseThrow(()->new NotExistsException("User not found"));
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
         if (user.getEmail() != null) {

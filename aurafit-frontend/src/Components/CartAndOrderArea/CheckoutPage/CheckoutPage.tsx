@@ -8,7 +8,7 @@ import {CartDTO} from "../../../Models/DTOS/CartDTO.ts";
 import cartService from "../../../Services/CartService.ts";
 import {OrderItemCard} from "../OrderItemCard/OrderItemCard.tsx";
 import {useUserSelector} from "../../../Redux/hooks.ts";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {FiArrowLeft} from "react-icons/fi";
 import {ContactInformation} from "../../../Models/ContactInformation.ts";
 import {CartItemCard} from "../CartItemCard/CartItemCard.tsx";
@@ -17,6 +17,7 @@ export function CheckoutPage(): JSX.Element {
 
     const [cart, setCart] = useState<CartDTO>();
     const user = useUserSelector(state => state.authSlice.user);
+    const navigate = useNavigate();
 
     useEffect(() => {
         cartService.getUserCart()
@@ -27,7 +28,10 @@ export function CheckoutPage(): JSX.Element {
     function placeOrder(data: ContactInformation) {
         if (user) {
             orderService.checkoutUser(data)
-                .then(res => toast.success("Order Placed, Thanks for shopping!"))
+                .then(res => {
+                    navigate("/order/success", { state: {order: res} });
+                    toast.success("Order Placed, Thanks for shopping!");
+                })
                 .catch((err) => toast.error(err.response.data))
         }
     }
