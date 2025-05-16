@@ -22,4 +22,11 @@ public class ProductVariantValidator {
 //        }
         return true;
     }
+
+    public static boolean isValidProductVariantCredentials(ProductVariant productVariant) {
+//        if (!productVariant.getSize().getProductType().equals(productVariant.getProduct().getProductType())) {
+//            throw new RequestException("Product variant size does not match product variant subcategory");
+//        }
+        return true;
+    }
 }

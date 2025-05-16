@@ -2,6 +2,7 @@ package app.aurafitbackend.Controllers;
 
 import app.aurafitbackend.Beans.Product;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
+import app.aurafitbackend.DTOS.UpdateProductDTO;
 import app.aurafitbackend.Services.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +30,7 @@ public class ProductController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update")
-    public void updateProduct(@RequestBody Product product) {
+    public void updateProduct(@RequestBody UpdateProductDTO product) {
         productService.updateProduct(product);
     }
 

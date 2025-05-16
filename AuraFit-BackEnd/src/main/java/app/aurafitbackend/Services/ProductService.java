@@ -4,6 +4,7 @@ import app.aurafitbackend.Beans.Product;
 import app.aurafitbackend.Beans.Review;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductDTO;
+import app.aurafitbackend.DTOS.UpdateProductDTO;
 import app.aurafitbackend.Enums.Rating;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Exceptions.RequestException;
@@ -46,8 +47,14 @@ public class ProductService {
 
     }
 
-    public void updateProduct(Product product) {
-        if (ProductValidator.isValidProduct(product)) {
+    public void updateProduct(UpdateProductDTO updateProduct) {
+        if (ProductValidator.isValidProduct(updateProduct)) {
+            Product product = productRepository.findById(updateProduct.getId()).orElseThrow(() -> new NotExistsException("Product not found"));
+            product.setName(updateProduct.getName());
+            product.setDescription(updateProduct.getDescription());
+            product.setProductType(updateProduct.getProductType());
+            product.setOnSale(product.getOnSale());
+            product.setCategory(product.getCategory());
             productRepository.save(product);
         }
     }
@@ -58,6 +65,10 @@ public class ProductService {
 
     public int getProductReviewsAverage(Long productId) {
         Product product = getProduct(productId);
+        if (product.getReviews().isEmpty()) {
+            return 0;
+        }
+
         int sum = 0;
 
         for (Review review : product.getReviews()) {
@@ -66,25 +77,5 @@ public class ProductService {
 
         return sum / product.getReviews().size();
     }
-
-    private int extractReviewNumber(Rating rating) {
-
-        switch (rating) {
-            case ONE:
-                return 1;
-            case TWO:
-                return 2;
-            case THREE:
-                return 3;
-            case FOUR:
-                return 4;
-            case FIVE:
-                return 5;
-            default:
-                return 0;
-
-        }
-    }
-
 
 }

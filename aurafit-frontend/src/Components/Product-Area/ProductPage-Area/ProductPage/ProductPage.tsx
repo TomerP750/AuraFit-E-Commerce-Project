@@ -55,6 +55,7 @@ export function ProductPage(): JSX.Element {
         setSelectedSize(null);
     }, [variants]);
 
+    
     if (loading) {
         return <div className="text-center py-20">Loading product…</div>;
     }

@@ -1,9 +1,6 @@
 package app.aurafitbackend.Services;
 
-import app.aurafitbackend.Beans.Category;
-import app.aurafitbackend.Beans.Product;
-import app.aurafitbackend.Beans.ProductVariant;
-import app.aurafitbackend.Beans.Review;
+import app.aurafitbackend.Beans.*;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductVariantCreateDto;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
 import app.aurafitbackend.Enums.Gender;
@@ -88,6 +85,28 @@ public class ProductVariantService {
         return EntityDTOMapper.variantToDto(variant);
     }
 
+    public void updateVariant(ProductVariant updatedProductVariant) {
+        if (ProductVariantValidator.isValidProductVariantCredentials(updatedProductVariant)) {
+            ProductVariant productVariant = productVariantRepository.findById(updatedProductVariant.getId())
+                    .orElseThrow(() -> new NotExistsException("Product variant not found"));
+            productVariant.setColor(updatedProductVariant.getColor());
+            productVariant.setBasePrice(updatedProductVariant.getBasePrice());
+            productVariant.setSalePrice(updatedProductVariant.getSalePrice());
+            productVariant.setSize(updatedProductVariant.getSize());
+            productVariant.setMaterial(updatedProductVariant.getMaterial());
+            productVariant.setStockQuantity(updatedProductVariant.getStockQuantity());
+            productVariant.setProduct(updatedProductVariant.getProduct());
+            productVariant.setProductImages(updatedProductVariant.getProductImages());
+            productVariant.setOnSale(updatedProductVariant.getOnSale());
+            productVariantRepository.save(productVariant);
+        }
+
+    }
+
+
+
+
+
 
 //    ------------ TEST THESE METHODS AREA
 
@@ -97,7 +116,11 @@ public class ProductVariantService {
                 .findByGenderAndCategory(gender, clothingCategory).stream()
                 .flatMap(p -> p.getVariants().stream())
                 .collect(Collectors.toList());
+    }
 
+
+    public List<ProductVariant> allVariantsByCategoryAndProductTypeAndGender(String category, String productType, String gender) {
+        return null;
     }
 
 

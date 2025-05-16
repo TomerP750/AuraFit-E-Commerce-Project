@@ -8,6 +8,7 @@ import {User} from "../Models/User.ts";
 import {Size} from "../Models/Size.ts";
 import {FitType} from "../Models/FitType.ts";
 import {Color} from "../Models/Color.ts";
+import {UpdateProductDTO} from "../Models/DTOS/UpdateProductDTO.ts";
 
 class AdminService {
 
@@ -105,6 +106,10 @@ class AdminService {
         return (await axios.delete(`http://localhost:8080/api/admin/product/delete/${productId}`))
     }
 
+    async updateProduct(updateProductDTO: UpdateProductDTO) {
+        return (await axios.put("http://localhost:8080/api/product/update", updateProductDTO))
+    }
+
     // Product Variants -------------
 
     async getAllProductVariants() {
@@ -119,7 +124,11 @@ class AdminService {
     }
 
     async deleteProductVariant(variantId: number) {
-        return (await axios.delete(`http://localhost:8080/api/admin/variant/delete/${variantId}`)).data
+        return (await axios.delete(`http://localhost:8080/api/variant/delete/${variantId}`)).data
+    }
+
+    async updateProductVariant() {
+        return (await axios.put("http://localhost:8080/api/variant/update"))
     }
 
     // Users --------------------

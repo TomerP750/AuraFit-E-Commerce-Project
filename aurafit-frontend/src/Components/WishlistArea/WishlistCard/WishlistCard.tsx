@@ -50,7 +50,7 @@ export function WishlistCard({wishlistItem}: WishlistCardProps): JSX.Element {
                     <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center space-x-2">
                         <button
                             type="button"
-                            onClick={() => navigate(`/product/${product.id}/${variantId}`)}
+                            onClick={() => navigate(`/product/${product.id}`)}
                             className="px-3 py-1 bg-white rounded text-sm font-medium hover:bg-gray-100 transition"
                         >
                             Go To Product
@@ -72,7 +72,7 @@ export function WishlistCard({wishlistItem}: WishlistCardProps): JSX.Element {
                 <p className="text-gray-600 text-sm">
                     {size.size} <span className="mx-1">|</span> {color.color}
                 </p>
-                <p className="font-bold mt-2">${price.toFixed(2)}</p>
+                <p className="font-medium mt-2">${price.toFixed(2)}</p>
             </div>
         </div>
     );

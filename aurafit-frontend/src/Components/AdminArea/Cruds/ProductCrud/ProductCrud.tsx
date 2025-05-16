@@ -8,11 +8,13 @@ import {FaEdit} from "react-icons/fa";
 import {BiCheckboxChecked, BiPlus, BiX} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
 import {CreateProductForm} from "../../CreateForms/CreateProductForm/CreateProductForm.tsx";
+import {ProductUpdateForm} from "../../UpdateForms/ProductUpdateForm/ProductUpdateForm.tsx";
 
 export function ProductCrud(): JSX.Element {
     const [products, setProducts] = useState<Product[]>([]);
-    const [formOpen, setFormOpen] = useState(false);
     const navigate = useNavigate();
+    const [formTypeOpen, setFormTypeOpen] = useState<"create" | "update" | "none">("none");
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
     useEffect(() => {
         adminService
@@ -30,26 +32,36 @@ export function ProductCrud(): JSX.Element {
         }
     };
 
-    if (formOpen) {
+    const fields: string[] = ["Id", "Name", "Gender", "Type", "On Sale", "Actions"];
+
+    if (formTypeOpen === "create") {
         return (
             <div className="p-4 w-full">
-                <button onClick={() => setFormOpen(false)} className="mb-4 text-sm text-gray-700">
+                <button onClick={() => setFormTypeOpen("none")} className="mb-4 text-sm text-gray-700">
                     ← Back to list
                 </button>
-                <CreateProductForm onSave={() => setFormOpen(false)} setFormOpen={()=>setFormOpen(false)} />
+                <CreateProductForm onSave={() => setFormTypeOpen("none")} />
             </div>
         );
     }
 
-    const fields: string[] = ["Id", "Name", "Gender", "Type", "On Sale", "Actions"];
+    if (formTypeOpen === "update") {
+        if (!selectedProduct) {
+            return <span></span>;
+        }
 
-    if (formOpen) {
         return (
             <div className="p-4 w-full">
-                <button onClick={() => setFormOpen(false)} className="mb-4 text-sm text-gray-700">
+                <button
+                    onClick={() => setFormTypeOpen("none")}
+                    className="mb-4 text-sm text-gray-700"
+                >
                     ← Back to list
                 </button>
-                <CreateProductForm onSave={() => setFormOpen(false)} />
+                <ProductUpdateForm
+                    product={selectedProduct}
+                    onSave={() => setFormTypeOpen("none")}
+                />
             </div>
         );
     }
@@ -60,7 +72,7 @@ export function ProductCrud(): JSX.Element {
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-semibold">Products</h1>
                 <button
-                    onClick={() => setFormOpen(true)}
+                    onClick={() => setFormTypeOpen("create")}
                     className="bg-gray-800 text-white py-1 px-3 rounded flex items-center gap-1"
                 >
                     <BiPlus size={16} /> New
@@ -85,9 +97,12 @@ export function ProductCrud(): JSX.Element {
                         <span>{p.gender}</span>
                         <span>{p.productType.name}</span>
                         <span>{p.onSale ? <BiCheckboxChecked /> : <BiX />}</span>
-                        <div className="flex gap-2">
-                            <FaEdit className="cursor-pointer" onClick={() => navigate(`/product/edit/${p.id}`)} />
-                            <MdDeleteForever className="cursor-pointer" onClick={() => deleteProduct(p.id)} />
+                        <div className="flex gap-5">
+                            <p className="cursor-pointer" onClick={()=> {
+                                setSelectedProduct(p)
+                                setFormTypeOpen("update")}
+                            }>Edit</p>
+                            <p className="cursor-pointer" onClick={() => deleteProduct(p.id)}>Delete</p>
                         </div>
                     </div>
                 ))}

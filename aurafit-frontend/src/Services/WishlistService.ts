@@ -14,6 +14,10 @@ class WishlistService {
         return (await axios.delete(`http://localhost:8080/api/wishlist/deleteItem/${variantId}`))
     }
 
+    async isOnWishlist(variantId: number) {
+        return (await axios.get(`http://localhost:8080/api/wishlist/wishlisted/${variantId}`)).data
+    }
+
 }
 
 const wishlistService = new WishlistService();
