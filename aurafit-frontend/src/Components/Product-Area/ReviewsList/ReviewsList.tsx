@@ -15,7 +15,7 @@ interface ReviewsListProps {
 }
 export function ReviewsList({product, onPostClick}: ReviewsListProps): JSX.Element {
 
-    const [avg, setAvg] = useState<number>(3);
+    const [avg, setAvg] = useState<number>(0);
     const user = useUserSelector(state => state.authSlice.user);
 
     useEffect(() => {
@@ -30,16 +30,18 @@ export function ReviewsList({product, onPostClick}: ReviewsListProps): JSX.Eleme
         <div className={"flex flex-col items-start gap-5 w-full md:w-1/3"}>
             <p className={"font-bold text-3xl"}>Customer Reviews</p>
             {/*statistic box*/}
-            <div className="flex items-center gap-2">
-                <div className="flex gap-1">
+            <div className="flex flex-col items-start gap-2">
+                <div className="flex gap-2 items-center">
+                    <p className={"text-2xl"}>{avg}</p>
                     {Array.from({ length: 5 }, (_, i) => (
                         <FaStar
                             key={i}
+                            size={30}
                             className={i < avg ? "text-yellow-500" : "text-gray-400"}
                         />
                     ))}
                 </div>
-                <p>Based on {product.reviews.length} reviews</p>
+                <p className={"text-gray-600"}>Based on {product.reviews.length} reviews</p>
             </div>
             {/*<div className="h-[200px] border border-black w-full">*/}
             {/*</div>*/}

@@ -86,10 +86,9 @@ export function ProductPage(): JSX.Element {
             variants.find(
                 (v) =>
                     v.color.id === selectedColor.id &&
-                    v.size.id === selectedSize.id
-            ) ?? null
-            : null;
+                    v.size.id === selectedSize.id) ?? null : null;
 
+    
     // Handlers
     const onColorSelect = (color: Color) => {
         const canon = variants.find((v) => v.color.id === color.id)!.color;
@@ -141,7 +140,7 @@ export function ProductPage(): JSX.Element {
     };
 
     return (
-        <div className="w-full flex flex-col items-center gap-20 py-40">
+        <div className="w-full flex flex-col items-center gap-30 py-40">
             <div className="w-4/5 flex flex-col items-start mt-6 gap-5">
                 {/* Breadcrumbs */}
                 <nav className="flex gap-2 text-gray-600">
@@ -209,7 +208,6 @@ export function ProductPage(): JSX.Element {
 
             {/* Reviews Section */}
             <section className="flex flex-col w-full items-center gap-12">
-                <h2 className="text-4xl font-medium">Reviews</h2>
                 <ProductReviews product={defaultVariant.product} />
             </section>
         </div>

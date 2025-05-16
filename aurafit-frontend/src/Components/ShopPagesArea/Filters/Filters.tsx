@@ -5,6 +5,8 @@ import {AnimatePresence, motion} from "framer-motion";
 import {BiMinus, BiPlus} from "react-icons/bi";
 import {Category} from "../../../Models/Category.ts";
 import {ProductType} from "../../../Models/ProductType.ts";
+import {Color} from "../../../Models/Color.ts";
+import {Size} from "../../../Models/Size.ts";
 
 
 type SortOption = 'newest'|'high-low'|'low-high';
@@ -16,6 +18,23 @@ interface FiltersProps {
 
     sortSelected: SortOption;
     onSortSelected: (value: SortOption) => void
+
+    selectedCategories: number[];
+    onCategoryToggle: (id: number) => void;
+
+    selectedTypes: number[];
+    onTypeToggle: (id: number) => void;
+
+    selectedColors: number[];
+    onColorToggle: (id: number) => void;
+
+    selectedSizes: number[];
+    onSizeToggle: (id: number) => void;
+
+    categories: Category[];
+    productTypes: ProductType[];
+    colors: Color[];
+    sizes: Size[];
 }
 
 export function Filters({sortSelected, onSortSelected}: FiltersProps): JSX.Element {
@@ -26,7 +45,7 @@ export function Filters({sortSelected, onSortSelected}: FiltersProps): JSX.Eleme
     const [colorOpen, setColorOpen] = useState(false);
     const [sizeOpen, setSizeOpen] = useState(false);
     const [categories, setCategories] = useState<Category[]>([]);
-    const [subCategories, setSubCategories] = useState<ProductType[]>([]);
+    const [productTypes, setProductTypes] = useState<ProductType[]>([]);
 
     // TODO set the categories and subcategories and replace the .map hardcoded string arrays
     useEffect(() => {

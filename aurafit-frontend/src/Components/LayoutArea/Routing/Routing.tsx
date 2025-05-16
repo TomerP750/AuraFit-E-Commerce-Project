@@ -27,7 +27,7 @@ export function Routing(): JSX.Element {
 
     return (
         <>
-            <div className="">
+            <div className="pb-20">
                 <Routes>
 
                     <Route path={"/"} element={<Home/>}/>

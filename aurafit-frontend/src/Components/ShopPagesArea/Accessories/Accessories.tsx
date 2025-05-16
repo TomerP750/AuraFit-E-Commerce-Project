@@ -73,7 +73,7 @@ export function Accessories(): JSX.Element {
 
                 {/* Product Grid */}
                 <main className="flex-1">
-                    <h2 className="text-2xl font-medium mb-6">Men’s Collection</h2>
+                    <h2 className="text-2xl font-medium mb-6">Accessories</h2>
 
                     {/*{products.map((variant) => <ProductCard key={variant.id} variant={variant}  />)}*/}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
