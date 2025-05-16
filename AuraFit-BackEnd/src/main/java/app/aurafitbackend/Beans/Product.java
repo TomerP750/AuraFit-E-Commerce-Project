@@ -53,7 +53,7 @@ public class Product {
     @JoinColumn(name = "product_type_id", nullable = false)
     private ProductType productType; // TSHIRT SHOES
 
-    private Boolean onSale;
+//    private Boolean onSale;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 //    @JsonManagedReference

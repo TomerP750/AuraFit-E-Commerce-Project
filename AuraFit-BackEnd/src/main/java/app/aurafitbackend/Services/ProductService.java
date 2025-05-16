@@ -53,7 +53,7 @@ public class ProductService {
             product.setName(updateProduct.getName());
             product.setDescription(updateProduct.getDescription());
             product.setProductType(updateProduct.getProductType());
-            product.setOnSale(product.getOnSale());
+//            product.setOnSale(product.getOnSale());
             product.setCategory(product.getCategory());
             productRepository.save(product);
         }

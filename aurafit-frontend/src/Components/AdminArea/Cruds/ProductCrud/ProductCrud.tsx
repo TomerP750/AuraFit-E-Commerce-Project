@@ -32,7 +32,7 @@ export function ProductCrud(): JSX.Element {
         }
     };
 
-    const fields: string[] = ["Id", "Name", "Gender", "Type", "On Sale", "Actions"];
+    const fields: string[] = ["Id", "Name", "Gender", "Type", "Actions"];
 
     if (formTypeOpen === "create") {
         return (
@@ -96,13 +96,12 @@ export function ProductCrud(): JSX.Element {
                         {/*<span>{p.description}</span>*/}
                         <span>{p.gender}</span>
                         <span>{p.productType.name}</span>
-                        <span>{p.onSale ? <BiCheckboxChecked /> : <BiX />}</span>
-                        <div className="flex gap-5">
-                            <p className="cursor-pointer" onClick={()=> {
+                        <div className="flex gap-3 font-light ">
+                            <p className="cursor-pointer hover:font-medium" onClick={()=> {
                                 setSelectedProduct(p)
                                 setFormTypeOpen("update")}
                             }>Edit</p>
-                            <p className="cursor-pointer" onClick={() => deleteProduct(p.id)}>Delete</p>
+                            <p className="cursor-pointer hover:font-medium" onClick={() => deleteProduct(p.id)}>Delete</p>
                         </div>
                     </div>
                 ))}

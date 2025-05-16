@@ -19,7 +19,7 @@ export function NavbarTop(): JSX.Element {
                 <div className="flex items-center">
                     {user ?
                         <ul className={"flex items-center gap-4 text-sm font-medium"}>
-                            <li>2</li>
+                            <li>Help</li>
                             <p className={"font-light"}>|</p>
                             <li>
                                 <p
