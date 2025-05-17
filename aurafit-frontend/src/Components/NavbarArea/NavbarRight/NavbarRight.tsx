@@ -1,12 +1,11 @@
 import "./NavbarRight.css";
 import {JSX, useState} from "react";
-import {BiHeart, BiShoppingBag, BiUser} from "react-icons/bi";
 import {NavLink, useNavigate} from "react-router-dom";
 import {FiHeart, FiMenu, FiSearch, FiShoppingBag} from "react-icons/fi";
 import {NavbarSidebar} from "../NavbarSidebar/NavbarSidebar.tsx";
 import {NavbarSearchDrawer} from "../NavbarSearchDrawer/NavbarSearchDrawer.tsx";
 import {useUserSelector} from "../../../Redux/hooks.ts";
-import {authSlice} from "../../../Redux/AuthSlice.ts";
+
 export function NavbarRight(): JSX.Element {
 
     const [cartItemsCounter, setCartItemsCounter] = useState(0);
@@ -20,13 +19,9 @@ export function NavbarRight(): JSX.Element {
     return (
         <div className=" flex justify-between gap-5 cursor-pointer">
 
-            {/*<BiSearch className={`${navbarItem}`}/>*/}
-
             <FiSearch className={`${navbarItem}`} onClick={()=>setSearch(true)} />
 
             {search && <NavbarSearchDrawer open={search} setOpen={setSearch}/>}
-
-            {/*<NavLink to={"/login"}><BiUser className={`${navbarItem}`}/></NavLink>*/}
 
             <FiHeart onClick={user ? ()=>navigate("/wishlist") : ()=>setModalOpen(true)} className={`${navbarItem}`}/>
 
@@ -36,7 +31,6 @@ export function NavbarRight(): JSX.Element {
             </NavLink>
 
             <FiMenu className={"block sm:hidden size-7"} onClick={()=>setSidebarVisible(true)}/>
-
 
             {sidebarVisible && <NavbarSidebar sidebarVisible={sidebarVisible} onSidebarClose={()=>setSidebarVisible(false)}/>}
 

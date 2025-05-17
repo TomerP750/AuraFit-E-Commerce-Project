@@ -150,7 +150,7 @@ export function ProductPage(): JSX.Element {
 
 
     return (
-        <div className="w-full flex flex-col items-center gap-30 py-40">
+        <div className="w-full flex flex-col items-center gap-30">
             <div className="w-4/5 flex flex-col items-start mt-6 gap-5">
                 {/* Breadcrumbs */}
                 <nav className="flex gap-2 text-gray-600">

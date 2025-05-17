@@ -3,7 +3,6 @@ import {JSX, useState} from "react";
 import {NavLink} from "react-router-dom";
 import {NavbarAccountMenu} from "../NavbarAccountMenu/NavbarAccountMenu.tsx";
 import {useUserSelector} from "../../../Redux/hooks.ts";
-// import {useUser} from "../../../Redux/store.ts";
 
 export function NavbarTop(): JSX.Element {
 
@@ -36,7 +35,6 @@ export function NavbarTop(): JSX.Element {
                             <li><NavLink to={"/register"}>Join Us</NavLink></li>
                             <p className={"font-light"}>|</p>
                             <li><NavLink to={"/login"}>Login</NavLink></li>
-                            {/*<li><p className={""}>Hello {authStore.getState().user?.firstName} </p></li>*/}
                         </ul>}
                 </div>
             </div>

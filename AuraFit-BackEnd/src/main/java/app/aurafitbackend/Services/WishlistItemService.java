@@ -43,9 +43,10 @@ public class WishlistItemService {
         return true;
     }
 
-//    public void removeProductFromWishlist(Long userId, Long wishlistItemId) {
-//
-//    }
+    public void removeProductFromWishlist(Long userId, Long variantId) {
+        WishlistItem wishlistItem = wishlistItemRepository.findByUserIdAndProductVariantId(userId, variantId).orElseThrow(() -> new NotExistsException("Wishlist Item Not Found"));
+        wishlistItemRepository.deleteById(wishlistItem.getId());
+    }
 
     public boolean isWishlisted(Long userId, Long productVariantId) {
         return wishlistItemRepository.existsByUserIdAndProductVariantId(userId, productVariantId);

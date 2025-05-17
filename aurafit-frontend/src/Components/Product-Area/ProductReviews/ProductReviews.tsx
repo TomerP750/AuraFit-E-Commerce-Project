@@ -2,13 +2,8 @@ import "./ProductReviews.css";
 import {JSX, useState} from "react";
 import {Product} from "../../../Models/Product.ts";
 import {ReviewCard} from "../ReviewCard/ReviewCard.tsx";
-import {FaStar} from "react-icons/fa";
 import {ReviewsList} from "../ReviewsList/ReviewsList.tsx";
-import {Review} from "../../../Models/Review.ts";
-import reviewService from "../../../Services/ReviewService.ts";
-import {useUserSelector} from "../../../Redux/hooks.ts";
 import {PostReviewForm} from "../PostReviewForm/PostReviewForm.tsx";
-import adminService from "../../../Services/AdminService.ts";
 
 
 interface ProductReviewsProps {

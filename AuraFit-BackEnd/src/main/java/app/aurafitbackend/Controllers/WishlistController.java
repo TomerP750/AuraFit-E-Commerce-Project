@@ -28,11 +28,11 @@ public class WishlistController {
 //        wishlistItemService.addProductToWishlist(userId, id);
 //    }
 //
-//    @DeleteMapping("/deleteItem/{id}")
-//    public void deleteItem(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long id) {
-//        Long userId = userDetails.getUser().getId();
-//        wishlistItemService.removeProductFromWishlist(userId, id);
-//    }
+    @DeleteMapping("/deleteItem/{id}")
+    public void deleteItem(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long id) {
+        Long userId = userDetails.getUser().getId();
+        wishlistItemService.removeProductFromWishlist(userId, id);
+    }
 
     @PostMapping("/toggle/{id}")
     public boolean toggleWishlistItem(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long id) {

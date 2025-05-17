@@ -10,10 +10,9 @@ interface ProductCardProps {
     variants: ProductVariant[];
     selectedVariantId?: number;
     onAddToWishlist?: (id: number) => void;
-    onWishlist: boolean
 }
 
-export function ProductCard({variants, onAddToWishlist, selectedVariantId, onWishlist}: ProductCardProps): JSX.Element {
+export function ProductCard({variants, onAddToWishlist, selectedVariantId}: ProductCardProps): JSX.Element {
 
     const defaultVariant = variants[0];
     const hoverVariant = variants[1] || defaultVariant; // show second variant on hover if available
@@ -51,8 +50,8 @@ export function ProductCard({variants, onAddToWishlist, selectedVariantId, onWis
             {/* Image with hover swap placeholder for now */}
             <div className="relative w-full aspect-square bg-orange-100 rounded-lg overflow-hidden">
 
-                <div onClick={handleHeart} className="absolute top-5 right-5 text-black bg-gray-100 p-3 rounded-full hover:bg-gray-300">
-                    {(wishlistHovered || onWishlist) ? <AiFillHeart className="size-5"/> : <BiHeart className="size-5"/>}
+                <div onClick={handleHeart} className="absolute top-5 right-5 text-black bg-gray-100 p-3 rounded-full hover:bg-gray-200">
+                    <BiHeart className="size-5"/>
                 </div>
 
             </div>

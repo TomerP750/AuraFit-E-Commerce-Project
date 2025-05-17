@@ -18,7 +18,7 @@ export function Colors({ colors, selected, onSelect }: ColorsProps): JSX.Element
                     <button
                         key={color.id}
                         onClick={() => onSelect(color)}
-                        className={`cursor-pointer w-10 h-10 rounded-full border-2 ${selected === color ? 'ring-2 ring-offset-2' : 'hover:ring'}`}
+                        className={`cursor-pointer w-10 h-10 rounded-full border-2 ${selected === color ? `ring-2 ring-offset-2` : 'hover:ring'}`}
                         style={{backgroundColor: color.color.toLowerCase()}}
                     />
                 ))}

@@ -41,7 +41,9 @@ export function ReviewsList({product, onPostClick}: ReviewsListProps): JSX.Eleme
                         />
                     ))}
                 </div>
-                <p className={"text-gray-600"}>Based on {product.reviews.length} reviews</p>
+                {product.reviews.length === 0 ? <p className={"text-gray-600"}>No reviews</p> :
+                <p className={"text-gray-600"}>Based on {product.reviews.length} {product.reviews.length === 1 ? "review" : "reviews"}
+                </p>}
             </div>
             {/*<div className="h-[200px] border border-black w-full">*/}
             {/*</div>*/}

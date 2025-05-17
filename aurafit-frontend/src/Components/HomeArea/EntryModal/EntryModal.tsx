@@ -1,29 +1,43 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiX } from "react-icons/fi";
+import {useNavigate} from "react-router-dom";
 
 export function EntryModal() {
     const [show, setShow] = useState(false);
+    const navigate = useNavigate();
 
-    // open 2 seconds after mount
+
     useEffect(() => {
-        const timer = setTimeout(() => setShow(true), 2000);
+        const timer = setTimeout(() => setShow(true), 15000);
         return () => clearTimeout(timer);
     }, []);
+
+    useEffect(() => {
+        const original = document.body.style.overflow;
+        if (show) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = original;
+        }
+        return () => {
+            document.body.style.overflow = original;
+        };
+    }, [show]);
 
     return (
         <AnimatePresence>
             {show && (
                 // backdrop
                 <motion.div
-                    className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+                    className="fixed inset-0 bg-black/50 flex items-center justify-center z-100"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                 >
                     {/* modal panel */}
                     <motion.div
-                        className="relative bg-white rounded-xl p-10 shadow-xl max-w-2xl w-11/12"
+                        className="relative bg-white p-10 shadow-xl w-3/4 h-2/3"
                         initial={{ scale: 0.8, y: -30 }}
                         animate={{ scale: 1, y: 0 }}
                         exit={{ scale: 0.8, y: -30 }}
@@ -33,7 +47,7 @@ export function EntryModal() {
                         <button
                             onClick={() => setShow(false)}
                             aria-label="Close modal"
-                            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+                            className="cursor-pointer absolute top-4 right-4 text-gray-500 hover:text-gray-700"
                         >
                             <FiX size={24} />
                         </button>
@@ -51,9 +65,9 @@ export function EntryModal() {
                         <div className="flex justify-center">
                             <button
                                 onClick={() => {
-                                    /* navigate to your register page */
+                                    navigate("/register")
                                 }}
-                                className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-3 rounded-lg"
+                                className="cursor-pointer bg-black hover:bg-gray-700 text-white font-medium px-8 py-3 rounded-lg"
                             >
                                 Register Now
                             </button>
