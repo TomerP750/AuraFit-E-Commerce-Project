@@ -6,11 +6,11 @@ import {JSX, useState} from "react";
 interface ButtonProps {
     onAddToCart?: () => void;
     onWishlist: () => void;
-    isWishlisted: boolean;
+    addedToWishlist: boolean;
     disabled: boolean;
 }
 
-export function Buttons({onAddToCart, onWishlist, isWishlisted, disabled}: ButtonProps): JSX.Element {
+export function Buttons({onAddToCart, onWishlist, addedToWishlist, disabled}: ButtonProps): JSX.Element {
 
     const [wishlistHovered, setWishlistHovered] = useState<boolean>(false);
 
@@ -30,7 +30,7 @@ export function Buttons({onAddToCart, onWishlist, isWishlisted, disabled}: Butto
                 onMouseLeave={() => setWishlistHovered(false)}
                 className="cursor-pointer"
             >
-                {(wishlistHovered || isWishlisted) ? <AiFillHeart className="size-6"/> : <BiHeart className="size-6"/>}
+                {(wishlistHovered || addedToWishlist) ? <AiFillHeart className="size-6"/> : <BiHeart className="size-6"/>}
             </button>
         </div>
     );

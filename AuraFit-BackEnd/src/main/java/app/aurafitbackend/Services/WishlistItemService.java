@@ -4,11 +4,9 @@ import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.Beans.User;
 import app.aurafitbackend.Beans.WishlistItem;
 import app.aurafitbackend.Exceptions.NotExistsException;
-import app.aurafitbackend.Exceptions.UnauthorizedException;
 import app.aurafitbackend.Repositories.ProductVariantRepository;
 import app.aurafitbackend.Repositories.UserRepository;
 import app.aurafitbackend.Repositories.WishlistItemRepository;
-import app.aurafitbackend.Utils.WishlistValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,33 +24,32 @@ public class WishlistItemService {
         return wishlistItemRepository.findByUserId(userId);
     }
 
-    public void addProductToWishlist(Long userId, Long variantId) {
-        if (WishlistValidator.isValidAddToWishlistRequest()) {
-            User user = userRepository.findById(userId).orElseThrow(() -> new NotExistsException("User Not Found"));
-            ProductVariant productVariant = productVariantRepository.findById(variantId).orElseThrow(() -> new NotExistsException("Product Variant Not Found"));
-
-            WishlistItem wishlistItem = WishlistItem.builder()
-                    .productVariant(productVariant)
-                    .user(user)
-                    .build();
-            wishlistItemRepository.save(wishlistItem);
-        }
-    }
-
-    public void removeProductFromWishlist(Long userId, Long wishlistItemId) {
+    public boolean WishlistUnWishlist(Long userId, Long variantId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NotExistsException("User Not Found"));
-        WishlistItem wishlistItem = wishlistItemRepository.findById(wishlistItemId).orElseThrow(() -> new NotExistsException("Wishlist Item Not Found"));
-        if (wishlistItem.getUser().getId() != user.getId()) {
-            throw new UnauthorizedException("You do not have permission to delete this product");
+
+        if (wishlistItemRepository.existsByUserIdAndProductVariantId(userId, variantId)) {
+            WishlistItem existingWishlistItem = wishlistItemRepository.findByUserIdAndProductVariantId(userId, variantId).orElseThrow(() -> new NotExistsException("Wishlist Item Not Found"));
+            if (existingWishlistItem != null) {
+                wishlistItemRepository.deleteById(existingWishlistItem.getId());
+                return false;
+            }
         }
-        wishlistItemRepository.deleteById(wishlistItem.getId());
+        ProductVariant productVariant = productVariantRepository.findById(variantId).orElseThrow(() -> new NotExistsException("Product Variant Not Found"));
+        WishlistItem wishlistItem = WishlistItem.builder()
+                .productVariant(productVariant)
+                .user(user)
+                .build();
+        wishlistItemRepository.save(wishlistItem);
+        return true;
     }
+
+//    public void removeProductFromWishlist(Long userId, Long wishlistItemId) {
+//
+//    }
 
     public boolean isWishlisted(Long userId, Long productVariantId) {
         return wishlistItemRepository.existsByUserIdAndProductVariantId(userId, productVariantId);
     }
-
-
 
 
 }

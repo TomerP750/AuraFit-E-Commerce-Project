@@ -55,7 +55,24 @@ export function ProductPage(): JSX.Element {
         setSelectedSize(null);
     }, [variants]);
 
-    
+
+
+    // Only a "current" variant when both color & size are chosen
+    const currentVariant: ProductVariant | null = selectedColor && selectedSize ?
+        variants.find(
+            (v) =>
+                v.color.id === selectedColor.id &&
+                v.size.id === selectedSize.id) ?? null : null;
+
+    useEffect(() => {
+        if (currentVariant) {
+            wishlistService.isOnWishlist(currentVariant.id)
+                .then((res) => setAddedToWishlist(res))
+                .catch((err) => toast.error(err.response.data))
+        }
+
+    }, [currentVariant]);
+
     if (loading) {
         return <div className="text-center py-20">Loading product…</div>;
     }
@@ -81,12 +98,12 @@ export function ProductPage(): JSX.Element {
             .map((v) => v.size)
         : [];
 
-    // Only a "current" variant when both color & size are chosen
-    const currentVariant: ProductVariant | null = selectedColor && selectedSize ?
-            variants.find(
-                (v) =>
-                    v.color.id === selectedColor.id &&
-                    v.size.id === selectedSize.id) ?? null : null;
+    // // Only a "current" variant when both color & size are chosen
+    // const currentVariant: ProductVariant | null = selectedColor && selectedSize ?
+    //         variants.find(
+    //             (v) =>
+    //                 v.color.id === selectedColor.id &&
+    //                 v.size.id === selectedSize.id) ?? null : null;
 
     
     // Handlers
@@ -104,26 +121,18 @@ export function ProductPage(): JSX.Element {
 
     const handleWishlist = (variantId: number) => {
 
-        if (!addedToWishlist) {
 
-            wishlistService.addProductToWishlist(variantId)
-                .then(() => {
-                    toast.success("Added to wishlist");
-                    setAddedToWishlist(true);
-                })
-                .catch((err) => {
-                    toast.error(err.response?.data || "Failed to add");
-                });
-        } else {
-            wishlistService.deleteProductFromWishlist(variantId)
-                .then(() => {
-                    toast.success("Removed from wishlist");
-                    setAddedToWishlist(false);
-                })
-                .catch((err) => {
-                    toast.error(err.response?.data || "Failed to remove");
-                });
-        }
+        wishlistService.toggleWishlist(variantId)
+            .then((res) => {
+                if (addedToWishlist) {
+                    toast.success("Wishlist removed");
+                } else {
+                    toast.success("wishlist added")
+                }
+                setAddedToWishlist(res)
+            })
+            .catch((err) => toast.error(err.response.data));
+
     };
 
     const handleAddToCart = () => {
@@ -138,6 +147,7 @@ export function ProductPage(): JSX.Element {
             .catch((err) => toast.error(err.response.data));
         console.log("Adding to cart:", currentVariant);
     };
+
 
     return (
         <div className="w-full flex flex-col items-center gap-30 py-40">
@@ -195,7 +205,7 @@ export function ProductPage(): JSX.Element {
                                 }
                                 handleWishlist(currentVariant.id);
                             }}
-                            isWishlisted={addedToWishlist}
+                            addedToWishlist={addedToWishlist}
                             onAddToCart={handleAddToCart}
                             disabled={!currentVariant}
                         />

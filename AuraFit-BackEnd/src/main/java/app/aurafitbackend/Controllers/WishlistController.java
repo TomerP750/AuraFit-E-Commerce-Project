@@ -22,16 +22,22 @@ public class WishlistController {
         return wishlistItemService.getUserWishlistItems(userId);
     }
 
-    @PostMapping("/addToWishlist/{id}")
-    public void addToWishlist(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long id) {
-        Long userId = userDetails.getUser().getId();
-        wishlistItemService.addProductToWishlist(userId, id);
-    }
+//    @PostMapping("/addToWishlist/{id}")
+//    public void addToWishlist(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long id) {
+//        Long userId = userDetails.getUser().getId();
+//        wishlistItemService.addProductToWishlist(userId, id);
+//    }
+//
+//    @DeleteMapping("/deleteItem/{id}")
+//    public void deleteItem(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long id) {
+//        Long userId = userDetails.getUser().getId();
+//        wishlistItemService.removeProductFromWishlist(userId, id);
+//    }
 
-    @DeleteMapping("/deleteItem/{id}")
-    public void deleteItem(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long id) {
+    @PostMapping("/toggle/{id}")
+    public boolean toggleWishlistItem(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long id) {
         Long userId = userDetails.getUser().getId();
-        wishlistItemService.removeProductFromWishlist(userId, id);
+        return wishlistItemService.WishlistUnWishlist(userId, id);
     }
 
     @GetMapping("/wishlisted/{variantId}")

@@ -1,8 +1,8 @@
 import "./NavbarSearchDrawer.css";
-import {JSX, useState} from "react";
-import {FiSearch, FiX} from "react-icons/fi";
+import {JSX} from "react";
+import {FiX} from "react-icons/fi";
 import {AnimatePresence, motion} from "framer-motion";
-
+import logo from "../../../assets/logo.png"
 
 interface NavbarSearchDrawerProps {
     open: boolean;
@@ -12,31 +12,31 @@ export function NavbarSearchDrawer({open, setOpen}: NavbarSearchDrawerProps): JS
 
     return (
         <>
-
             <AnimatePresence>
                 {open && (
                     <>
-                        {/* Drawer with framer-motion animation */}
                         <motion.div
                             initial={{ y: '-100%' }}
                             animate={{ y: 0 }}
                             exit={{ y: '-100%' }}
                             transition={{ type: 'tween', duration: 0.4 }}
-                            className="fixed inset-x-0 top-0 z-50 bg-white shadow-md h-50 cursor-default"
+                            className="fixed inset-x-0 top-0 z-50 bg-white shadow-md h-80 cursor-default"
                         >
-                            <div className="flex items-center h-full px-4">
+                            <div className="flex items-start h-full px-4 w-full justify-between py-5 overflow-hidden">
+                                <img src={logo} alt="logo" className={"h-1/4 aspect-square"}/>
                                 <input
-                                    type="text"
+                                    type="search"
                                     placeholder="Search..."
-                                    className="flex-grow border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-2/3 border bg-gray-100 border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     autoFocus
+                                    required={true}
                                 />
                                 <button
                                     onClick={() => setOpen(false)}
                                     aria-label="Close search"
-                                    className="ml-4 text-gray-700 hover:text-gray-900 focus:outline-none cursor-pointer"
+                                    className="ml-4 text-gray-700 focus:outline-none cursor-pointer hover:text-gray-400"
                                 >
-                                    <FiX size={24} />
+                                    Cancel
                                 </button>
                             </div>
                         </motion.div>

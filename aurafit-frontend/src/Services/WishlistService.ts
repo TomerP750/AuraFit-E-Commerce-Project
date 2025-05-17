@@ -18,6 +18,10 @@ class WishlistService {
         return (await axios.get(`http://localhost:8080/api/wishlist/wishlisted/${variantId}`)).data
     }
 
+    async toggleWishlist(variantId: number) {
+        return (await axios.post(`http://localhost:8080/api/wishlist/toggle/${variantId}`)).data
+    }
+
 }
 
 const wishlistService = new WishlistService();

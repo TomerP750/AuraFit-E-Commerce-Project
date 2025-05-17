@@ -5,6 +5,8 @@ import {NavLink, useNavigate} from "react-router-dom";
 import {Role} from "../../../Models/Enums/Role.ts";
 import {store} from "../../../Redux/store.ts";
 import {useUserSelector} from "../../../Redux/hooks.ts";
+import { AnimatePresence, motion } from 'framer-motion';
+
 
 
 interface NavbarAccountMenuProps {
@@ -23,35 +25,45 @@ export function NavbarAccountMenu({onMouseOver, onMouseLeave}: NavbarAccountMenu
 
 
     return (
-        <div onMouseOver={onMouseOver} onMouseLeave={onMouseLeave} className="absolute right-[4rem] w-64 bg-gray-100 p-5 shadow-gray-800 rounded-lg z-10 ">
-            {/* Header */}
-            <div className="px-4 py-3">
-                <p className="text-lg font-semibold text-gray-800">Hello, {user?.firstName}</p>
-                <p className="text-sm text-gray-500 truncate">
-                    {user?.email}
-                </p>
-            </div>
+        <AnimatePresence>
+            <motion.div
+                onMouseOver={onMouseOver}
+                onMouseLeave={onMouseLeave}
+                className="absolute right-[4rem] w-64 bg-white p-3 shadow-gray-100 rounded-lg z-10"
+                initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                transition={{ type: 'tween', duration: 0.15 }}
+            >
+                {/* Header */}
+                <div className="px-4 py-3">
+                    <p className="text-lg font-semibold text-gray-800">{user?.firstName} {user?.lastName}</p>
+                    <p className="text-sm text-gray-500 truncate">{user?.email}</p>
+                </div>
 
-            <hr className="border-t border-gray-300"/>
+                <hr className="border-t border-gray-300"/>
 
-            {/* Menu Items */}
-            <ul className="py-2">
-                {user?.role === Role.ADMIN && <li className={`${accountMenuItems}`}><NavLink to={"/admin/panel"}>Admin Panel</NavLink></li>}
-                <li className={`${accountMenuItems}`}>
-                    <NavLink to={`/account`}>My Account</NavLink>
-                </li>
-                <li className={`${accountMenuItems}`}>
-                    <NavLink to={"/order/history"}>Order</NavLink>
-                </li>
-                <li className={`${accountMenuItems}`}>
-                    Settings
-                </li>
-                <li>
-                    <button onClick={()=>handleLogout()} className={`${accountMenuItems}`}>
-                        Logout
-                    </button>
-                </li>
-            </ul>
-        </div>
+                {/* Menu Items */}
+                <ul className="py-2">
+                    {user?.role === Role.ADMIN && (
+                        <li className={accountMenuItems}>
+                            <NavLink to={"/admin/panel"}>Admin Panel</NavLink>
+                        </li>
+                    )}
+                    <li className={accountMenuItems}>
+                        <NavLink to={`/account`}>My Account</NavLink>
+                    </li>
+                    <li className={accountMenuItems}>
+                        <NavLink to={"/order/history"}>Order</NavLink>
+                    </li>
+                    <li className={accountMenuItems}>Settings</li>
+                    <li>
+                        <button onClick={() => handleLogout()} className={accountMenuItems}>
+                            Logout
+                        </button>
+                    </li>
+                </ul>
+            </motion.div>
+        </AnimatePresence>
     )
 }

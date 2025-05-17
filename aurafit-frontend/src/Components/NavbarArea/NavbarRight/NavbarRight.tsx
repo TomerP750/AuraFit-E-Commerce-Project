@@ -2,16 +2,16 @@ import "./NavbarRight.css";
 import {JSX, useState} from "react";
 import {BiHeart, BiShoppingBag, BiUser} from "react-icons/bi";
 import {NavLink, useNavigate} from "react-router-dom";
-import {FiMenu, FiSearch} from "react-icons/fi";
+import {FiHeart, FiMenu, FiSearch, FiShoppingBag} from "react-icons/fi";
 import {NavbarSidebar} from "../NavbarSidebar/NavbarSidebar.tsx";
 import {NavbarSearchDrawer} from "../NavbarSearchDrawer/NavbarSearchDrawer.tsx";
 import {useUserSelector} from "../../../Redux/hooks.ts";
 import {authSlice} from "../../../Redux/AuthSlice.ts";
 export function NavbarRight(): JSX.Element {
 
-    const [cartItemsCounter, setCartItemsCounter] = useState(1);
+    const [cartItemsCounter, setCartItemsCounter] = useState(0);
     const [sidebarVisible, setSidebarVisible] = useState<boolean>(false);
-    const navbarItem = "size-7 hidden sm:block"
+    const navbarItem = "size-5 hidden sm:block"
     const [search, setSearch] = useState(false);
     const user = useUserSelector(state => state.authSlice.user);
     const [modalOpen, setModalOpen] = useState(false);
@@ -28,10 +28,10 @@ export function NavbarRight(): JSX.Element {
 
             {/*<NavLink to={"/login"}><BiUser className={`${navbarItem}`}/></NavLink>*/}
 
-            <BiHeart onClick={user ? ()=>navigate("/wishlist") : ()=>setModalOpen(true)} className={`${navbarItem}`}/>
+            <FiHeart onClick={user ? ()=>navigate("/wishlist") : ()=>setModalOpen(true)} className={`${navbarItem}`}/>
 
             <NavLink to={"/cart"} className={"relative hidden sm:block"}>
-                <BiShoppingBag className={"size-6"}/>
+                <FiShoppingBag className={"size-5"}/>
                 {cartItemsCounter > 0 && <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">{cartItemsCounter}</p>}
             </NavLink>
 

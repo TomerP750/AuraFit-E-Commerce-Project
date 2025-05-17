@@ -22,7 +22,7 @@ axios.interceptors.request.use(function (config) {
 
 createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
-        <ToastContainer/>
+        <ToastContainer position={"top-center"} autoClose={3000} hideProgressBar={true} pauseOnHover={false}/>
         <BrowserRouter>
             <Layout/>
         </BrowserRouter>

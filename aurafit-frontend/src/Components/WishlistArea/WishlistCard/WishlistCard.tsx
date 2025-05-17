@@ -22,7 +22,7 @@ export function WishlistCard({wishlistItem}: WishlistCardProps): JSX.Element {
     } = wishlistItem;
     const price = onSale ? salePrice : basePrice;
 
-    const handleWishlistAddToCar = ()=> {
+    const handleWishlistAddToCart = ()=> {
         const dto = new AddToCartRequestDTO(variantId, 1);
         cartService.addToCart(dto)
             .then(() => {
@@ -57,7 +57,7 @@ export function WishlistCard({wishlistItem}: WishlistCardProps): JSX.Element {
                         </button>
                         <button
                             type="button"
-                            onClick={handleWishlistAddToCar}
+                            onClick={handleWishlistAddToCart}
                             className="px-3 py-1 bg-white rounded text-sm font-medium hover:bg-gray-100 transition"
                         >
                             Add To Cart

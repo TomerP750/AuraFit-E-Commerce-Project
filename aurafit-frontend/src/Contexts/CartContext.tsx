@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 import cartService from "../Services/CartService";
 import { CartDTO } from "../Models/DTOS/CartDTO";
 
-// shape of what we share
 interface CartContextValue {
     cart: CartDTO | null;
     reloadCart: () => Promise<void>;
@@ -14,7 +13,6 @@ const CartContext = createContext<CartContextValue | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
     const [cart, setCart] = useState<CartDTO | null>(null);
 
-    // fetch (or re-fetch) cart from server/guest on mount & when needed
     const reloadCart = async () => {
         try {
             const fresh = await cartService.getUserCart();
