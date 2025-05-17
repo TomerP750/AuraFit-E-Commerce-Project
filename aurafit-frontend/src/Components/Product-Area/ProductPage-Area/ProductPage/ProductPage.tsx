@@ -125,9 +125,9 @@ export function ProductPage(): JSX.Element {
         wishlistService.toggleWishlist(variantId)
             .then((res) => {
                 if (addedToWishlist) {
-                    toast.success("Wishlist removed");
+                    toast.success("Remove from wishlist");
                 } else {
-                    toast.success("wishlist added")
+                    toast.success("Added to wishlist")
                 }
                 setAddedToWishlist(res)
             })

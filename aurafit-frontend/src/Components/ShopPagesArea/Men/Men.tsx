@@ -20,6 +20,7 @@ export function Men(): JSX.Element {
     const [selectedTypes, setSelectedTypes] = useState<number[]>([]);
     const [selectedColors, setSelectedColors] = useState<number[]>([]);
     const [selectedSizes, setSelectedSizes] = useState<number[]>([]);
+    const [onWishlist, setOnWishlist] = useState(false);
 
     // cards: one per product-color combination
     const [cards, setCards] = useState<{
@@ -66,8 +67,15 @@ export function Men(): JSX.Element {
     );
 
     const handleAddToWishlist = (id: number)=> {
-        wishlistService.addProductToWishlist(id)
-            .then(()=>toast.success("Added to Wishlist"))
+        wishlistService.toggleWishlist(id)
+            .then((res)=>{
+                if (onWishlist) {
+                    toast.success("Removed from wishlist");
+                } else {
+                    toast.success("Added to wishlist");
+                }
+                setOnWishlist(res);
+            })
             .catch((err) => toast.error(err));
     }
 

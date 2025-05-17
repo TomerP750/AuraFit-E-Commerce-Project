@@ -9,10 +9,10 @@ export function LatestProducts(): JSX.Element {
     const [isMostRight, setIsMostRight] = useState(false);
 
     const scrollLeft = () => {
-        scrollRef.current?.scrollBy({ left: -220, behavior: "smooth" });
+        scrollRef.current?.scrollBy({ left: -340, behavior: "smooth" });
     };
     const scrollRight = () => {
-        scrollRef.current?.scrollBy({ left: 220, behavior: "smooth" });
+        scrollRef.current?.scrollBy({ left: 340, behavior: "smooth" });
     };
 
     const onScroll = () => {

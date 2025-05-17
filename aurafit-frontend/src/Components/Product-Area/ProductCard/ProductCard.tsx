@@ -3,20 +3,23 @@ import {JSX, useState} from "react";
 import {NavLink} from "react-router-dom";
 import {ProductVariant} from "../../../Models/ProductVariant.ts";
 import {BiHeart} from "react-icons/bi";
+import {AiFillHeart} from "react-icons/ai";
 
 interface ProductCardProps {
     // variant: ProductVariant;
     variants: ProductVariant[];
     selectedVariantId?: number;
     onAddToWishlist?: (id: number) => void;
+    onWishlist: boolean
 }
 
-export function ProductCard({variants, onAddToWishlist, selectedVariantId}: ProductCardProps): JSX.Element {
+export function ProductCard({variants, onAddToWishlist, selectedVariantId, onWishlist}: ProductCardProps): JSX.Element {
 
     const defaultVariant = variants[0];
     const hoverVariant = variants[1] || defaultVariant; // show second variant on hover if available
 
-    // Hover state
+    const [wishlistHovered, setWishlistHovered] = useState<boolean>(false);
+
     const [isHovered, setIsHovered] = useState(false);
 
     const [selectedId, setSelectedId] = useState<number>(
@@ -49,7 +52,7 @@ export function ProductCard({variants, onAddToWishlist, selectedVariantId}: Prod
             <div className="relative w-full aspect-square bg-orange-100 rounded-lg overflow-hidden">
 
                 <div onClick={handleHeart} className="absolute top-5 right-5 text-black bg-gray-100 p-3 rounded-full hover:bg-gray-300">
-                    <BiHeart className={""} />
+                    {(wishlistHovered || onWishlist) ? <AiFillHeart className="size-5"/> : <BiHeart className="size-5"/>}
                 </div>
 
             </div>
