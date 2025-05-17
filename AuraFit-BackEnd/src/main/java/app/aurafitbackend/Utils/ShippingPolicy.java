@@ -15,10 +15,16 @@ public class ShippingPolicy {
     }
 
     public BigDecimal calculate(BigDecimal itemsTotal) {
-        if (itemsTotal.compareTo(FREE_THRESHOLD) > 0) {
-            return BigDecimal.ZERO;   // free shipping for any items
+        if (itemsTotal == null || itemsTotal.compareTo(BigDecimal.ZERO) == 0) {
+            // nothing to ship when cart is empty
+            return BigDecimal.ZERO;
         }
-        return BigDecimal.ZERO;     // empty cart → no shipping
+        // free shipping at or above the threshold
+        if (itemsTotal.compareTo(FREE_THRESHOLD) >= 0) {
+            return BigDecimal.ZERO;
+        }
+        // otherwise charge the flat fee
+        return FLAT_FEE;
     }
 
 }

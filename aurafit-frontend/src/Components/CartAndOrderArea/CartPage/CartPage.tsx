@@ -106,7 +106,7 @@ export function CartPage(): JSX.Element {
                     </div>
                     <div className="flex justify-between w-full">
                         <span className="font-light">Shipping & Handling</span>
-                        {cart.shippingCost == 0 ? <span>Free Shipping</span> : <span>${cart.shippingCost}</span>}
+                        {cart.shippingCost === 0 ? <span>Free Shipping</span> : <span>${cart.shippingCost}</span>}
                     </div>
                     <div className="flex justify-between w-full">
                         <span>Total</span>
