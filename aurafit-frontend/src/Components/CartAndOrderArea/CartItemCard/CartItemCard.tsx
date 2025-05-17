@@ -9,9 +9,10 @@ interface CartItemCardProps {
     onDelete?: () => void
     onAddToCart?: () => void;
     page?: string;
+    onOneQuantityRemove?: () => void;
 }
 
-export function CartItemCard({page ,cartItem, onDelete, onAddToCart}: CartItemCardProps): JSX.Element {
+export function CartItemCard({page ,cartItem, onDelete, onAddToCart, onOneQuantityRemove}: CartItemCardProps): JSX.Element {
 
     if (page === "cartPage") {
     return (
@@ -43,8 +44,13 @@ export function CartItemCard({page ,cartItem, onDelete, onAddToCart}: CartItemCa
                             <p>Qty: {cartItem.quantity}</p>
                             <p className="font-semibold text-md">${(cartItem.quantity * cartItem.unitPrice).toFixed(2)}</p>
                             <div className="flex gap-5 mt-10 text-gray-500">
-                                <button onClick={onAddToCart} className={"hover:text-black cursor-pointer"}><BiPlus size={20}/></button>
-                                <button className={"hover:text-black cursor-pointer"}><BiMinus size={20}/></button>
+                                <button onClick={onAddToCart} className={"hover:text-black cursor-pointer"}>
+                                    <BiPlus size={20}/>
+                                </button>
+
+                                <button onClick={onOneQuantityRemove} className={"hover:text-black cursor-pointer"}>
+                                    <BiMinus size={20}/>
+                                </button>
                             </div>
                         </div>
 

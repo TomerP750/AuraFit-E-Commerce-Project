@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -20,6 +21,10 @@ public class PromotionService {
 
     private final PromotionRepository promotionRepository;
     private final ProductVariantRepository productVariantRepository;
+
+    public List<Promotion> getAllPromotions() {
+        return promotionRepository.findAll();
+    }
 
 
     @Transactional
@@ -33,20 +38,40 @@ public class PromotionService {
             variant.setOnSale(true);
             variant.setSalePrice(salePrice);
 
-            // 6) Persist the variant update
             productVariantRepository.save(variant);
 
         }
+    }
+
+    public void updatePromotion() {
+
     }
 
     public void createPromotionsByProductId(Long productId, CreatePromotionDTO dto) {
 
     }
 
+    public void deleteOnePromotion(Long promotionId) {
+        Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(()->new NotExistsException("Promotion not found"));
+        ProductVariant variantFromPromotion = promotion.getProductVariant();
+        variantFromPromotion.setOnSale(false);
+        promotionRepository.deleteById(promotionId);
+        productVariantRepository.save(variantFromPromotion);
+    }
 
+    public void deleteAllPromotions() {
+        List<Promotion> promotions = promotionRepository.findAll();
+        promotions.forEach(promotion -> {
+            promotion.getProductVariant().setOnSale(false);
+            productVariantRepository.save(promotion.getProductVariant());
+        });
+        promotionRepository.deleteAll();
+    }
 
-
-
+    public void deletePromotionsByProductId(Long productId) {
+        List<ProductVariant> variants = productVariantRepository.findByProductId(productId);
+        variants.forEach(variant -> productVariantRepository.deleteById(variant.getId()));
+    }
 
 
     private BigDecimal calculateSalePrice(ProductVariant productVariant, Promotion promotion) {

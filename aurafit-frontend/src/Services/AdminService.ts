@@ -137,6 +137,9 @@ class AdminService {
         return (await axios.get<User[]>("http://localhost:8080/api/admin/user/all")).data
     }
 
+    async allPromotions() {
+        return (await axios.get("http://localhost:8080/api/promotion/all")).data
+    }
 
 
 

@@ -14,18 +14,14 @@ export function PromotionCrud(): JSX.Element {
     const [selectedPromotion, setSelectedPromotion] = useState<Promotion | null>(null);
     const navigate = useNavigate();
 
-    // Fetch all promotions
-    // const fetchPromotions = () => {
-    //     adminService
-    //         .allPromotions()
-    //         .then(setPromotions)
-    //         .catch((err) => toast.error(err.response?.data || err.message));
-    // };
-    //
-    // useEffect(() => {
-    //     fetchPromotions();
-    // }, []);
-    //
+
+
+    useEffect(() => {
+        adminService.allPromotions()
+            .then(promotions => setPromotions(promotions))
+            .catch(error => toast.error(error.response.data))
+    }, []);
+
     // // Delete promotion by id
     // const deletePromotion = (id: number) => {
     //     if (confirm("Delete promotion?")) {

@@ -51,7 +51,6 @@ public class CartController {
         Long userId = (userDetails != null) ? userDetails.getUser().getId() : null;
         // service returns the JPA Cart entity
         Cart updatedCart = cartService.removeFromCart(userId, cartToken, id);
-
         // map it once—and only once—to your DTO
         return EntityDTOMapper.toCartDTO(updatedCart);
     }
@@ -61,6 +60,12 @@ public class CartController {
     public void mergeGuestCartIntoUserCart(@AuthenticationPrincipal CustomUserDetails userDetails, @CookieValue(value = "cart_token", required = false) String cartToken) {
         Long userId = userDetails.getUser().getId();
         cartService.mergeGuestCartIntoUser(userId, cartToken);
+    }
+
+    @DeleteMapping("/removeOne/{cartItemId}")
+    public CartDTO removeOneQuantityFromCartItem(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long cartItemId) {
+        Long userId = userDetails.getUser().getId();
+        return EntityDTOMapper.toCartDTO(cartService.removeOneQuantityFromCartItem(userId, cartItemId));
     }
 
     @GetMapping("/user/get")

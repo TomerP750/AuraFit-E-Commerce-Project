@@ -78,9 +78,7 @@ public class CartService {
      * Returns the updated Cart entity.
      */
     @Transactional
-    public Cart addToCart(Long userId,
-                          String guestToken,
-                          AddToCartRequestDTO dto) {
+    public Cart addToCart(Long userId, String guestToken, AddToCartRequestDTO dto) {
         if (dto == null || dto.getVariantId() == null || dto.getQuantity() < 1) {
             throw new RequestException("Invalid add-to-cart request");
         }
@@ -91,13 +89,27 @@ public class CartService {
         return addOrMergeLine(cart, dto);
     }
 
+    public Cart removeOneQuantityFromCartItem(Long userId, Long cartItemId) {
+        Cart cart = getOrCreateUserCart(userId);
+        Optional<CartItem> item = cart.getItems().stream().filter(ci -> ci.getId().equals(cartItemId)).findFirst();
+        if (item.isPresent()) {
+            CartItem cartItem = item.get();
+            if (cartItem.getQuantity() > 1) {
+                cartItem.setQuantity(cartItem.getQuantity() - 1);
+            } else {
+                cart.getItems().remove(cartItem);
+            }
+            recalculateTotals(cart);
+            cartRepository.save(cart);
+        }
+        return cart;
+    }
+
     /**
      * Removes one line from the cart, recalculates totals, and returns the updated Cart.
      */
     @Transactional
-    public Cart removeFromCart(Long userId,
-                               String guestToken,
-                               Long cartItemId) {
+    public Cart removeFromCart(Long userId, String guestToken, Long cartItemId) {
         Cart cart = (userId != null) ? getOrCreateUserCart(userId) : getOrCreateGuestCart(guestToken);
         return removeLine(cart, cartItemId);
     }
@@ -143,8 +155,7 @@ public class CartService {
 
     // UTILS
 
-    private Cart addOrMergeLine(Cart cart,
-                                AddToCartRequestDTO dto) {
+    private Cart addOrMergeLine(Cart cart, AddToCartRequestDTO dto) {
         ProductVariant variant = variantRepository.findById(dto.getVariantId())
                 .orElseThrow(() -> new NotExistsException("Variant not found"));
 
@@ -175,10 +186,9 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
-    private Cart removeLine(Cart cart,
-                            Long cartItemId) {
-        CartItem line = cartItemRepository
-                .findByIdAndCartId(cartItemId, cart.getId());
+
+    private Cart removeLine(Cart cart, Long cartItemId) {
+        CartItem line = cartItemRepository.findByIdAndCartId(cartItemId, cart.getId());
         if (line == null) {
             throw new NotExistsException("Cart item not found");
         }

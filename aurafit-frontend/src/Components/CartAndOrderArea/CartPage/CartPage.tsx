@@ -8,6 +8,8 @@ import {useUserSelector} from "../../../Redux/hooks.ts";
 import {toast} from "react-toastify";
 import {CartDTO} from "../../../Models/DTOS/CartDTO.ts";
 import {AddToCartRequestDTO} from "../../../Models/DTOS/AddToCartRequestDTO.ts";
+import {CartItem} from "../../../Models/CartItem.ts";
+import {CartItemDTO} from "../../../Models/DTOS/CartItemDTO.ts";
 
 export function CartPage(): JSX.Element {
 
@@ -44,6 +46,32 @@ export function CartPage(): JSX.Element {
         }
     }
 
+    function handleRemoveOneQuantity(cartItemId: number) {
+        if (!cart) return;
+        const cartItem = cart.items.find(item => item.id === cartItemId);
+        if (!cartItem) return;
+
+        if (cartItem.quantity > 1) {
+            // Just decrement
+            cartService.removeOneQuantityFromCartItem(cartItemId)
+                .then(updatedCart => {
+                    setCart(updatedCart);
+                })
+                .catch(err => toast.error(err));
+        } else {
+            // Last one → confirm full removal
+            const ok = window.confirm("This is the last one — remove the item?");
+            if (!ok) return;
+
+            cartService.removeOneQuantityFromCartItem(cartItemId)
+                .then(updatedCart => {
+                    setCart(updatedCart);
+                    toast.success("Item removed");
+                })
+                .catch(err => toast.error(err));
+        }
+    }
+
     function handleAddToCart(variantId: number) {
         const dto = new AddToCartRequestDTO(variantId, 1);
 
@@ -63,6 +91,7 @@ export function CartPage(): JSX.Element {
                     </div>
                     {cart.items.length > 0 ? cart.items.map(ci => <CartItemCard
                         page={"cartPage"}
+                        onOneQuantityRemove={()=>handleRemoveOneQuantity(ci.id)}
                         onAddToCart={()=>handleAddToCart(ci.variant.id)}
                         onDelete={()=>handleDeleteCartItem(ci.id)}
                         cartItem={ci} key={ci.id} />) : <p className={"text-2xl"}>Your cart is empty</p>}
