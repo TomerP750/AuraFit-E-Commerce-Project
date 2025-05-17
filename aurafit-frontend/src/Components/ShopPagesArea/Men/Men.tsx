@@ -8,6 +8,7 @@ import {toast} from "react-toastify";
 import {ProductVariant} from "../../../Models/ProductVariant.ts";
 import {Gender} from "../../../Models/Enums/Gender.ts";
 import {sortGroupedVariants, SortOption, sortVariants} from "../../../Utils/FiltersUtils.ts";
+import wishlistService from "../../../Services/WishlistService.ts";
 
 
 
@@ -63,6 +64,12 @@ export function Men(): JSX.Element {
         () => sortGroupedVariants(cards, sortOption),
         [cards, sortOption]
     );
+
+    const handleAddToWishlist = (id: number)=> {
+        wishlistService.addProductToWishlist(id)
+            .then(()=>toast.success("Added to Wishlist"))
+            .catch((err) => toast.error(err));
+    }
 
     return (
         <div className="container mx-auto px-4 pt-10">
@@ -121,6 +128,7 @@ export function Men(): JSX.Element {
                             <ProductCard
                                 key={variants[0].id}
                                 variants={variants}
+                                onAddToWishlist={handleAddToWishlist}
                                 selectedVariantId={variants[0].id}
                             />
                         ))}

@@ -19,6 +19,10 @@ export function ProductCard({variants, onAddToWishlist, selectedVariantId}: Prod
     // Hover state
     const [isHovered, setIsHovered] = useState(false);
 
+    const [selectedId, setSelectedId] = useState<number>(
+        selectedVariantId ?? variants[0].id
+    );
+
     if (!variants || variants.length === 0) {
         return (
             <div className="p-4 border rounded shadow-sm text-center text-gray-500">
@@ -27,12 +31,8 @@ export function ProductCard({variants, onAddToWishlist, selectedVariantId}: Prod
         );
     }
 
-    const [selectedId, setSelectedId] = useState<number>(
-        selectedVariantId ?? variants[0].id
-    );
-
     const selected = variants.find((v) => v.id === selectedId)!;
-    const handleHeart = (e: MouseEvent) => {
+    const handleHeart = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
         e.stopPropagation();
         onAddToWishlist?.(selected.id);
@@ -47,14 +47,11 @@ export function ProductCard({variants, onAddToWishlist, selectedVariantId}: Prod
         >
             {/* Image with hover swap placeholder for now */}
             <div className="relative w-full aspect-square bg-orange-100 rounded-lg overflow-hidden">
-                {/*<img*/}
-                {/*    src={isHovered ? hoverVariant.imageUrl : defaultVariant.imageUrl}*/}
-                {/*    alt={defaultVariant.product.name}*/}
-                {/*    className="w-full h-full object-cover"*/}
-                {/*/>*/}
-                <div className="absolute top-5 right-5 text-black bg-gray-100 p-3 rounded-full hover:bg-gray-300">
+
+                <div onClick={handleHeart} className="absolute top-5 right-5 text-black bg-gray-100 p-3 rounded-full hover:bg-gray-300">
                     <BiHeart className={""} />
                 </div>
+
             </div>
 
             {/* Details */}
@@ -71,7 +68,7 @@ export function ProductCard({variants, onAddToWishlist, selectedVariantId}: Prod
                 )}
             </div>
 
-            {/* Color label */}
+            {/* Color */}
             <p className="px-2 text-sm text-gray-600">{defaultVariant.color.color}</p>
         </NavLink>
     );
