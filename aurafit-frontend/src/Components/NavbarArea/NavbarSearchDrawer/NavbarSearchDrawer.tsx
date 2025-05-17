@@ -1,6 +1,5 @@
 import "./NavbarSearchDrawer.css";
 import {JSX, useEffect} from "react";
-import {FiX} from "react-icons/fi";
 import {AnimatePresence, motion} from "framer-motion";
 import logo from "../../../assets/logo.png"
 

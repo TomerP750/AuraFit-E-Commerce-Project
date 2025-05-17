@@ -2,6 +2,9 @@ package app.aurafitbackend.Beans;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class Promotion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +24,8 @@ public class Promotion {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Boolean isActive = false;
-    @ManyToOne // TODO Product or ProductVariant
-    private Product product;
+    @ManyToOne
+    private ProductVariant productVariant;
+
 
 }

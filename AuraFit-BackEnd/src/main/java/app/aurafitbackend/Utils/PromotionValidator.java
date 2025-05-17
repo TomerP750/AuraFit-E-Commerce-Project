@@ -1,0 +1,30 @@
+package app.aurafitbackend.Utils;
+
+import app.aurafitbackend.Beans.Promotion;
+import app.aurafitbackend.DTOS.CreateDTOS.CreatePromotionDTO;
+import app.aurafitbackend.Exceptions.InvalidInputException;
+import app.aurafitbackend.Repositories.PromotionRepository;
+import org.springframework.stereotype.Component;
+
+@Component
+public class PromotionValidator {
+
+    private static PromotionRepository promotionRepository;
+
+    private PromotionValidator(PromotionRepository promotionRepository) {
+        PromotionValidator.promotionRepository = promotionRepository;
+    }
+
+    public static boolean isValidNewPromotion(CreatePromotionDTO promotion) {
+        if (promotion.getDiscountPercent() < 0 || promotion.getDiscountPercent() > 100) {
+            throw new InvalidInputException("Invalid discount percent");
+        }
+        if (promotion.getStartTime().isAfter(promotion.getEndTime())) {
+            throw new InvalidInputException("Start time is after end time");
+        }
+        if (promotion.getEndTime().isBefore(promotion.getStartTime())) {
+            throw new InvalidInputException("End time is after start time");
+        }
+        return true;
+    }
+}

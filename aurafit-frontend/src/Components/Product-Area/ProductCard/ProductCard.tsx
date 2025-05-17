@@ -50,7 +50,8 @@ export function ProductCard({variants, onAddToWishlist, selectedVariantId}: Prod
             {/* Image with hover swap placeholder for now */}
             <div className="relative w-full aspect-square bg-orange-100 rounded-lg overflow-hidden">
 
-                <div onClick={handleHeart} className="absolute top-5 right-5 text-black bg-gray-100 p-3 rounded-full hover:bg-gray-200">
+                <div onClick={handleHeart}
+                     className="absolute top-5 right-5 text-black bg-gray-100 p-3 rounded-full hover:bg-gray-200">
                     <BiHeart className="size-5"/>
                 </div>
 
@@ -60,11 +61,16 @@ export function ProductCard({variants, onAddToWishlist, selectedVariantId}: Prod
             <div className="flex justify-between items-center pt-2 px-2">
                 <p className="text-lg truncate">{defaultVariant.product.name}</p>
                 {defaultVariant.onSale ? (
-                    <p className="text-xl font-medium text-green-500">
-                        ${defaultVariant.salePrice.toFixed(2)}
-                    </p>
+                    <div className="flex gap-2">
+                        <p className="text-lg font-medium text-green-500">
+                            ${defaultVariant.salePrice.toFixed(2)}
+                        </p>
+                        <p className="text-lg font-medium line-through">
+                            ${defaultVariant.basePrice.toFixed(2)}
+                        </p>
+                    </div>
                 ) : (
-                    <p className="text-xl font-medium">
+                    <p className="text-lg font-medium">
                         ${defaultVariant.basePrice.toFixed(2)}
                     </p>
                 )}
