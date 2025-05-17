@@ -6,6 +6,8 @@ import app.aurafitbackend.Exceptions.InvalidInputException;
 import app.aurafitbackend.Repositories.PromotionRepository;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class PromotionValidator {
 
@@ -26,5 +28,10 @@ public class PromotionValidator {
             throw new InvalidInputException("End time is after start time");
         }
         return true;
+    }
+
+    public static boolean isExpiredPromotion(Promotion promotion) {
+        LocalDateTime now = LocalDateTime.now();
+        return promotion.getEndTime().isBefore(now);
     }
 }
