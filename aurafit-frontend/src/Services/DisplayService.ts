@@ -31,6 +31,24 @@ class DisplayService {
     async allSizesByProductType(id: number) {
         return (await axios.get(`http://localhost:8080/api/display/variants/sizesByProductTypeId/${id}`)).data
     }
+
+    async allColors() {
+        return (await axios.get(`http://localhost:8080/api/display/color/all`)).data
+    }
+
+    async allSizes() {
+        return (await axios.get("http://localhost:8080/api/display/size/all")).data
+    }
+
+    async allCategories() {
+        return (await axios.get("http://localhost:8080/api/display/category/all")).data
+    }
+
+    async allProductTypes() {
+        return (await axios.get("http://localhost:8080/api/display/productType/all")).data
+    }
+
+
 }
 
 const displayService = new DisplayService();

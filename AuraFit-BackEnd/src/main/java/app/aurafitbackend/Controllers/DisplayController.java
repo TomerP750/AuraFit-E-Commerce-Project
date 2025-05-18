@@ -1,11 +1,10 @@
 package app.aurafitbackend.Controllers;
 
-import app.aurafitbackend.Beans.ProductVariant;
-import app.aurafitbackend.Beans.Review;
-import app.aurafitbackend.Beans.Size;
-import app.aurafitbackend.Beans.WishlistItem;
+import app.aurafitbackend.Beans.*;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
 import app.aurafitbackend.Enums.Gender;
+import app.aurafitbackend.Repositories.CategoryRepository;
+import app.aurafitbackend.Repositories.SizeRepository;
 import app.aurafitbackend.Services.*;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +23,11 @@ public class DisplayController {
     private final ProductService productService;
     private final WishlistItemService wishlistItemService;
     private final SizeService sizeService;
+    private final ColorService colorService;
+    private final SizeRepository sizeRepository;
+    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
+    private final ProductTypeService productTypeService;
 
 
     @GetMapping("/product/reviews/{id}")
@@ -62,6 +66,32 @@ public class DisplayController {
     public List<Size> allSizesByProductTypeId(@PathVariable Long id) {
         return sizeService.getSizesByProductType(id);
     }
+
+    @GetMapping("/color/all")
+    public List<Color> allColors() {
+        return colorService.getAllColors();
+    }
+
+    @GetMapping("/size/all")
+    public List<Size> allSizesByProductType() {
+        return sizeRepository.findAll();
+    }
+
+    @GetMapping("productType/all")
+    public List<ProductType> allProductTypes() {
+        return productTypeService.getAllProductTypes();
+    }
+
+    @GetMapping("/category/all")
+    public List<Category> allCategories() {
+        return categoryService.getAllCategories();
+    }
+//
+//    @GetMapping("/clothing/{gender}")
+//    public List<ProductVariant> allClothing(@PathVariable Gender gender) {
+//        return productVariantService.allClothingByGender(gender);
+//    }
+
 
 
 

@@ -17,7 +17,7 @@ export function Login(): JSX.Element {
 
     const {register, handleSubmit, formState} = useForm<LoginRequest>();
     const navigate = useNavigate();
-    const [cart, setCart] = useState<Cart | null>(store.getState().cartSlice.cart);
+    // const [cart, setCart] = useState<Cart | null>(store.getState().cartSlice.cart);
 
     const handleLogin = (loginRequest: LoginRequest) => {
         authService.login(loginRequest)
@@ -28,7 +28,7 @@ export function Login(): JSX.Element {
 
                 const loader = res.token ? cartService.getUserCart() : cartService.getGuestCart()
                 loader.then(res => {
-                    setCart(res)
+                    // setCart(res)
                     store.dispatch(saveCart(res))
                 })
                     .catch(err => toast.error(err));

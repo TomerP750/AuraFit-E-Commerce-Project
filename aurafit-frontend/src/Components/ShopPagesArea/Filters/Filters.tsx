@@ -1,56 +1,60 @@
+// src/components/Filters/Filters.tsx
 import "./Filters.css";
-import {JSX, useEffect, useState} from "react";
-import {FiChevronDown} from "react-icons/fi";
-import {AnimatePresence, motion} from "framer-motion";
-import {BiMinus, BiPlus} from "react-icons/bi";
-import {Category} from "../../../Models/Category.ts";
-import {ProductType} from "../../../Models/ProductType.ts";
-import {Color} from "../../../Models/Color.ts";
-import {Size} from "../../../Models/Size.ts";
+import { JSX, useState } from "react";
+import { BiMinus, BiPlus } from "react-icons/bi";
+import { Category } from "../../../Models/Category";
+import { ProductType } from "../../../Models/ProductType";
+import { Color } from "../../../Models/Color";
+import { Size } from "../../../Models/Size";
 
+export type SortOption = "newest" | "high-low" | "low-high";
 
-type SortOption = 'newest'|'high-low'|'low-high';
 interface FiltersProps {
-    // onFilterClick: () => void
-    // sortSelected: SortOption
-    // onSortSelected: (value: SortOption) => void;
-    // showFilter: boolean
-
     sortSelected: SortOption;
-    onSortSelected: (value: SortOption) => void
+    onSortSelected: (value: SortOption) => void;
 
+    categories: Category[];
     selectedCategories: number[];
     onCategoryToggle: (id: number) => void;
 
+    productTypes: ProductType[];
     selectedTypes: number[];
     onTypeToggle: (id: number) => void;
 
-    selectedColors: number[];
-    onColorToggle: (id: number) => void;
-
+    sizes: Size[];
     selectedSizes: number[];
     onSizeToggle: (id: number) => void;
 
-    categories: Category[];
-    productTypes: ProductType[];
     colors: Color[];
-    sizes: Size[];
+    selectedColors: number[];
+    onColorToggle: (id: number) => void;
 }
 
-export function Filters({sortSelected, onSortSelected}: FiltersProps): JSX.Element {
+export function Filters({
+                            sortSelected,
+                            onSortSelected,
 
+                            categories,
+                            selectedCategories,
+                            onCategoryToggle,
+
+                            productTypes,
+                            selectedTypes,
+                            onTypeToggle,
+
+                            sizes,
+                            selectedSizes,
+                            onSizeToggle,
+
+                            colors,
+                            selectedColors,
+                            onColorToggle,
+                        }: FiltersProps): JSX.Element {
     const [sortOpen, setSortOpen] = useState(true);
     const [catOpen, setCatOpen] = useState(true);
     const [typeOpen, setTypeOpen] = useState(true);
-    const [colorOpen, setColorOpen] = useState(false);
     const [sizeOpen, setSizeOpen] = useState(false);
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [productTypes, setProductTypes] = useState<ProductType[]>([]);
-
-    // TODO set the categories and subcategories and replace the .map hardcoded string arrays
-    useEffect(() => {
-
-    }, [])
+    const [colorOpen, setColorOpen] = useState(false);
 
     return (
         <div className="w-full sm:w-60 px-4 py-6 border-r border-gray-200 text-left">
@@ -58,31 +62,29 @@ export function Filters({sortSelected, onSortSelected}: FiltersProps): JSX.Eleme
             <div className="mb-4">
                 <div
                     className="flex justify-between items-center cursor-pointer font-medium text-sm"
-                    onClick={() => setSortOpen((o) => !o)}
+                    onClick={() => setSortOpen(o => !o)}
                 >
                     <span>Sort By</span>
-                    {sortOpen ? <BiMinus/> : <BiPlus/>}
+                    {sortOpen ? <BiMinus /> : <BiPlus />}
                 </div>
                 {sortOpen && (
-                    <div className=" mt-4 space-y-3 text-sm">
-                        {(["newest", "high-low", "low-high"] as SortOption[]).map(
-                            (opt) => (
-                                <label key={opt} className="flex items-center gap-2">
-                                    <input
-                                        type="radio"
-                                        name="sort"
-                                        className="w-4 h-4 accent-black"
-                                        checked={sortSelected === opt}
-                                        onChange={() => onSortSelected(opt)}
-                                    />
-                                    {opt === "newest"
-                                        ? "Newest"
-                                        : opt === "high-low"
-                                            ? "High – Low"
-                                            : "Low – High"}
-                                </label>
-                            )
-                        )}
+                    <div className="mt-4 space-y-3 text-sm">
+                        {(["newest", "high-low", "low-high"] as SortOption[]).map(opt => (
+                            <label key={opt} className="flex items-center gap-2">
+                                <input
+                                    type="radio"
+                                    name="sort"
+                                    className="w-4 h-4 accent-black"
+                                    checked={sortSelected === opt}
+                                    onChange={() => onSortSelected(opt)}
+                                />
+                                {opt === "newest"
+                                    ? "Newest"
+                                    : opt === "high-low"
+                                        ? "High – Low"
+                                        : "Low – High"}
+                            </label>
+                        ))}
                     </div>
                 )}
             </div>
@@ -92,21 +94,22 @@ export function Filters({sortSelected, onSortSelected}: FiltersProps): JSX.Eleme
             <div className="mb-4">
                 <div
                     className="flex justify-between items-center cursor-pointer font-medium text-sm"
-                    onClick={() => setCatOpen((o) => !o)}
+                    onClick={() => setCatOpen(o => !o)}
                 >
                     <span>Categories</span>
-                    {catOpen ? <BiMinus/> : <BiPlus/>}
+                    {catOpen ? <BiMinus /> : <BiPlus />}
                 </div>
                 {catOpen && (
                     <div className="mt-4 space-y-3 text-sm">
-                        {["OPTION1", "OPTION2", "OPTION3"].map((opt) => (
-                            <label key={opt} className="flex items-center gap-2">
+                        {categories.map(cat => (
+                            <label key={cat.id} className="flex items-center gap-2">
                                 <input
                                     type="checkbox"
                                     className="w-4 h-4 accent-black"
-                                    // onChange={() => {/*  handle */}}
+                                    checked={selectedCategories.includes(cat.id)}
+                                    onChange={() => onCategoryToggle(cat.id)}
                                 />
-                                {opt}
+                                {cat.name}
                             </label>
                         ))}
                     </div>
@@ -118,88 +121,81 @@ export function Filters({sortSelected, onSortSelected}: FiltersProps): JSX.Eleme
             <div className="mb-4">
                 <div
                     className="flex justify-between items-center cursor-pointer font-medium text-sm"
-                    onClick={() => setTypeOpen((o) => !o)}
+                    onClick={() => setTypeOpen(o => !o)}
                 >
                     <span>Type</span>
-                    {typeOpen ? <BiMinus/> : <BiPlus/>}
+                    {typeOpen ? <BiMinus /> : <BiPlus />}
                 </div>
                 {typeOpen && (
                     <div className="mt-4 space-y-3 text-sm">
-                        {["TSHIRTS", "HOODIES", "SHORTS"].map((opt) => (
-                            <label key={opt} className="flex items-center gap-2">
+                        {productTypes.map(type => (
+                            <label key={type.id} className="flex items-center gap-2">
                                 <input
                                     type="checkbox"
                                     className="w-4 h-4 accent-black"
-                                    // onChange={() => {/* handle */}}
+                                    checked={selectedTypes.includes(type.id)}
+                                    onChange={() => onTypeToggle(type.id)}
                                 />
-                                {opt}
+                                {type.name}
                             </label>
                         ))}
                     </div>
                 )}
             </div>
-
             <hr className="border-t border-gray-200 my-4"/>
 
-
-            {/*    Size*/}
+            {/* SIZE */}
             <div className="mb-4">
                 <div
                     className="flex justify-between items-center cursor-pointer font-medium text-sm"
-                    onClick={() => setSizeOpen((o) => !o)}
+                    onClick={() => setSizeOpen(o => !o)}
                 >
                     <span>Size</span>
-                    {sizeOpen ? <BiMinus/> : <BiPlus/>}
+                    {sizeOpen ? <BiMinus /> : <BiPlus />}
                 </div>
                 {sizeOpen && (
                     <div className="mt-4 space-y-3 text-sm">
-                        {["TSHIRTS", "HOODIES", "SHORTS"].map((opt) => (
-                            <label key={opt} className="flex items-center gap-2">
+                        {sizes.map(sz => (
+                            <label key={sz.id} className="flex items-center gap-2">
                                 <input
                                     type="checkbox"
                                     className="w-4 h-4 accent-black"
-                                    // onChange={() => {/* handle */}}
+                                    checked={selectedSizes.includes(sz.id)}
+                                    onChange={() => onSizeToggle(sz.id)}
                                 />
-                                {opt}
+                                {sz.size}
                             </label>
                         ))}
                     </div>
                 )}
             </div>
-
             <hr className="border-t border-gray-200 my-4"/>
 
-
-            {/*    Colors*/}
+            {/* COLOR */}
             <div className="mb-4">
                 <div
                     className="flex justify-between items-center cursor-pointer font-medium text-sm"
-                    onClick={() => setColorOpen((o) => !o)}
+                    onClick={() => setColorOpen(o => !o)}
                 >
                     <span>Color</span>
-                    {colorOpen ? <BiMinus/> : <BiPlus/>}
+                    {colorOpen ? <BiMinus /> : <BiPlus />}
                 </div>
                 {colorOpen && (
                     <div className="mt-4 space-y-3 text-sm">
-                        {["TSHIRTS", "HOODIES", "SHORTS"].map((opt) => (
-                            <label key={opt} className="flex items-center gap-2">
+                        {colors.map(col => (
+                            <label key={col.id} className="flex items-center gap-2">
                                 <input
                                     type="checkbox"
                                     className="w-4 h-4 accent-black"
-                                    // onChange={() => {/* handle */}}
+                                    checked={selectedColors.includes(col.id)}
+                                    onChange={() => onColorToggle(col.id)}
                                 />
-                                {opt}
+                                {col.color}
                             </label>
                         ))}
                     </div>
                 )}
             </div>
-
-            <hr className="border-t border-gray-200 my-4"/>
-
-
         </div>
-
-
     );
 }

@@ -118,6 +118,16 @@ public class ProductVariantService {
                 .collect(Collectors.toList());
     }
 
+//    public List<ProductVariant> allVariantsByGender(Gender gender) {
+//        List<Product> getProductsByGender = productRepository.findByGender(gender);
+//
+//        Category clothingCategory = categoryRepository.findByName("Clothing");
+//        return productRepository
+//                .findByGenderAndCategory(gender, clothingCategory).stream()
+//                .flatMap(p -> p.getVariants().stream())
+//                .collect(Collectors.toList());
+//    }
+
 
     public List<ProductVariant> allVariantsByCategoryAndProductTypeAndGender(String category, String productType, String gender) {
         return null;
