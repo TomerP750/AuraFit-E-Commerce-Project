@@ -1,20 +1,29 @@
 import "./NavbarRight.css";
-import {JSX, useState} from "react";
+import {JSX, useContext, useEffect, useState} from "react";
 import {NavLink, useNavigate} from "react-router-dom";
 import {FiHeart, FiMenu, FiSearch, FiShoppingBag} from "react-icons/fi";
 import {NavbarSidebar} from "../NavbarSidebar/NavbarSidebar.tsx";
 import {NavbarSearchDrawer} from "../NavbarSearchDrawer/NavbarSearchDrawer.tsx";
 import {useUserSelector} from "../../../Redux/hooks.ts";
-
+import {store} from "../../../Redux/store.ts";
 export function NavbarRight(): JSX.Element {
 
-    const [cartItemsCounter, setCartItemsCounter] = useState(0);
+    const [cartItemsCounter, setCartItemsCounter] = useState(store.getState().cartSlice.counter);
     const [sidebarVisible, setSidebarVisible] = useState<boolean>(false);
     const navbarItem = "size-5 hidden sm:block"
     const [search, setSearch] = useState(false);
     const user = useUserSelector(state => state.authSlice.user);
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const unsubscribe = store.subscribe(() => {
+            setCartItemsCounter(store.getState().cartSlice.counter);
+        })
+        return () => {
+            unsubscribe();
+        }
+    }, []);
 
     return (
         <div className=" flex justify-between gap-5 cursor-pointer">

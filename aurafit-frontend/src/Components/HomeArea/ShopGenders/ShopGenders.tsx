@@ -3,8 +3,12 @@ import {JSX} from "react";
 import cardAcc from "../../../assets/cardShopAcc.png"
 import cardMen from "../../../assets/cardShopMen.png"
 import cardWomen from "../../../assets/cardShopWomen.png"
+import {useNavigate} from "react-router-dom";
 
 export function ShopGenders(): JSX.Element {
+
+    const navigate = useNavigate();
+
     return (
         <div className="w-full flex flex-col items-center">
             <div className="flex flex-col items-center w-4/5 gap-6">
@@ -19,7 +23,9 @@ export function ShopGenders(): JSX.Element {
                             alt="men"
                             className="w-full h-full object-cover rounded-lg"
                         />
-                        <button className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-gray-100 px-4 py-2 rounded-2xl hover:bg-gray-200">
+                        <button
+                            onClick={()=>navigate("/men")}
+                            className="cursor-pointer absolute bottom-8 left-1/2 -translate-x-1/2 bg-gray-100 px-4 py-2 rounded-2xl hover:bg-gray-200">
                             Shop Men
                         </button>
                     </div>
@@ -31,7 +37,9 @@ export function ShopGenders(): JSX.Element {
                             alt="women"
                             className="w-full h-full object-cover rounded-lg"
                         />
-                        <button className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-gray-100 px-4 py-2 rounded-2xl hover:bg-gray-200">
+                        <button
+                            onClick={()=>navigate("/women")}
+                            className="cursor-pointer absolute bottom-8 left-1/2 -translate-x-1/2 bg-gray-100 px-4 py-2 rounded-2xl hover:bg-gray-200">
                             Shop Women
                         </button>
                     </div>
@@ -44,7 +52,8 @@ export function ShopGenders(): JSX.Element {
                                 className="absolute inset-0 w-full h-full object-cover rounded-lg"
                             />
                             <button
-                                className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-gray-100 px-4 py-2 rounded-2xl hover:bg-gray-200"
+                                onClick={()=>navigate("/accessories")}
+                                className="cursor-pointer absolute bottom-8 left-1/2 -translate-x-1/2 bg-gray-100 px-4 py-2 rounded-2xl hover:bg-gray-200"
                             >
                                 Shop Accessories
                             </button>

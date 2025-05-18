@@ -6,6 +6,8 @@ import {Role} from "../../../Models/Enums/Role.ts";
 import {store} from "../../../Redux/store.ts";
 import {useUserSelector} from "../../../Redux/hooks.ts";
 import { AnimatePresence, motion } from 'framer-motion';
+import {clean} from "../../../Redux/CartSlice.ts";
+import {useDispatch} from "react-redux";
 
 
 
@@ -15,11 +17,14 @@ interface NavbarAccountMenuProps {
 }
 export function NavbarAccountMenu({onMouseOver, onMouseLeave}: NavbarAccountMenuProps): JSX.Element {
 
+    const dispatch = useDispatch();
+
     const user = useUserSelector((state) => state.authSlice.user);
     const accountMenuItems = "px-4 py-2 text-gray-700 rounded hover:font-bold cursor-pointer";
     const navigate = useNavigate();
     const handleLogout = () => {
-        store.dispatch(logout());
+        dispatch(logout());
+        dispatch(clean())
         navigate("/login");
     }
 

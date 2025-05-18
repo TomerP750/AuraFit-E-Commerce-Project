@@ -1,5 +1,5 @@
 import "./Login.css";
-import {JSX} from "react";
+import {JSX, useState} from "react";
 import {useForm} from "react-hook-form";
 import {LoginRequest} from "../../../Models/LoginRequest.ts";
 import authService from "../../../Services/AuthService.ts";
@@ -8,20 +8,35 @@ import logo from "../../../assets/logo.png"
 import {NavLink, useNavigate} from "react-router-dom";
 import {store} from "../../../Redux/store.ts";
 import {login} from "../../../Redux/AuthSlice.ts";
+import {saveCart} from "../../../Redux/CartSlice.ts";
+import cartService from "../../../Services/CartService.ts";
+import {Cart} from "../../../Models/Cart.ts";
+import {useUserSelector} from "../../../Redux/hooks.ts";
 
 export function Login(): JSX.Element {
 
     const {register, handleSubmit, formState} = useForm<LoginRequest>();
     const navigate = useNavigate();
+    const [cart, setCart] = useState<Cart | null>(store.getState().cartSlice.cart);
+
     const handleLogin = (loginRequest: LoginRequest) => {
         authService.login(loginRequest)
             .then((res) => {
-                navigate("/");
                 localStorage.token = res.token;
                 store.dispatch(login(res.token));
                 toast.success("Login successfully")
+
+                const loader = res.token ? cartService.getUserCart() : cartService.getGuestCart()
+                loader.then(res => {
+                    setCart(res)
+                    store.dispatch(saveCart(res))
+                })
+                    .catch(err => toast.error(err));
+                navigate("/");
             })
             .catch(err => toast.error(err.response.data));
+
+
     }
 
 

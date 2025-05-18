@@ -1,5 +1,5 @@
 import "./ProductPage.css";
-import { JSX, useEffect, useState } from "react";
+import {JSX, useContext, useEffect, useState} from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { TitlePriceReviews } from "../TitlePriceReviews/TitlePriceReviews.tsx";
 import { Colors } from "../Colors/Colors.tsx";
@@ -17,6 +17,8 @@ import { Color } from "../../../../Models/Color.ts";
 import cartService from "../../../../Services/CartService.ts";
 import { AddToCartRequestDTO } from "../../../../Models/DTOS/AddToCartRequestDTO.ts";
 import wishlistService from "../../../../Services/WishlistService.ts";
+import {store} from "../../../../Redux/store.ts";
+import {cartSlice, increment} from "../../../../Redux/CartSlice.ts";
 
 export function ProductPage(): JSX.Element {
     const { id } = useParams();
@@ -29,6 +31,7 @@ export function ProductPage(): JSX.Element {
     const [addedToWishlist, setAddedToWishlist] = useState(false);
     const [allSizes, setAllSizes] = useState<Size[]>([]);
     const [sizeError, setSizeError] = useState(false);
+
 
     // Fetch all variants for this product
     useEffect(() => {
@@ -140,12 +143,15 @@ export function ProductPage(): JSX.Element {
             setSizeError(true);
             return;
         }
+
         setSizeError(false);
         const dto = new AddToCartRequestDTO(currentVariant.id, 1);
         cartService.addToCart(dto)
-            .then(() => toast.success("Added to cart"))
+            .then(() => {
+                store.dispatch(increment())
+                toast.success("Added to cart")
+            })
             .catch((err) => toast.error(err.response.data));
-        console.log("Adding to cart:", currentVariant);
     };
 
 

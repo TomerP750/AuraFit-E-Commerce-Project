@@ -1,29 +1,36 @@
 import "./CartPage.css";
-import {JSX, useEffect, useState} from "react";
+import {JSX, useContext, useEffect, useState} from "react";
 import {CartItemCard} from "../CartItemCard/CartItemCard.tsx";
 import {useNavigate} from "react-router-dom";
 import {BiCart} from "react-icons/bi";
 import cartService from "../../../Services/CartService.ts";
-import {useUserSelector} from "../../../Redux/hooks.ts";
+import {useCartSelector, useUserSelector} from "../../../Redux/hooks.ts";
 import {toast} from "react-toastify";
 import {CartDTO} from "../../../Models/DTOS/CartDTO.ts";
 import {AddToCartRequestDTO} from "../../../Models/DTOS/AddToCartRequestDTO.ts";
-import {CartItem} from "../../../Models/CartItem.ts";
-import {CartItemDTO} from "../../../Models/DTOS/CartItemDTO.ts";
+import {store} from "../../../Redux/store.ts";
+import {Cart} from "../../../Models/Cart.ts";
+import {decrement, increment, saveCart} from "../../../Redux/CartSlice.ts";
+import {useDispatch} from "react-redux";
 
 export function CartPage(): JSX.Element {
+    const dispatch = useDispatch();
+
 
     const navigate = useNavigate();
 
     const user = useUserSelector(state => state.authSlice.user);
+    // const cart = useCartSelector(state => state.cartSlice.cart);
 
-    const [cart, setCart] = useState<CartDTO>();
+    const [cart, setCart] = useState<Cart | null>(store.getState().cartSlice.cart);
 
     useEffect(() => {
 
         const loader = user ? cartService.getUserCart() : cartService.getGuestCart()
 
-        loader.then(res => setCart(res))
+        loader.then(res => {
+            setCart(res)
+        })
             .catch(err => toast.error(err));
 
 
@@ -56,6 +63,7 @@ export function CartPage(): JSX.Element {
             cartService.removeOneQuantityFromCartItem(cartItemId)
                 .then(updatedCart => {
                     setCart(updatedCart);
+                    dispatch(decrement())
                 })
                 .catch(err => toast.error(err));
         } else {
@@ -72,11 +80,15 @@ export function CartPage(): JSX.Element {
         }
     }
 
+
     function handleAddToCart(variantId: number) {
         const dto = new AddToCartRequestDTO(variantId, 1);
 
         cartService.addToCart(dto)
-            .then(res => setCart(res))
+            .then(res => {
+                dispatch(increment())
+                setCart(res)
+            })
             .catch(err => toast.error(err));
     }
 
