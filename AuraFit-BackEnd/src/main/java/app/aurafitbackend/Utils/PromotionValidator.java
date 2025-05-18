@@ -1,6 +1,7 @@
 package app.aurafitbackend.Utils;
 
 import app.aurafitbackend.Beans.Promotion;
+import app.aurafitbackend.DTOS.CreateDTOS.CreatePromotionByProductDTO;
 import app.aurafitbackend.DTOS.CreateDTOS.CreatePromotionDTO;
 import app.aurafitbackend.Exceptions.InvalidInputException;
 import app.aurafitbackend.Repositories.PromotionRepository;
@@ -33,5 +34,18 @@ public class PromotionValidator {
     public static boolean isExpiredPromotion(Promotion promotion) {
         LocalDateTime now = LocalDateTime.now();
         return promotion.getEndTime().isBefore(now);
+    }
+
+    public static boolean isValidProductPromotionsCreate(CreatePromotionByProductDTO dto) {
+        if (dto.getDiscountPercent() < 0 || dto.getDiscountPercent() > 100) {
+            throw new InvalidInputException("Invalid discount percent");
+        }
+        if (dto.getStartTime().isAfter(dto.getEndTime())) {
+            throw new InvalidInputException("Start time is after end time");
+        }
+        if (dto.getEndTime().isBefore(dto.getStartTime())) {
+            throw new InvalidInputException("End time is after start time");
+        }
+        return true;
     }
 }

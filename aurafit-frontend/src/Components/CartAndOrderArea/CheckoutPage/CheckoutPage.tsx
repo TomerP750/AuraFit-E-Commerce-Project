@@ -61,7 +61,7 @@ export function CheckoutPage(): JSX.Element {
                             </div>
                             <div className="flex justify-between">
                                 <span>Shipping</span>
-                                {cart.shippingCost === 0 ? <span>Free Shipping</span> : <span>cart.shippingCost</span>}
+                                {cart.shippingCost === 0 ? <span>Free Shipping</span> : <span>${cart.shippingCost}</span>}
                             </div>
                             <div
                                 className="flex justify-between font-semibold text-lg mt-2 pt-2 border-t border-gray-700">

@@ -14,7 +14,7 @@ public class WishlistValidator {
 
 
     public static boolean isValidAddToWishlistRequest(Long userId, Long wishlistId) {
-        if (wishlistItemRepository.existsByUserIdAndProductVariantId(userId, wishlistId)) {
+        if (wishlistItemRepository.existsByUserIdAndProductId(userId, wishlistId)) {
             throw new RequestException("Already in wishlist");
         }
         return true;

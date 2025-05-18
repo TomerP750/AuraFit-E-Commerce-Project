@@ -37,7 +37,7 @@ export function ProductCard({variants, onAddToWishlist, selectedVariantId}: Prod
     const handleHeart = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
         e.stopPropagation();
-        onAddToWishlist?.(selected.id);
+        onAddToWishlist?.(selected.product.id);
     };
 
     return (

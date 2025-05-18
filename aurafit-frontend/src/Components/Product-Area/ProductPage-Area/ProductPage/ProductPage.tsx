@@ -66,7 +66,7 @@ export function ProductPage(): JSX.Element {
 
     useEffect(() => {
         if (currentVariant) {
-            wishlistService.isOnWishlist(currentVariant.id)
+            wishlistService.isOnWishlist(defaultVariant.product.id)
                 .then((res) => setAddedToWishlist(res))
                 .catch((err) => toast.error(err.response.data))
         }
@@ -119,10 +119,10 @@ export function ProductPage(): JSX.Element {
         setSizeError(false);
     };
 
-    const handleWishlist = (variantId: number) => {
+    const handleWishlist = (productId: number) => {
 
 
-        wishlistService.toggleWishlist(variantId)
+        wishlistService.toggleWishlist(productId)
             .then((res) => {
                 if (addedToWishlist) {
                     toast.success("Remove from wishlist");
@@ -199,11 +199,11 @@ export function ProductPage(): JSX.Element {
 
                         <Buttons
                             onWishlist={() => {
-                                if (!currentVariant) {
-                                    setSizeError(true);
-                                    return;
-                                }
-                                handleWishlist(currentVariant.id);
+                                // if (!currentVariant) {
+                                //     setSizeError(true);
+                                //     return;
+                                // }
+                                handleWishlist(defaultVariant.product.id);
                             }}
                             addedToWishlist={addedToWishlist}
                             onAddToCart={handleAddToCart}

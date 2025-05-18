@@ -17,19 +17,14 @@ export function WishlistCard({wishlistItem}: WishlistCardProps): JSX.Element {
     const navigate = useNavigate();
     const [hover, setHover] = useState(false);
 
-    const {
-        productVariant: { id: variantId, basePrice, salePrice, onSale, size, color, product },
-    } = wishlistItem;
-    const price = onSale ? salePrice : basePrice;
-
     const handleWishlistAddToCart = ()=> {
-        const dto = new AddToCartRequestDTO(variantId, 1);
-        cartService.addToCart(dto)
-            .then(() => {
-                toast.success("Added to cart")
-                return wishlistService.deleteProductFromWishlist(wishlistItem.id);
-            })
-            .catch((err) => toast.error(err.response?.data || "Error"));
+        // const dto = new AddToCartRequestDTO(variantId, 1);
+        // cartService.addToCart(dto)
+        //     .then(() => {
+        //         toast.success("Added to cart")
+        //         return wishlistService.deleteProductFromWishlist(wishlistItem.id);
+        //     })
+        //     .catch((err) => toast.error(err.response?.data || "Error"));
     }
 
     return (
@@ -50,7 +45,7 @@ export function WishlistCard({wishlistItem}: WishlistCardProps): JSX.Element {
                     <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center space-x-2">
                         <button
                             type="button"
-                            onClick={() => navigate(`/product/${product.id}`)}
+                            onClick={() => navigate(`/product/${wishlistItem.product.id}`)}
                             className="px-3 py-1 bg-white rounded text-sm font-medium hover:bg-gray-100 transition"
                         >
                             Go To Product
@@ -68,11 +63,11 @@ export function WishlistCard({wishlistItem}: WishlistCardProps): JSX.Element {
 
             {/* Bottom: details under the image */}
             <div className="p-4 flex flex-col gap-2">
-                <p className="font-semibold text-lg truncate">{product.name}</p>
-                <p className="text-gray-600 text-sm">
-                    {size.size} <span className="mx-1">|</span> {color.color}
-                </p>
-                <p className="font-medium mt-2">${price.toFixed(2)}</p>
+                <p className="font-semibold text-lg truncate">{wishlistItem.product.name}</p>
+                {/*<p className="text-gray-600 text-sm">*/}
+                {/*    {wishlistItem.product.size.size} <span className="mx-1">|</span> {wishlistItem.product.color.color}*/}
+                {/*</p>*/}
+                {/*<p className="font-medium mt-2">${wishlistItem.product.price.toFixed(2)}</p>*/}
             </div>
         </div>
     );

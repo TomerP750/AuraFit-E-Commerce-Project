@@ -2,6 +2,7 @@ package app.aurafitbackend.Services;
 
 import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.Beans.Promotion;
+import app.aurafitbackend.DTOS.CreateDTOS.CreatePromotionByProductDTO;
 import app.aurafitbackend.DTOS.CreateDTOS.CreatePromotionDTO;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Repositories.ProductVariantRepository;
@@ -47,7 +48,31 @@ public class PromotionService {
 
     }
 
-    public void createPromotionsByProductId(Long productId, CreatePromotionDTO dto) {
+    public void createPromotionsByProductId(CreatePromotionByProductDTO dto) {
+        if (PromotionValidator.isValidProductPromotionsCreate(dto)) {
+            List<ProductVariant> variants = productVariantRepository.findByProductId(dto.getProductId());
+            variants.forEach(variant -> {
+                if (variant.getOnSale()) {
+                    variant.setOnSale(false);
+                    variant.setSalePrice(BigDecimal.ZERO);
+                    productVariantRepository.save(variant);
+                }
+                Promotion promotion = Promotion.builder()
+                        .productVariant(variant)
+                        .name(dto.getName())
+                        .startTime(dto.getStartTime())
+                        .endTime(dto.getEndTime())
+                        .isActive(true)
+                        .discountPercent(dto.getDiscountPercent())
+                        .build();
+                promotionRepository.save(promotion);
+
+                variant.setOnSale(true);
+                variant.setSalePrice(calculateSalePrice(variant, promotion));
+                productVariantRepository.save(variant);
+            });
+
+        }
 
     }
 

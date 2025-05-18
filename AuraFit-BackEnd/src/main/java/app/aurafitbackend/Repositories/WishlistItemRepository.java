@@ -10,7 +10,11 @@ public interface WishlistItemRepository extends JpaRepository<WishlistItem, Long
 
     List<WishlistItem> findByUserId(Long id);
 
-    boolean existsByUserIdAndProductVariantId(Long userId, Long productVariantId);
+//    boolean existsByUserIdAndProductVariantId(Long userId, Long productVariantId);
 
-    Optional<WishlistItem> findByUserIdAndProductVariantId(Long userId ,Long variantId);
+//    Optional<WishlistItem> findByUserIdAndProductVariantId(Long userId ,Long variantId);
+
+    boolean existsByUserIdAndProductId(Long userId, Long productId);
+
+    Optional<WishlistItem> findByUserIdAndProductId(Long userId, Long productId);
 }

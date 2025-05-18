@@ -23,6 +23,7 @@ public class OrderController {
     @PostMapping("/user/placeOrder")
     public OrderResponseDTO checkoutUser(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody ContactInformation contactInformation) {
         Long userId = userDetails.getUser().getId();
+//        return orderService.placeOrderForUser(userId, contactInformation);
         return EntityDTOMapper.toOrderResponseDTO(orderService.placeOrderForUser(userId, contactInformation));
     }
 

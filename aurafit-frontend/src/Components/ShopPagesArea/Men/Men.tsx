@@ -66,8 +66,8 @@ export function Men(): JSX.Element {
         [cards, sortOption]
     );
 
-    const handleAddToWishlist = (id: number)=> {
-        wishlistService.toggleWishlist(id)
+    const handleAddToWishlist = (productId: number)=> {
+        wishlistService.toggleWishlist(productId)
             .then((res)=>{
                 if (onWishlist) {
                     toast.success("Removed from wishlist");

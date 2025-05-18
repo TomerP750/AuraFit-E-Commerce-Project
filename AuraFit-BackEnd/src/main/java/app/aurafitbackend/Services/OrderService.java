@@ -55,7 +55,6 @@ public class OrderService {
 
         orderItems.forEach(orderItem -> {
             ProductVariant variant = orderItem.getVariant();
-            //TODO what if two customer purchase same time make it lock
             if (variant.getStockQuantity() - orderItem.getQuantity() <= 0) {
                 throw new RequestException("Insufficient Stock");
             }

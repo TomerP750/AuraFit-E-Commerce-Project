@@ -1,45 +1,30 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import cartService from "../Services/CartService";
-import { CartDTO } from "../Models/DTOS/CartDTO";
+import { createContext } from "react";
 
-interface CartContextValue {
-    cart: CartDTO | null;
-    reloadCart: () => Promise<void>;
-    itemCount: number;
+type CartState = {
+    cartItemsCounter: number;
 }
 
-const CartContext = createContext<CartContextValue | undefined>(undefined);
-
-export function CartProvider({ children }: { children: ReactNode }) {
-    const [cart, setCart] = useState<CartDTO | null>(null);
-
-    const reloadCart = async () => {
-        try {
-            const fresh = await cartService.getUserCart();
-            setCart(fresh);
-        } catch {
-            // fallback to guest
-            const guest = await cartService.getGuestCart();
-            setCart(guest);
-        }
-    };
-
-    useEffect(() => {
-        reloadCart();
-    }, []);
-
-    const itemCount = cart ? cart.items.reduce((sum, i) => sum + i.quantity, 0) : 0;
-
-    return (
-        <CartContext.Provider value={{ cart, reloadCart, itemCount }}>
-            {children}
-        </CartContext.Provider>
-    );
+type CartContextValue = CartState & {
+    increment: () => void;
+    decrement: () => void;
 }
 
-// custom hook for easy consumption
-export function useCart() {
-    const ctx = useContext(CartContext);
-    if (!ctx) throw new Error("useCart must be inside CartProvider");
-    return ctx;
+const CartContext = createContext<CartContextValue | null>(null);
+
+
+type CartContextProviderProps = {
+    children: React.ReactNode;
+}
+export default function CartContextProvider({children}: CartContextProviderProps) {
+
+    const ctx: CartContextValue = {
+        cartItemsCounter: 0,
+        increment: ()=>{
+
+        },
+        decrement: ()=>{
+
+        },
+    }
+    return <CartContext.Provider value={ctx}>{children}</CartContext.Provider>
 }
