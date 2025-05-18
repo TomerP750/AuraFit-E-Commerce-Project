@@ -10,7 +10,7 @@ import {CartDTO} from "../../../Models/DTOS/CartDTO.ts";
 import {AddToCartRequestDTO} from "../../../Models/DTOS/AddToCartRequestDTO.ts";
 import {store} from "../../../Redux/store.ts";
 import {Cart} from "../../../Models/Cart.ts";
-import {decrement, increment, saveCart} from "../../../Redux/CartSlice.ts";
+import {decrement, increment, saveCart, updateCounter} from "../../../Redux/CartSlice.ts";
 import {useDispatch} from "react-redux";
 
 export function CartPage(): JSX.Element {
@@ -42,10 +42,13 @@ export function CartPage(): JSX.Element {
 
 
     function handleDeleteCartItem(id: number) {
+
         const answer = window.confirm("Are you sure you want to remove this item from the cart?");
+        const cartItem = cart!.items.find(item => item.id === id);
         if (answer) {
             cartService.removeItemFromCart(id)
                 .then(res => {
+                    dispatch(updateCounter(cartItem!.quantity));
                     setCart(res)
                     cart!.items.filter(item => item.id !== id)
                 })
@@ -74,6 +77,7 @@ export function CartPage(): JSX.Element {
             cartService.removeOneQuantityFromCartItem(cartItemId)
                 .then(updatedCart => {
                     setCart(updatedCart);
+                    dispatch(updateCounter(cartItem.quantity));
                     toast.success("Item removed");
                 })
                 .catch(err => toast.error(err));

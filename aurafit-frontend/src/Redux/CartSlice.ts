@@ -57,8 +57,12 @@ export const cartSlice = createSlice({
             state.counter = Math.max(0, state.counter - 1);
             localStorage.setItem("counter", JSON.stringify(state.counter));
         },
+        updateCounter(state, action: PayloadAction<number>) {
+            state.counter = Math.max(0, state.counter - action.payload);
+            localStorage.setItem("counter", JSON.stringify(state.counter));
+        },
     },
 });
 
-export const { clean, saveCart, increment, decrement } = cartSlice.actions;
+export const { clean, saveCart, increment, decrement, updateCounter } = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;

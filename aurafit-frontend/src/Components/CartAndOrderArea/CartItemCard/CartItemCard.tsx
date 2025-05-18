@@ -2,10 +2,11 @@ import "./CartItemCard.css";
 import {JSX} from "react";
 import {BiMinus, BiPlus, BiX} from "react-icons/bi";
 import {CartItemDTO} from "../../../Models/DTOS/CartItemDTO.ts";
+import {CartItem} from "../../../Models/CartItem.ts";
 
 
 interface CartItemCardProps {
-    cartItem: CartItemDTO;
+    cartItem: CartItem;
     onDelete?: () => void
     onAddToCart?: () => void;
     page?: string;
