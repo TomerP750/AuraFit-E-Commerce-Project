@@ -178,20 +178,20 @@ import {ProductVariantDTO} from "../../../Models/DTOS/ProductVariantDTO.ts";
 import {ProductDTO} from "../../../Models/DTOS/ProductDTO.ts";
 
 export function Men(): JSX.Element {
-    const [showFilters, setShowFilters]       = useState(false);
-    const [sortOption, setSortOption]         = useState<SortOption>("newest");
+    const [showFilters, setShowFilters] = useState(false);
+    const [sortOption, setSortOption] = useState<SortOption>("newest");
 
     // filter options
-    const [categories, setCategories]         = useState<Category[]>([]);
-    const [productTypes, setProductTypes]     = useState<ProductType[]>([]);
-    const [colors, setColors]                 = useState<Color[]>([]);
-    const [sizes, setSizes]                   = useState<Size[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [productTypes, setProductTypes] = useState<ProductType[]>([]);
+    const [colors, setColors] = useState<Color[]>([]);
+    const [sizes, setSizes] = useState<Size[]>([]);
 
     // selected filters
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
-    const [selectedTypes, setSelectedTypes]           = useState<number[]>([]);
-    const [selectedColors, setSelectedColors]         = useState<number[]>([]);
-    const [selectedSizes, setSelectedSizes]           = useState<number[]>([]);
+    const [selectedTypes, setSelectedTypes] = useState<number[]>([]);
+    const [selectedColors, setSelectedColors] = useState<number[]>([]);
+    const [selectedSizes, setSelectedSizes] = useState<number[]>([]);
 
     // one “card” per product + its own variants
     const [cards, setCards] = useState<
@@ -200,10 +200,10 @@ export function Men(): JSX.Element {
 
     // fetch metadata once
     useEffect(() => {
-        displayService.allCategories()   .then(setCategories)   .catch(err => toast.error(err));
+        displayService.allCategories().then(setCategories).catch(err => toast.error(err));
         displayService.allProductTypes().then(setProductTypes).catch(err => toast.error(err));
-        displayService.allColors()       .then(setColors)       .catch(err => toast.error(err));
-        displayService.allSizes()        .then(setSizes)        .catch(err => toast.error(err));
+        displayService.allColors().then(setColors).catch(err => toast.error(err));
+        displayService.allSizes().then(setSizes).catch(err => toast.error(err));
     }, []);
 
     // fetch only ProductDTO (which includes variants) and map to cards
@@ -270,20 +270,14 @@ export function Men(): JSX.Element {
         });
 
         return withSorted;
-    }, [
-        cards,
-        sortOption,
-        selectedCategories,
-        selectedTypes,
-        selectedColors,
-        selectedSizes,
-    ]);
+    }, [cards, sortOption, selectedCategories, selectedTypes, selectedColors, selectedSizes,]);
 
     // wishlist toggle
     const handleAddToWishlist = (productId: number) => {
-        wishlistService
-            .toggleWishlist(productId)
-            .then(() => toast.success("Wishlist updated"))
+        wishlistService.toggleWishlist(productId)
+            .then(() => {
+                toast.success("Wishlist updated")
+            })
             .catch(err => toast.error(err));
     };
 

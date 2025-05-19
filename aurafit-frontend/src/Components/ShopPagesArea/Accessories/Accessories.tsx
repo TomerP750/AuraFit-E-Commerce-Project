@@ -177,14 +177,14 @@ import {ProductVariantDTO} from "../../../Models/DTOS/ProductVariantDTO.ts";
 import {ProductDTO} from "../../../Models/DTOS/ProductDTO.ts";
 
 export function Accessories(): JSX.Element {
-    const [showFilters, setShowFilters]       = useState(false);
-    const [sortOption, setSortOption]         = useState<SortOption>("newest");
+    const [showFilters, setShowFilters] = useState(false);
+    const [sortOption, setSortOption] = useState<SortOption>("newest");
 
     // filter options
-    const [categories, setCategories]         = useState<Category[]>([]);
-    const [productTypes, setProductTypes]     = useState<ProductType[]>([]);
-    const [colors, setColors]                 = useState<Color[]>([]);
-    const [sizes, setSizes]                   = useState<Size[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [productTypes, setProductTypes] = useState<ProductType[]>([]);
+    const [colors, setColors] = useState<Color[]>([]);
+    const [sizes, setSizes] = useState<Size[]>([]);
 
     // selected filters
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);

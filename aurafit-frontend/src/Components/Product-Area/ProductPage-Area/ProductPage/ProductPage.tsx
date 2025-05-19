@@ -322,12 +322,9 @@ export function ProductPage(): JSX.Element {
 
     // 5️⃣ Check wishlist status for whichever variant is in the URL (or currentVariant)
     useEffect(() => {
-        const checkId =
-            currentVariant?.id ||
-            (variantParam != null ? variantParam : variants[0]?.id);
+        const checkId = productId;
         if (!checkId) return;
-        wishlistService
-            .isOnWishlist(checkId)
+        wishlistService.isOnWishlist(checkId)
             .then(res => setAddedToWishlist(res))
             .catch(err => toast.error(err.response?.data || err.message));
     }, [currentVariant, variantParam, variants]);
@@ -375,8 +372,7 @@ export function ProductPage(): JSX.Element {
         }
     };
     const handleWishlist = () => {
-        wishlistService
-            .toggleWishlist(defaultVariant.id)
+        wishlistService.toggleWishlist(defaultVariant.product.id)
             .then(res => {
                 toast.success(res ? "Added to wishlist" : "Removed from wishlist");
                 setAddedToWishlist(res);

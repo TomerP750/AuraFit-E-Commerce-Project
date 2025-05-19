@@ -95,11 +95,7 @@ interface ProductCardProps {
     onAddToWishlist?: (productId: number) => void;
 }
 
-export function ProductCard({
-                                product,
-                                variants = [],
-                                onAddToWishlist,
-                            }: ProductCardProps) {
+export function ProductCard({product, variants = [], onAddToWishlist,}: ProductCardProps) {
     const navigate = useNavigate();
 
     // ⚠️ Hook at top level
