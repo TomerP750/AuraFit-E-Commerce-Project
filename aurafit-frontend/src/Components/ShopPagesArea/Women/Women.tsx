@@ -7,7 +7,7 @@ import displayService from "../../../Services/DisplayService.ts";
 import {toast} from "react-toastify";
 import {ProductVariant} from "../../../Models/ProductVariant.ts";
 import {Gender} from "../../../Models/Enums/Gender.ts";
-import {sortGroupedVariants} from "../../../Utils/FiltersUtils.ts";
+// import {sortGroupedVariants} from "../../../Utils/FiltersUtils.ts";
 import wishlistService from "../../../Services/WishlistService.ts";
 
 
@@ -59,10 +59,10 @@ export function Women(): JSX.Element {
             .catch((err) => toast.error(err));
     }, []);
 
-    const sortedCards = useMemo(
-        () => sortGroupedVariants(cards, sortOption),
-        [cards, sortOption]
-    );
+    // const sortedCards = useMemo(
+    //     () => sortGroupedVariants(cards, sortOption),
+    //     [cards, sortOption]
+    // );
 
     const handleAddToWishlist = (id: number)=> {
         wishlistService.addProductToWishlist(id)
@@ -81,58 +81,58 @@ export function Women(): JSX.Element {
             </button>
 
             <div className="flex flex-col sm:flex-row gap-6">
-                <aside
-                    className={`w-full sm:w-60 transition-all duration-200 ${
-                        showFilters ? "block" : "hidden"
-                    } sm:block`}
-                >
-                    <Filters sortSelected={sortOption}
-                             onSortSelected={setSortOption}
-                             selectedCategories={selectedCategories}
-                             onCategoryToggle={id => {
-                                 setSelectedCategories(cs =>
-                                     cs.includes(id) ? cs.filter(x => x !== id) : [...cs, id]
-                                 );
-                             }}
+                {/*<aside*/}
+                {/*    className={`w-full sm:w-60 transition-all duration-200 ${*/}
+                {/*        showFilters ? "block" : "hidden"*/}
+                {/*    } sm:block`}*/}
+                {/*>*/}
+                {/*    <Filters sortSelected={sortOption}*/}
+                {/*             onSortSelected={setSortOption}*/}
+                {/*             selectedCategories={selectedCategories}*/}
+                {/*             onCategoryToggle={id => {*/}
+                {/*                 setSelectedCategories(cs =>*/}
+                {/*                     cs.includes(id) ? cs.filter(x => x !== id) : [...cs, id]*/}
+                {/*                 );*/}
+                {/*             }}*/}
 
-                             selectedTypes={selectedTypes}
-                             onTypeToggle={id => {
-                                 setSelectedTypes(ts =>
-                                     ts.includes(id) ? ts.filter(x => x !== id) : [...ts, id]
-                                 );
-                             }}
+                {/*             selectedTypes={selectedTypes}*/}
+                {/*             onTypeToggle={id => {*/}
+                {/*                 setSelectedTypes(ts =>*/}
+                {/*                     ts.includes(id) ? ts.filter(x => x !== id) : [...ts, id]*/}
+                {/*                 );*/}
+                {/*             }}*/}
 
-                             selectedColors={selectedColors}
-                             onColorToggle={id => {
-                                 setSelectedColors(cs =>
-                                     cs.includes(id) ? cs.filter(x => x !== id) : [...cs, id]
-                                 );
-                             }}
+                {/*             selectedColors={selectedColors}*/}
+                {/*             onColorToggle={id => {*/}
+                {/*                 setSelectedColors(cs =>*/}
+                {/*                     cs.includes(id) ? cs.filter(x => x !== id) : [...cs, id]*/}
+                {/*                 );*/}
+                {/*             }}*/}
 
-                             selectedSizes={selectedSizes}
-                             onSizeToggle={id => {
-                                 setSelectedSizes(ss =>
-                                     ss.includes(id) ? ss.filter(x => x !== id) : [...ss, id]
-                                 );
-                             }}
+                {/*             selectedSizes={selectedSizes}*/}
+                {/*             onSizeToggle={id => {*/}
+                {/*                 setSelectedSizes(ss =>*/}
+                {/*                     ss.includes(id) ? ss.filter(x => x !== id) : [...ss, id]*/}
+                {/*                 );*/}
+                {/*             }}*/}
 
-                    />
-                </aside>
+                {/*    />*/}
+                {/*</aside>*/}
 
-                <main className="flex-1">
-                    <h2 className="text-2xl font-medium mb-6">Men’s Collection</h2>
+                {/*<main className="flex-1">*/}
+                {/*    <h2 className="text-2xl font-medium mb-6">Men’s Collection</h2>*/}
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {sortedCards.map(({ variants }) => (
-                            <ProductCard
-                                key={variants[0].id}
-                                variants={variants}
-                                onAddToWishlist={handleAddToWishlist}
-                                selectedVariantId={variants[0].id}
-                            />
-                        ))}
-                    </div>
-                </main>
+                {/*    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">*/}
+                {/*        {sortedCards.map(({ variants }) => (*/}
+                {/*            <ProductCard*/}
+                {/*                key={variants[0].id}*/}
+                {/*                variants={variants}*/}
+                {/*                onAddToWishlist={handleAddToWishlist}*/}
+                {/*                selectedVariantId={variants[0].id}*/}
+                {/*            />*/}
+                {/*        ))}*/}
+                {/*    </div>*/}
+                {/*</main>*/}
             </div>
         </div>
     );

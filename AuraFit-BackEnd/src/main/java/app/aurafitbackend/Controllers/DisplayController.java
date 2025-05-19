@@ -1,6 +1,7 @@
 package app.aurafitbackend.Controllers;
 
 import app.aurafitbackend.Beans.*;
+import app.aurafitbackend.DTOS.DisplayDTOS.ProductDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
 import app.aurafitbackend.Enums.Gender;
 import app.aurafitbackend.Repositories.CategoryRepository;
@@ -86,11 +87,12 @@ public class DisplayController {
     public List<Category> allCategories() {
         return categoryService.getAllCategories();
     }
-//
-//    @GetMapping("/clothing/{gender}")
-//    public List<ProductVariant> allClothing(@PathVariable Gender gender) {
-//        return productVariantService.allClothingByGender(gender);
-//    }
+
+    @GetMapping("/product/{gender}/all")
+    public List<ProductDTO> allProductsByGender(@PathVariable Gender gender) {
+        return productService.getAllProductsByGender(gender);
+    }
+
 
 
 

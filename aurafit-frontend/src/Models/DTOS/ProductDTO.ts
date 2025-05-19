@@ -12,9 +12,9 @@ export class ProductDTO {
     gender: Gender;
     productType: ProductType;
     onSale: boolean;
-    // variants: ProductVariantDTO[]
+    variants: ProductVariantDTO[]
 
-    constructor(id: number, name: string, description: string, category: Category, gender: Gender, productType: ProductType, onSale: boolean) {
+    constructor(id: number, name: string, description: string, category: Category, gender: Gender, productType: ProductType, onSale: boolean, variants: ProductVariantDTO[]) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -22,6 +22,6 @@ export class ProductDTO {
         this.gender = gender;
         this.productType = productType;
         this.onSale = onSale;
-        // this.variants = variants;
+        this.variants = variants;
     }
 }

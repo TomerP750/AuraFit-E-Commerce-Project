@@ -108,9 +108,9 @@ public final class EntityDTOMapper {
 //                .onSale(product.getOnSale())
                 .createdAt(product.getCreatedAt())
                 .updatedAt(product.getUpdatedAt())
-//                .variants(product.getVariants().stream()
-//                        .map(EntityDTOMapper::toVariantDTO)
-//                        .collect(Collectors.toList()))
+                .variants(product.getVariants().stream()
+                        .map(EntityDTOMapper::toVariantDTO)
+                        .collect(Collectors.toList()))
                 .build();
     }
 

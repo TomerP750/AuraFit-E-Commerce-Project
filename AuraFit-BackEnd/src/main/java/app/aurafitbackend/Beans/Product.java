@@ -55,7 +55,7 @@ public class Product {
 
 //    private Boolean onSale;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 //    @JsonManagedReference
     private List<ProductVariant> variants = new ArrayList<>();
 

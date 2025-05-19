@@ -26,5 +26,6 @@ public class ProductDTO {
     private boolean onSale;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-//    private List<ProductVariantDTO> variants;
+    //TODO maybe comment variants
+    private List<ProductVariantDTO> variants;
 }

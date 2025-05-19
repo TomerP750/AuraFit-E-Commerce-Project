@@ -5,6 +5,7 @@ import app.aurafitbackend.Beans.Review;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductDTO;
 import app.aurafitbackend.DTOS.UpdateProductDTO;
+import app.aurafitbackend.Enums.Gender;
 import app.aurafitbackend.Enums.Rating;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Exceptions.RequestException;
@@ -18,6 +19,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,6 +30,15 @@ public class ProductService {
     private final ProductVariantRepository productVariantRepository;
     private final OrderItemRepository orderItemRepository;
 
+
+    public List<ProductDTO> getAllProductsByGender(Gender gender) {
+        List<ProductDTO> dtos = new ArrayList<>();
+        List<Product> products = productRepository.findByGender(gender);
+        products.forEach(product -> {
+            dtos.add(EntityDTOMapper.toProductDTO(product));
+        });
+        return dtos;
+    }
 
     public List<Product> getProducts() {
         return productRepository.findAll();
@@ -77,5 +88,7 @@ public class ProductService {
 
         return sum / product.getReviews().size();
     }
+
+
 
 }

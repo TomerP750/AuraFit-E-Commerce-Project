@@ -1,5 +1,7 @@
 import axios from "axios";
 import {Gender} from "../Models/Enums/Gender.ts";
+import {Product} from "../Models/Product.ts";
+import {ProductDTO} from "../Models/DTOS/ProductDTO.ts";
 
 
 class DisplayService {
@@ -46,6 +48,10 @@ class DisplayService {
 
     async allProductTypes() {
         return (await axios.get("http://localhost:8080/api/display/productType/all")).data
+    }
+
+    async allProductsByGender(gender: Gender) {
+        return (await axios.get<ProductDTO[]>(`http://localhost:8080/api/display/product/${gender}/all`)).data
     }
 
 
