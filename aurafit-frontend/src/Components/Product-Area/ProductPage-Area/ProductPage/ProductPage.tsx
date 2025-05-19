@@ -235,7 +235,7 @@
 // src/pages/ProductPage.tsx
 import "./ProductPage.css";
 import React, {JSX, useEffect, useState} from "react";
-import { NavLink, useParams } from "react-router-dom";
+import {NavLink, useNavigate, useParams} from "react-router-dom";
 import { TitlePriceReviews } from "../TitlePriceReviews/TitlePriceReviews";
 import { Colors } from "../Colors/Colors";
 import { Sizes } from "../Sizes/Sizes";
@@ -267,6 +267,7 @@ export function ProductPage(): JSX.Element {
     const { id, variantId } = useParams<Params>();
     const productId = Number(id);
     const variantParam = variantId ? Number(variantId) : undefined;
+    const navigate = useNavigate();
 
     const [variants, setVariants]           = useState<ProductVariant[]>([]);
     const [loading, setLoading]             = useState(true);
@@ -361,6 +362,17 @@ export function ProductPage(): JSX.Element {
     const onSizeSelect = (size: Size) => {
         setSelectedSize(size);
         setSizeError(false);
+
+        // find the exact variant for current color+size:
+        if (selectedColor) {
+            const next = variants.find(
+                v => v.color.id === selectedColor.id && v.size.id === size.id
+            );
+            if (next) {
+                // navigate to /product/:productId/:variantId
+                navigate(`/product/${productId}/${next.id}`);
+            }
+        }
     };
     const handleWishlist = () => {
         wishlistService

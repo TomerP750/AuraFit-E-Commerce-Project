@@ -31,12 +31,13 @@
 // }
 
 
+
 // src/components/Colors/Colors.tsx
 import "./Colors.css";
-import React, {JSX} from "react";
 import { useNavigate } from "react-router-dom";
 import { Color } from "../../../../Models/Color";
 import { ProductVariant } from "../../../../Models/ProductVariant";
+import {JSX} from "react";
 
 interface ColorsProps {
     colors: Color[];
@@ -89,3 +90,4 @@ export function Colors({
         </div>
     );
 }
+
