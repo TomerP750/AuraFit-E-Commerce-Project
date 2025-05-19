@@ -9,7 +9,7 @@ import java.util.List;
 public interface PromotionRepository extends JpaRepository<Promotion, Long> {
 
 
-    @Query(value = "SELECT p FROM promotions p WHERE p.endDate < CURRENT_TIMESTAMP", nativeQuery = true)
+    @Query("SELECT p FROM Promotion p WHERE p.endTime < CURRENT_TIMESTAMP")
     List<Promotion> findExpiredPromotions();
 
 }

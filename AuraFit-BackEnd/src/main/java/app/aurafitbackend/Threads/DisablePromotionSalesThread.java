@@ -30,6 +30,7 @@ public class DisablePromotionSalesThread extends Thread {
                 variant.setSalePrice(BigDecimal.ZERO);
                 promotionRepository.save(promotion);
                 productVariantRepository.save(promotion.getProductVariant());
+                System.out.println("Expired Promotions Cleared!");
             }
         });
 
