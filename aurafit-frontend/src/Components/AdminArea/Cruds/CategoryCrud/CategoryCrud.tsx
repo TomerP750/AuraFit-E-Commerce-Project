@@ -35,7 +35,7 @@ export function CategoryCrud(): JSX.Element {
                 <button onClick={() => setFormOpen(false)} className="mb-4 text-sm text-gray-700">
                     ← Back to list
                 </button>
-                <CreateCategoryForm onSave={() => setFormOpen(false)} setFormOpen={() => setFormOpen(false)} />
+                <CreateCategoryForm onSave={() => setFormOpen(false)} />
             </div>
         );
     }

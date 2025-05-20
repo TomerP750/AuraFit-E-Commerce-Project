@@ -1,11 +1,9 @@
 import "./ProductCrud.css";
-import {Fragment, JSX, useEffect, useState} from "react";
+import {JSX, useEffect, useState} from "react";
 import adminService from "../../../../Services/AdminService.ts";
 import {toast} from "react-toastify";
 import {Product} from "../../../../Models/Product.ts";
-import {MdDeleteForever} from "react-icons/md";
-import {FaEdit} from "react-icons/fa";
-import {BiCheckboxChecked, BiPlus, BiX} from "react-icons/bi";
+import {BiPlus} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
 import {CreateProductForm} from "../../CreateForms/CreateProductForm/CreateProductForm.tsx";
 import {ProductUpdateForm} from "../../UpdateForms/ProductUpdateForm/ProductUpdateForm.tsx";

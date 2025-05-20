@@ -1,5 +1,5 @@
 import "./ProductTypeCrud.css";
-import { Fragment, JSX, useEffect, useState } from "react";
+import {JSX, useEffect, useState } from "react";
 import adminService from "../../../../Services/AdminService.ts";
 import { toast } from "react-toastify";
 import { ProductType } from "../../../../Models/ProductType.ts";
@@ -36,7 +36,7 @@ export function ProductTypeCrud(): JSX.Element {
                 <button onClick={() => setFormOpen(false)} className="mb-4 text-sm text-gray-700">
                     ← Back to list
                 </button>
-                <CreateProductTypeForm onSave={() => setFormOpen(false)} setFormOpen={() => setFormOpen(false)} />
+                <CreateProductTypeForm onSave={() => setFormOpen(false)}/>
             </div>
         );
     }

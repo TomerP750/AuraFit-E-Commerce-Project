@@ -1,7 +1,7 @@
 import "./FitTypeCrud.css";
 import {JSX} from "react";
 import "./FitTypeCrud.css";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import adminService from "../../../../Services/AdminService.ts";
 import { toast } from "react-toastify";
 import { FitType } from "../../../../Models/FitType.ts";
@@ -35,7 +35,7 @@ export function FitTypeCrud(): JSX.Element {
                 <button onClick={() => setFormOpen(false)} className="mb-4 text-sm text-gray-700">
                     ← Back to list
                 </button>
-                <CreateFitTypeForm onSave={() => setFormOpen(false)} setFormOpen={() => setFormOpen(false)} />
+                <CreateFitTypeForm onSave={() => setFormOpen(false)}/>
             </div>
         );
     }

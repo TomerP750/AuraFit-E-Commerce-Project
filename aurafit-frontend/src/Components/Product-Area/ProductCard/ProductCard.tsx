@@ -87,9 +87,9 @@ export function ProductCard({product, variants = []}: ProductCardProps) {
 
             <div className={"px-2 mt-2"}>
                 {/* NAME & PRICE */}
-                <div className="flex justify-between items-center">
-                    <h3 className="text-lg font-medium truncate">{product.name}</h3>
-                    <span className="text-md font-semibold">${price.toFixed(2)}</span>
+                <div className="flex flex-col">
+                    <h3 className="text-md font-medium truncate">{product.name}</h3>
+                    <span className="text-lg font-semibold">${price.toFixed(2)}</span>
                 </div>
 
                 {/* COLOR SWATCHES (one per color) */}

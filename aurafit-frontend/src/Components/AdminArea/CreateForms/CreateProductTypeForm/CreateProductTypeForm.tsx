@@ -5,12 +5,18 @@ import adminService from "../../../../Services/AdminService.ts";
 import {toast} from "react-toastify";
 import {ProductType} from "../../../../Models/ProductType.ts";
 
-export function CreateProductTypeForm(): JSX.Element {
+interface CreateProductTypeFormProps {
+    onSave: () => void;
+}
+export function CreateProductTypeForm({onSave}: CreateProductTypeFormProps): JSX.Element {
     const {register, handleSubmit, formState: {errors}} = useForm<ProductType>();
 
     const onSubmit = (data: ProductType) => {
         adminService.createProductType(data)
-            .then(() => toast.success("Created successfully"))
+            .then(() => {
+                toast.success("Created successfully")
+                onSave();
+            })
             .catch(error => {toast.error(error.response?.data)})
     }
 

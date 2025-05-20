@@ -5,14 +5,21 @@ import {useForm} from "react-hook-form";
 import adminService from "../../../../Services/AdminService.ts";
 import {toast} from "react-toastify";
 
-export function CreateMaterialForm(): JSX.Element {
+
+interface CreateMaterialFormProps {
+    onSave: () => void;
+}
+export function CreateMaterialForm({onSave}: CreateMaterialFormProps): JSX.Element {
 
     const {register, handleSubmit, formState: { errors }} = useForm<Material>();
 
 
     const onSubmit = (data: Material) => {
         adminService.createMaterial(data)
-            .then(() => toast.success("Created successfully"))
+            .then(() => {
+                toast.success("Created successfully")
+                onSave();
+            })
             .catch(error => {toast.error(error.response?.data)})
     }
 

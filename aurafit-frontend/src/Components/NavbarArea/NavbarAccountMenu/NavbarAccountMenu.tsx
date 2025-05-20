@@ -3,7 +3,6 @@ import {JSX} from "react";
 import {logout} from "../../../Redux/AuthSlice.ts";
 import {NavLink, useNavigate} from "react-router-dom";
 import {Role} from "../../../Models/Enums/Role.ts";
-import {store} from "../../../Redux/store.ts";
 import {useUserSelector} from "../../../Redux/hooks.ts";
 import { AnimatePresence, motion } from 'framer-motion';
 import {clean} from "../../../Redux/CartSlice.ts";
@@ -59,7 +58,7 @@ export function NavbarAccountMenu({onMouseOver, onMouseLeave}: NavbarAccountMenu
                         <NavLink to={`/account`}>My Account</NavLink>
                     </li>
                     <li className={accountMenuItems}>
-                        <NavLink to={"/order/history"}>Order</NavLink>
+                        <NavLink to={"/order/history"}>Order History</NavLink>
                     </li>
                     <li className={accountMenuItems}>Settings</li>
                     <li>

@@ -1,13 +1,11 @@
 import "./MaterialCrud.css";
-import { Fragment, JSX, useEffect, useState } from "react";
+import {JSX, useEffect, useState} from "react";
 import adminService from "../../../../Services/AdminService.ts";
-import { toast } from "react-toastify";
-import { Material } from "../../../../Models/Material.ts";
-import { MdDeleteForever } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
-import { BiPlus } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
-import { CreateMaterialForm } from "../../CreateForms/CreateMaterialForm/CreateMaterialForm.tsx";
+import {toast} from "react-toastify";
+import {Material} from "../../../../Models/Material.ts";
+import {BiPlus} from "react-icons/bi";
+import {useNavigate} from "react-router-dom";
+import {CreateMaterialForm} from "../../CreateForms/CreateMaterialForm/CreateMaterialForm.tsx";
 
 export function MaterialCrud(): JSX.Element {
     const [materials, setMaterials] = useState<Material[]>([]);
@@ -35,7 +33,7 @@ export function MaterialCrud(): JSX.Element {
                 <button onClick={() => setFormOpen(false)} className="mb-4 text-sm text-gray-700">
                     ← Back to list
                 </button>
-                <CreateMaterialForm onSave={() => setFormOpen(false)} setFormOpen={() => setFormOpen(false)} />
+                <CreateMaterialForm onSave={() => setFormOpen(false)}/>
             </div>
         );
     }

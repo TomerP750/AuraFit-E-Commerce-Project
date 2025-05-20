@@ -1,12 +1,15 @@
 import "./CreateColorForm.css";
 import {useForm} from "react-hook-form";
-import {Category} from "../../../../Models/Category.ts";
 import adminService from "../../../../Services/AdminService.ts";
 import {toast} from "react-toastify";
 import {JSX} from "react";
 import {Color} from "../../../../Models/Color.ts";
 
-export function CreateColorForm(): JSX.Element {
+
+interface CreateColorFormProps {
+    onSave: () => void;
+}
+export function CreateColorForm({onSave}: CreateColorFormProps): JSX.Element {
     const {register, handleSubmit, formState: { errors }} = useForm<Color>();
 
 
@@ -14,6 +17,7 @@ export function CreateColorForm(): JSX.Element {
         adminService.createColor(data)
             .then(() => {
                 toast.success("Created successfully")
+                onSave();
             })
             .catch(error => {toast.error(error.response?.data)})
     }

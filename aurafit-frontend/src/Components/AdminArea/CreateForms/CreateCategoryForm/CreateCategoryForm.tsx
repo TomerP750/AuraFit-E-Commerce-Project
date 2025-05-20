@@ -6,8 +6,11 @@ import {toast} from "react-toastify";
 import {Category} from "../../../../Models/Category.ts";
 
 
+interface CreateCategoryFormProps {
+    onSave: () => void;
+}
 
-export function CreateCategoryForm(): JSX.Element {
+export function CreateCategoryForm({onSave}: CreateCategoryFormProps): JSX.Element {
     const {register, handleSubmit, formState: { errors }} = useForm<Category>();
 
 
@@ -15,6 +18,7 @@ export function CreateCategoryForm(): JSX.Element {
         adminService.createCategory(data)
             .then(() => {
                 toast.success("Created successfully")
+                onSave();
             })
             .catch(error => {toast.error(error.response?.data)})
     }

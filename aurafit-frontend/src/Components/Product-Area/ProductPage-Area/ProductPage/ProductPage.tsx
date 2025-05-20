@@ -234,7 +234,7 @@
 
 // src/pages/ProductPage.tsx
 import "./ProductPage.css";
-import React, {JSX, useEffect, useState} from "react";
+import {JSX, useEffect, useState} from "react";
 import {NavLink, useNavigate, useParams} from "react-router-dom";
 import { TitlePriceReviews } from "../TitlePriceReviews/TitlePriceReviews";
 import { Colors } from "../Colors/Colors";

@@ -6,7 +6,11 @@ import {toast} from "react-toastify";
 import {Size} from "../../../../Models/Size.ts";
 import {ProductType} from "../../../../Models/ProductType.ts";
 
-export function CreateSizeForm(): JSX.Element {
+
+interface CreateSizeFormProps {
+    onSave: () => void;
+}
+export function CreateSizeForm({onSave}: CreateSizeFormProps): JSX.Element {
     const {register, handleSubmit, formState: { errors }, control} = useForm<Size>();
     const [productTypes, setProductTypes] = useState<ProductType[]>([]);
 
@@ -15,7 +19,10 @@ export function CreateSizeForm(): JSX.Element {
     const onSubmit = (data: Size) => {
 
         adminService.createSize(data)
-            .then(() => toast.success("Created successfully"))
+            .then(() => {
+                toast.success("Created successfully")
+                onSave();
+            })
             .catch(error => {toast.error(error.response?.data)})
 
     }

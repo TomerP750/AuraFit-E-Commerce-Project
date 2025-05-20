@@ -38,7 +38,7 @@ export function SizeCrud(): JSX.Element {
                 <button onClick={() => setFormOpen(false)} className="mb-4 text-sm text-gray-700">
                     ← Back to list
                 </button>
-                <CreateSizeForm onSave={() => setFormOpen(false)} setFormOpen={() => setFormOpen(false)} />
+                <CreateSizeForm onSave={() => setFormOpen(false)}/>
             </div>
         );
     }

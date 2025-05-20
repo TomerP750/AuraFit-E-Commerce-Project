@@ -1,6 +1,5 @@
 import axios from "axios";
 import {Gender} from "../Models/Enums/Gender.ts";
-import {Product} from "../Models/Product.ts";
 import {ProductDTO} from "../Models/DTOS/ProductDTO.ts";
 import {ProductVariantDTO} from "../Models/DTOS/ProductVariantDTO.ts";
 import {SearchDTO} from "../Models/DTOS/SearchDTO.ts";

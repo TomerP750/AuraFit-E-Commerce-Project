@@ -1,12 +1,10 @@
 import "./ColorCrud.css";
-import { Fragment, JSX, useEffect, useState } from "react";
+import {JSX, useEffect, useState} from "react";
 import adminService from "../../../../Services/AdminService.ts";
-import { toast } from "react-toastify";
-import { Color } from "../../../../Models/Color.ts";
-import { MdDeleteForever } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
-import { BiPlus } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
+import {toast} from "react-toastify";
+import {Color} from "../../../../Models/Color.ts";
+import {BiPlus} from "react-icons/bi";
+import {useNavigate} from "react-router-dom";
 import {CreateColorForm} from "../../CreateForms/CreateColorForm/CreateColorForm.tsx";
 
 export function ColorCrud(): JSX.Element {
@@ -36,7 +34,7 @@ export function ColorCrud(): JSX.Element {
                 <button onClick={() => setFormOpen(false)} className="mb-4 text-sm text-gray-700">
                     ← Back to list
                 </button>
-                <CreateColorForm onSave={() => setFormOpen(false)} setFormOpen={() => setFormOpen(false)} />
+                <CreateColorForm onSave={() => setFormOpen(false)}/>
             </div>
         );
     }

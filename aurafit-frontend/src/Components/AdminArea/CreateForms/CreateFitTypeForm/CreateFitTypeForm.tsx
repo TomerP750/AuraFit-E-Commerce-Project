@@ -6,14 +6,20 @@ import {JSX, useEffect, useState} from "react";
 import {FitType} from "../../../../Models/FitType.ts";
 import {ProductType} from "../../../../Models/ProductType.ts";
 
-export function CreateFitTypeForm(): JSX.Element {
+interface CreateFitTypeFormProps {
+    onSave: () => void;
+}
+export function CreateFitTypeForm({onSave}: CreateFitTypeFormProps): JSX.Element {
     const {register, handleSubmit, formState: { errors }, control} = useForm<FitType>();
     const [productTypes, setProductTypes] = useState<ProductType[]>([]);
 
 
     const onSubmit = (data: FitType) => {
         adminService.createFitType(data)
-            .then(() => toast.success("Created successfully"))
+            .then(() => {
+                toast.success("Created successfully")
+                onSave();
+            })
             .catch(error => {toast.error(error.response?.data)})
     }
 

@@ -8,3 +8,19 @@
     user-select: none;
     font-family: "Outfit", sans-serif;
 }
+
+
+::-webkit-scrollbar {
+    width: 12px;
+    background-color: white;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #1e2020;
+    border-radius: 6px;
+    border: 3px solid white;
+}
+
+::-webkit-scrollbar-track {
+    background-color: white;
+}
