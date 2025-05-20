@@ -28,7 +28,9 @@ public class DisablePromotionSalesThread extends Thread {
                 ProductVariant variant = promotion.getProductVariant();
                 variant.setOnSale(false);
                 variant.setSalePrice(BigDecimal.ZERO);
+                promotion.setIsActive(false);
                 promotionRepository.save(promotion);
+                promotionRepository.deleteById(promotion.getId());
                 productVariantRepository.save(promotion.getProductVariant());
                 System.out.println("Expired Promotions Cleared!");
             }

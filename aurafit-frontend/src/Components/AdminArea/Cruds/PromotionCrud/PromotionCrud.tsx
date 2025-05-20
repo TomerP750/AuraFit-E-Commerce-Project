@@ -1,19 +1,22 @@
 import "./PromotionCrud.css";
-import { JSX, useEffect, useState } from "react";
+import {JSX, useEffect, useState} from "react";
 import adminService from "../../../../Services/AdminService.ts";
-import { toast } from "react-toastify";
-import { Promotion } from "../../../../Models/Promotion.ts";
-import { BiPlus } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
-import { CreatePromotionForm } from "../../CreateForms/CreatePromotionForm/CreatePromotionForm.tsx";
+import {toast} from "react-toastify";
+import {Promotion} from "../../../../Models/Promotion.ts";
+import {BiPlus} from "react-icons/bi";
+import {useNavigate} from "react-router-dom";
+import {CreatePromotionForm} from "../../CreateForms/CreatePromotionForm/CreatePromotionForm.tsx";
+import {
+    CreatePromotionByProductsForm
+} from "../../CreateForms/CreatePromotionByProductsForm/CreatePromotionByProductsForm.tsx";
+
 // import { UpdatePromotionForm } from "../../UpdateForms/PromotionUpdateForm/PromotionUpdateForm.tsx";
 
 export function PromotionCrud(): JSX.Element {
     const [promotions, setPromotions] = useState<Promotion[]>([]);
-    const [formTypeOpen, setFormTypeOpen] = useState<"none" | "create" | "update">("none");
+    const [formTypeOpen, setFormTypeOpen] = useState<"none" | "create" | "update" | "byProduct">("none");
     const [selectedPromotion, setSelectedPromotion] = useState<Promotion | null>(null);
     const navigate = useNavigate();
-
 
 
     useEffect(() => {
@@ -64,6 +67,24 @@ export function PromotionCrud(): JSX.Element {
         );
     }
 
+    if (formTypeOpen === "byProduct") {
+        return (
+            <div className="p-4 w-full">
+                <button
+                    onClick={() => setFormTypeOpen("none")}
+                    className="mb-4 text-sm text-gray-700"
+                >
+                    ← Back to list
+                </button>
+                <CreatePromotionByProductsForm
+                    onSave={() => {
+                        setFormTypeOpen("none");
+                    }}
+                />
+            </div>
+        );
+    }
+
     if (formTypeOpen === "update" && selectedPromotion) {
         return (
             <div className="p-4 w-full">
@@ -89,12 +110,20 @@ export function PromotionCrud(): JSX.Element {
             {/* Header */}
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-semibold">Promotions</h1>
-                <button
-                    onClick={() => setFormTypeOpen("create")}
-                    className="bg-gray-800 text-white py-1 px-3 rounded flex items-center gap-1"
-                >
-                    <BiPlus size={16} /> New
-                </button>
+                <div className={"flex gap-3"}>
+                    <button
+                        onClick={() => setFormTypeOpen("create")}
+                        className="bg-gray-800 text-white py-1 px-3 rounded flex items-center gap-1 cursor-pointer"
+                    >
+                        <BiPlus size={16}/> New
+                    </button>
+                    <button
+                        onClick={() => setFormTypeOpen("byProduct")}
+                        className="bg-gray-800 text-white py-1 px-3 rounded flex items-center gap-1 cursor-pointer"
+                    >
+                        <BiPlus size={16}/> New By Product
+                    </button>
+                </div>
             </div>
 
             {/* Desktop grid */}

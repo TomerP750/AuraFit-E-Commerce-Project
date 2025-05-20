@@ -1,5 +1,6 @@
 package app.aurafitbackend.DTOS.CreateDTOS;
 
+import app.aurafitbackend.Beans.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,5 +16,5 @@ public class CreatePromotionByProductDTO {
     private Integer discountPercent;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private Long productId;
+    private Product product;
 }

@@ -1,6 +1,7 @@
 package app.aurafitbackend.Controllers;
 
 import app.aurafitbackend.Beans.Promotion;
+import app.aurafitbackend.DTOS.CreateDTOS.CreatePromotionByProductDTO;
 import app.aurafitbackend.DTOS.CreateDTOS.CreatePromotionDTO;
 import app.aurafitbackend.Services.PromotionService;
 import lombok.AllArgsConstructor;
@@ -26,5 +27,11 @@ public class PromotionController {
     @GetMapping("/all")
     public List<Promotion> getAllPromotions() {
         return promotionService.getAllPromotions();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/create/byProduct")
+    public void getPromotionById(@RequestBody CreatePromotionByProductDTO promotion) {
+        promotionService.createPromotionsByProduct(promotion);
     }
 }
