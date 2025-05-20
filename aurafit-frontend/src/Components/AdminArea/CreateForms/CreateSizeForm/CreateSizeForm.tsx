@@ -92,3 +92,4 @@ export function CreateSizeForm({onSave}: CreateSizeFormProps): JSX.Element {
         </form>
     );
 }
+

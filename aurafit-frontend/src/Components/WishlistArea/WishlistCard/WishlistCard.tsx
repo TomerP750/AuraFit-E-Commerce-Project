@@ -1,73 +1,140 @@
-import "./WishlistCard.css";
-import {WishlistItem} from "../../../Models/WishlistItem.ts";
-import {JSX, useState} from "react";
-import {toast} from "react-toastify";
-import {AddToCartRequestDTO} from "../../../Models/DTOS/AddToCartRequestDTO.ts";
-import cartService from "../../../Services/CartService.ts";
-import {useNavigate} from "react-router-dom";
-import wishlistService from "../../../Services/WishlistService.ts";
-
+import { useEffect, useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { AiFillHeart } from "react-icons/ai";
+import { BiCart } from "react-icons/bi";
+import { motion, AnimatePresence } from "framer-motion";
+import displayService from "../../../Services/DisplayService";
+import wishlistService from "../../../Services/WishlistService";
+import cartService from "../../../Services/CartService";
+import { toast } from "react-toastify";
+import { WishlistItem } from "../../../Models/WishlistItem";
+import { ProductVariant } from "../../../Models/ProductVariant";
+import { AddToCartRequestDTO } from "../../../Models/DTOS/AddToCartRequestDTO";
+import {useDispatch} from "react-redux";
+import {increment} from "../../../Redux/CartSlice.ts";
 
 interface WishlistCardProps {
     wishlistItem: WishlistItem;
     onAddToCart: () => void;
 }
-export function WishlistCard({wishlistItem}: WishlistCardProps): JSX.Element {
 
+const popupVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 30 } },
+    exit: { opacity: 0, y: 10, transition: { duration: 0.2 } }
+};
+
+export function WishlistCard({ wishlistItem, onAddToCart }: WishlistCardProps) {
     const navigate = useNavigate();
-    const [hover, setHover] = useState(false);
+    const product = wishlistItem.product;
+    const [variants, setVariants] = useState<ProductVariant[]>([]);
+    const dispatch = useDispatch();
 
-    const handleWishlistAddToCart = ()=> {
-        // const dto = new AddToCartRequestDTO(variantId, 1);
-        // cartService.addToCart(dto)
-        //     .then(() => {
-        //         toast.success("Added to cart")
-        //         return wishlistService.deleteProductFromWishlist(wishlistItem.id);
-        //     })
-        //     .catch((err) => toast.error(err.response?.data || "Error"));
+    useEffect(() => {
+        displayService.allVariantsByProductId(product.id)
+            .then(setVariants)
+            .catch(err => toast.error(err));
+    }, [product.id]);
+
+    const uniqueByColor = useMemo(() =>
+        Array.from(variants.reduce<Map<number, ProductVariant>>((map, v) => {
+            if (!map.has(v.color.id)) map.set(v.color.id, v);
+            return map;
+        }, new Map()).values()), [variants]
+    );
+
+    const [selectedColorId, setSelectedColorId] = useState<number | null>(null);
+    useEffect(() => {
+        if (uniqueByColor.length) setSelectedColorId(uniqueByColor[0].color.id);
+    }, [uniqueByColor]);
+
+    const [hoverCart, setHoverCart] = useState(false);
+
+    if (!variants.length || selectedColorId === null) {
+        return <div className="p-4 bg-white rounded shadow-sm text-center text-gray-500">Loading…</div>;
     }
 
+    const sizesForColor = variants.filter(v => v.color.id === selectedColorId);
+    const displayVariant = sizesForColor[0] ?? variants[0];
+    const imageUrl = displayVariant.productImage?.[0] ?? "/assets/placeholder.png";
+    const price = displayVariant.onSale ? displayVariant.salePrice : displayVariant.basePrice;
+
+
+    const handleRemove = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        wishlistService.deleteProductFromWishlist(wishlistItem.id)
+            .then(() => toast.success("Removed from wishlist"))
+            .catch(err => toast.error(err.response?.data || "Error"));
+    };
+
+    const handleAddVariantToCart = (variantId: number, e: React.MouseEvent) => {
+        e.stopPropagation();
+        const dto = new AddToCartRequestDTO(variantId, 1);
+        cartService.addToCart(dto)
+            .then(() => {
+                toast.success("Added to cart"); onAddToCart();
+                dispatch(increment())
+            })
+            .catch(err => toast.error(err.response?.data || "Error"));
+    };
+
     return (
-        <div className="flex flex-col bg-gray-50 rounded-lg shadow-md overflow-hidden">
-            {/* Top: square placeholder with hover buttons */}
+        <div className="block bg-white rounded-lg overflow-hidden">
             <div
-                className="relative w-full aspect-square bg-gray-200"
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}
+                className="relative w-full aspect-[3/4] bg-gray-100"
+                onClick={() => navigate(`/product/${product.id}/${displayVariant.id}`)}
             >
-                {/* Placeholder */}
-                <div className="w-full h-full flex items-center justify-center text-gray-400">
-                    Placeholder
+                <img src={imageUrl} alt={product.name} className="w-full h-full object-cover" />
+                <div className="absolute top-4 right-4 p-2 bg-white rounded-full text-gray-500 hover:bg-gray-200 z-10">
+                    <button onClick={handleRemove}><AiFillHeart size={20} /></button>
                 </div>
-
-                {/* Hover overlay */}
-                {hover && (
-                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center space-x-2">
-                        <button
-                            type="button"
-                            onClick={() => navigate(`/product/${wishlistItem.product.id}`)}
-                            className="px-3 py-1 bg-white rounded text-sm font-medium hover:bg-gray-100 transition"
-                        >
-                            Go To Product
-                        </button>
-                        <button
-                            type="button"
-                            onClick={handleWishlistAddToCart}
-                            className="px-3 py-1 bg-white rounded text-sm font-medium hover:bg-gray-100 transition"
-                        >
-                            Add To Cart
-                        </button>
-                    </div>
-                )}
+                <div
+                    className="absolute inset-x-0 bottom-0 mb-4 flex justify-center z-10"
+                    onMouseEnter={() => setHoverCart(true)}
+                    onMouseLeave={() => setHoverCart(false)}
+                >
+                    <button className="bg-white p-2 rounded-full shadow">
+                        <BiCart size={24} className="text-gray-700 hover:text-gray-900" />
+                    </button>
+                    <AnimatePresence>
+                        {hoverCart && (
+                            <motion.div
+                                key="sizes"
+                                variants={popupVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                                className="absolute bottom-full mb-2 w-[90%] max-h-40 overflow-y-auto bg-white shadow-lg"
+                            >
+                                {sizesForColor.map(v => (
+                                    <motion.button
+                                        key={v.id}
+                                        onClick={e => handleAddVariantToCart(v.id, e)}
+                                        className="w-full py-2 text-center text-sm hover:bg-gray-100"
+                                        whileTap={{ scale: 0.95 }}
+                                    >{v.size.size}</motion.button>
+                                ))}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
             </div>
-
-            {/* Bottom: details under the image */}
-            <div className="p-4 flex flex-col gap-2">
-                <p className="font-semibold text-lg truncate">{wishlistItem.product.name}</p>
-                {/*<p className="text-gray-600 text-sm">*/}
-                {/*    {wishlistItem.product.size.size} <span className="mx-1">|</span> {wishlistItem.product.color.color}*/}
-                {/*</p>*/}
-                {/*<p className="font-medium mt-2">${wishlistItem.product.price.toFixed(2)}</p>*/}
+            <div className="px-2 mt-2">
+                <h3 className="text-md font-medium truncate">{product.name}</h3>
+                <span className="text-lg font-semibold">${price.toFixed(2)}</span>
+            </div>
+            <div className="flex gap-2 mt-3 px-2 pb-4">
+                {uniqueByColor.map(colorVariant => (
+                    <button
+                        key={colorVariant.color.id}
+                        onClick={e => { e.stopPropagation(); setSelectedColorId(colorVariant.color.id); }}
+                        className={`w-6 h-6 rounded-full border-2 cursor-pointer ${
+                            selectedColorId === colorVariant.color.id ? "border-gray-800" : "border-transparent"
+                        }`}
+                        style={{ backgroundColor: colorVariant.color.color.toLowerCase() }}
+                        aria-label={`Color ${colorVariant.color.color}`}
+                    />
+                ))}
             </div>
         </div>
     );

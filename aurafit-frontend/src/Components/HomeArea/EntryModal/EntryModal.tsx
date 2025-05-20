@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiX } from "react-icons/fi";
 import {useNavigate} from "react-router-dom";
+import image from "../../../assets/entryModal.png"
 
 export function EntryModal() {
     const [show, setShow] = useState(false);
@@ -30,14 +31,15 @@ export function EntryModal() {
             {show && (
                 // backdrop
                 <motion.div
-                    className="fixed inset-0 bg-black/50 flex items-center justify-center z-100"
+                    className="fixed inset-0 bg-black/50 flex items-center justify-center z-100 text-white"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                 >
                     {/* modal panel */}
                     <motion.div
-                        className="relative bg-white p-10 shadow-xl w-3/4 h-2/3"
+                        className="relative bg-white p-10 shadow-xl w-3/4 h-2/3 bg-cover bg-center flex flex-col items-center justify-center"
+                        style={{ backgroundImage: `url(${image})` }}
                         initial={{ scale: 0.8, y: -30 }}
                         animate={{ scale: 1, y: 0 }}
                         exit={{ scale: 0.8, y: -30 }}
@@ -47,7 +49,7 @@ export function EntryModal() {
                         <button
                             onClick={() => setShow(false)}
                             aria-label="Close modal"
-                            className="cursor-pointer absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+                            className="cursor-pointer text-white absolute top-4 right-4 text-gray-500 bg-gray-600"
                         >
                             <FiX size={24} />
                         </button>
@@ -56,7 +58,7 @@ export function EntryModal() {
                         <h2 className="text-3xl font-bold text-center mb-4">
                             Join Our Membership!
                         </h2>
-                        <p className="text-center text-lg mb-8">
+                        <p className="text-center text-lg mb-8 w-3/4">
                             Register now and start accumulating membership points to unlock
                             exclusive rewards, discounts, and early access to new collections!
                         </p>

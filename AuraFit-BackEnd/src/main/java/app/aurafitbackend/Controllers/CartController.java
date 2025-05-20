@@ -47,11 +47,8 @@ public class CartController {
 
     @DeleteMapping("/removeItemFromCart/{id}")
     public CartDTO removeItemFromCart(@AuthenticationPrincipal CustomUserDetails userDetails, @CookieValue(value = "cart_token", required = false) String cartToken, @PathVariable Long id) {
-        // if the user isn’t logged in userDetails will be null → pass null
         Long userId = (userDetails != null) ? userDetails.getUser().getId() : null;
-        // service returns the JPA Cart entity
         Cart updatedCart = cartService.removeFromCart(userId, cartToken, id);
-        // map it once—and only once—to your DTO
         return EntityDTOMapper.toCartDTO(updatedCart);
     }
 
@@ -73,7 +70,7 @@ public class CartController {
         Cart cart = cartService.getOrCreateUserCart(userDetails.getUser().getId());
         return EntityDTOMapper.toCartDTO(cart);
     }
-
+    //TODO add a react cookie library
     @GetMapping("/guest/get")
     public Cart getGuestCart(@CookieValue("cart_token") String cartToken) {
         return cartService.getOrCreateGuestCart(cartToken);

@@ -11,7 +11,7 @@ export function Images({variant}: ImagesProps): JSX.Element {
         <div className="w-full lg:w-2/3 flex flex-col md:flex-row items-start gap-4">
             {/* Thumbnails on desktop (left), below on mobile */}
             <div className="flex order-2 md:order-1 gap-2 overflow-x-auto md:flex-col md:overflow-x-visible">
-                {[...Array(4)].map((_, idx) => (
+                {[...Array(2)].map((_, idx) => (
                     <div
                         key={idx}
                         className="w-16 sm:w-20 md:w-24 aspect-square rounded-lg bg-black flex-shrink-0"

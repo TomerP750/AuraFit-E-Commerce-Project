@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -51,6 +52,15 @@ public class OrderService {
         Order order = buildOrder(contactInformation, cart);
         List<OrderItem> orderItems = mapCartItemsToOrderItems(order, cart.getItems());
         order.setOrderItems(orderItems);
+        User user = cart.getUser();
+        user.setMembershipPoints(
+                user.getMembershipPoints()
+                        + order.getTotalPrice()
+                        .multiply(BigDecimal.valueOf(10))
+                        .divide(BigDecimal.valueOf(100), RoundingMode.DOWN)
+                        .intValue()
+        );
+        userRepository.save(user);
         orderRepository.save(order);
 
         orderItems.forEach(orderItem -> {
