@@ -4,11 +4,8 @@ import adminService from "../../../../Services/AdminService.ts";
 import {toast} from "react-toastify";
 import {Promotion} from "../../../../Models/Promotion.ts";
 import {BiPlus} from "react-icons/bi";
-import {useNavigate} from "react-router-dom";
 import {CreatePromotionForm} from "../../CreateForms/CreatePromotionForm/CreatePromotionForm.tsx";
-import {
-    CreatePromotionByProductsForm
-} from "../../CreateForms/CreatePromotionByProductsForm/CreatePromotionByProductsForm.tsx";
+import {CreatePromotionByProductsForm} from "../../CreateForms/CreatePromotionByProductsForm/CreatePromotionByProductsForm.tsx";
 
 // import { UpdatePromotionForm } from "../../UpdateForms/PromotionUpdateForm/PromotionUpdateForm.tsx";
 
@@ -16,8 +13,6 @@ export function PromotionCrud(): JSX.Element {
     const [promotions, setPromotions] = useState<Promotion[]>([]);
     const [formTypeOpen, setFormTypeOpen] = useState<"none" | "create" | "update" | "byProduct">("none");
     const [selectedPromotion, setSelectedPromotion] = useState<Promotion | null>(null);
-    const navigate = useNavigate();
-
 
     useEffect(() => {
         adminService.allPromotions()
