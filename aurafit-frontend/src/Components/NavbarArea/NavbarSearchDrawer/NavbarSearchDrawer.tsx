@@ -53,9 +53,10 @@ export function NavbarSearchDrawer({open, setOpen,}: NavbarSearchDrawerProps): J
         setCrit((c) => ({ ...c, query: e.target.value }));
     };
 
+    //TODO add a all searched variants page
     const handleSeeAll = () => {
         setOpen(false);
-        navigate(`/search?query=${encodeURIComponent(crit.query.trim())}`);
+        navigate(`/search/${encodeURIComponent(crit.query.trim())}`);
     };
 
     return (
@@ -89,7 +90,7 @@ export function NavbarSearchDrawer({open, setOpen,}: NavbarSearchDrawerProps): J
                                     <button
                                         onClick={() => setOpen(false)}
                                         aria-label="Close search"
-                                        className="text-gray-700 hover:text-gray-400"
+                                        className="text-gray-700 hover:text-gray-400 cursor-pointer"
                                     >
                                         Cancel
                                     </button>

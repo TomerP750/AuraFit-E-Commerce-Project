@@ -165,7 +165,6 @@ import { Filters } from "../Filters/Filters";
 import { ProductCard } from "../../Product-Area/ProductCard/ProductCard";
 import { FiFilter } from "react-icons/fi";
 import displayService from "../../../Services/DisplayService";
-import wishlistService from "../../../Services/WishlistService";
 import { toast } from "react-toastify";
 
 import { Gender } from "../../../Models/Enums/Gender";
@@ -180,6 +179,7 @@ import {ProductDTO} from "../../../Models/DTOS/ProductDTO.ts";
 export function Men(): JSX.Element {
     const [showFilters, setShowFilters] = useState(false);
     const [sortOption, setSortOption] = useState<SortOption>("newest");
+
 
     // filter options
     const [categories, setCategories] = useState<Category[]>([]);
@@ -273,13 +273,24 @@ export function Men(): JSX.Element {
     }, [cards, sortOption, selectedCategories, selectedTypes, selectedColors, selectedSizes,]);
 
     // wishlist toggle
-    const handleAddToWishlist = (productId: number) => {
-        wishlistService.toggleWishlist(productId)
-            .then(() => {
-                toast.success("Wishlist updated")
-            })
-            .catch(err => toast.error(err));
-    };
+    // inside your Men.tsx component
+
+    // const handleAddToWishlist = (productId: number) => {
+    //     wishlistService
+    //         .toggleWishlist(productId)            // returns new on‐wishlist status
+    //         .then((isNowOnWishlist: boolean) => {
+    //             setOnWishlist(isNowOnWishlist);     // live‐update your UI
+    //             toast.success(
+    //                 isNowOnWishlist
+    //                     ? "Added to wishlist"
+    //                     : "Removed from wishlist"
+    //             );
+    //         })
+    //         .catch((err) => {
+    //             toast.error(err?.response.data);
+    //         });
+    // };
+
 
     return (
         <div className="container mx-auto px-4 pt-10">
@@ -338,7 +349,6 @@ export function Men(): JSX.Element {
                                 key={product.id}
                                 product={product}
                                 variants={variants}
-                                onAddToWishlist={handleAddToWishlist}
                             />
                         ))}
                     </div>

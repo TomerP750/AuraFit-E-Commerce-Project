@@ -1,18 +1,46 @@
 // src/components/ProductCard.tsx
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {BiHeart} from "react-icons/bi";
-import {Product} from "../../../Models/Product.ts";
 import {ProductVariant} from "../../../Models/ProductVariant.ts";
+import wishlistService from "../../../Services/WishlistService.ts";
+import {toast} from "react-toastify";
+import {AiFillHeart} from "react-icons/ai";
+import {ProductDTO} from "../../../Models/DTOS/ProductDTO.ts";
 
 interface ProductCardProps {
-    product: Product;
+    product: ProductDTO;
     variants: ProductVariant[];
-    onAddToWishlist?: (productId: number) => void;
 }
 
-export function ProductCard({product, variants = [], onAddToWishlist,}: ProductCardProps) {
+export function ProductCard({product, variants = []}: ProductCardProps) {
     const navigate = useNavigate();
+    const [onWishlist, setOnWishlist] = useState<boolean>(false);
+
+    useEffect(() => {
+        wishlistService.isOnWishlist(product.id)
+            .then((isOnWishlist) => {
+                    setOnWishlist(isOnWishlist)
+                }
+            )
+            .catch(err => toast.error(err.response.data));
+    }, [product.id])
+
+    const handleWishlistClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        wishlistService
+            .toggleWishlist(product.id)
+            .then((newVal: boolean) => {
+                setOnWishlist(newVal);
+                toast.success(newVal ? "Added to wishlist" : "Removed from wishlist");
+            })
+            .catch(err => {
+                toast.error(err?.response?.data || "Error updating wishlist");
+            });
+    };
+
 
     const [activeId, setActiveId] = useState<number>(variants[0]?.id ?? 0);
 
@@ -49,20 +77,12 @@ export function ProductCard({product, variants = [], onAddToWishlist,}: ProductC
                     alt={product.name}
                     className="w-full h-full object-cover"
                 />
-                {onAddToWishlist && (
-                    <div className={"absolute top-5 right-5 p-2 bg-white rounded-full text-gray-500 hover:bg-gray-200"}>
-                        <button
-                            onClick={e => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                onAddToWishlist(product.id);
-                            }}
-                            className="cursor-pointer"
-                        >
-                            <BiHeart size={20}/>
-                        </button>
-                    </div>
-                )}
+                <div className={"absolute top-5 right-5 p-2 bg-white rounded-full text-gray-500 hover:bg-gray-200"}>
+                    <button onClick={handleWishlistClick} className={"cursor-pointer"}>
+                        {onWishlist ? <AiFillHeart size={20}/> : <BiHeart size={20}/>}
+                    </button>
+                </div>
+
             </div>
 
             <div className={"px-2 mt-2"}>

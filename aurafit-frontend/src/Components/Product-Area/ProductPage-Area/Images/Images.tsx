@@ -1,7 +1,11 @@
 import "./Images.css";
 import {JSX} from "react";
+import {ProductVariantDTO} from "../../../../Models/DTOS/ProductVariantDTO.ts";
 
-export function Images(): JSX.Element {
+interface ImagesProps {
+    variant: ProductVariantDTO
+}
+export function Images({variant}: ImagesProps): JSX.Element {
 
     return (
         <div className="w-full lg:w-2/3 flex flex-col md:flex-row items-start gap-4">

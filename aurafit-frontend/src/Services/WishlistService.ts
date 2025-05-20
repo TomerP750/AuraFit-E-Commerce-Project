@@ -14,12 +14,12 @@ class WishlistService {
         return (await axios.delete(`http://localhost:8080/api/wishlist/deleteItem/${variantId}`))
     }
 
-    async isOnWishlist(variantId: number) {
-        return (await axios.get(`http://localhost:8080/api/wishlist/wishlisted/${variantId}`)).data
+    async isOnWishlist(productId: number) {
+        return (await axios.get<boolean>(`http://localhost:8080/api/wishlist/wishlisted/${productId}`)).data
     }
 
-    async toggleWishlist(variantId: number) {
-        return (await axios.post(`http://localhost:8080/api/wishlist/toggle/${variantId}`)).data
+    async toggleWishlist(productId: number) {
+        return (await axios.post(`http://localhost:8080/api/wishlist/toggle/${productId}`)).data
     }
 
 }
