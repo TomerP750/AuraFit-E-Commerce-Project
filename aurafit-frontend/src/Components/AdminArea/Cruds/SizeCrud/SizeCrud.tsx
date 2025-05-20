@@ -9,7 +9,6 @@ import { FaEdit } from "react-icons/fa";
 import { BiPlus } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { CreateSizeForm } from "../../CreateForms/CreateSizeForm/CreateSizeForm.tsx";
-import {ProductType} from "../../../../Models/ProductType.ts";
 
 export function SizeCrud(): JSX.Element {
     const [sizes, setSizes] = useState<Size[]>([]);
@@ -27,8 +26,7 @@ export function SizeCrud(): JSX.Element {
 
     const deleteSize = (id: number) => {
         if (confirm("Delete size?")) {
-            adminService
-                .deleteSize(id)
+            adminService.deleteSize(id)
                 .then(() => setSizes(prev => prev.filter(s => s.id !== id)))
                 .catch(err => toast.error(err.response?.data || err.message));
         }

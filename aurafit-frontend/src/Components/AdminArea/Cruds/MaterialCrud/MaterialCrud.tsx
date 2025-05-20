@@ -68,8 +68,8 @@ export function MaterialCrud(): JSX.Element {
                         <span>{m.name}</span>
                         <span>{m.materialPercent}</span>
                         <div className="flex gap-2">
-                            <FaEdit className="cursor-pointer" onClick={() => navigate(`/material/edit/${m.id}`)} />
-                            <MdDeleteForever className="cursor-pointer" onClick={() => deleteMaterial(m.id)} />
+                            <p className="cursor-pointer" onClick={() => navigate(`/material/edit/${m.id}`)}>Edit</p>
+                            <p className="cursor-pointer" onClick={() => deleteMaterial(m.id)}>Delete</p>
                         </div>
                     </div>
                 ))}

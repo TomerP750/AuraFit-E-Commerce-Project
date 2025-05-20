@@ -15,7 +15,7 @@ interface CreatePromotionByProductsFormProps {
 
 export function CreatePromotionByProductsForm({onSave,}: CreatePromotionByProductsFormProps): JSX.Element {
 
-    
+
     const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {

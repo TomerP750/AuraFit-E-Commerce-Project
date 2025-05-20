@@ -1,7 +1,6 @@
 import "./CreateCategoryForm.css";
 import {JSX} from "react";
 import {useForm} from "react-hook-form";
-import {FitType} from "../../../../Models/FitType.ts";
 import adminService from "../../../../Services/AdminService.ts";
 import {toast} from "react-toastify";
 import {Category} from "../../../../Models/Category.ts";

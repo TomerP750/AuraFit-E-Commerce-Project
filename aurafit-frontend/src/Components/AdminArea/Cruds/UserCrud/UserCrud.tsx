@@ -72,14 +72,14 @@ export function UserCrud(): JSX.Element {
                         <span>{u.email}</span>
                         <span>{u.role}</span>
                         <div className="flex gap-2">
-                            <FaEdit
+                            <p
                                 className="cursor-pointer"
                                 onClick={() => navigate(`/user/edit/${u.id}`)}
-                            />
-                            <MdDeleteForever
+                            >Edit</p>
+                            <p
                                 className="cursor-pointer"
                                 onClick={() => deleteUser(u.id)}
-                            />
+                            >Delete</p>
                         </div>
                     </div>
                 ))}

@@ -68,8 +68,8 @@ export function ColorCrud(): JSX.Element {
                         <span>{c.id}</span>
                         <span>{c.color}</span>
                         <div className="flex gap-2">
-                            <FaEdit className="cursor-pointer" onClick={() => navigate(`/color/edit/${c.id}`)} />
-                            <MdDeleteForever className="cursor-pointer" onClick={() => deleteColor(c.id)} />
+                            <p className="cursor-pointer" onClick={() => navigate(`/color/edit/${c.id}`)}>Edit</p>
+                            <p className="cursor-pointer" onClick={() => deleteColor(c.id)}>Delete</p>
                         </div>
                     </div>
                 ))}

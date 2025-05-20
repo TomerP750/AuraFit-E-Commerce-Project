@@ -58,6 +58,7 @@ public final class EntityDTOMapper {
                 .basePrice(v.getBasePrice())
                 .salePrice(v.getSalePrice())
                 .stockQuantity(v.getStockQuantity())
+                .product(toProductDTO(v.getProduct()))
                 .onSale(v.getOnSale())
                 .build();
     }

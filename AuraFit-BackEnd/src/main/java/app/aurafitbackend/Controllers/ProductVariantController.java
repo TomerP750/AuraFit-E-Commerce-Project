@@ -3,8 +3,11 @@ package app.aurafitbackend.Controllers;
 import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductVariantCreateDto;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
+import app.aurafitbackend.DTOS.SearchDTO;
 import app.aurafitbackend.Services.ProductVariantService;
+import app.aurafitbackend.Utils.EntityDTOMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +38,13 @@ public class ProductVariantController {
         productVariantService.updateVariant(productVariant);
     }
 
+
+    @GetMapping("/search")
+    public Page<ProductVariantDTO> search(@ModelAttribute SearchDTO crit) {
+        return productVariantService
+                .search(crit.getQuery(), crit.getPage(), crit.getSize())
+                .map(EntityDTOMapper::variantToDto);
+    }
 
 
 

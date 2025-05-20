@@ -3,7 +3,11 @@ package app.aurafitbackend.Repositories;
 import app.aurafitbackend.Beans.Color;
 import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.Beans.Size;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -18,5 +22,16 @@ public interface ProductVariantRepository extends JpaRepository<ProductVariant, 
 
 
 //    List<ProductVariant> findTop8ByCreatedAtDesc();
+
+    @Query("""
+        SELECT v
+        FROM ProductVariant v
+        JOIN v.product p
+        LEFT JOIN v.color c
+        WHERE lower(p.name) LIKE lower(concat('%', :q, '%'))
+           OR lower(c.color) LIKE lower(concat('%', :q, '%'))
+           OR lower(v.sku)  LIKE lower(concat('%', :q, '%'))
+    """)
+    Page<ProductVariant> search(@Param("q") String q, Pageable pageable);
 
 }

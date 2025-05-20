@@ -9,7 +9,7 @@ export function EntryModal() {
 
 
     useEffect(() => {
-        const timer = setTimeout(() => setShow(true), 15000);
+        const timer = setTimeout(() => setShow(true), 20000);
         return () => clearTimeout(timer);
     }, []);
 
@@ -61,7 +61,7 @@ export function EntryModal() {
                             exclusive rewards, discounts, and early access to new collections!
                         </p>
 
-                        {/* optional CTA */}
+                        {/* CTA */}
                         <div className="flex justify-center">
                             <button
                                 onClick={() => {

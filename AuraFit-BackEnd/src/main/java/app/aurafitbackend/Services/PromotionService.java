@@ -50,7 +50,7 @@ public class PromotionService {
 
     public void createPromotionsByProduct(CreatePromotionByProductDTO dto) {
         if (PromotionValidator.isValidProductPromotionsCreate(dto)) {
-            List<ProductVariant> variants = productVariantRepository.findByProductId(dto.getProductId());
+            List<ProductVariant> variants = productVariantRepository.findByProductId(dto.getProduct().getId());
             variants.forEach(variant -> {
                 if (variant.getOnSale()) {
                     variant.setOnSale(false);

@@ -2,6 +2,8 @@ import axios from "axios";
 import {Gender} from "../Models/Enums/Gender.ts";
 import {Product} from "../Models/Product.ts";
 import {ProductDTO} from "../Models/DTOS/ProductDTO.ts";
+import {ProductVariantDTO} from "../Models/DTOS/ProductVariantDTO.ts";
+import {SearchDTO} from "../Models/DTOS/SearchDTO.ts";
 
 
 class DisplayService {
@@ -54,6 +56,12 @@ class DisplayService {
         return (await axios.get<ProductDTO[]>(`http://localhost:8080/api/display/product/${gender}/all`)).data
     }
 
+
+    // Search feature
+    async searchVariants(criteria: SearchDTO): Promise<ProductVariantDTO[]> {
+        const { data } = await axios.get("http://localhost:8080/api/variant/search", { params: criteria });
+        return data.content as ProductVariantDTO[];
+    }
 
 }
 

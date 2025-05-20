@@ -1,14 +1,12 @@
 // CategoryCrud.tsx
 import "./CategoryCrud.css";
-import { JSX, useEffect, useState } from "react";
+import {JSX, useEffect, useState} from "react";
 import adminService from "../../../../Services/AdminService.ts";
-import { toast } from "react-toastify";
-import { Category } from "../../../../Models/Category.ts";
-import { MdDeleteForever } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
-import { BiPlus } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
-import { CreateCategoryForm } from "../../CreateForms/CreateCategoryForm/CreateCategoryForm.tsx";
+import {toast} from "react-toastify";
+import {Category} from "../../../../Models/Category.ts";
+import {BiPlus} from "react-icons/bi";
+import {useNavigate} from "react-router-dom";
+import {CreateCategoryForm} from "../../CreateForms/CreateCategoryForm/CreateCategoryForm.tsx";
 
 export function CategoryCrud(): JSX.Element {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -71,8 +69,8 @@ export function CategoryCrud(): JSX.Element {
                         <span>{c.id}</span>
                         <span>{c.name}</span>
                         <div className="flex gap-2">
-                            <FaEdit className="cursor-pointer" onClick={() => navigate(`/category/edit/${c.id}`)} />
-                            <MdDeleteForever className="cursor-pointer" onClick={() => deleteCategory(c.id)} />
+                            <p className="cursor-pointer" onClick={() => navigate(`/category/edit/${c.id}`)} >Edit</p>
+                            <p className="cursor-pointer" onClick={() => deleteCategory(c.id)} >Delete</p>
                         </div>
                     </div>
                 ))}

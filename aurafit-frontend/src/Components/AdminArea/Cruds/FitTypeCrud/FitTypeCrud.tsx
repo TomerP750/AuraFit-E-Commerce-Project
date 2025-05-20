@@ -5,8 +5,6 @@ import { Fragment, useEffect, useState } from "react";
 import adminService from "../../../../Services/AdminService.ts";
 import { toast } from "react-toastify";
 import { FitType } from "../../../../Models/FitType.ts";
-import { MdDeleteForever } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
 import { BiPlus } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { CreateFitTypeForm } from "../../CreateForms/CreateFitTypeForm/CreateFitTypeForm.tsx";
@@ -42,7 +40,7 @@ export function FitTypeCrud(): JSX.Element {
         );
     }
 
-    const fields: string[] = ["Id", "Name", "SubCategory", "Actions"];
+    const fields: string[] = ["Id", "Name", "Product Type", "Actions"];
 
     return (
         <div className="p-4 w-full">
@@ -70,8 +68,8 @@ export function FitTypeCrud(): JSX.Element {
                         <span>{f.name}</span>
                         <span>{f.productType.name}</span>
                         <div className="flex gap-2">
-                            <FaEdit className="cursor-pointer" onClick={() => navigate(`/fittype/edit/${f.id}`)} />
-                            <MdDeleteForever className="cursor-pointer" onClick={() => deleteFitType(f.id)} />
+                            <p className="cursor-pointer" onClick={() => navigate(`/fittype/edit/${f.id}`)}>Edit</p>
+                            <p className="cursor-pointer" onClick={() => deleteFitType(f.id)}>Delete</p>
                         </div>
                     </div>
                 ))}

@@ -82,8 +82,8 @@ export function ProductVariantCrud(): JSX.Element {
                         <span>{v.stockQuantity}</span>
                         <span>{v.onSale ? <BiCheckboxChecked /> : <BiX />}</span>
                         <div className="flex gap-2">
-                            <FaEdit className="cursor-pointer" onClick={() => navigate(`/variant/edit/${v.id}`)} />
-                            <MdDeleteForever className="cursor-pointer" onClick={() => deleteVariant(v.id)} />
+                            <p className="cursor-pointer" onClick={() => deleteVariant(v.id)}>Edit</p>
+                            <p className="cursor-pointer" onClick={() => navigate(`/variant/edit/${v.id}`)}>Delete</p>
                         </div>
                     </div>
                 ))}
