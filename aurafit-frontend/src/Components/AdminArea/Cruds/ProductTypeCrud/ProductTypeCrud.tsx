@@ -68,8 +68,8 @@ export function ProductTypeCrud(): JSX.Element {
                         <span>{t.id}</span>
                         <span>{t.name}</span>
                         <div className="flex gap-2">
-                            <FaEdit className="cursor-pointer" onClick={() => navigate(`/producttype/edit/${t.id}`)} />
-                            <MdDeleteForever className="cursor-pointer" onClick={() => deleteProductType(t.id)} />
+                            <p className="cursor-pointer" onClick={() => navigate(`/producttype/edit/${t.id}`)}>Edit</p>
+                            <p className="cursor-pointer" onClick={() => deleteProductType(t.id)} >Delete</p>
                         </div>
                     </div>
                 ))}

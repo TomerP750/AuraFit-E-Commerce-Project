@@ -50,7 +50,7 @@ public class ProductVariantService {
     }
 
     public void deleteVariant(Long id) {
-        productRepository.deleteById(id);
+        productVariantRepository.deleteById(id);
     }
 
 
@@ -67,7 +67,7 @@ public class ProductVariantService {
                     .material(newProductVariant.getMaterial())
 //                    .productImages(newProductVariant.getProduct())
                     .onSale(false)
-                    .sku(createSku(newProductVariant))
+                    .sku(generateSku(newProductVariant))
                     .stockQuantity(newProductVariant.getStockQuantity())
                     .product(newProductVariant.getProduct())
                     .build();
@@ -76,8 +76,16 @@ public class ProductVariantService {
         }
     }
 
-    private String createSku(ProductVariantCreateDto newProductVariant) {
-        return "AF"+newProductVariant.getProduct().getName()+"-"+newProductVariant.getColor()+"-";
+    private String generateSku(ProductVariantCreateDto dto) {
+
+        return String.format(
+                "AF-%04d-%s-%s-%s",
+                dto.getProduct().getId(),
+                dto.getProduct().getName().replaceAll("\\s+","")
+                        .substring(0,3).toUpperCase(),
+                dto.getColor().getColor().replaceAll("\\s+","").toUpperCase(),
+                dto.getSize().getSize().toUpperCase()
+        );
     }
 
 

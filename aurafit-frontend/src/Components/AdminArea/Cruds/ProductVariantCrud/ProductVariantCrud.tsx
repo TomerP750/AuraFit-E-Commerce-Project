@@ -31,6 +31,8 @@ export function ProductVariantCrud(): JSX.Element {
 
     const fields = [
         "Id",
+        "sku",
+        "product",
         "Size",
         "Color",
         // "Material",
@@ -108,6 +110,8 @@ export function ProductVariantCrud(): JSX.Element {
                 {variants.map(v => (
                     <div key={v.id} className="grid grid-cols-10 place-items-center py-2 border-b">
                         <span>{v.id}</span>
+                        <span className={"text-sm"}>{v.sku}</span>
+                        <span className={"text-sm"}>{v.product.name}</span>
                         <span>{v.size.size}</span>
                         <span>{v.color.color}</span>
                         <span>{v.basePrice}</span>

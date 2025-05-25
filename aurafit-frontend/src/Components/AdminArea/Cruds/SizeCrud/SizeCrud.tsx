@@ -73,8 +73,8 @@ export function SizeCrud(): JSX.Element {
                         <span>{s.size}</span>
                         <span>{s.productType.name}</span>
                         <div className="flex gap-2">
-                            <FaEdit className="cursor-pointer" onClick={() => navigate(`/size/edit/${s.id}`)} />
-                            <MdDeleteForever className="cursor-pointer" onClick={() => deleteSize(s.id)} />
+                            <p className="cursor-pointer" onClick={() => navigate(`/size/edit/${s.id}`)} >Edit</p>
+                            <p className="cursor-pointer" onClick={() => deleteSize(s.id)} >Delete</p>
                         </div>
                     </div>
                 ))}

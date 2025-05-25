@@ -69,4 +69,8 @@ public class ProductVariant {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+
+
+
 }
