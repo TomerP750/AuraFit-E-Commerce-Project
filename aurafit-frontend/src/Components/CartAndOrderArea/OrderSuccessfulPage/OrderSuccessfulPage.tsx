@@ -4,6 +4,7 @@ import {NavLink, useLocation} from "react-router-dom";
 import {OrderResponseDTO} from "../../../Models/DTOS/OrderResponseDTO.ts";
 import {OrderItemCard} from "../OrderItemCard/OrderItemCard.tsx";
 import {FiArrowRight} from "react-icons/fi";
+import orderCompelteImage from "../../../assets/orderCompleteImage.png"
 
 export function OrderSuccessfulPage(): JSX.Element {
 
@@ -15,15 +16,19 @@ export function OrderSuccessfulPage(): JSX.Element {
     return (
         <div className="min-h-screen flex justify-center items-center py-5 px-4 bg-gray-50">
             <div className="flex flex-col md:flex-row w-full md:w-3/4 bg-white shadow-lg rounded-lg overflow-hidden">
-
-                <div className="bg-yellow-200 w-full md:w-1/2 h-64 md:h-auto flex-shrink-0"/>
-
+                {/*The image - right now the div yellow is a placeholder*/}
+                {/*<div className="bg-yellow-200 w-full md:w-1/2 h-64 md:h-auto flex-shrink-0"/>*/}
+                <img src={orderCompelteImage}
+                     className={"w-full md:w-1/2 h-64 md:h-auto flex-shrink-0"}
+                     alt="ordercomplete"
+                     role={"img"}
+                     aria-label={"Order packed and confirmed"}/>
                 {/* Right section */}
                 <div className="w-full md:w-1/2 p-8 flex flex-col gap-8">
                     {/* Header */}
                     <div className="space-y-4">
                         <p className="text-purple-500">Payment Successful</p>
-                        <p className="text-3xl md:text-5xl font-bold">Thank You For Your Purchase</p>
+                        <p className="text-3xl md:text-5xl font-bold">Thank You For Your Purchase!</p>
                         <p className="text-gray-500">
                             We appreciate your order, we're currently processing it and
                             will send you confirmation soon.

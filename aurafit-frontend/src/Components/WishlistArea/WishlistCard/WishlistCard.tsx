@@ -15,6 +15,7 @@ import {increment} from "../../../Redux/CartSlice.ts";
 
 interface WishlistCardProps {
     wishlistItem: WishlistItem;
+    onRemoveFromWishlist: () => void;
 }
 
 const popupVariants = {
@@ -23,7 +24,7 @@ const popupVariants = {
     exit: { opacity: 0, y: 10, transition: { duration: 0.2 } }
 };
 
-export function WishlistCard({ wishlistItem }: WishlistCardProps) {
+export function WishlistCard({ wishlistItem, onRemoveFromWishlist }: WishlistCardProps) {
     const navigate = useNavigate();
     const product = wishlistItem.product;
     const [variants, setVariants] = useState<ProductVariant[]>([]);
@@ -61,8 +62,11 @@ export function WishlistCard({ wishlistItem }: WishlistCardProps) {
 
     const handleRemove = (e: React.MouseEvent) => {
         e.stopPropagation();
-        wishlistService.deleteProductFromWishlist(wishlistItem.id)
-            .then(() => toast.success("Removed from wishlist"))
+        wishlistService.deleteProductFromWishlist(wishlistItem.product.id)
+            .then(() => {
+                toast.success("Removed from wishlist")
+                onRemoveFromWishlist()
+            })
             .catch(err => toast.error(err.response?.data || "Error"));
     };
 
@@ -84,9 +88,8 @@ export function WishlistCard({ wishlistItem }: WishlistCardProps) {
                 onClick={() => navigate(`/product/${product.id}/${displayVariant.id}`)}
             >
                 <img src={imageUrl} alt={product.name} className="w-full h-full object-cover" />
-                <div className="absolute top-4 right-4 p-2 bg-white rounded-full text-gray-500 hover:bg-gray-200 z-10">
-                    <button onClick={handleRemove}><AiFillHeart size={20} /></button>
-                </div>
+                <button className="cursor-pointer absolute top-4 right-4 p-2 bg-white rounded-full text-gray-500 hover:bg-gray-200 z-10"
+                        onClick={handleRemove}><AiFillHeart size={20} /></button>
                 <div
                     className="absolute inset-x-0 bottom-0 mb-4 flex justify-center z-10"
                     onMouseEnter={() => setHoverCart(true)}

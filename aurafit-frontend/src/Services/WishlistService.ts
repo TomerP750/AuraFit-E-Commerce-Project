@@ -10,8 +10,8 @@ class WishlistService {
         return (await axios.post(`http://localhost:8080/api/wishlist/addToWishlist/${variantId}`))
     }
 
-    async deleteProductFromWishlist(variantId: number) {
-        return (await axios.delete(`http://localhost:8080/api/wishlist/deleteItem/${variantId}`))
+    async deleteProductFromWishlist(productId: number) {
+        return (await axios.delete(`http://localhost:8080/api/wishlist/deleteItem/${productId}`))
     }
 
     async isOnWishlist(productId: number) {

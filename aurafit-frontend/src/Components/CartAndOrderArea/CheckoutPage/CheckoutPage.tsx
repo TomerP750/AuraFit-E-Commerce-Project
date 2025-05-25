@@ -1,23 +1,24 @@
 import "./CheckoutPage.css";
 import {JSX, useEffect, useState} from "react";
 import {CheckoutForm} from "../CheckoutForm/CheckoutForm.tsx";
-import {CheckoutRequestDTO} from "../../../Models/DTOS/CheckoutRequestDTO.ts";
 import orderService from "../../../Services/OrderService.ts";
 import {toast} from "react-toastify";
 import {CartDTO} from "../../../Models/DTOS/CartDTO.ts";
 import cartService from "../../../Services/CartService.ts";
-import {OrderItemCard} from "../OrderItemCard/OrderItemCard.tsx";
 import {useUserSelector} from "../../../Redux/hooks.ts";
 import {NavLink, useNavigate} from "react-router-dom";
 import {FiArrowLeft} from "react-icons/fi";
 import {ContactInformation} from "../../../Models/ContactInformation.ts";
 import {CartItemCard} from "../CartItemCard/CartItemCard.tsx";
+import {useDispatch} from "react-redux";
+import { clean } from "../../../Redux/CartSlice.ts";
 
 export function CheckoutPage(): JSX.Element {
 
     const [cart, setCart] = useState<CartDTO>();
     const user = useUserSelector(state => state.authSlice.user);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         cartService.getUserCart()
@@ -29,6 +30,7 @@ export function CheckoutPage(): JSX.Element {
         if (user) {
             orderService.checkoutUser(data)
                 .then(res => {
+                    dispatch(clean());
                     navigate("/order/success", { state: {order: res} });
                     toast.success("Order Placed, Thanks for shopping!");
                 })

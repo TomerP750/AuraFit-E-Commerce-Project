@@ -124,6 +124,9 @@ export function CartPage(): JSX.Element {
                         <span className="font-light">Shipping & Handling</span>
                         {cart.shippingCost === 0 ? <span>Free Shipping</span> : <span>${cart.shippingCost}</span>}
                     </div>
+
+                    <hr className={"w-full opacity-30"}/>
+
                     <div className="flex justify-between w-full">
                         <span>Total</span>
                         <span className="font-medium">${cart.totalCartPrice}</span>

@@ -82,9 +82,7 @@ public class CartService {
         if (dto == null || dto.getVariantId() == null || dto.getQuantity() < 1) {
             throw new RequestException("Invalid add-to-cart request");
         }
-        Cart cart = (userId != null)
-                ? getOrCreateUserCart(userId)
-                : getOrCreateGuestCart(guestToken);
+        Cart cart = (userId != null) ? getOrCreateUserCart(userId) : getOrCreateGuestCart(guestToken);
 
         return addOrMergeLine(cart, dto);
     }

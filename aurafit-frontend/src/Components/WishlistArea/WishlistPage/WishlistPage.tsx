@@ -18,6 +18,10 @@ export function WishlistPage(): JSX.Element {
             .catch(err => toast.error(err));
     }, [])
 
+    const handleRemoveFromWishlist = (id: number) => {
+
+    }
+
 
     if (!wishlistItems) {
         return (
@@ -34,7 +38,7 @@ export function WishlistPage(): JSX.Element {
                     <div
                         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full">
                         {wishlistItems.map((w) => (
-                            <WishlistCard key={w.id} wishlistItem={w}/>
+                            <WishlistCard key={w.id} wishlistItem={w} onRemoveFromWishlist={()=>handleRemoveFromWishlist(w.id)} />
                         ))}
                     </div>
                 </div>

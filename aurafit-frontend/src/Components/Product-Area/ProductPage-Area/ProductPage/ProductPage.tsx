@@ -254,6 +254,7 @@ import { AddToCartRequestDTO } from "../../../../Models/DTOS/AddToCartRequestDTO
 import wishlistService from "../../../../Services/WishlistService";
 import { store } from "../../../../Redux/store";
 import { increment } from "../../../../Redux/CartSlice";
+import {useUserSelector} from "../../../../Redux/hooks.ts";
 
 // We need an index signature so TS is happy with useParams<Params>()
 interface Params {
@@ -268,6 +269,7 @@ export function ProductPage(): JSX.Element {
     const productId = Number(id);
     const variantParam = variantId ? Number(variantId) : undefined;
     const navigate = useNavigate();
+    const user = useUserSelector(state => state.authSlice.user);
 
     const [variants, setVariants]           = useState<ProductVariant[]>([]);
     const [loading, setLoading]             = useState(true);
@@ -287,7 +289,6 @@ export function ProductPage(): JSX.Element {
             .finally(() => setLoading(false));
     }, [productId]);
 
-    // 2️⃣ Once variants loaded: seed selectedColor from variantParam or first variant
     useEffect(() => {
         if (!variants.length) return;
         const defaultVariant =
@@ -297,10 +298,8 @@ export function ProductPage(): JSX.Element {
         setSelectedColor(
             defaultVariant ? defaultVariant.color : variants[0].color
         );
-        // **do not** setSelectedSize here
     }, [variants, variantParam]);
 
-    // 3️⃣ Fetch all sizes for the productType
     useEffect(() => {
         if (!variants.length) return;
         const productTypeId = variants[0].product.productType.id;
@@ -310,7 +309,6 @@ export function ProductPage(): JSX.Element {
             .catch(err => toast.error(err.response?.data || err.message));
     }, [variants]);
 
-    // 4️⃣ Compute currentVariant only when both color & size are chosen
     const currentVariant =
         selectedColor && selectedSize
             ? variants.find(
@@ -320,13 +318,14 @@ export function ProductPage(): JSX.Element {
         ) ?? null
             : null;
 
-    // 5️⃣ Check wishlist status for whichever variant is in the URL (or currentVariant)
     useEffect(() => {
         const checkId = productId;
         if (!checkId) return;
-        wishlistService.isOnWishlist(checkId)
-            .then(res => setAddedToWishlist(res))
-            .catch(err => toast.error(err.response?.data || err.message));
+        if (user) {
+            wishlistService.isOnWishlist(checkId)
+                .then(res => setAddedToWishlist(res))
+                .catch(err => toast.error(err.response?.data || err.message));
+        }
     }, [currentVariant, variantParam, variants]);
 
     if (loading) {
@@ -336,11 +335,9 @@ export function ProductPage(): JSX.Element {
         return <div className="text-center py-20">No product variants found.</div>;
     }
 
-    // Determine the variant whose image/price we show
     const defaultVariant =
         variants.find(v => v.id === variantParam) || variants[0];
 
-    // Build availableColors & availableSizes for UI controls
     const availableColors = Array.from(
         new Map(variants.map(v => [v.color.id, v.color])).values()
     );
@@ -372,12 +369,16 @@ export function ProductPage(): JSX.Element {
         }
     };
     const handleWishlist = () => {
-        wishlistService.toggleWishlist(defaultVariant.product.id)
-            .then(res => {
-                toast.success(res ? "Added to wishlist" : "Removed from wishlist");
-                setAddedToWishlist(res);
-            })
-            .catch(err => toast.error(err.response?.data || err.message));
+        if (user) {
+            wishlistService.toggleWishlist(defaultVariant.product.id)
+                .then(res => {
+                    toast.success(res ? "Added to wishlist" : "Removed from wishlist");
+                    setAddedToWishlist(res);
+                })
+                .catch(err => toast.error(err.response?.data || err.message));
+        } else {
+            navigate("/login")
+        }
     };
     const handleAddToCart = () => {
         if (!currentVariant) {
@@ -394,6 +395,9 @@ export function ProductPage(): JSX.Element {
             .catch(err => toast.error(err.response?.data || err.message));
     };
 
+    const gender = defaultVariant.product.gender;
+    const titleCase = gender.charAt(0) + gender.slice(1).toLowerCase();
+
     return (
         <div className="w-full flex flex-col items-center gap-30">
             <div className="w-4/5 flex flex-col items-start mt-6 gap-5">
@@ -401,7 +405,7 @@ export function ProductPage(): JSX.Element {
                 <nav className="flex gap-2 text-gray-600">
                     <NavLink to="/">Home</NavLink>
                     <span>/</span>
-                    <NavLink to="/men">Men</NavLink>
+                    <NavLink to={`/${defaultVariant.product.gender.toLowerCase()}`}>{titleCase}</NavLink>
                     <span>/</span>
                     <span>{defaultVariant.product.name}</span>
                 </nav>

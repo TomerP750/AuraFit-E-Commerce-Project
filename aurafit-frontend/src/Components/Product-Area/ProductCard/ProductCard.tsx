@@ -1,50 +1,83 @@
 // src/components/ProductCard.tsx
-import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {BiHeart} from "react-icons/bi";
-import {ProductVariant} from "../../../Models/ProductVariant.ts";
+import { useEffect, useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { BiHeart, BiCart } from "react-icons/bi";
+import { AiFillHeart } from "react-icons/ai";
+import { motion, AnimatePresence } from "framer-motion";
 import wishlistService from "../../../Services/WishlistService.ts";
-import {toast} from "react-toastify";
-import {AiFillHeart} from "react-icons/ai";
-import {ProductDTO} from "../../../Models/DTOS/ProductDTO.ts";
+import cartService from "../../../Services/CartService.ts";
+import { toast } from "react-toastify";
+import { ProductDTO } from "../../../Models/DTOS/ProductDTO.ts";
+import { ProductVariant } from "../../../Models/ProductVariant.ts";
+import { AddToCartRequestDTO } from "../../../Models/DTOS/AddToCartRequestDTO.ts";
+import { useUserSelector } from "../../../Redux/hooks.ts";
+import { NotLoggedInModal } from "../../NotLoggedInModal/NotLoggedInModal.tsx";
+import { useDispatch } from "react-redux";
+import { increment } from "../../../Redux/CartSlice.ts";
 
 interface ProductCardProps {
     product: ProductDTO;
     variants: ProductVariant[];
 }
 
-export function ProductCard({product, variants = []}: ProductCardProps) {
+const popupVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 30 } },
+    exit: { opacity: 0, y: 10, transition: { duration: 0.2 } }
+};
+
+export function ProductCard({ product, variants = [] }: ProductCardProps) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const user = useUserSelector(state => state.authSlice.user);
+
     const [onWishlist, setOnWishlist] = useState<boolean>(false);
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
 
     useEffect(() => {
-        wishlistService.isOnWishlist(product.id)
-            .then((isOnWishlist) => {
-                    setOnWishlist(isOnWishlist)
-                }
-            )
-            .catch(err => toast.error(err.response.data));
-    }, [product.id])
+        if (user) {
+            wishlistService.isOnWishlist(product.id)
+                .then(setOnWishlist)
+                .catch(err => toast.error(err.response?.data || "Error"));
+        }
+    }, [product.id, user]);
 
     const handleWishlistClick = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-
-        wishlistService
-            .toggleWishlist(product.id)
-            .then((newVal: boolean) => {
-                setOnWishlist(newVal);
-                toast.success(newVal ? "Added to wishlist" : "Removed from wishlist");
-            })
-            .catch(err => {
-                toast.error(err?.response?.data || "Error updating wishlist");
-            });
+        if (user) {
+            wishlistService.toggleWishlist(product.id)
+                .then((newVal: boolean) => {
+                    setOnWishlist(newVal);
+                    toast.success(newVal ? "Added to wishlist" : "Removed from wishlist");
+                })
+                .catch(err => toast.error(err.response?.data || "Error updating wishlist"));
+        } else {
+            setModalOpen(true);
+        }
     };
 
+    const uniqueByColor = useMemo(() =>
+        Array.from(variants.reduce<Map<number, ProductVariant>>((map, v) => {
+            if (!map.has(v.color.id)) map.set(v.color.id, v);
+            return map;
+        }, new Map()).values()), [variants]
+    );
 
-    const [activeId, setActiveId] = useState<number>(variants[0]?.id ?? 0);
+    const [selectedColorId, setSelectedColorId] = useState<number>(uniqueByColor[0]?.color.id ?? 0);
+    const [activeVariantId, setActiveVariantId] = useState<number>(variants[0]?.id ?? 0);
+    const [hoverCart, setHoverCart] = useState(false);
 
-    if (!variants.length) {
+    useEffect(() => {
+        if (uniqueByColor.length) {
+            const firstColor = uniqueByColor[0].color.id;
+            setSelectedColorId(firstColor);
+            const firstVariant = variants.find(v => v.color.id === firstColor);
+            if (firstVariant) setActiveVariantId(firstVariant.id);
+        }
+    }, [variants, uniqueByColor]);
+
+    if (!variants.length || !selectedColorId) {
         return (
             <div className="p-4 bg-white rounded shadow-sm text-center text-gray-500">
                 No variants available
@@ -52,67 +85,92 @@ export function ProductCard({product, variants = []}: ProductCardProps) {
         );
     }
 
-    // collapse to one variant per color
-    const uniqueByColor = Array.from(
-        variants.reduce<Map<number, ProductVariant>>((map, v) => {
-            if (!map.has(v.color.id)) map.set(v.color.id, v);
-            return map;
-        }, new Map()).values()
-    );
-
-    // pick the active variant
-    const activeVariant = variants.find(v => v.id === activeId) || variants[0];
-
+    const sizesForColor = variants.filter(v => v.color.id === selectedColorId);
+    const activeVariant = variants.find(v => v.id === activeVariantId) || sizesForColor[0];
     const imageUrl = activeVariant.productImage?.[0] ?? "/assets/placeholder.png";
     const price = activeVariant.onSale ? activeVariant.salePrice : activeVariant.basePrice;
 
+    const handleAddToCart = (variantId: number, e: React.MouseEvent) => {
+        e.stopPropagation();
+        const dto = new AddToCartRequestDTO(variantId, 1);
+        cartService.addToCart(dto)
+            .then(() => {
+                toast.success("Added to cart");
+                dispatch(increment());
+            })
+            .catch(err => toast.error(err.response?.data || "Error"));
+    };
+
     return (
-
         <div className="block bg-white rounded-lg overflow-hidden transition">
-            {/* IMAGE & WISHLIST */}
-            <div className="relative w-full aspect-square bg-gray-100 cursor-pointer"
-                 onClick={() => navigate(`/product/${product.id}/${activeVariant.id}`)}>
-                <img
-                    src={imageUrl}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                />
-                <div className={"absolute top-5 right-5 p-2 bg-white rounded-full text-gray-500 hover:bg-gray-200"}>
-                    <button onClick={handleWishlistClick} className={"cursor-pointer"}>
-                        {onWishlist ? <AiFillHeart size={20}/> : <BiHeart size={20}/>}
-                    </button>
-                </div>
+            <div
+                className="relative w-full aspect-square bg-gray-100 cursor-pointer"
+                onClick={() => navigate(`/product/${product.id}/${activeVariantId}`)}
+            >
+                <img src={imageUrl} alt={product.name} className="w-full h-full object-cover" />
 
+                <button
+                    onClick={handleWishlistClick}
+                    className="absolute top-5 right-5 p-2 bg-white rounded-full text-gray-500 hover:bg-gray-200 z-10"
+                >
+                    {onWishlist ? <AiFillHeart size={20} /> : <BiHeart size={20} />}
+                </button>
+
+                <div
+                    className="absolute inset-x-0 bottom-0 mb-4 flex justify-center z-10"
+                    onMouseEnter={() => setHoverCart(true)}
+                    onMouseLeave={() => setHoverCart(false)}
+                >
+                    <button className="bg-white p-2 rounded-full shadow">
+                        <BiCart size={24} className="text-gray-700 hover:text-gray-900 cursor-pointer" />
+                    </button>
+                    <AnimatePresence>
+                        {hoverCart && (
+                            <motion.div
+                                key="sizes"
+                                variants={popupVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                                className="absolute bottom-full mb-2 w-[90%] max-h-40 overflow-y-auto bg-white shadow-lg"
+                            >
+                                {sizesForColor.map(v => (
+                                    <motion.button
+                                        key={v.id}
+                                        onClick={e => handleAddToCart(v.id, e)}
+                                        className="w-full py-2 text-center text-sm hover:bg-gray-100 cursor-pointer"
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        {v.size.size}
+                                    </motion.button>
+                                ))}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
             </div>
 
-            <div className={"px-2 mt-2"}>
-                {/* NAME & PRICE */}
-                <div className="flex flex-col">
-                    <h3 className="text-md font-medium truncate">{product.name}</h3>
-                    <span className="text-lg font-semibold">${price.toFixed(2)}</span>
-                </div>
-
-                {/* COLOR SWATCHES (one per color) */}
+            <div className="px-2 mt-2">
+                <h3 className="text-md font-medium truncate">{product.name}</h3>
+                <span className="text-lg font-semibold">${price.toFixed(2)}</span>
                 <div className="flex gap-2 mt-2">
                     {uniqueByColor.map(variant => (
                         <button
                             key={variant.color.id}
                             onClick={e => {
-                                e.preventDefault();
-                                setActiveId(variant.id);
-                                navigate(`/product/${product.id}/${variant.id}`);
+                                e.stopPropagation();
+                                setSelectedColorId(variant.color.id);
+                                setActiveVariantId(variant.id);
                             }}
-                            className={`w-5 h-5 rounded-full border-2 focus:outline-none cursor-pointer ${
-                                variant.id === activeVariant.id ? "border-gray-800" : "border-transparent"
-                            }`}
-                            style={{backgroundColor: variant.color.color.toLowerCase()}}
+                            className={`w-5 h-5 rounded-full border-2 focus:outline-none cursor-pointer ${variant.color.id === selectedColorId ? "border-gray-800" : "border-transparent"}`}
+                            style={{ backgroundColor: variant.color.color.toLowerCase() }}
                             aria-label={`Color ${variant.color.color}`}
                         />
                     ))}
                 </div>
             </div>
 
+            {modalOpen && <NotLoggedInModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />}
         </div>
     );
 }
-

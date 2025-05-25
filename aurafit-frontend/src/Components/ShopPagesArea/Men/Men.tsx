@@ -34,9 +34,7 @@ export function Men(): JSX.Element {
     const [selectedSizes, setSelectedSizes] = useState<number[]>([]);
 
     // one “card” per product + its own variants
-    const [cards, setCards] = useState<
-        { product: ProductDTO; variants: ProductVariantDTO[] }[]
-    >([]);
+    const [cards, setCards] = useState<{ product: ProductDTO; variants: ProductVariantDTO[] }[]>([]);
 
     // fetch metadata once
     useEffect(() => {
