@@ -3,6 +3,7 @@ package app.aurafitbackend.Services;
 import app.aurafitbackend.Beans.*;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductVariantCreateDto;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
+import app.aurafitbackend.DTOS.UpdateVariantDTO;
 import app.aurafitbackend.Enums.Gender;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Repositories.CategoryRepository;
@@ -66,7 +67,7 @@ public class ProductVariantService {
                     .material(newProductVariant.getMaterial())
 //                    .productImages(newProductVariant.getProduct())
                     .onSale(false)
-                    .sku( "AF"+System.currentTimeMillis())
+                    .sku(createSku(newProductVariant))
                     .stockQuantity(newProductVariant.getStockQuantity())
                     .product(newProductVariant.getProduct())
                     .build();
@@ -75,6 +76,9 @@ public class ProductVariantService {
         }
     }
 
+    private String createSku(ProductVariantCreateDto newProductVariant) {
+        return "AF"+newProductVariant.getProduct().getName()+"-"+newProductVariant.getColor()+"-";
+    }
 
 
     public List<Review> getProductVariantReviews(Long productVariantId) {
@@ -87,19 +91,19 @@ public class ProductVariantService {
         return EntityDTOMapper.variantToDto(variant);
     }
 
-    public void updateVariant(ProductVariant updatedProductVariant) {
+    public void updateVariant(UpdateVariantDTO updatedProductVariant) {
         if (ProductVariantValidator.isValidProductVariantCredentials(updatedProductVariant)) {
             ProductVariant productVariant = productVariantRepository.findById(updatedProductVariant.getId())
                     .orElseThrow(() -> new NotExistsException("Product variant not found"));
             productVariant.setColor(updatedProductVariant.getColor());
             productVariant.setBasePrice(updatedProductVariant.getBasePrice());
-            productVariant.setSalePrice(updatedProductVariant.getSalePrice());
+            productVariant.setSalePrice(BigDecimal.ZERO);
             productVariant.setSize(updatedProductVariant.getSize());
             productVariant.setMaterial(updatedProductVariant.getMaterial());
             productVariant.setStockQuantity(updatedProductVariant.getStockQuantity());
             productVariant.setProduct(updatedProductVariant.getProduct());
-            productVariant.setProductImages(updatedProductVariant.getProductImages());
-            productVariant.setOnSale(updatedProductVariant.getOnSale());
+            productVariant.setProductImages(updatedProductVariant.getImagesUrl());
+            productVariant.setOnSale(false);
             productVariantRepository.save(productVariant);
         }
 

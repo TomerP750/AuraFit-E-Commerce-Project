@@ -14,16 +14,11 @@ interface ProductUpdateFormProps {
 }
 
 export function ProductUpdateForm({ product, onSave }: ProductUpdateFormProps): JSX.Element {
+
     const [categories, setCategories] = useState<Category[]>([]);
     const [productTypes, setProductTypes] = useState<ProductType[]>([]);
 
-    const {
-        register,
-        handleSubmit,
-        control,
-        setValue,
-        formState: { errors },
-    } = useForm<UpdateProductDTO>();
+    const {register, handleSubmit, control, setValue, formState: { errors },} = useForm<UpdateProductDTO>();
 
     useEffect(() => {
         // Load selects

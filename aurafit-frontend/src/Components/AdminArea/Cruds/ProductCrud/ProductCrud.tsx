@@ -23,8 +23,7 @@ export function ProductCrud(): JSX.Element {
 
     const deleteProduct = (id: number) => {
         if (confirm("Delete product?")) {
-            adminService
-                .deleteProduct(id)
+            adminService.deleteProduct(id)
                 .then(() => setProducts(prev => prev.filter(p => p.id !== id)))
                 .catch(err => toast.error(err.response?.data || err.message));
         }

@@ -15,7 +15,6 @@ import {increment} from "../../../Redux/CartSlice.ts";
 
 interface WishlistCardProps {
     wishlistItem: WishlistItem;
-    onAddToCart: () => void;
 }
 
 const popupVariants = {
@@ -24,7 +23,7 @@ const popupVariants = {
     exit: { opacity: 0, y: 10, transition: { duration: 0.2 } }
 };
 
-export function WishlistCard({ wishlistItem, onAddToCart }: WishlistCardProps) {
+export function WishlistCard({ wishlistItem }: WishlistCardProps) {
     const navigate = useNavigate();
     const product = wishlistItem.product;
     const [variants, setVariants] = useState<ProductVariant[]>([]);
@@ -72,7 +71,7 @@ export function WishlistCard({ wishlistItem, onAddToCart }: WishlistCardProps) {
         const dto = new AddToCartRequestDTO(variantId, 1);
         cartService.addToCart(dto)
             .then(() => {
-                toast.success("Added to cart"); onAddToCart();
+                toast.success("Added to cart");
                 dispatch(increment())
             })
             .catch(err => toast.error(err.response?.data || "Error"));
@@ -94,7 +93,7 @@ export function WishlistCard({ wishlistItem, onAddToCart }: WishlistCardProps) {
                     onMouseLeave={() => setHoverCart(false)}
                 >
                     <button className="bg-white p-2 rounded-full shadow">
-                        <BiCart size={24} className="text-gray-700 hover:text-gray-900" />
+                        <BiCart size={24} className="text-gray-700 hover:text-gray-900 cursor-pointer" />
                     </button>
                     <AnimatePresence>
                         {hoverCart && (
@@ -110,7 +109,7 @@ export function WishlistCard({ wishlistItem, onAddToCart }: WishlistCardProps) {
                                     <motion.button
                                         key={v.id}
                                         onClick={e => handleAddVariantToCart(v.id, e)}
-                                        className="w-full py-2 text-center text-sm hover:bg-gray-100"
+                                        className="w-full py-2 text-center text-sm hover:bg-gray-100 cursor-pointer"
                                         whileTap={{ scale: 0.95 }}
                                     >{v.size.size}</motion.button>
                                 ))}
@@ -129,7 +128,7 @@ export function WishlistCard({ wishlistItem, onAddToCart }: WishlistCardProps) {
                         key={colorVariant.color.id}
                         onClick={e => { e.stopPropagation(); setSelectedColorId(colorVariant.color.id); }}
                         className={`w-6 h-6 rounded-full border-2 cursor-pointer ${
-                            selectedColorId === colorVariant.color.id ? "border-gray-800" : "border-transparent"
+                            selectedColorId === colorVariant.color.id ? `ring ring-offset-2` : "border-transparent"
                         }`}
                         style={{ backgroundColor: colorVariant.color.color.toLowerCase() }}
                         aria-label={`Color ${colorVariant.color.color}`}

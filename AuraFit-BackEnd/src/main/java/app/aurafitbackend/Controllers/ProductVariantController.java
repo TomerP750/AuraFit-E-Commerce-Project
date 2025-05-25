@@ -4,6 +4,7 @@ import app.aurafitbackend.Beans.ProductVariant;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductVariantCreateDto;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
 import app.aurafitbackend.DTOS.SearchDTO;
+import app.aurafitbackend.DTOS.UpdateVariantDTO;
 import app.aurafitbackend.Services.ProductVariantService;
 import app.aurafitbackend.Utils.EntityDTOMapper;
 import lombok.AllArgsConstructor;
@@ -34,8 +35,8 @@ public class ProductVariantController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update")
-    public void updateVariant(@RequestBody ProductVariant productVariant) {
-        productVariantService.updateVariant(productVariant);
+    public void updateVariant(@RequestBody UpdateVariantDTO newProductVariantDTO) {
+        productVariantService.updateVariant(newProductVariantDTO);
     }
 
 

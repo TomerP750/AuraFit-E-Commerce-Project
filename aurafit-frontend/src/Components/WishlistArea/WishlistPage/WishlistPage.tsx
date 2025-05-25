@@ -18,11 +18,6 @@ export function WishlistPage(): JSX.Element {
             .catch(err => toast.error(err));
     }, [])
 
-    const handleAddToCart = (wishlistItemId: number) => {
-        setWishlistItems(items =>
-            items.filter(w => w.id !== wishlistItemId)
-        );
-    }
 
     if (!wishlistItems) {
         return (
@@ -39,7 +34,7 @@ export function WishlistPage(): JSX.Element {
                     <div
                         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full">
                         {wishlistItems.map((w) => (
-                            <WishlistCard onAddToCart={()=>handleAddToCart(w.id)} key={w.id} wishlistItem={w}/>
+                            <WishlistCard key={w.id} wishlistItem={w}/>
                         ))}
                     </div>
                 </div>

@@ -9,6 +9,7 @@ import {Size} from "../Models/Size.ts";
 import {FitType} from "../Models/FitType.ts";
 import {Color} from "../Models/Color.ts";
 import {UpdateProductDTO} from "../Models/DTOS/UpdateProductDTO.ts";
+import {UpdateVariantDTO} from "../Models/DTOS/UpdateVariantDTO.ts";
 
 class AdminService {
 
@@ -127,8 +128,8 @@ class AdminService {
         return (await axios.delete(`http://localhost:8080/api/variant/delete/${variantId}`)).data
     }
 
-    async updateProductVariant() {
-        return (await axios.put("http://localhost:8080/api/variant/update"))
+    async updateProductVariant(updateVariant: UpdateVariantDTO) {
+        return (await axios.put("http://localhost:8080/api/variant/update", updateVariant))
     }
 
     // Users --------------------

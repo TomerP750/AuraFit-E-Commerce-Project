@@ -6,11 +6,14 @@ import {ProductVariant} from "../../../../Models/ProductVariant.ts";
 import {BiCheckboxChecked, BiPlus, BiX} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
 import {CreateProductVariantForm} from "../../CreateForms/CreateProductVariantForm/CreateProductVariantForm.tsx";
+import {ProductVariantUpdateForm} from "../../UpdateForms/ProductVariantUpdateForm/ProductVariantUpdateForm.tsx";
 
 export function ProductVariantCrud(): JSX.Element {
     const [variants, setVariants] = useState<ProductVariant[]>([]);
     const [formOpen, setFormOpen] = useState(false);
     const navigate = useNavigate();
+    const [formTypeOpen, setFormTypeOpen] = useState<"create" | "update" | "none">("none");
+    const [selectedVariant, setSelectedVariant] = useState<ProductVariant>();
 
     useEffect(() => {
         adminService.getAllProductVariants()
@@ -37,6 +40,38 @@ export function ProductVariantCrud(): JSX.Element {
         "On Sale",
         "Actions",
     ];
+
+    if (formTypeOpen === "create") {
+        return (
+            <div className="p-4 w-full">
+                <button onClick={() => setFormTypeOpen("none")} className="mb-4 text-sm text-gray-700">
+                    ← Back to list
+                </button>
+                <CreateProductVariantForm onSave={() => setFormTypeOpen("none")} />
+            </div>
+        );
+    }
+
+    if (formTypeOpen === "update") {
+        if (!selectedVariant) {
+            return <span></span>;
+        }
+
+        return (
+            <div className="p-4 w-full">
+                <button
+                    onClick={() => setFormTypeOpen("none")}
+                    className="mb-4 text-sm text-gray-700"
+                >
+                    ← Back to list
+                </button>
+                <ProductVariantUpdateForm
+                    variant={selectedVariant}
+                    onSave={() => setFormTypeOpen("none")}
+                />
+            </div>
+        );
+    }
 
     if (formOpen) {
         return (
@@ -80,8 +115,11 @@ export function ProductVariantCrud(): JSX.Element {
                         <span>{v.stockQuantity}</span>
                         <span>{v.onSale ? <BiCheckboxChecked /> : <BiX />}</span>
                         <div className="flex gap-2">
-                            <p className="cursor-pointer" onClick={() => deleteVariant(v.id)}>Edit</p>
-                            <p className="cursor-pointer" onClick={() => navigate(`/variant/edit/${v.id}`)}>Delete</p>
+                            <p className="cursor-pointer" onClick={()=> {
+                                setSelectedVariant(v)
+                                setFormTypeOpen("update")}
+                            }>Edit</p>
+                            <p className="cursor-pointer" onClick={() => deleteVariant(v.id)}>Delete</p>
                         </div>
                     </div>
                 ))}
