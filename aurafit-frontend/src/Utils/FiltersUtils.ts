@@ -63,10 +63,8 @@ import {ProductVariantDTO} from "../Models/DTOS/ProductVariantDTO.ts";
 export type SortOption = "high-low" | "low-high" | "newest";
 
 /** Safely sorts a flat array of variants */
-export function sortVariants(
-    variants: ProductVariantDTO[] = [],
-    sortOption: SortOption
-): ProductVariantDTO[] {
+export function sortVariants(variants: ProductVariantDTO[] = [], sortOption: SortOption): ProductVariantDTO[] {
+    console.log("sort variants", variants);
     return [...variants].sort((a, b) => {
         switch (sortOption) {
             case "high-low":

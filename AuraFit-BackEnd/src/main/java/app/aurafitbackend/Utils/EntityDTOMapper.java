@@ -60,6 +60,9 @@ public final class EntityDTOMapper {
                 .stockQuantity(v.getStockQuantity())
                 .product(toProductDTO(v.getProduct()))
                 .onSale(v.getOnSale())
+                .createdAt(v.getCreatedAt())
+                .updatedAt(v.getUpdatedAt())
+                .images(v.getProductImages())
                 .build();
     }
 
@@ -91,6 +94,9 @@ public final class EntityDTOMapper {
                 .salePrice(variant.getSalePrice())
                 .stockQuantity(variant.getStockQuantity())
                 .onSale(variant.getOnSale())
+                .createdAt(variant.getCreatedAt())
+                .updatedAt(variant.getUpdatedAt())
+                .images(variant.getProductImages())
                 .product(productDto)
                 .build();
     }

@@ -18,11 +18,11 @@ export class ProductVariantDTO {
     product: ProductDTO
     createdAt: Date
     updatedAt: Date
-    productImages?: ProductVariantImage[];
+    images?: ProductVariantImage[];
 
     constructor(id: number, sku: string, stockQuantity: number, size:
     Size, color: Color, material: Material, basePrice: number,
-                salePrice: number, onSale: boolean, product: ProductDTO, createdAt: Date, updatedAt: Date, productImages: ProductVariantImage[]) {
+                salePrice: number, onSale: boolean, product: ProductDTO, createdAt: Date, updatedAt: Date, images: ProductVariantImage[]) {
         this.id = id;
         this.sku = sku;
         this.stockQuantity = stockQuantity;
@@ -35,6 +35,6 @@ export class ProductVariantDTO {
         this.product = product;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.productImages = productImages;
+        this.images = images;
     }
 }

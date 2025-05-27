@@ -1,5 +1,6 @@
 package app.aurafitbackend.Beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,5 +17,6 @@ public class ProductVariantImage {
     private String imageUrl;
 
     @ManyToOne
+    @JsonIgnore
     private ProductVariant variant;
 }

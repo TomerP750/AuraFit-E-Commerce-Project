@@ -7,6 +7,8 @@ interface ImagesProps {
 }
 export function Images({variant}: ImagesProps): JSX.Element {
 
+    const mainImageUrl = variant.images?.[0]?.imageUrl?.trim() || "";
+
     return (
         <div className="w-full lg:w-2/3 flex flex-col md:flex-row items-start gap-4">
             {/* Thumbnails on desktop (left), below on mobile */}
@@ -21,8 +23,7 @@ export function Images({variant}: ImagesProps): JSX.Element {
 
             {/* Main image (right on desktop, top on mobile) */}
             <div className="order-1 md:order-2 w-full aspect-square rounded-lg bg-black overflow-hidden">
-                {/* Replace this div with: */}
-                {/* <img src={imageSrc} alt="Product" className="w-full h-full object-cover" /> */}
+                 <img src={mainImageUrl} alt="Product" className="w-full h-full object-cover" />
             </div>
         </div>
     );

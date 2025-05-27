@@ -1,18 +1,18 @@
 // src/pages/Men.tsx
-import { JSX, useEffect, useMemo, useState } from "react";
+import {JSX, useEffect, useMemo, useState} from "react";
 import "./Men.css";
-import { Filters } from "../Filters/Filters";
-import { ProductCard } from "../../Product-Area/ProductCard/ProductCard";
-import { FiFilter } from "react-icons/fi";
+import {Filters} from "../Filters/Filters";
+import {ProductCard} from "../../Product-Area/ProductCard/ProductCard";
+import {FiFilter} from "react-icons/fi";
 import displayService from "../../../Services/DisplayService";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
 
-import { Gender } from "../../../Models/Enums/Gender";
-import { sortVariants, SortOption } from "../../../Utils/FiltersUtils";
-import { Category } from "../../../Models/Category";
-import { ProductType } from "../../../Models/ProductType";
-import { Color } from "../../../Models/Color";
-import { Size } from "../../../Models/Size";
+import {Gender} from "../../../Models/Enums/Gender";
+import {sortVariants, SortOption} from "../../../Utils/FiltersUtils";
+import {Category} from "../../../Models/Category";
+import {ProductType} from "../../../Models/ProductType";
+import {Color} from "../../../Models/Color";
+import {Size} from "../../../Models/Size";
 import {ProductVariantDTO} from "../../../Models/DTOS/ProductVariantDTO.ts";
 import {ProductDTO} from "../../../Models/DTOS/ProductDTO.ts";
 
@@ -49,7 +49,8 @@ export function Men(): JSX.Element {
 
         displayService.allProductsByGender(Gender.MEN)   // returns ProductDTO[]
             .then((products: ProductDTO[]) => {
-                setCards(products.map(p => ({product: p, variants: Array.isArray(p.variants) ? p.variants : [],
+                setCards(products.map(p => ({
+                        product: p, variants: Array.isArray(p.variants) ? p.variants : [],
                     }))
                 );
             })
@@ -82,18 +83,38 @@ export function Men(): JSX.Element {
         }
 
         // sort each product’s variants
-        const withSorted = filtered.map(c => ({
-            product: c.product,
-            variants: sortVariants(c.variants, sortOption),
-        }));
+        const withSorted = filtered.map(c => {
+            // run the sort
+            const sortedVariants = sortVariants(c.variants, sortOption);
 
-        // then sort products by their first variant
+            // log whatever you like
+            console.log(
+                `Product ${c.product.id} sorted with option "${sortOption}":`,
+                sortedVariants
+            );
+
+            // return your mapped shape
+            return {
+                product: c.product,
+                variants: sortedVariants,
+            };
+        });
+
         withSorted.sort((a, b) => {
             const va = a.variants[0], vb = b.variants[0];
-            if (!va || !vb) return 0;
+
+            if (a.variants.length < 1 || b.variants.length < 1) return 0;
+
+            // if (!va || !vb) return 0;
             switch (sortOption) {
-                case "high-low": return vb.basePrice - va.basePrice;
-                case "low-high": return va.basePrice - vb.basePrice;
+                case "high-low": {
+                    console.log("vaafter", va)
+                    return vb.basePrice - va.basePrice;
+                }
+                case "low-high": {
+                    console.log("vaafter", va)
+                    return va.basePrice - vb.basePrice;
+                }
                 case "newest":
                     return (
                         new Date(vb.createdAt).getTime() -
@@ -103,6 +124,7 @@ export function Men(): JSX.Element {
                     return 0;
             }
         });
+        console.log("withSorted after sort: ", withSorted)
 
         return withSorted;
     }, [cards, sortOption, selectedCategories, selectedTypes, selectedColors, selectedSizes,]);
@@ -114,7 +136,7 @@ export function Men(): JSX.Element {
                 className="flex items-center gap-2 mb-4 text-lg sm:hidden"
                 onClick={() => setShowFilters(f => !f)}
             >
-                <FiFilter /> Filters
+                <FiFilter/> Filters
             </button>
 
             <div className="flex flex-col sm:flex-row gap-6">
@@ -160,7 +182,7 @@ export function Men(): JSX.Element {
                 <main className="flex-1">
                     <h2 className="text-2xl font-medium mb-6">Men’s Collection</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {sortedCards.map(({ product, variants }) => (
+                        {sortedCards.map(({product, variants}) => (
                             <ProductCard
                                 key={product.id}
                                 product={product}

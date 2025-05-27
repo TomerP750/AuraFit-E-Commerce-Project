@@ -75,7 +75,7 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
             const firstVariant = variants.find(v => v.color.id === firstColor);
             if (firstVariant) setActiveVariantId(firstVariant.id);
         }
-    }, [uniqueByColor]);
+    }, [variants ,uniqueByColor]);
     // TODO ADD variants back to array
     console.log("variants: ", variants);
 
@@ -88,7 +88,9 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
 
     const sizesForColor = variants.filter(v => v.color.id === selectedColorId);
     const activeVariant = variants.find(v => v.id === activeVariantId) || sizesForColor[0];
-    const imageUrl = activeVariant.productImages?.[0].imageUrl;
+    const imageUrl = activeVariant?.images?.[0].imageUrl ? activeVariant.images?.[0].imageUrl : "";
+    console.log("avpi",activeVariant.images);
+    console.log("activevariant", activeVariant)
     const price = activeVariant.onSale ? activeVariant.salePrice : activeVariant.basePrice;
 
     const handleAddToCart = (variantId: number, e: React.MouseEvent) => {

@@ -1,13 +1,11 @@
 package app.aurafitbackend.DTOS.DisplayDTOS;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import app.aurafitbackend.Beans.Color;
-import app.aurafitbackend.Beans.Material;
-import app.aurafitbackend.Beans.Product;
-import app.aurafitbackend.Beans.Size;
+import app.aurafitbackend.Beans.*;
 import lombok.*;
 
 @Data
@@ -27,4 +25,5 @@ public class ProductVariantDTO {
     private ProductDTO product;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private List<ProductVariantImage> images;
 }

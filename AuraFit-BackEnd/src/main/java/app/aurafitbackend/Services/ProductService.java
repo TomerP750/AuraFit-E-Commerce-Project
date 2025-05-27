@@ -37,6 +37,7 @@ public class ProductService {
         products.forEach(product -> {
             dtos.add(EntityDTOMapper.toProductDTO(product));
         });
+
         return dtos;
     }
 

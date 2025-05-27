@@ -164,7 +164,7 @@ import { Filters } from "../Filters/Filters";
 import { ProductCard } from "../../Product-Area/ProductCard/ProductCard";
 import { FiFilter } from "react-icons/fi";
 import displayService from "../../../Services/DisplayService";
-import wishlistService from "../../../Services/WishlistService";
+// import wishlistService from "../../../Services/WishlistService";
 import { toast } from "react-toastify";
 
 import { Gender } from "../../../Models/Enums/Gender";
@@ -279,13 +279,13 @@ export function Women(): JSX.Element {
         selectedSizes,
     ]);
 
-    // wishlist toggle
-    const handleAddToWishlist = (productId: number) => {
-        wishlistService
-            .toggleWishlist(productId)
-            .then(() => toast.success("Wishlist updated"))
-            .catch(err => toast.error(err));
-    };
+    // // wishlist toggle
+    // const handleAddToWishlist = (productId: number) => {
+    //     wishlistService
+    //         .toggleWishlist(productId)
+    //         .then(() => toast.success("Wishlist updated"))
+    //         .catch(err => toast.error(err));
+    // };
 
     return (
         <div className="container mx-auto px-4 pt-10">
@@ -344,7 +344,7 @@ export function Women(): JSX.Element {
                                 key={product.id}
                                 product={product}
                                 variants={variants}
-                                onAddToWishlist={handleAddToWishlist}
+                                // onAddToWishlist={handleAddToWishlist}
                             />
                         ))}
                     </div>

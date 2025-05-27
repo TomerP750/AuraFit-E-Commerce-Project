@@ -16,12 +16,12 @@ export class ProductVariant {
     stockQuantity: number;
     onSale: boolean;
     product: Product;
-    productImage?: string[];
+    productImages?: string[];
     createdAt: Date;
 
     constructor(id: number, size: Size, color: Color,
                 material: Material, sku: string, basePrice: number, salePrice: number,
-                stockQuantity: number, onSale: boolean, product: Product, createdAt: Date ,productImage?: string[]) {
+                stockQuantity: number, onSale: boolean, product: Product, createdAt: Date ,productImages?: string[]) {
         this.id = id;
         this.size = size;
         this.color = color;
@@ -32,7 +32,7 @@ export class ProductVariant {
         this.stockQuantity = stockQuantity;
         this.onSale = onSale;
         this.product = product;
-        this.productImage = productImage;
+        this.productImages = productImages;
         this.createdAt = createdAt;
     }
 
