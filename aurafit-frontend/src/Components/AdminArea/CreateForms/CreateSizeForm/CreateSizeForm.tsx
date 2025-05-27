@@ -5,6 +5,7 @@ import adminService from "../../../../Services/AdminService.ts";
 import {toast} from "react-toastify";
 import {Size} from "../../../../Models/Size.ts";
 import {ProductType} from "../../../../Models/ProductType.ts";
+import {CreateSizeDTO} from "../../../../Models/DTOS/CreateSizeDTO.ts";
 
 
 interface CreateSizeFormProps {
@@ -18,7 +19,9 @@ export function CreateSizeForm({onSave}: CreateSizeFormProps): JSX.Element {
 
     const onSubmit = (data: Size) => {
 
-        adminService.createSize(data)
+        const dto = new CreateSizeDTO(data.size, data.productType)
+
+        adminService.createSize(dto)
             .then(() => {
                 toast.success("Created successfully")
                 onSave();
@@ -55,7 +58,7 @@ export function CreateSizeForm({onSave}: CreateSizeFormProps): JSX.Element {
                     rules={{required: 'Required'}}
                     render={({field}) => (
                         <select
-                            value={field.value?.id ?? ''}
+                            value={field.value?.id ?? ' '}
                             onChange={e => {
                                 // parse the string back into a number
                                 const selectedId = Number(e.target.value);

@@ -8,16 +8,16 @@ import wishlistService from "../../../Services/WishlistService.ts";
 import cartService from "../../../Services/CartService.ts";
 import { toast } from "react-toastify";
 import { ProductDTO } from "../../../Models/DTOS/ProductDTO.ts";
-import { ProductVariant } from "../../../Models/ProductVariant.ts";
 import { AddToCartRequestDTO } from "../../../Models/DTOS/AddToCartRequestDTO.ts";
 import { useUserSelector } from "../../../Redux/hooks.ts";
 import { NotLoggedInModal } from "../../NotLoggedInModal/NotLoggedInModal.tsx";
 import { useDispatch } from "react-redux";
 import { increment } from "../../../Redux/CartSlice.ts";
+import {ProductVariantDTO} from "../../../Models/DTOS/ProductVariantDTO.ts";
 
 interface ProductCardProps {
     product: ProductDTO;
-    variants: ProductVariant[];
+    variants: ProductVariantDTO[];
 }
 
 const popupVariants = {
@@ -58,7 +58,7 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
     };
 
     const uniqueByColor = useMemo(() =>
-        Array.from(variants.reduce<Map<number, ProductVariant>>((map, v) => {
+        Array.from(variants.reduce<Map<number, ProductVariantDTO>>((map, v) => {
             if (!map.has(v.color.id)) map.set(v.color.id, v);
             return map;
         }, new Map()).values()), [variants]
@@ -75,19 +75,20 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
             const firstVariant = variants.find(v => v.color.id === firstColor);
             if (firstVariant) setActiveVariantId(firstVariant.id);
         }
-    }, [variants, uniqueByColor]);
+    }, [uniqueByColor]);
+    // TODO ADD variants back to array
+    console.log("variants: ", variants);
+
 
     if (!variants.length || !selectedColorId) {
         return (
-            <div className="p-4 bg-white rounded shadow-sm text-center text-gray-500">
-                No variants available
-            </div>
+            <></>
         );
     }
 
     const sizesForColor = variants.filter(v => v.color.id === selectedColorId);
     const activeVariant = variants.find(v => v.id === activeVariantId) || sizesForColor[0];
-    const imageUrl = activeVariant.productImage?.[0] ?? "/assets/placeholder.png";
+    const imageUrl = activeVariant.productImages?.[0].imageUrl;
     const price = activeVariant.onSale ? activeVariant.salePrice : activeVariant.basePrice;
 
     const handleAddToCart = (variantId: number, e: React.MouseEvent) => {
@@ -162,7 +163,7 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
                                 setSelectedColorId(variant.color.id);
                                 setActiveVariantId(variant.id);
                             }}
-                            className={`w-5 h-5 rounded-full border-2 focus:outline-none cursor-pointer ${variant.color.id === selectedColorId ? "border-gray-800" : "border-transparent"}`}
+                            className={`w-5 h-5 rounded-full border-2 focus:outline-none cursor-pointer ${variant.color.id === selectedColorId ? "ring ring-offset-2" : "border-transparent"}`}
                             style={{ backgroundColor: variant.color.color.toLowerCase() }}
                             aria-label={`Color ${variant.color.color}`}
                         />

@@ -1,5 +1,6 @@
 package app.aurafitbackend.DTOS.DisplayDTOS;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,4 +25,6 @@ public class ProductVariantDTO {
     private Integer stockQuantity;
     private boolean onSale;
     private ProductDTO product;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

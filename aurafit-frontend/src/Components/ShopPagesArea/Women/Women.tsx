@@ -207,6 +207,7 @@ export function Women(): JSX.Element {
 
     // fetch only ProductDTO (which includes variants) and map to cards
     useEffect(() => {
+        console.log("women", cards)
         displayService
             .allProductsByGender(Gender.WOMEN)   // returns ProductDTO[]
             .then((products: ProductDTO[]) => {

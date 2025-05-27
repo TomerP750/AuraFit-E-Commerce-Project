@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 @Service
@@ -77,15 +78,27 @@ public class ProductVariantService {
     }
 
     private String generateSku(ProductVariantCreateDto dto) {
+        // Base parts
+        String idPart    = String.format("%04d", dto.getProduct().getId());
+        String namePart  = dto.getProduct().getName()
+                .replaceAll("\\s+", "")
+                .substring(0, Math.min(3, dto.getProduct().getName().length()))
+                .toUpperCase();
+        String colorPart = dto.getColor().getColor()
+                .replaceAll("\\s+", "")
+                .toUpperCase();
+        String sizePart  = dto.getSize().getSize().toUpperCase();
 
-        return String.format(
-                "AF-%04d-%s-%s-%s",
-                dto.getProduct().getId(),
-                dto.getProduct().getName().replaceAll("\\s+","")
-                        .substring(0,3).toUpperCase(),
-                dto.getColor().getColor().replaceAll("\\s+","").toUpperCase(),
-                dto.getSize().getSize().toUpperCase()
-        );
+        // Random 4-digit suffix (0000–9999)
+        int randomSuffix = ThreadLocalRandom.current().nextInt(0, 10000);
+        String randPart  = String.format("%04d", randomSuffix);
+
+        return String.format("AF-%s-%s-%s-%s-%s",
+                idPart,
+                namePart,
+                colorPart,
+                sizePart,
+                randPart);
     }
 
 

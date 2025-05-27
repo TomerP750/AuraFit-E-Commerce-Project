@@ -58,15 +58,15 @@
 
 
 // src/Utils/FiltersUtils.ts
-import { ProductVariant } from "../Models/ProductVariant";
+import {ProductVariantDTO} from "../Models/DTOS/ProductVariantDTO.ts";
 
 export type SortOption = "high-low" | "low-high" | "newest";
 
 /** Safely sorts a flat array of variants */
 export function sortVariants(
-    variants: ProductVariant[] = [],
+    variants: ProductVariantDTO[] = [],
     sortOption: SortOption
-): ProductVariant[] {
+): ProductVariantDTO[] {
     return [...variants].sort((a, b) => {
         switch (sortOption) {
             case "high-low":

@@ -5,11 +5,11 @@ import {ProductType} from "../Models/ProductType.ts";
 import {Material} from "../Models/Material.ts";
 import {ProductVariantCreateDTO} from "../Models/DTOS/ProductVariantCreateDTO.ts";
 import {User} from "../Models/User.ts";
-import {Size} from "../Models/Size.ts";
 import {FitType} from "../Models/FitType.ts";
 import {Color} from "../Models/Color.ts";
 import {UpdateProductDTO} from "../Models/DTOS/UpdateProductDTO.ts";
 import {UpdateVariantDTO} from "../Models/DTOS/UpdateVariantDTO.ts";
+import {CreateSizeDTO} from "../Models/DTOS/CreateSizeDTO.ts";
 
 class AdminService {
 
@@ -69,7 +69,7 @@ class AdminService {
         return (await axios.get("http://localhost:8080/api/admin/size/all")).data
     }
 
-    async createSize(size: Size) {
+    async createSize(size: CreateSizeDTO) {
         return (await axios.post("http://localhost:8080/api/size/create", size)).data
     }
 
