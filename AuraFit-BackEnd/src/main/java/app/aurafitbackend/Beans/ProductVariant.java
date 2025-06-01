@@ -57,7 +57,7 @@ public class ProductVariant {
     @Column(nullable=false)
     private Boolean onSale = false;
 
-    @OneToMany(mappedBy = "variant")
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductVariantImage> productImages;
 
     @ManyToOne(fetch = FetchType.LAZY)

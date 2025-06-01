@@ -14,6 +14,7 @@ import { NotLoggedInModal } from "../../NotLoggedInModal/NotLoggedInModal.tsx";
 import { useDispatch } from "react-redux";
 import { increment } from "../../../Redux/CartSlice.ts";
 import {ProductVariantDTO} from "../../../Models/DTOS/ProductVariantDTO.ts";
+import defaultImage from "../../../assets/defaultImage.png";
 
 interface ProductCardProps {
     product: ProductDTO;
@@ -88,9 +89,7 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
 
     const sizesForColor = variants.filter(v => v.color.id === selectedColorId);
     const activeVariant = variants.find(v => v.id === activeVariantId) || sizesForColor[0];
-    const imageUrl = activeVariant?.images?.[0].imageUrl ? activeVariant.images?.[0].imageUrl : "";
-    console.log("avpi",activeVariant.images);
-    console.log("activevariant", activeVariant)
+    const imageUrl = activeVariant?.images?.[0]?.imageUrl || defaultImage;
     const price = activeVariant.onSale ? activeVariant.salePrice : activeVariant.basePrice;
 
     const handleAddToCart = (variantId: number, e: React.MouseEvent) => {

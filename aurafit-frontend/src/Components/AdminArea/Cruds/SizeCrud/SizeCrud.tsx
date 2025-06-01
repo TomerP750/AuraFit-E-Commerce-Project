@@ -86,7 +86,7 @@ export function SizeCrud(): JSX.Element {
                     <div key={s.id} className="p-4 border rounded shadow-sm">
                         <p><strong>Id:</strong> {s.id}</p>
                         <p><strong>Size:</strong> {s.size}</p>
-                        <p><strong>SubCategory:</strong> {s.productType.name}</p>
+                        <p><strong>Product Type:</strong> {s.productType.name}</p>
                         <div className="mt-2 flex gap-2">
                             <button onClick={() => navigate(`/size/edit/${s.id}`)} className="text-sm underline">
                                 Edit
