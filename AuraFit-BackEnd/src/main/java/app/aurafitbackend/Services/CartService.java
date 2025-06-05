@@ -78,11 +78,21 @@ public class CartService {
      * Returns the updated Cart entity.
      */
     @Transactional
-    public Cart addToCart(Long userId, String guestToken, AddToCartRequestDTO dto) {
+    public Cart addToCart(Long userId, AddToCartRequestDTO dto) {
         if (dto == null || dto.getVariantId() == null || dto.getQuantity() < 1) {
             throw new RequestException("Invalid add-to-cart request");
         }
-        Cart cart = (userId != null) ? getOrCreateUserCart(userId) : getOrCreateGuestCart(guestToken);
+        Cart cart = getOrCreateUserCart(userId);
+
+        return addOrMergeLine(cart, dto);
+    }
+
+    @Transactional
+    public Cart addToGuestCart(String guestToken, AddToCartRequestDTO dto) {
+        if (dto == null || dto.getVariantId() == null || dto.getQuantity() < 1) {
+            throw new RequestException("Invalid add-to-cart request");
+        }
+        Cart cart = getOrCreateGuestCart(guestToken);
 
         return addOrMergeLine(cart, dto);
     }

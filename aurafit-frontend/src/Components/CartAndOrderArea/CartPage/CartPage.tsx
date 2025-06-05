@@ -1,16 +1,15 @@
 import "./CartPage.css";
-import {JSX, useContext, useEffect, useState} from "react";
+import {JSX, useEffect, useState} from "react";
 import {CartItemCard} from "../CartItemCard/CartItemCard.tsx";
 import {useNavigate} from "react-router-dom";
 import {BiCart} from "react-icons/bi";
 import cartService from "../../../Services/CartService.ts";
-import {useCartSelector, useUserSelector} from "../../../Redux/hooks.ts";
+import {useUserSelector} from "../../../Redux/hooks.ts";
 import {toast} from "react-toastify";
-import {CartDTO} from "../../../Models/DTOS/CartDTO.ts";
 import {AddToCartRequestDTO} from "../../../Models/DTOS/AddToCartRequestDTO.ts";
 import {store} from "../../../Redux/store.ts";
 import {Cart} from "../../../Models/Cart.ts";
-import {decrement, increment, saveCart, updateCounter} from "../../../Redux/CartSlice.ts";
+import {decrement, increment, updateCounter} from "../../../Redux/CartSlice.ts";
 import {useDispatch} from "react-redux";
 
 export function CartPage(): JSX.Element {
@@ -34,7 +33,7 @@ export function CartPage(): JSX.Element {
             .catch(err => toast.error(err));
 
 
-    },[user])
+    }, [user])
 
     if (!cart) {
         return <span>Loading...</span>;
@@ -87,14 +86,30 @@ export function CartPage(): JSX.Element {
 
     function handleAddToCart(variantId: number) {
         const dto = new AddToCartRequestDTO(variantId, 1);
+        const loggedIn: boolean = !!user;
 
-        cartService.addToCart(dto)
-            .then(res => {
-                dispatch(increment())
-                setCart(res)
-            })
-            .catch(err => toast.error(err));
+        if (loggedIn) {
+            // Logged-in user should call the AUTHENTICATED endpoint:
+            cartService
+                .addToCart(dto)            // → POST /api/cart/addToCart
+                .then(res => {
+                    dispatch(increment());
+                    setCart(res);
+                })
+                .catch(err => toast.error(err));
+        } else {
+            // Guest (not logged in) should call the GUEST endpoint:
+            cartService
+                .addToGuestCart(dto)       // → POST /api/cart/guest/addToCart
+                .then(res => {
+                    dispatch(increment());
+                    setCart(res);
+                })
+                .catch(err => toast.error(err));
+        }
     }
+
+
 
     return (
         <div className="min-h-screen flex flex-col lg:flex-row items-start justify-center bg-white font-medium pb-10">
@@ -102,19 +117,20 @@ export function CartPage(): JSX.Element {
                 {/* Left Section: Cart Items */}
                 <div className="flex flex-col w-full lg:w-2/3 gap-10">
                     <div className="flex gap-3 items-center text-3xl">
-                        <BiCart />
+                        <BiCart/>
                         <p>Cart</p>
                     </div>
-                    {cart.items.length > 0 ? cart.items.map(ci => <CartItemCard
+                    {cart?.items?.length > 0 ? cart.items.map(ci => <CartItemCard
                         page={"cartPage"}
-                        onOneQuantityRemove={()=>handleRemoveOneQuantity(ci.id)}
-                        onAddToCart={()=>handleAddToCart(ci.variant.id)}
-                        onDelete={()=>handleDeleteCartItem(ci.id)}
-                        cartItem={ci} key={ci.id} />) : <p className={"text-2xl"}>Your cart is empty</p>}
+                        onOneQuantityRemove={() => handleRemoveOneQuantity(ci.id)}
+                        onAddToCart={() => handleAddToCart(ci.variant.id)}
+                        onDelete={() => handleDeleteCartItem(ci.id)}
+                        cartItem={ci} key={ci.id}/>) : <p className={"text-2xl"}>Your cart is empty</p>}
                 </div>
 
                 {/* Right Section: Order Summary */}
-                <div className="flex flex-col items-start bg-gray-100/40 px-6 sm:px-10 w-full lg:w-1/3 gap-8 py-8 rounded-md">
+                <div
+                    className="flex flex-col items-start bg-gray-100/40 px-6 sm:px-10 w-full lg:w-1/3 gap-8 py-8 rounded-md">
                     <p className="font-medium text-xl">Order Summary</p>
                     <div className="flex justify-between w-full">
                         <span className="font-light">Subtotal</span>

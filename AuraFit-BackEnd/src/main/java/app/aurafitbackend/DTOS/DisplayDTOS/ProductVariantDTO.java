@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import app.aurafitbackend.Beans.*;
+import app.aurafitbackend.DTOS.ProductVariantImageDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 @Data
@@ -22,8 +24,9 @@ public class ProductVariantDTO {
     private BigDecimal salePrice;
     private Integer stockQuantity;
     private boolean onSale;
+//    @JsonBackReference
     private ProductDTO product;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private List<ProductVariantImage> images;
+    private List<ProductVariantImageDTO> images;
 }

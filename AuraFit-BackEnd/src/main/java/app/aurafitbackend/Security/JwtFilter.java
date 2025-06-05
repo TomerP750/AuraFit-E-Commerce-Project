@@ -37,14 +37,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 // 3) Get the userId as a string from the subject
                 String subject = jwtUtil.getSubjectFromToken(jwt);
-
+                System.out.println("subject: " + subject);
                 // Convert to Long
                 Long userId = Long.valueOf(subject);
-
+                System.out.println("userId: " + userId);
                 // 4) Load user details from DB by ID
                 CustomUserDetails userDetails =
                         (CustomUserDetails) customUserDetailsService.loadUserById(userId);
-
+                System.out.println("userDetails: " + userDetails);
                 // 5) Create authentication token
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
@@ -77,6 +77,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getServletPath().startsWith("/api/auth") || request.getServletPath().startsWith("/api/display");
+        return request.getServletPath().startsWith("/api/auth") || request.getServletPath().startsWith("/api/display") || request.getServletPath().startsWith("/api/cart/guest");
     }
 }

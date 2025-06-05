@@ -6,7 +6,6 @@ import {ProductCard} from "../../Product-Area/ProductCard/ProductCard";
 import {FiFilter} from "react-icons/fi";
 import displayService from "../../../Services/DisplayService";
 import {toast} from "react-toastify";
-
 import {Gender} from "../../../Models/Enums/Gender";
 import {sortVariants, SortOption} from "../../../Utils/FiltersUtils";
 import {Category} from "../../../Models/Category";
@@ -87,12 +86,6 @@ export function Men(): JSX.Element {
             // run the sort
             const sortedVariants = sortVariants(c.variants, sortOption);
 
-            // log whatever you like
-            console.log(
-                `Product ${c.product.id} sorted with option "${sortOption}":`,
-                sortedVariants
-            );
-
             // return your mapped shape
             return {
                 product: c.product,
@@ -108,11 +101,9 @@ export function Men(): JSX.Element {
             // if (!va || !vb) return 0;
             switch (sortOption) {
                 case "high-low": {
-                    console.log("vaafter", va)
                     return vb.basePrice - va.basePrice;
                 }
                 case "low-high": {
-                    console.log("vaafter", va)
                     return va.basePrice - vb.basePrice;
                 }
                 case "newest":
@@ -124,7 +115,6 @@ export function Men(): JSX.Element {
                     return 0;
             }
         });
-        console.log("withSorted after sort: ", withSorted)
 
         return withSorted;
     }, [cards, sortOption, selectedCategories, selectedTypes, selectedColors, selectedSizes,]);

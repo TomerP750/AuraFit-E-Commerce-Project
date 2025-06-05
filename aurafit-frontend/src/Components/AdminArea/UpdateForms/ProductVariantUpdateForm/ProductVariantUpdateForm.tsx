@@ -7,29 +7,35 @@ import {toast} from "react-toastify";
 import {Size} from "../../../../Models/Size.ts";
 import {Color} from "../../../../Models/Color.ts";
 import {Product} from "../../../../Models/Product.ts";
-
+import {SizeCrudDTO} from "../../../../Models/DTOS/SizeCrudDTO.ts";
 
 
 interface ProductVariantUpdateFormProps {
     variant: UpdateVariantDTO;
     onSave: () => void;
 }
+
 export function ProductVariantUpdateForm({variant, onSave}: ProductVariantUpdateFormProps): JSX.Element {
 
-    const {register, handleSubmit, control, setValue, formState: { errors }} = useForm<UpdateVariantDTO>();
+    const {register, handleSubmit, control, setValue, formState: {errors}} = useForm<UpdateVariantDTO>();
 
-
+    const [selectedProduct, setSelectedProduct] = useState<Product>();
     const [sizes, setSizes] = useState<Size[]>([]);
     const [colors, setColors] = useState<Color[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
+    const [sizesDTOs, setSizesDTOs] = useState<SizeCrudDTO[]>([]);
 
     useEffect(() => {
         // Load selects
-        adminService.allSizes().then(setSizes)
-            .catch(err => toast.error(err.response?.data || err.message));
+        adminService.allSizes().then(res => {
+            console.log("ressize", res)
+            setSizes(res)
+            setSizesDTOs(res);
+        })
+            .catch(err => toast.error(err.response?.data));
         adminService.allColors()
             .then(setColors)
-            .catch(err => toast.error(err.response?.data || err.message));
+            .catch(err => toast.error(err.response?.data));
         adminService.allProducts()
             .then(res => setProducts(res))
             .catch(err => toast.error(err.response?.data));
@@ -39,7 +45,9 @@ export function ProductVariantUpdateForm({variant, onSave}: ProductVariantUpdate
         setValue("color", variant.color);
         setValue("basePrice", variant.basePrice);
         setValue("stockQuantity", variant.stockQuantity);
+        setValue("product", variant.product);
     }, [variant, setValue]);
+
 
     const onSubmit = (data: UpdateVariantDTO) => {
         adminService.updateProductVariant(data)
@@ -49,6 +57,22 @@ export function ProductVariantUpdateForm({variant, onSave}: ProductVariantUpdate
             })
             .catch(err => toast.error(err.response?.data || err.message));
     };
+
+    const getFilteredSizes = () => {
+        let filteredSizes: SizeCrudDTO[] = [];
+
+        filteredSizes = sizesDTOs.filter(s => {
+            return s.productType[0].id === selectedProduct?.productType.id
+        })
+        return (
+            filteredSizes.map(s => (
+                <option key={s.id} value={s.id}>
+                    {s.size} - {s.productType[0].name}
+                </option>
+            ))
+        )
+
+    }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="p-6 rounded shadow space-y-6">
@@ -60,7 +84,7 @@ export function ProductVariantUpdateForm({variant, onSave}: ProductVariantUpdate
                 <label className="block text-sm font-medium">Stock Quantity</label>
                 <input
                     type="number"
-                    {...register("stockQuantity", { required: "Required" })}
+                    {...register("stockQuantity", {required: "Required"})}
                     className="mt-1 w-full border rounded p-2"
                 />
                 {errors.stockQuantity && <p className="text-red-600 text-sm">{errors.stockQuantity.message}</p>}
@@ -72,13 +96,14 @@ export function ProductVariantUpdateForm({variant, onSave}: ProductVariantUpdate
                 <Controller
                     name="product"
                     control={control}
-                    rules={{ required: "Required" }}
-                    render={({ field }) => (
+                    rules={{required: "Required"}}
+                    render={({field}) => (
                         <select
-                            value={field.value?.id ?? ""}
+                            value={selectedProduct?.id ?? ""}
                             onChange={e => {
                                 const sel = products.find(p => p.id === Number(e.target.value)) || ({} as Product);
                                 field.onChange(sel);
+                                setSelectedProduct(sel);
                             }}
                             className="mt-1 w-full border rounded p-2"
                         >
@@ -100,8 +125,8 @@ export function ProductVariantUpdateForm({variant, onSave}: ProductVariantUpdate
                 <Controller
                     name="size"
                     control={control}
-                    rules={{ required: "Required" }}
-                    render={({ field }) => (
+                    rules={{required: "Required"}}
+                    render={({field}) => (
                         <select
                             value={field.value?.id ?? ""}
                             onChange={e => {
@@ -111,11 +136,12 @@ export function ProductVariantUpdateForm({variant, onSave}: ProductVariantUpdate
                             className="mt-1 w-full border rounded p-2"
                         >
                             <option value="">Select...</option>
-                            {sizes.map(s => (
-                                <option key={s.id} value={s.id}>
-                                    {s.size}
-                                </option>
-                            ))}
+                            {/*{sizes.map(s => (*/}
+                            {/*    <option key={s.id} value={s.id}>*/}
+                            {/*        {s.size} - {s.productType.name}*/}
+                            {/*    </option>*/}
+                            {/*))}*/}
+                            {getFilteredSizes()}
                         </select>
                     )}
                 />
@@ -128,8 +154,8 @@ export function ProductVariantUpdateForm({variant, onSave}: ProductVariantUpdate
                 <Controller
                     name="color"
                     control={control}
-                    rules={{ required: "Required" }}
-                    render={({ field }) => (
+                    rules={{required: "Required"}}
+                    render={({field}) => (
                         <select
                             value={field.value?.id ?? ""}
                             onChange={e => {

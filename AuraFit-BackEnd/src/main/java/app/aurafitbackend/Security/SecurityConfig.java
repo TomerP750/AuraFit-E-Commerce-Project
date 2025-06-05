@@ -45,7 +45,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/api/auth/**", "/api/display/**").permitAll()
+//                        .requestMatchers("/api/cart/guest/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/display/**", "/api/cart/guest/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 // We make Spring Security stateless for JWT usage
@@ -80,11 +81,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cfg = new CorsConfiguration();
-        // Allow cross‐origin requests from any origin
-        cfg.setAllowedOrigins(List.of("*"));
-        // Allow OPTIONS preflight and all your methods
+        // 1) Allow only your React app’s origin (NOT "*")
+        cfg.setAllowedOrigins(List.of("http://localhost:5173"));
+        // 2) Allow sending cookies/credentials
+        cfg.setAllowCredentials(true);
+        // 3) Which HTTP methods are OK
         cfg.setAllowedMethods(List.of("OPTIONS", "POST", "GET", "PUT", "DELETE"));
-        // Mirror your allowed headers
+        // 4) Which headers your frontend might send
         cfg.setAllowedHeaders(List.of(
                 "Authorization",
                 "Origin",
@@ -93,11 +96,10 @@ public class SecurityConfig {
                 "Access-Control-Request-Method",
                 "Access-Control-Request-Headers"
         ));
-        // no credentials header (matches your filter not sending Access-Control-Allow-Credentials)
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        // apply to all endpoints
         source.registerCorsConfiguration("/**", cfg);
         return source;
     }
+
 }

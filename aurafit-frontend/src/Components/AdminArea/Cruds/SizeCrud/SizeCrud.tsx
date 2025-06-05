@@ -1,14 +1,12 @@
 // SizeCrud.tsx
 import "./SizeCrud.css";
-import { JSX, useEffect, useState } from "react";
+import {JSX, useEffect, useState} from "react";
 import adminService from "../../../../Services/AdminService.ts";
-import { toast } from "react-toastify";
-import { Size } from "../../../../Models/Size.ts";
-import { MdDeleteForever } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
-import { BiPlus } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
-import { CreateSizeForm } from "../../CreateForms/CreateSizeForm/CreateSizeForm.tsx";
+import {toast} from "react-toastify";
+import {Size} from "../../../../Models/Size.ts";
+import {BiPlus} from "react-icons/bi";
+import {useNavigate} from "react-router-dom";
+import {CreateSizeForm} from "../../CreateForms/CreateSizeForm/CreateSizeForm.tsx";
 
 export function SizeCrud(): JSX.Element {
     const [sizes, setSizes] = useState<Size[]>([]);

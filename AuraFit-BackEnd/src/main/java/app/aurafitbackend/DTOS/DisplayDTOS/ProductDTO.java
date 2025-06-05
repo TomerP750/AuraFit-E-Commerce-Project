@@ -4,6 +4,8 @@ package app.aurafitbackend.DTOS.DisplayDTOS;
 import app.aurafitbackend.Beans.Category;
 import app.aurafitbackend.Beans.ProductType;
 import app.aurafitbackend.Enums.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,5 +29,6 @@ public class ProductDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     //TODO maybe comment variants
+//    @JsonManagedReference
     private List<ProductVariantDTO> variants;
 }

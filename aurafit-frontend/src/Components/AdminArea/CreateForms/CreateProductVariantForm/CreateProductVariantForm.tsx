@@ -13,9 +13,7 @@ interface CreateProductVariantFormProps {
     onSave: () => void;
 }
 
-export function CreateProductVariantForm({
-                                             onSave,
-                                         }: CreateProductVariantFormProps): JSX.Element {
+export function CreateProductVariantForm({onSave,}: CreateProductVariantFormProps): JSX.Element {
     const [sizes, setSizes] = useState<Size[]>([]);
     const [colors, setColors] = useState<Color[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
@@ -156,7 +154,7 @@ export function CreateProductVariantForm({
                             <option value="">Select…</option>
                             {sizes.map(s => (
                                 <option key={s.id} value={s.id}>
-                                    {s.size}
+                                    {s.size} - {s.productType.name}
                                 </option>
                             ))}
                         </select>

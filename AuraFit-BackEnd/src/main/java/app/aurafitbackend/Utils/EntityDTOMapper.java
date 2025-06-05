@@ -9,6 +9,7 @@ import app.aurafitbackend.DTOS.DisplayDTOS.UserDTO;
 import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
+import app.aurafitbackend.DTOS.ProductVariantImageDTO;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -62,14 +63,14 @@ public final class EntityDTOMapper {
                 .onSale(v.getOnSale())
                 .createdAt(v.getCreatedAt())
                 .updatedAt(v.getUpdatedAt())
-                .images(v.getProductImages())
+                .images(toImageDTOList(v.getProductImages()))
                 .build();
     }
 
     public static ProductVariantDTO toVariantDTO(ProductVariant variant) {
         if (variant == null) return null;
 
-        // build a minimal ProductDTO without nesting variants
+        // Build a minimal ProductDTO (no variants to avoid cycles)
         Product product = variant.getProduct();
         ProductDTO productDto = ProductDTO.builder()
                 .id(product.getId())
@@ -78,10 +79,10 @@ public final class EntityDTOMapper {
                 .category(product.getCategory())
                 .gender(product.getGender())
                 .productType(product.getProductType())
-//                .onSale(product.getOnSale())
+                // .onSale(product.getOnSale())   // if needed
                 .createdAt(product.getCreatedAt())
                 .updatedAt(product.getUpdatedAt())
-                // no .variants(...) here!
+                // (no .variants(...) here)
                 .build();
 
         return ProductVariantDTO.builder()
@@ -96,9 +97,32 @@ public final class EntityDTOMapper {
                 .onSale(variant.getOnSale())
                 .createdAt(variant.getCreatedAt())
                 .updatedAt(variant.getUpdatedAt())
-                .images(variant.getProductImages())
+
+                // ← use the new helper to map each ProductVariantImage entity to its DTO
+                .images(toImageDTOList(variant.getProductImages()))
+
                 .product(productDto)
                 .build();
+    }
+
+    public static ProductVariantImageDTO toImageDTO(ProductVariantImage image) {
+        if (image == null) {
+            return null;
+        }
+        return ProductVariantImageDTO.builder()
+                .id(image.getId())
+                .imageUrl(image.getImageUrl())
+                // …any other fields you want to expose…
+                .build();
+    }
+
+    public static List<ProductVariantImageDTO> toImageDTOList(List<ProductVariantImage> images) {
+        if (images == null) {
+            return List.of();
+        }
+        return images.stream()
+                .map(EntityDTOMapper::toImageDTO)
+                .collect(Collectors.toList());
     }
 
 
@@ -134,8 +158,9 @@ public final class EntityDTOMapper {
     }
 
     public static CartDTO toCartDTO(Cart cart) {
-        if (cart == null) return null;
 
+        if (cart == null) return null;
+       // u are bad method
         List<CartItemDTO> items = cart.getItems().stream()
                 .map(item -> toCartItemDTO(item, cart.getId()))
                 .collect(Collectors.toList());
