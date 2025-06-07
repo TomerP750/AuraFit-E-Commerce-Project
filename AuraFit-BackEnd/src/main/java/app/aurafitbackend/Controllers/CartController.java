@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
@@ -32,20 +33,30 @@ public class CartController {
     }
 
     @PostMapping("/guest/addToCart")
-    public CartDTO addToGuestCart(@CookieValue(value = "cart_token", required = false) String cartToken, @RequestBody AddToCartRequestDTO dto, HttpServletResponse response) {
-        cartToken = UUID.randomUUID().toString();
+    public CartDTO addToGuestCart(
+            @CookieValue(value = "cart_token", required = false) String cartToken,
+            @RequestBody AddToCartRequestDTO dto,
+            HttpServletResponse response) {
+
+        // first visit => no cookie yet
+        if (!StringUtils.hasText(cartToken)) {
+            cartToken = UUID.randomUUID().toString();
+        }
+
         ResponseCookie cookie = ResponseCookie.from("cart_token", cartToken)
                 .maxAge(Duration.ofDays(30))
                 .httpOnly(true)
-                .sameSite("None")
-                .secure(true)
+                .sameSite("None")   // must be "None" to travel with cross-site POST
+                .secure(false)
+//                .sameSite("Lax")     // good for localhost ↔ localhost
                 .path("/")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-        return EntityDTOMapper.toCartDTO(cartService.addToGuestCart(cartToken, dto));
-
+        return EntityDTOMapper.toCartDTO(
+                cartService.addToGuestCart(cartToken, dto));
     }
+
 
     @DeleteMapping("/removeItemFromCart/{id}")
     public CartDTO removeItemFromCart(@AuthenticationPrincipal CustomUserDetails userDetails, @CookieValue(value = "cart_token", required = false) String cartToken, @PathVariable Long id) {

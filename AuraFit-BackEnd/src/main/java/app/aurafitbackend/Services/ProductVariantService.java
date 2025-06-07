@@ -35,6 +35,11 @@ public class ProductVariantService {
     private final CategoryRepository categoryRepository;
 
 
+    public List<ProductVariant> getLatestItems() {
+        return null;
+    }
+
+
     public List<ProductVariant> getProductVariantsByProductId(Long productId) {
         return productVariantRepository.findByProductId(productId);
     }

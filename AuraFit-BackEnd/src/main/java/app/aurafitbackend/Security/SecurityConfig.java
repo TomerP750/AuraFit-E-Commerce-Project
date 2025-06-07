@@ -22,6 +22,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -40,6 +41,7 @@ public class SecurityConfig {
         // We disable CSRF for JWT-based API
         // We also allow public access to "/auth/**" so we can do login
         // Then we require authentication for other endpoints
+        System.out.println("secturify config start");
         http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
@@ -53,8 +55,9 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
+        System.out.println("secturify config end");
         return http.build();
+
     }
 
     // Configure the authentication provider with userDetailsService + password encoder
@@ -86,16 +89,20 @@ public class SecurityConfig {
         // 2) Allow sending cookies/credentials
         cfg.setAllowCredentials(true);
         // 3) Which HTTP methods are OK
-        cfg.setAllowedMethods(List.of("OPTIONS", "POST", "GET", "PUT", "DELETE"));
+        cfg.addAllowedMethod("*");   // GET, POST, OPTIONS, …
+
+//        cfg.setAllowedMethods(List.of("OPTIONS", "POST", "GET", "PUT", "DELETE"));
         // 4) Which headers your frontend might send
-        cfg.setAllowedHeaders(List.of(
-                "Authorization",
-                "Origin",
-                "Accept",
-                "Content-Type",
-                "Access-Control-Request-Method",
-                "Access-Control-Request-Headers"
-        ));
+        cfg.addAllowedHeader("*");   // Content-Type, Cookie, …
+
+//        cfg.setAllowedHeaders(List.of(
+//                "Authorization",
+//                "Origin",
+//                "Accept",
+//                "Content-Type",
+//                "Access-Control-Request-Method",
+//                "Access-Control-Request-Headers"
+//        ));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", cfg);

@@ -28,6 +28,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("jwtfilter starts");
         try {
             // 1) Extract token from "Authorization" header
             String jwt = parseJwt(request);
@@ -64,6 +65,7 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         // Continue filter chain
+        System.out.println("end jwtfilter");
         filterChain.doFilter(request, response);
     }
 

@@ -93,14 +93,35 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
     const price = activeVariant.onSale ? activeVariant.salePrice : activeVariant.basePrice;
 
     const handleAddToCart = (variantId: number, e: React.MouseEvent) => {
+        // e.stopPropagation();
+        // const dto = new AddToCartRequestDTO(variantId, 1);
+        // cartService.addToCart(dto)
+        //     .then(() => {
+        //         toast.success("Added to cart");
+        //         dispatch(increment());
+        //     })
+        //     .catch(err => toast.error(err.response?.data || "Error"));
+
         e.stopPropagation();
         const dto = new AddToCartRequestDTO(variantId, 1);
-        cartService.addToCart(dto)
-            .then(() => {
-                toast.success("Added to cart");
-                dispatch(increment());
-            })
-            .catch(err => toast.error(err.response?.data || "Error"));
+
+        const loggedIn: boolean = user ? true : false;
+
+        if (loggedIn) {
+            // Logged-in user should call the AUTHENTICATED endpoint:
+            cartService.addToCart(dto)
+                .then(res => {
+                    dispatch(increment());
+                })
+                .catch(err => toast.error(err));
+        } else {
+            // Guest (not logged in) should call the GUEST endpoint:
+            cartService.addToGuestCart(dto)
+                .then(res => {
+                    dispatch(increment());
+                })
+                .catch(err => toast.error(err));
+        }
     };
 
     return (

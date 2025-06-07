@@ -86,7 +86,8 @@ export function CartPage(): JSX.Element {
 
     function handleAddToCart(variantId: number) {
         const dto = new AddToCartRequestDTO(variantId, 1);
-        const loggedIn: boolean = !!user;
+
+        const loggedIn: boolean = user ? true : false;
 
         if (loggedIn) {
             // Logged-in user should call the AUTHENTICATED endpoint:
