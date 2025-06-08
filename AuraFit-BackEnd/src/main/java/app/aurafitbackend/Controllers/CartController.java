@@ -46,9 +46,9 @@ public class CartController {
         ResponseCookie cookie = ResponseCookie.from("cart_token", cartToken)
                 .maxAge(Duration.ofDays(30))
                 .httpOnly(true)
-                .sameSite("None")   // must be "None" to travel with cross-site POST
+                .sameSite("None")
                 .secure(false)
-//                .sameSite("Lax")     // good for localhost ↔ localhost
+//                .sameSite("Lax")
                 .path("/")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
@@ -65,6 +65,12 @@ public class CartController {
         return EntityDTOMapper.toCartDTO(updatedCart);
     }
 
+    @DeleteMapping("/guest/removeItemFromCart/{id}")
+    public CartDTO removeItemFromGuestCart(@CookieValue(value = "cart_token", required = false) String cartToken, @PathVariable Long id) {
+        Cart updatedCart = cartService.removeFromGuestCart(cartToken, id);
+        return EntityDTOMapper.toCartDTO(updatedCart);
+    }
+
 
     @PostMapping("/merge")
     public void mergeGuestCartIntoUserCart(@AuthenticationPrincipal CustomUserDetails userDetails, @CookieValue(value = "cart_token", required = false) String cartToken) {
@@ -78,16 +84,20 @@ public class CartController {
         return EntityDTOMapper.toCartDTO(cartService.removeOneQuantityFromCartItem(userId, cartItemId));
     }
 
+    @DeleteMapping("/guest/removeOne/{cartItemId}")
+    public CartDTO removeOneQuantityFromGuestCartItem(@CookieValue(value = "cart_token", required = false) String cartToken, @PathVariable Long cartItemId) {
+        return EntityDTOMapper.toCartDTO(cartService.removeOneQuantityFromGuestCartItem(cartToken, cartItemId));
+    }
+
     @GetMapping("/user/get")
     public CartDTO getUserCart(@AuthenticationPrincipal CustomUserDetails userDetails) {
         Cart cart = cartService.getOrCreateUserCart(userDetails.getUser().getId());
         return EntityDTOMapper.toCartDTO(cart);
     }
 
-    //TODO add a react cookie library
+
     @GetMapping("/guest/get")
     public CartDTO getGuestCart(@CookieValue("cart_token") String cartToken) {
-        System.out.println("i love my life :(");
         return EntityDTOMapper.toCartDTO(cartService.getOrCreateGuestCart(cartToken));
     }
 

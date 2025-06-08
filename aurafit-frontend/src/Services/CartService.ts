@@ -24,8 +24,16 @@ class CartService {
         return (await axios.delete(`http://localhost:8080/api/cart/removeItemFromCart/${id}`, { withCredentials: true })).data
     }
 
+    async removeItemFromGuestCart(id: number) {
+        return (await axios.delete(`http://localhost:8080/api/cart/guest/removeItemFromCart/${id}`, { withCredentials: true })).data
+    }
+
     async removeOneQuantityFromCartItem(id: number) {
         return (await axios.delete(`http://localhost:8080/api/cart/removeOne/${id}`, { withCredentials: true })).data
+    }
+
+    async removeOneQuantityFromGuestCartItem(id: number) {
+        return (await axios.delete(`http://localhost:8080/api/cart/guest/removeOne/${id}`, { withCredentials: true })).data
     }
 
 }

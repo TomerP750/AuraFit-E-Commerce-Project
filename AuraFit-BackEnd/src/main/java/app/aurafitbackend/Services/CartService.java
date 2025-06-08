@@ -113,12 +113,34 @@ public class CartService {
         return cart;
     }
 
+    public Cart removeOneQuantityFromGuestCartItem(String cartToken, Long cartItemId) {
+        Cart cart = getOrCreateGuestCart(cartToken);
+        Optional<CartItem> item = cart.getItems().stream().filter(ci -> ci.getId().equals(cartItemId)).findFirst();
+        if (item.isPresent()) {
+            CartItem cartItem = item.get();
+            if (cartItem.getQuantity() > 1) {
+                cartItem.setQuantity(cartItem.getQuantity() - 1);
+            } else {
+                cart.getItems().remove(cartItem);
+            }
+            recalculateTotals(cart);
+            cartRepository.save(cart);
+        }
+        return cart;
+    }
+
     /**
      * Removes one line from the cart, recalculates totals, and returns the updated Cart.
      */
     @Transactional
     public Cart removeFromCart(Long userId, String guestToken, Long cartItemId) {
         Cart cart = (userId != null) ? getOrCreateUserCart(userId) : getOrCreateGuestCart(guestToken);
+        return removeLine(cart, cartItemId);
+    }
+
+    @Transactional
+    public Cart removeFromGuestCart(String guestToken, Long cartItemId) {
+        Cart cart = getOrCreateGuestCart(guestToken);
         return removeLine(cart, cartItemId);
     }
 

@@ -108,14 +108,13 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
         const loggedIn: boolean = user ? true : false;
 
         if (loggedIn) {
-            // Logged-in user should call the AUTHENTICATED endpoint:
             cartService.addToCart(dto)
                 .then(res => {
                     dispatch(increment());
                 })
                 .catch(err => toast.error(err));
         } else {
-            // Guest (not logged in) should call the GUEST endpoint:
+            
             cartService.addToGuestCart(dto)
                 .then(res => {
                     dispatch(increment());

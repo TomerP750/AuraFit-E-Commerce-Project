@@ -13,8 +13,8 @@ import {decrement, increment, updateCounter} from "../../../Redux/CartSlice.ts";
 import {useDispatch} from "react-redux";
 
 export function CartPage(): JSX.Element {
-    const dispatch = useDispatch();
 
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
@@ -32,7 +32,6 @@ export function CartPage(): JSX.Element {
         })
             .catch(err => toast.error(err));
 
-
     }, [user])
 
     if (!cart) {
@@ -44,14 +43,28 @@ export function CartPage(): JSX.Element {
 
         const answer = window.confirm("Are you sure you want to remove this item from the cart?");
         const cartItem = cart!.items.find(item => item.id === id);
+
+        const loggedIn: boolean = user ? true : false;
+
         if (answer) {
-            cartService.removeItemFromCart(id)
-                .then(res => {
-                    dispatch(updateCounter(cartItem!.quantity));
-                    setCart(res)
-                    cart!.items.filter(item => item.id !== id)
-                })
-                .catch(err => toast.error(err));
+            if (loggedIn) {
+                cartService.removeItemFromCart(id)
+                    .then(res => {
+                        dispatch(updateCounter(cartItem!.quantity));
+                        setCart(res)
+                        cart!.items.filter(item => item.id !== id)
+                    })
+                    .catch(err => toast.error(err));
+            } else {
+                cartService.removeItemFromGuestCart(id)
+                    .then(res => {
+                        dispatch(updateCounter(cartItem!.quantity));
+                        setCart(res)
+                        cart!.items.filter(item => item.id !== id)
+                    })
+                    .catch(err => toast.error(err.response.data))
+            }
+
         }
     }
 
@@ -60,26 +73,54 @@ export function CartPage(): JSX.Element {
         const cartItem = cart.items.find(item => item.id === cartItemId);
         if (!cartItem) return;
 
-        if (cartItem.quantity > 1) {
-            // Just decrement
-            cartService.removeOneQuantityFromCartItem(cartItemId)
-                .then(updatedCart => {
-                    setCart(updatedCart);
-                    dispatch(decrement())
-                })
-                .catch(err => toast.error(err));
-        } else {
-            // Last one → confirm full removal
-            const ok = window.confirm("This is the last one — remove the item?");
-            if (!ok) return;
+        const loggedIn: boolean = user ? true : false;
 
-            cartService.removeOneQuantityFromCartItem(cartItemId)
-                .then(updatedCart => {
-                    setCart(updatedCart);
-                    dispatch(updateCounter(cartItem.quantity));
-                    toast.success("Item removed");
-                })
-                .catch(err => toast.error(err));
+        if (loggedIn) {
+            if (cartItem.quantity > 1) {
+                // Just decrement
+                cartService.removeOneQuantityFromCartItem(cartItemId)
+                    .then(updatedCart => {
+                        setCart(updatedCart);
+                        dispatch(decrement())
+                    })
+                    .catch(err => toast.error(err));
+            } else {
+                // Last one → confirm full removal
+                const ok = window.confirm("This is the last one — remove the item?");
+                if (!ok) return;
+
+                cartService.removeOneQuantityFromCartItem(cartItemId)
+                    .then(updatedCart => {
+                        setCart(updatedCart);
+                        dispatch(updateCounter(cartItem.quantity));
+                        toast.success("Item removed");
+                    })
+                    .catch(err => toast.error(err));
+            }
+        } else {
+            if (cartItem.quantity > 1) {
+                // Just decrement
+                cartService.removeOneQuantityFromGuestCartItem(cartItemId)
+                    .then(updatedCart => {
+                        setCart(updatedCart);
+                        dispatch(decrement())
+                    })
+                    .catch(err => toast.error(err));
+            } else {
+                // Last one → confirm full removal
+                const ok = window.confirm("This is the last one — remove the item?");
+                if (!ok) return;
+
+                cartService.removeOneQuantityFromGuestCartItem(cartItemId)
+                    .then(updatedCart => {
+                        setCart(updatedCart);
+                        dispatch(updateCounter(cartItem.quantity));
+                        toast.success("Item removed");
+                    })
+                    .catch(err => toast.error(err));
+            }
+
+
         }
     }
 
@@ -90,18 +131,14 @@ export function CartPage(): JSX.Element {
         const loggedIn: boolean = user ? true : false;
 
         if (loggedIn) {
-            // Logged-in user should call the AUTHENTICATED endpoint:
-            cartService
-                .addToCart(dto)            // → POST /api/cart/addToCart
+            cartService.addToCart(dto)
                 .then(res => {
                     dispatch(increment());
                     setCart(res);
                 })
                 .catch(err => toast.error(err));
         } else {
-            // Guest (not logged in) should call the GUEST endpoint:
-            cartService
-                .addToGuestCart(dto)       // → POST /api/cart/guest/addToCart
+            cartService.addToGuestCart(dto)
                 .then(res => {
                     dispatch(increment());
                     setCart(res);
