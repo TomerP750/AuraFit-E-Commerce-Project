@@ -15,6 +15,9 @@ class DisplayService {
     //     return (await axios.get("http://localhost:8080/api/display/women/clothing")).data
     // }
 
+    async getLatestVariants() {
+        return (await axios.get("http://localhost:8080/api/display/variants/latestItems")).data
+    }
     async allClothingByGender(gender: Gender) {
         return (await axios.get(`http://localhost:8080/api/display/clothing/${gender}`)).data
     }
@@ -34,6 +37,14 @@ class DisplayService {
     async allSizesByProductType(id: number) {
         return (await axios.get(`http://localhost:8080/api/display/variants/sizesByProductTypeId/${id}`)).data
     }
+
+    // -- test
+
+    async allSizesByProductTypeTest(id: number) {
+        return (await axios.get(`http://localhost:8080/api/display/variants/sizes/test/${id}`)).data
+    }
+
+    // --
 
     async allColors() {
         return (await axios.get(`http://localhost:8080/api/display/color/all`)).data

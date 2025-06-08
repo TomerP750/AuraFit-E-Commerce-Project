@@ -35,8 +35,12 @@ public class ProductVariantService {
     private final CategoryRepository categoryRepository;
 
 
-    public List<ProductVariant> getLatestItems() {
-        return null;
+    public List<ProductVariantDTO> getLatestVariants() {
+        return productVariantRepository
+                .findTop8ByOrderByCreatedAtDesc()
+                .stream()
+                .map(EntityDTOMapper::toVariantDTO)
+                .collect(Collectors.toList());
     }
 
 

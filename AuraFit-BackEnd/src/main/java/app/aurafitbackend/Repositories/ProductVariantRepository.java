@@ -34,4 +34,7 @@ public interface ProductVariantRepository extends JpaRepository<ProductVariant, 
     """)
     Page<ProductVariant> search(@Param("q") String q, Pageable pageable);
 
+
+    List<ProductVariant> findTop8ByOrderByCreatedAtDesc();
+
 }

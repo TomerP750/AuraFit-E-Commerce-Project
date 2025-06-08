@@ -3,6 +3,7 @@ package app.aurafitbackend.Controllers;
 import app.aurafitbackend.Beans.*;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductDTO;
 import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
+import app.aurafitbackend.DTOS.SizeDTO;
 import app.aurafitbackend.Enums.Gender;
 import app.aurafitbackend.Repositories.CategoryRepository;
 import app.aurafitbackend.Repositories.SizeRepository;
@@ -66,6 +67,16 @@ public class DisplayController {
     @GetMapping("/variants/sizesByProductTypeId/{id}")
     public List<Size> allSizesByProductTypeId(@PathVariable Long id) {
         return sizeService.getSizesByProductType(id);
+    }
+
+    @GetMapping("/variants/sizes/test/{id}")
+    public List<SizeDTO> allSizesTest(@PathVariable Long id) {
+        return sizeService.getSizesByProductTypeTest(id);
+    }
+
+    @GetMapping("/variants/latestItems")
+    public List<ProductVariantDTO> allLatestVariants() {
+        return productVariantService.getLatestVariants();
     }
 
     @GetMapping("/color/all")

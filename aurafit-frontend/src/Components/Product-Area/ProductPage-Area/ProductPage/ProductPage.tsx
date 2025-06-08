@@ -18,9 +18,9 @@ import { Color } from "../../../../Models/Color";
 import cartService from "../../../../Services/CartService";
 import { AddToCartRequestDTO } from "../../../../Models/DTOS/AddToCartRequestDTO";
 import wishlistService from "../../../../Services/WishlistService";
-import { store } from "../../../../Redux/store";
 import { increment } from "../../../../Redux/CartSlice";
 import {useUserSelector} from "../../../../Redux/hooks.ts";
+import {useDispatch} from "react-redux";
 
 // We need an index signature so TS is happy with useParams<Params>()
 interface Params {
@@ -36,6 +36,7 @@ export function ProductPage(): JSX.Element {
     const variantParam = variantId ? Number(variantId) : undefined;
     const navigate = useNavigate();
     const user = useUserSelector(state => state.authSlice.user);
+    const dispatch = useDispatch();
 
     const [variants, setVariants]           = useState<ProductVariant[]>([]);
     const [loading, setLoading]             = useState(true);
@@ -152,13 +153,24 @@ export function ProductPage(): JSX.Element {
             return;
         }
         setSizeError(false);
-        cartService
-            .addToCart(new AddToCartRequestDTO(currentVariant.id, 1))
-            .then(() => {
-                store.dispatch(increment());
-                toast.success("Added to cart");
-            })
-            .catch(err => toast.error(err.response?.data || err.message));
+
+        const dto = new AddToCartRequestDTO(currentVariant.id, 1);
+
+        const loggedIn: boolean = user ? true : false;
+
+        if (loggedIn) {
+            cartService.addToCart(dto)
+                .then(() => {
+                    dispatch(increment());
+                })
+                .catch(err => toast.error(err));
+        } else {
+            cartService.addToGuestCart(dto)
+                .then(() => {
+                    dispatch(increment());
+                })
+                .catch(err => toast.error(err));
+        }
     };
 
     const gender = defaultVariant.product.gender;

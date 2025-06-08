@@ -144,31 +144,31 @@ export function Filters({
             </div>
             <hr className="border-t border-gray-200 my-4"/>
 
-            {/* SIZE */}
-            <div className="mb-4">
-                <div
-                    className="flex justify-between items-center cursor-pointer font-medium text-sm"
-                    onClick={() => setSizeOpen(o => !o)}
-                >
-                    <span>Size</span>
-                    {sizeOpen ? <BiMinus /> : <BiPlus />}
-                </div>
-                {sizeOpen && (
-                    <div className="mt-4 space-y-3 text-sm">
-                        {sizes.map(sz => (
-                            <label key={sz.id} className="flex items-center gap-2">
-                                <input
-                                    type="checkbox"
-                                    className="w-4 h-4 accent-black"
-                                    checked={selectedSizes.includes(sz.id)}
-                                    onChange={() => onSizeToggle(sz.id)}
-                                />
-                                {sz.size}
-                            </label>
-                        ))}
-                    </div>
-                )}
-            </div>
+            {/*/!* SIZE *!/*/}
+            {/*<div className="mb-4">*/}
+            {/*    <div*/}
+            {/*        className="flex justify-between items-center cursor-pointer font-medium text-sm"*/}
+            {/*        onClick={() => setSizeOpen(o => !o)}*/}
+            {/*    >*/}
+            {/*        <span>Size</span>*/}
+            {/*        {sizeOpen ? <BiMinus /> : <BiPlus />}*/}
+            {/*    </div>*/}
+            {/*    {sizeOpen && (*/}
+            {/*        <div className="mt-4 space-y-3 text-sm">*/}
+            {/*            {sizes.map(sz => (*/}
+            {/*                <label key={sz.id} className="flex items-center gap-2">*/}
+            {/*                    <input*/}
+            {/*                        type="checkbox"*/}
+            {/*                        className="w-4 h-4 accent-black"*/}
+            {/*                        checked={selectedSizes.includes(sz.id)}*/}
+            {/*                        onChange={() => onSizeToggle(sz.id)}*/}
+            {/*                    />*/}
+            {/*                    {sz.size}*/}
+            {/*                </label>*/}
+            {/*            ))}*/}
+            {/*        </div>*/}
+            {/*    )}*/}
+            {/*</div>*/}
             <hr className="border-t border-gray-200 my-4"/>
 
             {/* COLOR */}

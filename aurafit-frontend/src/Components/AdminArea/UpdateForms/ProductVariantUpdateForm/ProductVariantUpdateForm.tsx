@@ -28,7 +28,6 @@ export function ProductVariantUpdateForm({variant, onSave}: ProductVariantUpdate
     useEffect(() => {
         // Load selects
         adminService.allSizes().then(res => {
-            console.log("ressize", res)
             setSizes(res)
             setSizesDTOs(res);
         })
