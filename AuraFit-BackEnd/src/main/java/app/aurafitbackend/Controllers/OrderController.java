@@ -28,9 +28,10 @@ public class OrderController {
     }
 
     // guest: read cart_token cookie
-    @PostMapping("/guest")
-    public Order checkoutGuest(@CookieValue("cart_token") String cartToken, @RequestBody ContactInformation contactInformation) {
-        return orderService.placeOrderForGuest(cartToken, contactInformation);
+    //TODO test if works checkout guest
+    @PostMapping("/guest/placeOrder")
+    public OrderResponseDTO checkoutGuest(@CookieValue("cart_token") String cartToken, @RequestBody ContactInformation contactInformation) {
+        return EntityDTOMapper.toOrderResponseDTO(orderService.placeOrderForGuest(cartToken, contactInformation));
     }
 
     @GetMapping("/user/history")

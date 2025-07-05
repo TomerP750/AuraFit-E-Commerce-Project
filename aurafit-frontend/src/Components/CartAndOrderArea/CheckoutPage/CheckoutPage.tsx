@@ -19,15 +19,22 @@ export function CheckoutPage(): JSX.Element {
     const user = useUserSelector(state => state.authSlice.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const loggedIn: boolean = user ? true : false;
 
     useEffect(() => {
-        cartService.getUserCart()
-            .then(res => setCart(res))
-            .catch(err => toast.error(err.response.data));
+        if (loggedIn) {
+            cartService.getUserCart()
+                .then(res => setCart(res))
+                .catch(err => toast.error(err.response.data));
+        } else {
+            cartService.getGuestCart()
+                .then(res => setCart(res))
+                .catch(err => toast.error(err.response.data));
+        }
     }, [])
 
     function placeOrder(data: ContactInformation) {
-        if (user) {
+        if (loggedIn) {
             orderService.checkoutUser(data)
                 .then(res => {
                     dispatch(clean());
@@ -35,6 +42,14 @@ export function CheckoutPage(): JSX.Element {
                     toast.success("Order Placed, Thanks for shopping!");
                 })
                 .catch((err) => toast.error(err.response.data))
+        } else {
+            orderService.checkoutGuest(data)
+                .then(res => {
+                    dispatch(clean());
+                    navigate("/order/success", { state: {order: res} });
+                    toast.success("Order Placed, Thanks for shopping!");
+                })
+                .catch(err => toast.error(err.response.data));
         }
     }
 

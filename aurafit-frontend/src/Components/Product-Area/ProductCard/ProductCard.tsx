@@ -236,7 +236,7 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
 
     useEffect(() => {
         displayService
-            //TODO change this method name from test to work 
+            //TODO change this method name from test to work
             .allSizesByProductTypeTest(product.productType.id)
             .then(res => {
                 setSizes(res)

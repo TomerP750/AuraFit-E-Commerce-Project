@@ -41,21 +41,20 @@ public class SecurityConfig {
         // We disable CSRF for JWT-based API
         // We also allow public access to "/auth/**" so we can do login
         // Then we require authentication for other endpoints
-        System.out.println("secturify config start");
         http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 //                        .requestMatchers("/api/cart/guest/**").permitAll()
-                        .requestMatchers("/api/auth/**", "/api/display/**", "/api/cart/guest/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/display/**", "/api/cart/guest/**", "/api/order/guest/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 // We make Spring Security stateless for JWT usage
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-        System.out.println("secturify config end");
+
         return http.build();
 
     }
