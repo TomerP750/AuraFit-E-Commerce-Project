@@ -1,54 +1,49 @@
-# React + TypeScript + Vite
+# AuraFit E-Commerce Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack e-commerce application for fitness products, featuring a Spring Boot API backend and a modern React/TypeScript/Vite frontend.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📂 Repository Structure
 
-## Expanding the ESLint configuration
+- **AuraFit-BackEnd** — Spring Boot 3.4.5 REST & security API with JPA, JWT auth, MySQL, WebSocket support :contentReference[oaicite:0]{index=0}  
+- **aurafit-frontend** — Vite-powered React 19 + TypeScript 5 SPA with Material UI, Tailwind CSS, Redux Toolkit, authentication flows, and cart management :contentReference[oaicite:1]{index=1}  
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 🚀 Features
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **User Authentication & Authorization**  
+  – Signup/login with JWT (jjwt), Spring Security, BCrypt.  
+- **Product Catalog**  
+  – Browse, search, filter fitness products; dynamic loading via REST.  
+- **Shopping Cart & Checkout**  
+  – Add/remove items, update quantities, persist cart in local storage.  
+- **Order Management**  
+  – Place orders, view order history; backend order entities managed with Spring Data JPA.  
+- **Real-Time Notifications**  
+  – WebSocket (STOMP) alerts on order status updates.  
+- **Admin Console (optional)**  
+  – CRUD operations for products and categories.  
+- **Responsive Design**  
+  – Mobile-first layout with Tailwind CSS and MUI components.  
+- **Animations & UX**  
+  – Framer Motion transitions, toast notifications for actions.  
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 🛠 Tech Stack
+
+| Layer     | Technologies                                                                                                                                                 |
+|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Backend** | • Spring Boot 3.4.5<br>• Spring Security & BCrypt<br>• Spring Data JPA<br>• MySQL Connector/J<br>• jjwt-api/impl/jackson (0.11.5)<br>• Lombok<br>• Maven :contentReference[oaicite:2]{index=2} |
+| **Frontend**| • React 19 & React DOM 19<br>• TypeScript 5<br>• Vite 6<br>• Material UI v7 (@mui/material)<br>• Tailwind CSS 4<br>• Redux Toolkit<br>• React Router DOM 7<br>• React Hook Form<br>• Axios, js-cookie, jwt-decode<br>• Framer Motion<br>• React Toastify<br>• ESLint & Prettier :contentReference[oaicite:3]{index=3} |
+
+---
+
+## 📥 Prerequisites
+
+- **Java 17+** & **Maven 3+**  
+- **Node.js 18+** & **npm 9+**  
+- **MySQL 8+** (or compatible RDBMS)  
+
