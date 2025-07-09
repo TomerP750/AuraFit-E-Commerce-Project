@@ -21,8 +21,6 @@ A full-stack e-commerce application for fitness products, featuring a Spring Boo
   – Add/remove items, update quantities, persist cart in local storage.  
 - **Order Management**  
   – Place orders, view order history; backend order entities managed with Spring Data JPA.  
-- **Real-Time Notifications**  
-  – WebSocket (STOMP) alerts on order status updates.  
 - **Admin Console (optional)**  
   – CRUD operations for products and categories.  
 - **Responsive Design**  
