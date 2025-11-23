@@ -86,7 +86,7 @@ export function Men(): JSX.Element {
             // run the sort
             const sortedVariants = sortVariants(c.variants, sortOption);
 
-            // return your mapped shape
+            // return 
             return {
                 product: c.product,
                 variants: sortedVariants,

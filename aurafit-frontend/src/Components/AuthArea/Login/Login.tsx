@@ -12,14 +12,18 @@ import {saveCart} from "../../../Redux/CartSlice.ts";
 import cartService from "../../../Services/CartService.ts";
 import {Cart} from "../../../Models/Cart.ts";
 import {useUserSelector} from "../../../Redux/hooks.ts";
+import { BiLoaderAlt } from "react-icons/bi";
 
 export function Login(): JSX.Element {
+
+    const [loading, setLoading] = useState<boolean>(false);
 
     const {register, handleSubmit, formState} = useForm<LoginRequest>();
     const navigate = useNavigate();
     // const [cart, setCart] = useState<Cart | null>(store.getState().cartSlice.cart);
 
     const handleLogin = (loginRequest: LoginRequest) => {
+        setLoading(true);
         authService.login(loginRequest)
             .then((res) => {
                 localStorage.token = res.token;
@@ -34,7 +38,11 @@ export function Login(): JSX.Element {
                     .catch(err => toast.error(err));
                 navigate("/");
             })
-            .catch(err => toast.error(err.response.data));
+            .catch(err => toast.error(err.response.data))
+            .finally(() => {
+                setLoading(false)
+            })
+    
 
 
     }
@@ -92,7 +100,7 @@ export function Login(): JSX.Element {
                     type="submit"
                     className="w-full py-2 font-semibold rounded bg-black text-white hover:bg-gray-500 transition-colors"
                 >
-                    Log In
+                    {loading ? <BiLoaderAlt size={20} className="animate-spin"/> : 'Log In'}
                 </button>
 
                 <p className="text-center text-md text-gray-600">

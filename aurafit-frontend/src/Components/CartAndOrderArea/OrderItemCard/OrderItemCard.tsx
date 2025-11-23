@@ -17,7 +17,7 @@ export function OrderItemCard({orderItem, page}: OrderItemCardProps): JSX.Elemen
             <>
                 <div className="w-full flex justify-between h-[150px] gap-5">
                     {/*    Left section - image*/}
-                    <div className="w-1/2 aspect-square bg-gray-200 aspect-square"/>
+                    <div className="w-1/2 aspect-square bg-gray-200"/>
                     {/*    Right section*/}
                     <div className="flex flex-col w-full gap-2 h-full">
                         <div className="flex justify-between font-medium">
@@ -43,7 +43,7 @@ export function OrderItemCard({orderItem, page}: OrderItemCardProps): JSX.Elemen
         <>
             <div className="w-full flex justify-between h-[150px] gap-5 px-8">
                 {/*    Left section - image*/}
-                <div className="w-1/5 aspect-ratio bg-gray-200 aspect-square"/>
+                <div className=" bg-gray-200 aspect-square"/>
                 {/*    Right section*/}
                 <div className="flex flex-col w-full gap-2 h-full">
                     <div className="flex justify-between font-medium">
@@ -58,7 +58,7 @@ export function OrderItemCard({orderItem, page}: OrderItemCardProps): JSX.Elemen
                 </div>
             </div>
             <div className="flex self-end px-8 gap-6 font-medium text-violet-500">
-                <NavLink to={`/product/${orderItem.variant.product.id}`}
+                <NavLink to={`/product/${orderItem.variant.product.id}/${orderItem.variant.color.id}`}
                          className={"cursor-pointer hover:text-violet-300"}>View Product</NavLink>
                 <p className={"text-gray-300 font-light"}>|</p>
                 <button className={"cursor-pointer hover:text-violet-400"}>Buy Again</button>

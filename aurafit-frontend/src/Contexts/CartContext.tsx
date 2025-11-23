@@ -31,15 +31,15 @@ export const CartProvider: React.FC<React.PropsWithChildren<{}>> = ({children,})
     const [cart, setCart] = useState<CartDTO | null>(null);
     const [counter, setCounter] = useState(0);
 
-    // grab the latest cart from the backend, then update both cart + counter
+    
     const refreshCart = useCallback(async () => {
         try {
-            const data = await cartService.getUserCart(); // implement this to return CartDTO
+            const data = await cartService.getUserCart(); 
             setCart(data);
-            // sum up quantities of every CartItemDTO
+            
             const sum = data.items.reduce((acc, item) => acc + item.quantity, 0);
             setCounter(sum);
-            // (optional) sync to localStorage too
+            
             localStorage.setItem("counter", JSON.stringify(sum));
         } catch (err) {
             console.error("Failed to load cart:", err);

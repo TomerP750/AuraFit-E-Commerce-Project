@@ -16,7 +16,7 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps): JSX.Element {
             {/* First & Last Name */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label className="block text-sm font-medium">First Name</label>
+                    <label className="block text-sm font-medium">First Name *</label>
                     <input
                         {...register('firstName', { required: 'First name is required' })}
                         type="text"
@@ -25,7 +25,7 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps): JSX.Element {
                     {errors.firstName && <p className="text-red-600 text-sm">{errors.firstName.message}</p>}
                 </div>
                 <div>
-                    <label className="block text-sm font-medium">Last Name</label>
+                    <label className="block text-sm font-medium">Last Name *</label>
                     <input
                         {...register('lastName', { required: 'Last name is required' })}
                         type="text"
@@ -37,7 +37,7 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps): JSX.Element {
 
             {/* Contact Info */}
             <div>
-                <label className="block text-sm font-medium">Email</label>
+                <label className="block text-sm font-medium">Email *</label>
                 <input
                     {...register('email', {
                         required: 'Email is required',
@@ -49,7 +49,7 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps): JSX.Element {
                 {errors.email && <p className="text-red-600 text-sm">{errors.email.message}</p>}
             </div>
             <div>
-                <label className="block text-sm font-medium">Phone</label>
+                <label className="block text-sm font-medium">Phone *</label>
                 <input
                     {...register('phoneNumber', { required: 'Phone number is required' })}
                     type="tel"
@@ -60,7 +60,7 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps): JSX.Element {
 
             {/* Address */}
             <div>
-                <label className="block text-sm font-medium">Address</label>
+                <label className="block text-sm font-medium">Address *</label>
                 <input
                     {...register('street', { required: 'Address is required' })}
                     type="text"
@@ -70,7 +70,7 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps): JSX.Element {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="sm:col-span-2">
-                    <label className="block text-sm font-medium">City</label>
+                    <label className="block text-sm font-medium">City *</label>
                     <input
                         {...register('city', { required: 'City is required' })}
                         type="text"
@@ -81,7 +81,7 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps): JSX.Element {
                 <div className="sm:col-span-1">
                     <label className="block text-sm font-medium">Postal Code</label>
                     <input
-                        {...register('postalCode', { required: 'Postal code is required' })}
+                        {...register('postalCode')}
                         type="text"
                         className="mt-1 block w-full border rounded p-2"
                     />
