@@ -1,15 +1,20 @@
 package app.aurafitbackend.Utils;
 
-import app.aurafitbackend.Beans.*;
-import app.aurafitbackend.DTOS.CartDTOS.CartDTO;
-import app.aurafitbackend.DTOS.CartDTOS.CartItemDTO;
-import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.OrderItemResponseDTO;
-import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.OrderResponseDTO;
-import app.aurafitbackend.DTOS.DisplayDTOS.UserDTO;
-import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
-import app.aurafitbackend.DTOS.DisplayDTOS.ProductDTO;
-import app.aurafitbackend.DTOS.DisplayDTOS.ProductVariantDTO;
-import app.aurafitbackend.DTOS.ProductVariantImageDTO;
+import app.aurafitbackend.cart.CartDTOS.CartDTO;
+import app.aurafitbackend.cart.CartDTOS.CartItemDTO;
+import app.aurafitbackend.order.OrderItemResponseDTO;
+import app.aurafitbackend.order.OrderResponseDTO;
+import app.aurafitbackend.product.ProductCreateDTO;
+import app.aurafitbackend.product.ProductDTO;
+import app.aurafitbackend.productVariant.ProductVariantDTO;
+import app.aurafitbackend.productVariant.ProductVariantImageDTO;
+import app.aurafitbackend.cart.Cart;
+import app.aurafitbackend.cart.CartItem;
+import app.aurafitbackend.order.Order;
+import app.aurafitbackend.order.OrderItem;
+import app.aurafitbackend.product.Product;
+import app.aurafitbackend.productVariant.ProductVariant;
+import app.aurafitbackend.productVariant.ProductVariantImage;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

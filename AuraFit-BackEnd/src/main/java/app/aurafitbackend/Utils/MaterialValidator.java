@@ -1,6 +1,6 @@
 package app.aurafitbackend.Utils;
 
-import app.aurafitbackend.Beans.Material;
+import app.aurafitbackend.material.Material;
 import app.aurafitbackend.Exceptions.InvalidInputException;
 import app.aurafitbackend.Repositories.MaterialRepository;
 import org.springframework.stereotype.Component;

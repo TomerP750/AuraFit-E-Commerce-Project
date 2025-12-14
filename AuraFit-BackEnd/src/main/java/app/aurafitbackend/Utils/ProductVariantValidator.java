@@ -1,9 +1,8 @@
 package app.aurafitbackend.Utils;
 
-import app.aurafitbackend.Beans.ProductVariant;
-import app.aurafitbackend.DTOS.CreateDTOS.ProductVariantCreateDto;
-import app.aurafitbackend.DTOS.UpdateVariantDTO;
-import app.aurafitbackend.Exceptions.RequestException;
+import app.aurafitbackend.productVariant.ProductVariant;
+import app.aurafitbackend.productVariant.ProductVariantCreateDto;
+import app.aurafitbackend.productVariant.UpdateVariantDTO;
 import app.aurafitbackend.Repositories.ProductVariantRepository;
 import org.springframework.stereotype.Component;
 

@@ -1,9 +1,9 @@
 package app.aurafitbackend.Utils;
 
-import app.aurafitbackend.Beans.ProductVariant;
-import app.aurafitbackend.Beans.Review;
-import app.aurafitbackend.DTOS.AuthDTOS.RegisterRequest;
-import app.aurafitbackend.DTOS.CreateDTOS.ProductCreateDTO;
+import app.aurafitbackend.productVariant.ProductVariant;
+import app.aurafitbackend.review.Review;
+import app.aurafitbackend.auth.AuthDTOS.RegisterRequest;
+import app.aurafitbackend.product.ProductCreateDTO;
 import app.aurafitbackend.Exceptions.InvalidInputException;
 import org.springframework.stereotype.Service;
 

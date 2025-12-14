@@ -1,9 +1,8 @@
 package app.aurafitbackend.Utils;
 
-import app.aurafitbackend.Beans.Product;
-import app.aurafitbackend.Beans.ProductVariant;
-import app.aurafitbackend.DTOS.Cart_And_Orders_DTOS.AddToCartRequestDTO;
-import app.aurafitbackend.DTOS.UpdateProductDTO;
+import app.aurafitbackend.product.Product;
+import app.aurafitbackend.cart.CartDTOS.AddToCartRequestDTO;
+import app.aurafitbackend.product.UpdateProductDTO;
 
 public class ProductValidator {
 

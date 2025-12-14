@@ -1,6 +1,6 @@
 package app.aurafitbackend.Security;
 
-import app.aurafitbackend.Beans.User;
+import app.aurafitbackend.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

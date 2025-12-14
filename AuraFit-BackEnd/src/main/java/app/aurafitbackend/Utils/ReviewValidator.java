@@ -1,12 +1,9 @@
 package app.aurafitbackend.Utils;
 
-import app.aurafitbackend.Beans.Review;
-import app.aurafitbackend.DTOS.PostReviewRequestDTO;
-import app.aurafitbackend.DTOS.UpdateReviewDTO;
+import app.aurafitbackend.review.PostReviewRequestDTO;
+import app.aurafitbackend.review.UpdateReviewDTO;
 import app.aurafitbackend.Exceptions.InvalidInputException;
 import app.aurafitbackend.Repositories.ReviewRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 

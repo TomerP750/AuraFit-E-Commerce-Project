@@ -1,6 +1,6 @@
 package app.aurafitbackend.Utils;
 
-import app.aurafitbackend.Beans.Color;
+import app.aurafitbackend.color.Color;
 import app.aurafitbackend.Exceptions.InvalidInputException;
 import app.aurafitbackend.Repositories.ColorRepository;
 import org.springframework.stereotype.Component;

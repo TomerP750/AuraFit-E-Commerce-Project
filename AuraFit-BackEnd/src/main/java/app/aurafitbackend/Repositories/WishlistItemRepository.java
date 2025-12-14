@@ -1,6 +1,6 @@
 package app.aurafitbackend.Repositories;
 
-import app.aurafitbackend.Beans.WishlistItem;
+import app.aurafitbackend.wishlist.WishlistItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

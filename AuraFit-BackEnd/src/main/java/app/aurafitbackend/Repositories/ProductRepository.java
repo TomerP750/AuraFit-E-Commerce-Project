@@ -1,8 +1,8 @@
 package app.aurafitbackend.Repositories;
 
-import app.aurafitbackend.Beans.Category;
-import app.aurafitbackend.Beans.Product;
-import app.aurafitbackend.Beans.ProductType;
+import app.aurafitbackend.category.Category;
+import app.aurafitbackend.product.Product;
+import app.aurafitbackend.product.ProductType;
 import app.aurafitbackend.Enums.Gender;
 import org.springframework.data.jpa.repository.JpaRepository;
 

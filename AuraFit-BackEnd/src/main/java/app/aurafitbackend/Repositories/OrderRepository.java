@@ -1,6 +1,6 @@
 package app.aurafitbackend.Repositories;
 
-import app.aurafitbackend.Beans.Order;
+import app.aurafitbackend.order.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

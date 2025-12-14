@@ -1,11 +1,10 @@
 package app.aurafitbackend.Utils;
 
-import app.aurafitbackend.Beans.Order;
+import app.aurafitbackend.order.Order;
 import app.aurafitbackend.Enums.Status;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Exceptions.RequestException;
 import app.aurafitbackend.Exceptions.TimeExpiredException;
-import app.aurafitbackend.Exceptions.UnauthorizedException;
 
 import java.time.LocalDateTime;
 

@@ -1,6 +1,6 @@
 package app.aurafitbackend.Security;
 
-import app.aurafitbackend.Beans.User;
+import app.aurafitbackend.user.User;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Repositories.UserRepository;
 import lombok.AllArgsConstructor;

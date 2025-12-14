@@ -1,7 +1,6 @@
 package app.aurafitbackend.Utils;
 
-import app.aurafitbackend.Beans.Size;
-import app.aurafitbackend.DTOS.CreateDTOS.CreateSizeDTO;
+import app.aurafitbackend.size.CreateSizeDTO;
 import app.aurafitbackend.Exceptions.InvalidInputException;
 import app.aurafitbackend.Repositories.SizeRepository;
 import org.springframework.beans.factory.annotation.Autowired;

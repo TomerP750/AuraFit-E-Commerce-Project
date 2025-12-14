@@ -1,6 +1,6 @@
 package app.aurafitbackend.Repositories;
 
-import app.aurafitbackend.Beans.Material;
+import app.aurafitbackend.material.Material;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

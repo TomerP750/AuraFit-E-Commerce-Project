@@ -1,0 +1,39 @@
+package app.aurafitbackend.order;
+
+import app.aurafitbackend.Beans.ContactInformation;
+import app.aurafitbackend.Security.CustomUserDetails;
+import app.aurafitbackend.Utils.EntityDTOMapper;
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/order")
+@AllArgsConstructor
+public class OrderController {
+
+    private final OrderService orderService;
+
+    @PostMapping("/user/placeOrder")
+    public OrderResponseDTO checkoutUser(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody ContactInformation contactInformation) {
+        Long userId = userDetails.getUser().getId();
+//        return orderService.placeOrderForUser(userId, contactInformation);
+        return EntityDTOMapper.toOrderResponseDTO(orderService.placeOrderForUser(userId, contactInformation));
+    }
+
+    // guest: read cart_token cookie
+    //TODO test if works checkout guest
+    @PostMapping("/guest/placeOrder")
+    public OrderResponseDTO checkoutGuest(@CookieValue("cart_token") String cartToken, @RequestBody ContactInformation contactInformation) {
+        return EntityDTOMapper.toOrderResponseDTO(orderService.placeOrderForGuest(cartToken, contactInformation));
+    }
+
+    @GetMapping("/user/history")
+    List<OrderResponseDTO> getUserHistory(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userId = userDetails.getUser().getId();
+        return orderService.getUserOrderHistory(userId);
+    }
+}
+

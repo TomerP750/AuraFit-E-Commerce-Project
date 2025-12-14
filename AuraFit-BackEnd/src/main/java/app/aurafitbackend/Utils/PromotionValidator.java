@@ -1,8 +1,8 @@
 package app.aurafitbackend.Utils;
 
-import app.aurafitbackend.Beans.Promotion;
-import app.aurafitbackend.DTOS.CreateDTOS.CreatePromotionByProductDTO;
-import app.aurafitbackend.DTOS.CreateDTOS.CreatePromotionDTO;
+import app.aurafitbackend.promotion.Promotion;
+import app.aurafitbackend.promotion.CreatePromotionByProductDTO;
+import app.aurafitbackend.promotion.CreatePromotionDTO;
 import app.aurafitbackend.Exceptions.InvalidInputException;
 import app.aurafitbackend.Repositories.PromotionRepository;
 import org.springframework.stereotype.Component;

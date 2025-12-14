@@ -98,7 +98,7 @@ export function Men(): JSX.Element {
 
             if (a.variants.length < 1 || b.variants.length < 1) return 0;
 
-            // if (!va || !vb) return 0;
+            
             switch (sortOption) {
                 case "high-low": {
                     return vb.basePrice - va.basePrice;

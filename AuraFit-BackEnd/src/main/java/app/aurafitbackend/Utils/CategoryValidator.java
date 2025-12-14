@@ -1,6 +1,6 @@
 package app.aurafitbackend.Utils;
 
-import app.aurafitbackend.Beans.Category;
+import app.aurafitbackend.category.Category;
 import app.aurafitbackend.Exceptions.ExistsException;
 import app.aurafitbackend.Exceptions.InvalidInputException;
 import app.aurafitbackend.Repositories.CategoryRepository;

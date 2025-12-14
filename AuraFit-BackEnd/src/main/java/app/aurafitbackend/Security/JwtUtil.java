@@ -1,7 +1,7 @@
 package app.aurafitbackend.Security;
 
-import app.aurafitbackend.Beans.User;
-import app.aurafitbackend.DTOS.AuthDTOS.AuthResponse;
+import app.aurafitbackend.user.User;
+import app.aurafitbackend.auth.AuthDTOS.AuthResponse;
 import app.aurafitbackend.Exceptions.JwtException;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Repositories.UserRepository;

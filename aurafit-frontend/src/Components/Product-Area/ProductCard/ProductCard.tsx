@@ -190,33 +190,31 @@
 
 
 // src/components/ProductCard.tsx
-import React, { useEffect, useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
-import { BiHeart } from "react-icons/bi";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useEffect, useMemo, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
-import { motion, AnimatePresence } from "framer-motion";
-import wishlistService from "../../../Services/WishlistService.ts";
-import cartService from "../../../Services/CartService.ts";
-import { toast } from "react-toastify";
-import { ProductDTO } from "../../../Models/DTOS/ProductDTO.ts";
-import { AddToCartRequestDTO } from "../../../Models/DTOS/AddToCartRequestDTO.ts";
-import { useUserSelector } from "../../../Redux/hooks.ts";
-import { NotLoggedInModal } from "../../NotLoggedInModal/NotLoggedInModal.tsx";
+import { BiHeart } from "react-icons/bi";
 import { useDispatch } from "react-redux";
-import { increment } from "../../../Redux/CartSlice.ts";
-import { ProductVariantDTO } from "../../../Models/DTOS/ProductVariantDTO.ts";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import defaultImage from "../../../assets/defaultImage.png";
-import {SizeCrudDTO} from "../../../Models/DTOS/SizeCrudDTO.ts";
-import {Size} from "../../../Models/Size.ts";
+import { AddToCartRequestDTO } from "../../../Models/DTOS/AddToCartRequestDTO.ts";
+import { ProductDTO } from "../../../Models/DTOS/ProductDTO.ts";
+import { ProductVariantDTO } from "../../../Models/DTOS/ProductVariantDTO.ts";
+import { SizeDTO } from "../../../Models/DTOS/SizeDTO.ts";
+import { increment } from "../../../Redux/CartSlice.ts";
+import { useUserSelector } from "../../../Redux/hooks.ts";
+import cartService from "../../../Services/CartService.ts";
 import displayService from "../../../Services/DisplayService.ts";
-import {SizeDTO} from "../../../Models/DTOS/SizeDTO.ts";
+import wishlistService from "../../../Services/WishlistService.ts";
+import { NotLoggedInModal } from "../../NotLoggedInModal/NotLoggedInModal.tsx";
 
 interface ProductCardProps {
     product: ProductDTO;
     variants: ProductVariantDTO[];
 }
 
-// simple “pop in/out” animation for the size picker
+
 const popupVariants = {
     hidden: { opacity: 0, y: 10 },
     visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 30 } },
@@ -224,32 +222,14 @@ const popupVariants = {
 };
 
 export function ProductCard({ product, variants = [] }: ProductCardProps) {
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useUserSelector(state => state.authSlice.user);
 
     const [onWishlist, setOnWishlist]   = useState(false);
     const [modalOpen, setModalOpen]     = useState(false);
-    const [hoverSizes, setHoverSizes]   = useState(false);
 
-    const [sizes, setSizes]   = useState<SizeDTO[]>([]);
-
-    useEffect(() => {
-        displayService
-            //TODO change this method name from test to work
-            .allSizesByProductTypeTest(product.productType.id)
-            .then(res => {
-                setSizes(res)
-            })
-            .catch(err => toast.error(err));
-    }, [product.productType.id]);
-
-    const filteredSizes = useMemo<SizeDTO[]>(
-        () => sizes.filter(s => s.productType.id === product.productType.id),
-        [sizes, product.productType.id]
-    );
-
-    // fetch initial wishlist state
     useEffect(() => {
         if (user) {
             wishlistService
@@ -274,7 +254,7 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
             .catch(err => toast.error(err.response?.data || "Error updating wishlist"));
     };
 
-    // pick one variant per color for the color‐dot row
+
     const uniqueByColor = useMemo(
         () =>
             Array.from(
@@ -286,7 +266,7 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
         [variants]
     );
 
-    // track which color / variant is active
+
     const [selectedColorId, setSelectedColorId] = useState(
         uniqueByColor[0]?.color.id ?? 0
     );
@@ -294,7 +274,7 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
         variants[0]?.id ?? 0
     );
 
-    // whenever variants change, reset to first color
+
     useEffect(() => {
         if (uniqueByColor.length) {
             const firstColor = uniqueByColor[0].color.id;
@@ -304,47 +284,23 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
         }
     }, [variants, uniqueByColor]);
 
-    // nothing to show if no variants
+   
     if (!variants.length || !selectedColorId) return null;
 
-    // sizes for the overlay picker
+  
     const sizesForColor = variants.filter(v => v.color.id === selectedColorId);
-    // the currently displayed variant
+
     const activeVariant =
         variants.find(v => v.id === activeVariantId) || sizesForColor[0];
 
     const imageUrl = activeVariant?.images?.[0]?.imageUrl || defaultImage;
     const price = activeVariant.onSale ? activeVariant.salePrice : activeVariant.basePrice;
 
-    const handleAddToCart = (variantId: number, e: React.MouseEvent) => {
-        e.stopPropagation();
-        const dto = new AddToCartRequestDTO(variantId, 1);
-        if (user) {
-            cartService
-                .addToCart(dto)
-                .then(() => {
-                    dispatch(increment());
-                    toast.success("Added to cart");
-                })
-                .catch(err => toast.error(err.response?.data || "Error adding to cart"));
-        } else {
-            cartService
-                .addToGuestCart(dto)
-                .then(() => {
-                    dispatch(increment());
-                    toast.success("Added to cart");
-                })
-                .catch(err => toast.error(err.response?.data || "Error adding to cart"));
-        }
-    };
-
     return (
         <div className="block bg-white rounded-lg overflow-hidden">
-            {/* Image + hover‐trigger */}
+         
             <div
                 className="relative w-full aspect-square bg-gray-100 cursor-pointer"
-                onMouseEnter={() => setHoverSizes(true)}
-                onMouseLeave={() => setHoverSizes(false)}
                 onClick={() => navigate(`/product/${product.id}/${activeVariantId}`)}
             >
                 <img
@@ -360,58 +316,6 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
                 >
                     {onWishlist ? <AiFillHeart size={20} /> : <BiHeart size={20} />}
                 </button>
-
-                {/* size‐picker overlay */}
-                <AnimatePresence>
-                    {hoverSizes && (
-                        <motion.div
-                            key="sizes"
-                            variants={popupVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                            className="
-        absolute bottom-0 left-0 right-0
-        p-3
-        bg-white bg-opacity-75
-        grid grid-cols-4      /* 4 per row */
-        gap-3
-        justify-items-center
-        z-20
-      "
-                        >
-                            {filteredSizes.map(sizeEntity => {
-                                const label     = sizeEntity.size;                            // e.g. "S", "M", ...
-                                const variant   = sizesForColor.find(v => v.size.size === label);
-                                const available = Boolean(variant);
-
-                                return (
-                                    <motion.button
-                                        key={sizeEntity.id}                                      // use the entity’s unique id
-                                        onClick={e => {
-                                            if (!available) return;
-                                            handleAddToCart(variant!.id, e);
-                                        }}
-                                        disabled={!available}
-                                        whileTap={available ? { scale: 0.95 } : {}}
-                                        className={`
-              flex items-center justify-center
-              w-20 h-12          /* adjust as you like */
-              text-sm font-medium
-              bg-white border rounded
-              ${available
-                                            ? "hover:bg-gray-100 cursor-pointer"
-                                            : "opacity-50 cursor-not-allowed"
-                                        }
-            `}
-                                    >
-                                        {label}
-                                    </motion.button>
-                                );
-                            })}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
 
 
             </div>

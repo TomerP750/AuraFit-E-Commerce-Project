@@ -1,8 +1,7 @@
 package app.aurafitbackend.Utils;
 
-import app.aurafitbackend.Beans.FitType;
+import app.aurafitbackend.fitType.FitType;
 import app.aurafitbackend.Repositories.FitTypeRepository;
-import app.aurafitbackend.Services.FitTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
