@@ -90,14 +90,14 @@ public class DisplayController {
         return productVariantService.getLatestVariants();
     }
 
-    @GetMapping("/color/all")
-    public List<Color> allColors() {
-        return colorService.getAllColors();
+    @GetMapping("/color/{productId}/all")
+    public List<Color> allColors(@PathVariable Long productId) {
+        return colorService.allProductAvailableSizes(productId);
     }
 
     @GetMapping("/size/all")
     public List<Size> allSizesByProductType() {
-        return sizeRepository.findAll();
+        return sizeService.allSizes();
     }
 
     @GetMapping("productType/all")

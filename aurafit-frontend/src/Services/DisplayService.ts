@@ -46,8 +46,8 @@ class DisplayService {
 
     // --
 
-    async allColors() {
-        return (await axios.get(`http://localhost:8080/api/display/color/all`)).data
+    async allAvailableColorsForProduct(productId: number) {
+        return (await axios.get(`http://localhost:8080/api/display/color/${productId}/all`)).data
     }
 
     async allSizes() {

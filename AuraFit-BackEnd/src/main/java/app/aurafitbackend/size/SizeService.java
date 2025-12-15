@@ -16,6 +16,11 @@ public class SizeService {
 
     private final SizeRepository sizeRepository;
 
+
+    public List<Size> allSizes() {
+        return sizeRepository.findAll();
+    }
+
     public Page<Size> getAllSizes(Pageable pageable) {
         return sizeRepository.findAll(pageable);
     }

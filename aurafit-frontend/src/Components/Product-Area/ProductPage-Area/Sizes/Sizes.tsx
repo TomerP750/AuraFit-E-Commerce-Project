@@ -1,62 +1,66 @@
+import { JSX, useEffect, useMemo, useState } from "react";
+import { ProductVariant } from "../../../../Models/ProductVariant";
+import { Size } from "../../../../Models/Size";
+import displayService from "../../../../Services/DisplayService";
 import "./Sizes.css";
-import {JSX} from "react";
-import {ProductVariant} from "../../../../Models/ProductVariant.ts";
-import {Size} from "../../../../Models/Size.ts";
+import { toast } from "react-toastify";
 
 interface SizesProps {
-    sizes: Size[];
-    availableSizes: Size[];
-    selected: Size | null;
-    onSelect(size: Size): void;
+  variants: ProductVariant[];
+  selectedVariant: ProductVariant;
+  onSelect(size: Size): void; // ✅ add this back
 }
 
-export function Sizes({sizes, availableSizes, selected, onSelect}: SizesProps): JSX.Element {
-    // return (
-    //     <div className="w-full flex flex-col gap-4">
-    //         <div className="flex items-center justify-between">
-    //             <p>Size</p>
-    //             <p>Sizing chart</p>
-    //         </div>
-    //         <div className="flex gap-3 items-center">
-    //             <button className={"border border-gray-300 px-5 py-1 cursor-pointer"}>S</button>
-    //             <button className={"border border-gray-300 px-5 py-1 cursor-pointer"}>M</button>
-    //             <button className={"border border-gray-300 px-5 py-1 cursor-pointer"}>L</button>
-    //             <button className={"border border-gray-300 px-5 py-1 cursor-pointer"}>XL</button>
-    //             <button className={"border border-gray-300 px-5 py-1 cursor-pointer"}>XXL</button>
-    //         {/*        TODO give all the sizes based on the product type maybe make a service method*/}
-    //
-    //         </div>
-    //     </div>
-    // );
+export function Sizes({ variants, selectedVariant, onSelect }: SizesProps): JSX.Element {
+  const [sizes, setSizes] = useState<Size[]>([]);
 
-    const availableIds = new Set(availableSizes.map((s) => s.id));
+  useEffect(() => {
+    displayService
+      .allSizes()
+      .then(res => setSizes(res))
+      .catch(err => toast.error(err.response?.data || err.message));
+  }, []);
 
-    return (
-        <div className="flex flex-col gap-2">
-            <div className="flex justify-between items-center">
-                <p className="font-medium">Size</p>
-                <p className="text-sm text-black cursor-pointer">
-                    Sizing chart
-                </p>
-            </div>
-            <div className="flex gap-3">
-                {sizes.map((size) => {
-                    const isAvailable = availableIds.has(size.id);
-                    const isSelected = selected?.id === size.id;
+  const selectedSize = selectedVariant?.size ?? null;
+  const selectedColorId = selectedVariant?.color?.id;
 
-                    return (
-                        <button
-                            key={size.id}
-                            onClick={() => isAvailable && onSelect(size)}
-                            disabled={!isAvailable}
-                            className={`px-4 py-1 border rounded ${isSelected ? "bg-black text-white" 
-                                : isAvailable ? "hover:bg-gray-200 cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
-                        >
-                            {size.size}
-                        </button>
-                    );
-                })}
-            </div>
-        </div>
-    );
+  // ✅ which sizes exist for the currently selected color?
+  const availableSizeIds = useMemo(() => {
+    const relevant = selectedColorId
+      ? variants.filter(v => v.color.id === selectedColorId)
+      : variants;
+
+    return new Set(relevant.map(v => v.size.id));
+  }, [variants, selectedColorId]);
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex justify-between items-center">
+        <p className="font-medium">Size</p>
+        <p className="text-sm text-black cursor-pointer">Sizing chart</p>
+      </div>
+
+      <div className="flex gap-3 flex-wrap">
+        {sizes.map(size => {
+          const isSelected = selectedSize?.id === size.id;
+          const isAvailable = availableSizeIds.has(size.id);
+
+          return (
+            <button
+              key={size.id}
+              disabled={!isAvailable}
+              onClick={() => isAvailable && onSelect(size)}
+              className={[
+                "px-4 py-1 border rounded transition",
+                isSelected ? "bg-black text-white" : "",
+                !isAvailable ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:border-black",
+              ].join(" ")}
+            >
+              {size.size}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
 }

@@ -1,52 +1,37 @@
-// src/pages/ProductPage.tsx
-import "./ProductPage.css";
-import {JSX, useEffect, useState} from "react";
-import {NavLink, useNavigate, useParams} from "react-router-dom";
-import { TitlePriceReviews } from "../TitlePriceReviews/TitlePriceReviews";
-import { Colors } from "../Colors/Colors";
-import { Sizes } from "../Sizes/Sizes";
-import { Description } from "../Description/Description";
+import { JSX, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { NavLink, Params, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { AddToCartRequestDTO } from "../../../../Models/DTOS/AddToCartRequestDTO";
+import { ProductVariant } from "../../../../Models/ProductVariant";
+import { increment } from "../../../../Redux/CartSlice";
+import { useUserSelector } from "../../../../Redux/hooks";
+import cartService from "../../../../Services/CartService";
+import displayService from "../../../../Services/DisplayService";
+import wishlistService from "../../../../Services/WishlistService";
+import { ProductReviews } from "../../ProductReviews/ProductReviews";
 import { Buttons } from "../Buttons/Buttons";
+import { Colors } from "../Colors/Colors";
+import { Description } from "../Description/Description";
 import { FabricAndCare } from "../FabricAndCare/FabricAndCare";
 import { Images } from "../Images/Images";
-import { ProductReviews } from "../../ProductReviews/ProductReviews";
-import { toast } from "react-toastify";
-import { ProductVariant } from "../../../../Models/ProductVariant";
-import displayService from "../../../../Services/DisplayService";
-import { Size } from "../../../../Models/Size";
-import { Color } from "../../../../Models/Color";
-import cartService from "../../../../Services/CartService";
-import { AddToCartRequestDTO } from "../../../../Models/DTOS/AddToCartRequestDTO";
-import wishlistService from "../../../../Services/WishlistService";
-import { increment } from "../../../../Redux/CartSlice";
-import {useUserSelector} from "../../../../Redux/hooks.ts";
-import {useDispatch} from "react-redux";
-
-// We need an index signature so TS is happy with useParams<Params>()
-interface Params {
-    id: string;
-    variantId?: string;
-    [key: string]: string | undefined;
-}
+import { Sizes } from "../Sizes/Sizes";
+import { TitlePriceReviews } from "../TitlePriceReviews/TitlePriceReviews";
 
 export function ProductPage(): JSX.Element {
-    // grab both params
+
     const { id, variantId } = useParams<Params>();
     const productId = Number(id);
-    const variantParam = variantId ? Number(variantId) : undefined;
+    const selectedVariantId = variantId ? Number(variantId) : undefined;
+
     const navigate = useNavigate();
-    const user = useUserSelector(state => state.authSlice.user);
+    const user = useUserSelector(s => s.authSlice.user);
     const dispatch = useDispatch();
 
-    const [variants, setVariants]           = useState<ProductVariant[]>([]);
-    const [loading, setLoading]             = useState(true);
-    const [selectedColor, setSelectedColor] = useState<Color | null>(null);
-    const [selectedSize, setSelectedSize]   = useState<Size | null>(null);
+    const [variants, setVariants] = useState<ProductVariant[]>([]);
+    const [loading, setLoading] = useState(true);
     const [addedToWishlist, setAddedToWishlist] = useState(false);
-    const [allSizes, setAllSizes]           = useState<Size[]>([]);
-    const [sizeError, setSizeError]         = useState(false);
 
-    // 1️⃣ Fetch variants for this product
     useEffect(() => {
         setLoading(true);
         displayService
@@ -58,180 +43,112 @@ export function ProductPage(): JSX.Element {
 
     useEffect(() => {
         if (!variants.length) return;
-        const defaultVariant =
-            variantParam != null
-                ? variants.find(v => v.id === variantParam)
-                : undefined;
-        setSelectedColor(
-            defaultVariant ? defaultVariant.color : variants[0].color
-        );
-    }, [variants, variantParam]);
+        if (selectedVariantId == null) {
+            navigate(`/product/${productId}/${variants[0].id}`, { replace: true });
+        }
+    }, [variants, selectedVariantId, productId, navigate]);
+
+    const selectedVariant = (() => {
+        if (!variants.length) return null;
+        return variants.find(v => v.id === selectedVariantId) ?? variants[0];
+    })();
 
     useEffect(() => {
-        if (!variants.length) return;
-        const productTypeId = variants[0].product.productType.id;
-        displayService
-            .allSizesByProductType(productTypeId)
-            .then(setAllSizes)
+        if (!user) return;
+        if (!selectedVariant) return;
+
+        wishlistService
+            .isOnWishlist(selectedVariant.product.id)
+            .then(setAddedToWishlist)
             .catch(err => toast.error(err.response?.data || err.message));
-    }, [variants]);
+    }, [user, selectedVariant]);
 
-    const currentVariant =
-        selectedColor && selectedSize
-            ? variants.find(
-            v =>
-                v.color.id === selectedColor.id &&
-                v.size.id === selectedSize.id
-        ) ?? null
-            : null;
+    //   const goToVariant = (colorId: number, sizeId: number) => {
+    //     const next = variants.find(v => v.color.id === colorId && v.size.id === sizeId);
+    //     if (next) navigate(`/product/${productId}/${next.id}`);
+    //   };
 
-    useEffect(() => {
-        const checkId = productId;
-        if (!checkId) return;
-        if (user) {
-            wishlistService.isOnWishlist(checkId)
-                .then(res => setAddedToWishlist(res))
-                .catch(err => toast.error(err.response?.data || err.message));
-        }
-    }, [currentVariant, variantParam, variants]);
 
-    if (loading) {
-        return <div className="text-center py-20">Loading product…</div>;
-    }
-    if (!variants.length) {
-        return <div className="text-center py-20">No product variants found.</div>;
-    }
 
-    const defaultVariant =
-        variants.find(v => v.id === variantParam) || variants[0];
+    //   const onSizeSelect = (size: Size) => {
+    //     setSizeError(false);
+    //     if (!selectedColor) return;
+    //     goToVariant(selectedColor.id, size.id);
+    //   };
 
-    const availableColors = Array.from(
-        new Map(variants.map(v => [v.color.id, v.color])).values()
-    );
-    const availableSizes = selectedColor
-        ? variants
-            .filter(v => v.color.id === selectedColor.id)
-            .map(v => v.size)
-        : [];
-
-    // Handlers
-    const onColorSelect = (color: Color) => {
-        setSelectedColor(color);
-        setSelectedSize(null);
-        setSizeError(false);
-    };
-    const onSizeSelect = (size: Size) => {
-        setSelectedSize(size);
-        setSizeError(false);
-
-        // find the exact variant for current color+size:
-        if (selectedColor) {
-            const next = variants.find(
-                v => v.color.id === selectedColor.id && v.size.id === size.id
-            );
-            if (next) {
-                // navigate to /product/:productId/:variantId
-                navigate(`/product/${productId}/${next.id}`);
-            }
-        }
-    };
-    const handleWishlist = () => {
-        if (user) {
-            wishlistService.toggleWishlist(defaultVariant.product.id)
-                .then(res => {
-                    toast.success(res ? "Added to wishlist" : "Removed from wishlist");
-                    setAddedToWishlist(res);
-                })
-                .catch(err => toast.error(err.response?.data || err.message));
-        } else {
-            navigate("/login")
-        }
-    };
     const handleAddToCart = () => {
-        if (!currentVariant) {
-            setSizeError(true);
-            return;
-        }
-        setSizeError(false);
+        if (!selectedVariant) return;
 
-        const dto = new AddToCartRequestDTO(currentVariant.id, 1);
+        const dto = new AddToCartRequestDTO(selectedVariant.id, 1);
 
-        const loggedIn: boolean = user ? true : false;
+        const promise = user
+            ? cartService.addToCart(dto)
+            : cartService.addToGuestCart(dto);
 
-        if (loggedIn) {
-            cartService.addToCart(dto)
-                .then(() => {
-                    dispatch(increment());
-                })
-                .catch(err => toast.error(err));
-        } else {
-            cartService.addToGuestCart(dto)
-                .then(() => {
-                    dispatch(increment());
-                })
-                .catch(err => toast.error(err));
-        }
+        promise
+            .then(() => dispatch(increment()))
+            .catch(err => toast.error(err.response?.data || err.message));
     };
 
-    const gender = defaultVariant.product.gender;
+    if (loading) return <div className="text-center py-20">Loading product…</div>;
+    if (!variants.length || !selectedVariant) return <div className="text-center py-20">No product variants found.</div>;
+
+    const gender = selectedVariant.product.gender;
     const titleCase = gender.charAt(0) + gender.slice(1).toLowerCase();
 
     return (
         <div className="w-full flex flex-col items-center gap-30">
             <div className="w-4/5 flex flex-col items-start mt-6 gap-5">
-                {/* Breadcrumbs */}
                 <nav className="flex gap-2 text-gray-600">
                     <NavLink to="/">Home</NavLink>
                     <span>/</span>
-                    <NavLink to={`/${defaultVariant.product.gender.toLowerCase()}`}>{titleCase}</NavLink>
+                    <NavLink to={`/products/${gender.toLowerCase()}`}>{titleCase}</NavLink>
                     <span>/</span>
-                    <span>{defaultVariant.product.name}</span>
+                    <span>{selectedVariant.product.name}</span>
                 </nav>
 
                 <section className="w-full flex flex-col lg:flex-row justify-between items-start gap-8">
-                    {/* Left: Images for defaultVariant */}
-                    <Images variant={defaultVariant} />
+                    <Images variant={selectedVariant} />
 
-                    {/* Right: Details & controls */}
                     <aside className="flex-1 flex flex-col gap-8">
-                        <TitlePriceReviews variant={defaultVariant} />
+                        <TitlePriceReviews variant={selectedVariant} />
 
                         <Colors
-                            colors={availableColors}
-                            selected={selectedColor}
-                            onSelect={onColorSelect}
+                            selectedVariant={selectedVariant}
+                            //   onSelect={onColorSelect}
                             variants={variants}
                         />
 
-                        <div className={sizeError ? "border border-red-500 rounded p-2" : ""}>
-                            <Sizes
-                                sizes={allSizes}
-                                availableSizes={availableSizes}
-                                selected={selectedSize}
-                                onSelect={onSizeSelect}
-                            />
-                        </div>
-                        {sizeError && (
-                            <p className="mt-1 text-red-600 text-sm">
-                                Please choose a size before adding to cart.
-                            </p>
-                        )}
-
-                        <Buttons
-                            onWishlist={handleWishlist}
-                            addedToWishlist={addedToWishlist}
-                            onAddToCart={handleAddToCart}
-                            disabled={!currentVariant}
+                        <Sizes
+                            variants={variants}
+                            selectedVariant={selectedVariant}
+                            // onSelect={onSizeSelect}
                         />
 
-                        <Description variant={defaultVariant} />
-                        <FabricAndCare variant={defaultVariant} />
+                        <Buttons
+                            onWishlist={() => {
+                                if (!user) return navigate("/login");
+                                wishlistService
+                                    .toggleWishlist(selectedVariant.product.id)
+                                    .then(res => {
+                                        toast.success(res ? "Added to wishlist" : "Removed from wishlist");
+                                        setAddedToWishlist(res);
+                                    })
+                                    .catch(err => toast.error(err.response?.data || err.message));
+                            }}
+                            addedToWishlist={addedToWishlist}
+                            onAddToCart={handleAddToCart}
+                            disabled={!selectedVariant}
+                        />
+
+                        <Description variant={selectedVariant} />
+                        <FabricAndCare variant={selectedVariant} />
                     </aside>
                 </section>
             </div>
 
             <section className="flex flex-col w-full items-center gap-12">
-                <ProductReviews product={defaultVariant.product} />
+                <ProductReviews product={selectedVariant.product} />
             </section>
         </div>
     );

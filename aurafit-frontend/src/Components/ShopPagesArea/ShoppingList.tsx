@@ -9,7 +9,7 @@ import { Gender } from "../../Models/Enums/Gender";
 
 
 export const categoryConfig = {
-    MEN: {
+    men: {
         title: "Men's Collection",
         heroSubtitle: "Performance-ready fits.",
     },

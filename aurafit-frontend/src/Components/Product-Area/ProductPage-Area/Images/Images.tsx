@@ -1,15 +1,15 @@
-import "./Images.css";
-import {JSX} from "react";
-import {ProductVariantDTO} from "../../../../Models/DTOS/ProductVariantDTO.ts";
+import { JSX } from "react";
 import defaultImage from "../../../../assets/defaultImage.png";
+import { ProductVariant } from "../../../../Models/ProductVariant.ts";
+import "./Images.css";
 
 
 interface ImagesProps {
-    variant: ProductVariantDTO
+    variant: ProductVariant
 }
 export function Images({variant}: ImagesProps): JSX.Element {
 
-    const mainImageUrl = variant.images?.[0]?.imageUrl?.trim() || defaultImage;
+    const mainImageUrl = variant.productImages?.[0]?.trim() || defaultImage;
 
     return (
         <div className="w-full lg:w-2/3 flex flex-col md:flex-row items-start gap-4">
