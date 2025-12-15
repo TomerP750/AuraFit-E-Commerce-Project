@@ -1,6 +1,6 @@
 import "./Description.css";
 import {JSX} from "react";
-import {ProductVariant} from "../../../../Models/ProductVariant.ts";
+import {ProductVariant} from "../../../../../Models/ProductVariant.ts";
 
 interface DescriptionProps {
     variant: ProductVariant;

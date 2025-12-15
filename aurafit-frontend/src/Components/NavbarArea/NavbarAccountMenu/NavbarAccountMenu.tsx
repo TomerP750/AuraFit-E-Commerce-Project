@@ -27,7 +27,6 @@ export function NavbarAccountMenu({onMouseOver, onMouseLeave}: NavbarAccountMenu
         navigate("/login");
     }
 
-
     return (
         <AnimatePresence>
             <motion.div

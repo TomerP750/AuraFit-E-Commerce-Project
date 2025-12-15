@@ -1,11 +1,11 @@
 // src/components/Colors/Colors.tsx
 import { JSX, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ProductVariant } from "../../../../Models/ProductVariant";
+import { ProductVariant } from "../../../../../Models/ProductVariant";
 import "./Colors.css";
-import displayService from "../../../../Services/DisplayService";
+import displayService from "../../../../../Services/DisplayService";
 import { toast } from "react-toastify";
-import { Color } from "../../../../Models/Color";
+import { Color } from "../../../../../Models/Color";
 
 interface ColorsProps {
 

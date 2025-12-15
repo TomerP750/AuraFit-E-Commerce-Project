@@ -9,7 +9,7 @@ import reviewService from "../../../Services/ReviewService.ts";
 import {toast} from "react-toastify";
 import {useForm} from "react-hook-form";
 import {UpdateReviewDTO} from "../../../Models/DTOS/UpdateReviewDTO.ts";
-import {StarRating} from "../ProductPage-Area/StarRating/StarRating.tsx";
+import {StarRating} from "../ProductPage-Area/components/StarRating/StarRating.tsx";
 
 interface ReviewCardProps {
     review: Review

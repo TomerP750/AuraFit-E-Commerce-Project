@@ -1,7 +1,7 @@
 import { JSX, useEffect, useMemo, useState } from "react";
-import { ProductVariant } from "../../../../Models/ProductVariant";
-import { Size } from "../../../../Models/Size";
-import displayService from "../../../../Services/DisplayService";
+import { ProductVariant } from "../../../../../Models/ProductVariant";
+import { Size } from "../../../../../Models/Size";
+import displayService from "../../../../../Services/DisplayService";
 import "./Sizes.css";
 import { toast } from "react-toastify";
 

@@ -1,11 +1,12 @@
-import {createRoot} from 'react-dom/client'
+import { createRoot } from 'react-dom/client'
 import './index.css'
-import {Layout} from "./Components/LayoutArea/Layout/Layout.tsx";
-import {BrowserRouter} from "react-router-dom";
+import { Layout } from "./Components/LayoutArea/Layout/Layout.tsx";
+import { BrowserRouter } from "react-router-dom";
 import axios from 'axios';
-import {Provider} from "react-redux";
-import {store} from "./Redux/store.ts";
-import {ToastContainer} from "react-toastify";
+import { Provider } from "react-redux";
+import { store } from "./Redux/store.ts";
+import { ToastContainer } from "react-toastify";
+import { ScrollToTop } from './Utils/ScrollToTop.tsx';
 
 
 export const http = axios.create({
@@ -21,9 +22,10 @@ axios.interceptors.request.use(function (config) {
 
 createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
-        <ToastContainer position={"top-center"} autoClose={3000} hideProgressBar={true} pauseOnHover={false}/>
+        <ToastContainer position={"bottom-left"} autoClose={3000} hideProgressBar={true} pauseOnHover={false} />
         <BrowserRouter>
-            <Layout/>
+            <ScrollToTop />
+            <Layout />
         </BrowserRouter>
     </Provider>
 )

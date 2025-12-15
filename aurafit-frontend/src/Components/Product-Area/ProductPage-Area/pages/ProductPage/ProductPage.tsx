@@ -2,21 +2,21 @@ import { JSX, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, Params, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AddToCartRequestDTO } from "../../../../Models/DTOS/AddToCartRequestDTO";
-import { ProductVariant } from "../../../../Models/ProductVariant";
-import { increment } from "../../../../Redux/CartSlice";
-import { useUserSelector } from "../../../../Redux/hooks";
-import cartService from "../../../../Services/CartService";
-import displayService from "../../../../Services/DisplayService";
-import wishlistService from "../../../../Services/WishlistService";
-import { ProductReviews } from "../../ProductReviews/ProductReviews";
-import { Buttons } from "../Buttons/Buttons";
-import { Colors } from "../Colors/Colors";
-import { Description } from "../Description/Description";
-import { FabricAndCare } from "../FabricAndCare/FabricAndCare";
-import { Images } from "../Images/Images";
-import { Sizes } from "../Sizes/Sizes";
-import { TitlePriceReviews } from "../TitlePriceReviews/TitlePriceReviews";
+import { AddToCartRequestDTO } from "../../../../../Models/DTOS/AddToCartRequestDTO";
+import { ProductVariant } from "../../../../../Models/ProductVariant";
+import { increment } from "../../../../../Redux/CartSlice";
+import { useUserSelector } from "../../../../../Redux/hooks";
+import cartService from "../../../../../Services/CartService";
+import displayService from "../../../../../Services/DisplayService";
+import wishlistService from "../../../../../Services/WishlistService";
+import { ProductReviews } from "../../../ProductReviews/ProductReviews";
+import { Buttons } from "../../components/Buttons/Buttons";
+import { Colors } from "../../components/Colors/Colors";
+import { Description } from "../../components/Description/Description";
+import { FabricAndCare } from "../../components/FabricAndCare/FabricAndCare";
+import { Images } from "../../components/Images/Images";
+import { Sizes } from "../../components/Sizes/Sizes";
+import { TitlePriceReviews } from "../../components/TitlePriceReviews/TitlePriceReviews";
 
 export function ProductPage(): JSX.Element {
 
@@ -59,22 +59,9 @@ export function ProductPage(): JSX.Element {
 
         wishlistService
             .isOnWishlist(selectedVariant.product.id)
-            .then(setAddedToWishlist)
+            .then(res => setAddedToWishlist(res))
             .catch(err => toast.error(err.response?.data || err.message));
     }, [user, selectedVariant]);
-
-    //   const goToVariant = (colorId: number, sizeId: number) => {
-    //     const next = variants.find(v => v.color.id === colorId && v.size.id === sizeId);
-    //     if (next) navigate(`/product/${productId}/${next.id}`);
-    //   };
-
-
-
-    //   const onSizeSelect = (size: Size) => {
-    //     setSizeError(false);
-    //     if (!selectedColor) return;
-    //     goToVariant(selectedColor.id, size.id);
-    //   };
 
     const handleAddToCart = () => {
         if (!selectedVariant) return;

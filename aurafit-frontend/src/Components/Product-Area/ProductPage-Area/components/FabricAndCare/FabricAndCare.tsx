@@ -1,6 +1,6 @@
 import "./FabricAndCare.css";
 import {JSX} from "react";
-import {ProductVariant} from "../../../../Models/ProductVariant.ts";
+import {ProductVariant} from "../../../../../Models/ProductVariant.ts";
 
 interface FabricAndCareProps {
     variant: ProductVariant;

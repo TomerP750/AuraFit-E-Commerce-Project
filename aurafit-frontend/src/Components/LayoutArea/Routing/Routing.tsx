@@ -11,7 +11,7 @@ import { OrderHistoryPage } from "../../CartAndOrderArea/OrderHistoryPage/OrderH
 import { OrderSuccessfulPage } from "../../CartAndOrderArea/OrderSuccessfulPage/OrderSuccessfulPage.tsx";
 import { Home } from "../../HomeArea/Home/Home.tsx";
 import { PageNotFound } from "../../PageNotFound/PageNotFound.tsx";
-import { ProductPage } from "../../Product-Area/ProductPage-Area/ProductPage/ProductPage.tsx";
+import { ProductPage } from "../../Product-Area/ProductPage-Area/pages/ProductPage/ProductPage.tsx";
 import { ShoppingList } from "../../ShopPagesArea/ShoppingList.tsx";
 import { AccountPage } from "../../User-Area/AccountPage/AccountPage.tsx";
 import { WishlistPage } from "../../WishlistArea/WishlistPage/WishlistPage.tsx";

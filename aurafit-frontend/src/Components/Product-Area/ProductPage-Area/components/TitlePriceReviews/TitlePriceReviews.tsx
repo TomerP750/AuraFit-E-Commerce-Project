@@ -1,8 +1,8 @@
 import "./TitlePriceReviews.css";
 import {FaStar} from "react-icons/fa";
 import {JSX, useEffect, useState} from "react";
-import {ProductVariant} from "../../../../Models/ProductVariant.ts";
-import displayService from "../../../../Services/DisplayService.ts";
+import {ProductVariant} from "../../../../../Models/ProductVariant.ts";
+import displayService from "../../../../../Services/DisplayService.ts";
 import {toast} from "react-toastify";
 
 

@@ -1,6 +1,6 @@
 import { JSX } from "react";
-import defaultImage from "../../../../assets/defaultImage.png";
-import { ProductVariant } from "../../../../Models/ProductVariant.ts";
+import defaultImage from "../../../../../assets/defaultImage.png";
+import { ProductVariant } from "../../../../../Models/ProductVariant.ts";
 import "./Images.css";
 
 
