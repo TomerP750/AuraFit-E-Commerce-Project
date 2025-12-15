@@ -17,6 +17,7 @@ import { FabricAndCare } from "../../components/FabricAndCare/FabricAndCare";
 import { Images } from "../../components/Images/Images";
 import { Sizes } from "../../components/Sizes/Sizes";
 import { TitlePriceReviews } from "../../components/TitlePriceReviews/TitlePriceReviews";
+import { PageNotFound } from "../../../../PageNotFound/PageNotFound";
 
 export function ProductPage(): JSX.Element {
 
@@ -78,13 +79,13 @@ export function ProductPage(): JSX.Element {
     };
 
     if (loading) return <div className="text-center py-20">Loading product…</div>;
-    if (!variants.length || !selectedVariant) return <div className="text-center py-20">No product variants found.</div>;
+    if (!variants.length || !selectedVariant) return <PageNotFound/>
 
     const gender = selectedVariant.product.gender;
     const titleCase = gender.charAt(0) + gender.slice(1).toLowerCase();
 
     return (
-        <div className="w-full flex flex-col items-center gap-30">
+        <main className="w-full flex flex-col items-center gap-30">
             <div className="w-4/5 flex flex-col items-start mt-6 gap-5">
                 <nav className="flex gap-2 text-gray-600">
                     <NavLink to="/">Home</NavLink>
@@ -137,6 +138,6 @@ export function ProductPage(): JSX.Element {
             <section className="flex flex-col w-full items-center gap-12">
                 <ProductReviews product={selectedVariant.product} />
             </section>
-        </div>
+        </main>
     );
 }

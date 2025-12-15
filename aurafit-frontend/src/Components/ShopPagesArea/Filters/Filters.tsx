@@ -1,26 +1,14 @@
 // src/components/Filters/Filters.tsx
+import { JSX } from "react";
 import "./Filters.css";
-import { JSX, useState } from "react";
-import { BiMinus, BiPlus } from "react-icons/bi";
-import { Category } from "../../../Models/Category";
-import { ProductType } from "../../../Models/ProductType";
-import { Color } from "../../../Models/Color";
-import { Size } from "../../../Models/Size";
 
-export type SortOption = "newest" | "high-low" | "low-high";
 
 interface FiltersProps {
     
 }
 
-export function Filters({
-                            
-                        }: FiltersProps): JSX.Element {
-    const [sortOpen, setSortOpen] = useState(true);
-    const [catOpen, setCatOpen] = useState(true);
-    const [typeOpen, setTypeOpen] = useState(true);
-    const [sizeOpen, setSizeOpen] = useState(false);
-    const [colorOpen, setColorOpen] = useState(false);
+export function Filters({}: FiltersProps): JSX.Element {
+    
 
     return (
         <main className="w-full sm:w-60 px-4 py-6 border-r border-gray-200 text-left">

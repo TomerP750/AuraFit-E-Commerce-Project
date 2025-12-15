@@ -47,8 +47,6 @@ export function ShoppingList() {
         displayService.allProductsByGender(genderEnum)
             .then(res => {
                 setProducts(res.content)
-                console.log(res.content);
-                
             })
             .catch(err => err.response.data);
 
@@ -57,7 +55,7 @@ export function ShoppingList() {
     if (!config) return null;
 
     return (
-        <main className="container mx-auto px-4 pt-10">
+        <main className="px-4 pt-10">
             <button
                 className="flex items-center gap-2 mb-4 text-lg sm:hidden"
 

@@ -10,7 +10,7 @@ after:bg-black  hover:after:w-full hover:after:bg-black";
 export function NavbarCenter(): JSX.Element {
 
     return (
-        <div className="hidden sm:flex justify-between gap-5 text-md text-gray-700">
+        <section className="hidden sm:flex justify-between gap-5 text-md text-gray-700">
             <ul className="flex gap-8 items-center">
                 {Object.values(Gender).map((cat) => (
                     <li key={cat}>
@@ -23,6 +23,6 @@ export function NavbarCenter(): JSX.Element {
                     </li>
                 ))}
             </ul>
-        </div>
+        </section>
     );
 }

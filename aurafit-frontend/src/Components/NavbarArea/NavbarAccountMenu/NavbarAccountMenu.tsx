@@ -29,7 +29,7 @@ export function NavbarAccountMenu({onMouseOver, onMouseLeave}: NavbarAccountMenu
 
     return (
         <AnimatePresence>
-            <motion.div
+            <motion.nav
                 onMouseOver={onMouseOver}
                 onMouseLeave={onMouseLeave}
                 className="absolute right-[4rem] w-64 bg-white p-3 shadow-gray-100 rounded-lg z-10"
@@ -66,7 +66,7 @@ export function NavbarAccountMenu({onMouseOver, onMouseLeave}: NavbarAccountMenu
                         </button>
                     </li>
                 </ul>
-            </motion.div>
+            </motion.nav>
         </AnimatePresence>
     )
 }

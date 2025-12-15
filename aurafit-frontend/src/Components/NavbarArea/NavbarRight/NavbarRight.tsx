@@ -26,7 +26,7 @@ export function NavbarRight(): JSX.Element {
     }, []);
 
     return (
-        <div className=" flex justify-between gap-5 cursor-pointer">
+        <section className=" flex justify-between gap-5 cursor-pointer">
 
             <FiSearch className={`${navbarItem}`} onClick={()=>setSearch(true)} />
 
@@ -43,6 +43,6 @@ export function NavbarRight(): JSX.Element {
 
             {sidebarVisible && <NavbarSidebar sidebarVisible={sidebarVisible} onSidebarClose={()=>setSidebarVisible(false)}/>}
 
-        </div>
+        </section>
     );
 }
