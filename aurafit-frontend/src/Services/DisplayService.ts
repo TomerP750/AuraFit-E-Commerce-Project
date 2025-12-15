@@ -1,8 +1,8 @@
 import axios from "axios";
-import {Gender} from "../Models/Enums/Gender.ts";
-import {ProductDTO} from "../Models/DTOS/ProductDTO.ts";
-import {ProductVariantDTO} from "../Models/DTOS/ProductVariantDTO.ts";
-import {SearchDTO} from "../Models/DTOS/SearchDTO.ts";
+import { Gender } from "../Models/Enums/Gender.ts";
+import { ProductDTO } from "../Models/DTOS/ProductDTO.ts";
+import { ProductVariantDTO } from "../Models/DTOS/ProductVariantDTO.ts";
+import { SearchDTO } from "../Models/DTOS/SearchDTO.ts";
 
 
 class DisplayService {
@@ -54,6 +54,10 @@ class DisplayService {
         return (await axios.get("http://localhost:8080/api/display/size/all")).data
     }
 
+    async allColors() {
+        return (await axios.get("http://localhost:8080/api/display/color/all")).data
+    }
+
     async allCategories() {
         return (await axios.get("http://localhost:8080/api/display/category/all")).data
     }
@@ -66,12 +70,27 @@ class DisplayService {
         return (await axios.get(`http://localhost:8080/api/display/product/${gender}/all`)).data
     }
 
+    async filterProducts(sizeIds: number[], colorIds: number[], page: number, size: number) {
+        const params = new URLSearchParams();
+
+        sizeIds.forEach(id => params.append("sizeIds", String(id)));
+        colorIds.forEach(id => params.append("colorIds", String(id)));
+
+        params.append("page", String(page));
+        params.append("size", String(size));
+
+        return (await axios.get(`http://localhost:8080/api/display/product/filter?${params.toString()}`)).data;
+    }
+
+
 
     // Search feature
     async searchVariants(criteria: SearchDTO): Promise<ProductVariantDTO[]> {
         const { data } = await axios.get("http://localhost:8080/api/variant/search", { params: criteria });
         return data.content as ProductVariantDTO[];
     }
+
+
 
 }
 

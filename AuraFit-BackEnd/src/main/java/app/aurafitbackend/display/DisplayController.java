@@ -43,6 +43,15 @@ public class DisplayController {
     private final ProductTypeService productTypeService;
 
 
+    @GetMapping("/product/filter")
+    public Page<ProductDTO> filterProducts(
+            @RequestParam(required = false) List<Long> sizeIds,
+            @RequestParam(required = false) List<Long> colorIds,
+            Pageable pageable
+    ) {
+        return productService.filter(sizeIds, colorIds, pageable);
+    }
+
     @GetMapping("/product/reviews/{id}")
     public List<Review> productReviews(@PathVariable Long id) {
         return productVariantService.getProductVariantReviews(id);
@@ -91,8 +100,13 @@ public class DisplayController {
     }
 
     @GetMapping("/color/{productId}/all")
-    public List<Color> allColors(@PathVariable Long productId) {
+    public List<Color> allColorsByProductId(@PathVariable Long productId) {
         return colorService.allProductAvailableSizes(productId);
+    }
+
+    @GetMapping("/color/all")
+    public List<Color> allColors() {
+        return colorService.getAllColors();
     }
 
     @GetMapping("/size/all")

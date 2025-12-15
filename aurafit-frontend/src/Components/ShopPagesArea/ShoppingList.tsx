@@ -1,11 +1,12 @@
 import { FiFilter } from "react-icons/fi";
 import { ProductCard } from "../Product-Area/ProductCard/ProductCard";
 import { Filters } from "./Filters/Filters";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ProductDTO } from "../../Models/DTOS/ProductDTO";
 import { useParams } from "react-router-dom";
 import displayService from "../../Services/DisplayService";
 import { Gender } from "../../Models/Enums/Gender";
+import { toast } from "react-toastify";
 
 
 export const categoryConfig = {
@@ -32,13 +33,47 @@ const genderFromParam: Record<string, Gender> = {
 export function ShoppingList() {
 
     const [products, setProducts] = useState<ProductDTO[]>([]);
+    const [selectedTypeIds, setSelectedTypeIds] = useState<number[]>([]);
+    const [selectedSizeIds, setSelectedSizeIds] = useState<number[]>([]);
+    const [selectedColorIds, setSelectedColorIds] = useState<number[]>([]);
+
+    const [sizes, setSizes] = useState<{ id: number; size: string }[]>([]);
+    const [colors, setColors] = useState<{ id: number; color: string }[]>([]);
+
+    const [page, setPage] = useState<number>(0);
+    const size = 12;
 
     const { gender: genderParam } = useParams<{ gender: string }>();
+
     const config =
         genderParam ? categoryConfig[genderParam.toLowerCase() as keyof typeof categoryConfig] : undefined;
 
     const genderEnum =
         genderParam ? genderFromParam[genderParam.toLowerCase()] : undefined;
+
+
+    const toggle = (arr: number[], id: number) =>
+        arr.includes(id) ? arr.filter(x => x !== id) : [...arr, id];
+
+    const filterParams = useMemo(() => ({
+        productTypeIds: selectedTypeIds,
+        sizeIds: selectedSizeIds,
+        colorIds: selectedColorIds,
+        page,
+        size
+    }), [selectedTypeIds, selectedSizeIds, selectedColorIds, page]);
+
+
+    useEffect(() => {
+        setPage(0);
+    }, [selectedTypeIds, selectedSizeIds, selectedColorIds]);
+
+    useEffect(() => {
+        displayService
+            .filterProducts(filterParams.sizeIds, filterParams.colorIds, filterParams.page, filterParams.size)
+            .then(res => setProducts(res.content))
+            .catch(err => toast.error(err?.response?.data ?? "Failed to fetch"));
+    }, [filterParams.sizeIds, filterParams.colorIds, filterParams.page, filterParams.size]);
 
     useEffect(() => {
 
@@ -51,6 +86,11 @@ export function ShoppingList() {
             .catch(err => err.response.data);
 
     }, [genderEnum]);
+
+    useEffect(() => {
+        displayService.allSizes().then(res => setSizes(res)).catch(() => { });
+        displayService.allColors().then(res => setColors(res)).catch(() => { });
+    }, []);
 
     if (!config) return null;
 
@@ -66,7 +106,13 @@ export function ShoppingList() {
             <div className="flex flex-col sm:flex-row gap-6">
 
                 <aside className={`w-full sm:w-60`}>
-                    <Filters />
+                    <Filters
+                        sizes={sizes}
+                        colors={colors}
+                        selectedSizeIds={selectedSizeIds}
+                        selectedColorIds={selectedColorIds}
+                        onToggleSize={(id) => setSelectedSizeIds(prev => toggle(prev, id))}
+                        onToggleColor={(id) => setSelectedColorIds(prev => toggle(prev, id))} />
                 </aside>
 
                 <main className="flex-1">

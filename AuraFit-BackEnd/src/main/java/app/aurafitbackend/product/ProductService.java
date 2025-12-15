@@ -12,9 +12,11 @@ import app.aurafitbackend.Utils.ProductValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 
 
 @Service
@@ -31,6 +33,16 @@ public class ProductService {
         Page<Product> products = productRepository.findByGender(gender ,pageable);
         return products.map(EntityDTOMapper::toProductDTO);
 
+    }
+
+    public Page<ProductDTO> filter(List<Long> sizeIds, List<Long> colorIds, Pageable pageable) {
+
+        Specification<Product> spec =
+                Specification.where(ProductSpecifications.hasVariantWithSizeIdsOrColorIds(sizeIds, colorIds));
+
+
+        Page<Product> products = productRepository.findAll(spec, pageable);
+        return products.map(EntityDTOMapper::toProductDTO);
     }
 
     public Page<Product> getProducts(Pageable pageable) {
