@@ -1,7 +1,6 @@
 package app.aurafitbackend.fitType;
 
 import app.aurafitbackend.Exceptions.NotExistsException;
-import app.aurafitbackend.Repositories.FitTypeRepository;
 import app.aurafitbackend.Utils.FitTypeValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

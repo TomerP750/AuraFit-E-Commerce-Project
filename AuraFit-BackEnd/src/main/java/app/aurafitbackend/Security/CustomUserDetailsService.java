@@ -2,7 +2,7 @@ package app.aurafitbackend.Security;
 
 import app.aurafitbackend.user.User;
 import app.aurafitbackend.Exceptions.NotExistsException;
-import app.aurafitbackend.Repositories.UserRepository;
+import app.aurafitbackend.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

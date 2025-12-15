@@ -1,12 +1,11 @@
 package app.aurafitbackend.material;
 
 import app.aurafitbackend.Exceptions.NotExistsException;
-import app.aurafitbackend.Repositories.MaterialRepository;
 import app.aurafitbackend.Utils.MaterialValidator;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -15,8 +14,8 @@ public class MaterialService {
     private final MaterialRepository materialRepository;
 
 
-    public List<Material> getAllMaterials() {
-        return materialRepository.findAll();
+    public Page<Material> getAllMaterials(Pageable pageable) {
+        return materialRepository.findAll(pageable);
     }
 
     public Material getOneMaterial(Long id) {

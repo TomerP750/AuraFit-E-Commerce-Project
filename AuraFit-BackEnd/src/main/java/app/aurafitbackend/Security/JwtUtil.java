@@ -4,7 +4,7 @@ import app.aurafitbackend.user.User;
 import app.aurafitbackend.auth.AuthDTOS.AuthResponse;
 import app.aurafitbackend.Exceptions.JwtException;
 import app.aurafitbackend.Exceptions.NotExistsException;
-import app.aurafitbackend.Repositories.UserRepository;
+import app.aurafitbackend.user.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;

@@ -11,13 +11,16 @@ import app.aurafitbackend.material.Material;
 import app.aurafitbackend.material.MaterialService;
 import app.aurafitbackend.product.Product;
 import app.aurafitbackend.product.ProductService;
-import app.aurafitbackend.product.ProductType;
+import app.aurafitbackend.productType.ProductType;
 import app.aurafitbackend.productType.ProductTypeService;
 import app.aurafitbackend.productVariant.ProductVariant;
 import app.aurafitbackend.productVariant.ProductVariantService;
 import app.aurafitbackend.size.Size;
 import app.aurafitbackend.size.SizeService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,8 +81,10 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/material/all")
-    public List<Material> allMaterials() {
-        return materialService.getAllMaterials();
+    public Page<Material> allMaterials(@RequestParam(value = "page", defaultValue = "0") int page,
+                                       @RequestParam(value = "size", defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return materialService.getAllMaterials(pageable);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -90,8 +95,10 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/size/all")
-    public List<Size> allSizes() {
-        return sizeService.getAllSizes();
+    public Page<Size> allSizes(@RequestParam(value = "page", defaultValue = "0") int page,
+                               @RequestParam(value = "size", defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return sizeService.getAllSizes(pageable);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -114,8 +121,10 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/product/all")
-    public List<Product> allProducts() {
-        return productService.getProducts();
+    public Page<Product> allProducts(@RequestParam(value = "page", defaultValue = "0") int page,
+                                     @RequestParam(value = "size", defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productService.getProducts(pageable);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -132,15 +141,11 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/variant/all")
-    public List<ProductVariant> allProductVariants() {
-        return productVariantService.getAllProductVariants();
+    public Page<ProductVariant> allProductVariants(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                   @RequestParam(value = "size", defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productVariantService.getAllProductVariants(pageable);
     }
-
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @GetMapping("/variant/all")
-//    public Page<ProductVariant> allProductVariants(@PageableDefault(size = 10) Pageable pageable) {
-//        return productVariantService.getAllProductVariants(pageable);
-//    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/variant/{id}")
@@ -156,8 +161,11 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/user/all")
-    public List<UserDTO> allUsers() {
-        return adminService.allUsers();
+    public Page<UserDTO> allUsers(@RequestParam(value = "page", defaultValue = "0") int page,
+                                  @RequestParam(value = "size", defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        return adminService.allUsers(pageable);
     }
 
 

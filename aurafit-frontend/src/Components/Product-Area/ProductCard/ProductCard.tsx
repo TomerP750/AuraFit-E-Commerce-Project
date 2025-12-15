@@ -190,7 +190,6 @@
 
 
 // src/components/ProductCard.tsx
-import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useMemo, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { BiHeart } from "react-icons/bi";
@@ -198,14 +197,9 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import defaultImage from "../../../assets/defaultImage.png";
-import { AddToCartRequestDTO } from "../../../Models/DTOS/AddToCartRequestDTO.ts";
 import { ProductDTO } from "../../../Models/DTOS/ProductDTO.ts";
 import { ProductVariantDTO } from "../../../Models/DTOS/ProductVariantDTO.ts";
-import { SizeDTO } from "../../../Models/DTOS/SizeDTO.ts";
-import { increment } from "../../../Redux/CartSlice.ts";
 import { useUserSelector } from "../../../Redux/hooks.ts";
-import cartService from "../../../Services/CartService.ts";
-import displayService from "../../../Services/DisplayService.ts";
 import wishlistService from "../../../Services/WishlistService.ts";
 import { NotLoggedInModal } from "../../NotLoggedInModal/NotLoggedInModal.tsx";
 
@@ -214,21 +208,14 @@ interface ProductCardProps {
     variants: ProductVariantDTO[];
 }
 
-
-const popupVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 30 } },
-    exit:   { opacity: 0, y: 10, transition: { duration: 0.2 } },
-};
-
 export function ProductCard({ product, variants = [] }: ProductCardProps) {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useUserSelector(state => state.authSlice.user);
 
-    const [onWishlist, setOnWishlist]   = useState(false);
-    const [modalOpen, setModalOpen]     = useState(false);
+    const [onWishlist, setOnWishlist] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
         if (user) {
@@ -254,47 +241,12 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
             .catch(err => toast.error(err.response?.data || "Error updating wishlist"));
     };
 
-
-    const uniqueByColor = useMemo(
-        () =>
-            Array.from(
-                variants.reduce<Map<number, ProductVariantDTO>>((map, v) => {
-                    if (!map.has(v.color.id)) map.set(v.color.id, v);
-                    return map;
-                }, new Map()).values()
-            ),
-        [variants]
-    );
-
-
-    const [selectedColorId, setSelectedColorId] = useState(
-        uniqueByColor[0]?.color.id ?? 0
-    );
     const [activeVariantId, setActiveVariantId] = useState(
         variants[0]?.id ?? 0
     );
 
-
-    useEffect(() => {
-        if (uniqueByColor.length) {
-            const firstColor = uniqueByColor[0].color.id;
-            setSelectedColorId(firstColor);
-            const fv = variants.find(v => v.color.id === firstColor);
-            if (fv) setActiveVariantId(fv.id);
-        }
-    }, [variants, uniqueByColor]);
-
-   
-    if (!variants.length || !selectedColorId) return null;
-
-  
-    const sizesForColor = variants.filter(v => v.color.id === selectedColorId);
-
-    const activeVariant =
-        variants.find(v => v.id === activeVariantId) || sizesForColor[0];
-
-    const imageUrl = activeVariant?.images?.[0]?.imageUrl || defaultImage;
-    const price = activeVariant.onSale ? activeVariant.salePrice : activeVariant.basePrice;
+    const imageUrl =
+  product.variants?.[0]?.images?.[0]?.imageUrl ?? "/placeholder.png";
 
     return (
         <div className="block bg-white rounded-lg overflow-hidden">
@@ -309,7 +261,7 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
                     className="w-full h-full object-cover"
                 />
 
-                {/* wishlist heart */}
+    
                 <button
                     onClick={handleWishlistClick}
                     className="absolute top-5 right-5 p-2 bg-white rounded-full shadow z-10"
@@ -323,26 +275,7 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
             {/* Title, price, color selector */}
             <div className="px-2 mt-2">
                 <h3 className="text-md font-medium truncate">{product.name}</h3>
-                <span className="text-lg font-semibold">${price.toFixed(2)}</span>
-                <div className="flex gap-2 mt-2">
-                    {uniqueByColor.map(variant => (
-                        <button
-                            key={variant.color.id}
-                            onClick={e => {
-                                e.stopPropagation();
-                                setSelectedColorId(variant.color.id);
-                                setActiveVariantId(variant.id);
-                            }}
-                            className={`w-5 h-5 rounded-full border-2 focus:outline-none cursor-pointer ${
-                                variant.color.id === selectedColorId
-                                    ? "ring ring-offset-2"
-                                    : "border-transparent"
-                            }`}
-                            style={{ backgroundColor: variant.color.color.toLowerCase() }}
-                            aria-label={`Color ${variant.color.color}`}
-                        />
-                    ))}
-                </div>
+                <span className="text-lg font-semibold">${product.variants[0].basePrice.toFixed(2)}</span>
             </div>
 
             {/* not-logged-in modal */}
@@ -355,4 +288,5 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
         </div>
     );
 }
+
 

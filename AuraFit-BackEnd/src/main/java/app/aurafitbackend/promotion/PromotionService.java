@@ -2,8 +2,7 @@ package app.aurafitbackend.promotion;
 
 import app.aurafitbackend.productVariant.ProductVariant;
 import app.aurafitbackend.Exceptions.NotExistsException;
-import app.aurafitbackend.Repositories.ProductVariantRepository;
-import app.aurafitbackend.Repositories.PromotionRepository;
+import app.aurafitbackend.productVariant.ProductVariantRepository;
 import app.aurafitbackend.Utils.PromotionValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,27 +1,28 @@
 import "./NavbarCenter.css";
-import {JSX, useState} from "react";
-import {NavLink} from "react-router-dom";
+import { JSX } from "react";
+import { NavLink } from "react-router-dom";
+import { Gender } from "../../../Models/Enums/Gender";
+
+const style = "relative cursor-pointer inline-flex items-center gap-2 text-black transition-all duration-200 \
+after:content-[''] after:absolute after:left-0 after:-bottom-2 after:h-[2px] after:w-0 after:rounded-full after:transition-all after:duration-200 \
+after:bg-black  hover:after:w-full hover:after:bg-black";
 
 export function NavbarCenter(): JSX.Element {
 
     return (
         <div className="hidden sm:flex justify-between gap-5 text-md text-gray-700">
-			<NavLink to={"/"} className={"flex flex-col items-center gap-1"}>
-                <p className={""}>Home</p>
-                <hr className={`w-2/4 border-none h-[1.5px] bg-gray-700 hidden`}/>
-            </NavLink>
-            <NavLink to={"/men"} className={"flex flex-col items-center gap-1"}>
-                <p>Men</p>
-                <hr className={`w-2/4 border-none h-[1.5px] bg-gray-700 hidden`}/>
-            </NavLink>
-            <NavLink to={"/women"} className={"flex flex-col items-center gap-1"}>
-                <p>Women</p>
-                <hr className={`w-2/4 border-none h-[1.5px] bg-gray-700 hidden`}/>
-            </NavLink>
-            <NavLink to={"/accessories"} className={"flex flex-col items-center gap-1"}>
-                <p>Accessories</p>
-                <hr className={`w-2/4 border-none h-[1.5px] bg-gray-700 hidden`}/>
-            </NavLink>
+            <ul className="flex gap-8 items-center">
+                {Object.values(Gender).map((cat) => (
+                    <li key={cat}>
+                        <NavLink
+                            to={`/products/${cat}`}
+                            className={style}
+                        >
+                            {cat[0].toUpperCase() + cat.slice(1).toLowerCase()}
+                        </NavLink>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }

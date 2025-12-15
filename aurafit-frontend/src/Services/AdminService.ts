@@ -14,7 +14,7 @@ import {CreateSizeDTO} from "../Models/DTOS/CreateSizeDTO.ts";
 class AdminService {
 
     async allCategories() {
-        return (await axios.get<Category[]>("http://localhost:8080/api/admin/category/all")).data
+        return (await axios.get("http://localhost:8080/api/admin/category/all")).data
     }
 
     async createCategory(category: Category) {
@@ -26,7 +26,7 @@ class AdminService {
     }
 
     async allProductTypes() {
-        return (await axios.get<ProductType[]>("http://localhost:8080/api/admin/producttype/all")).data
+        return (await axios.get("http://localhost:8080/api/admin/producttype/all")).data
     }
 
     async createProductType(productType: ProductType) {

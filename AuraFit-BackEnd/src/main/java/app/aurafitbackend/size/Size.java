@@ -1,7 +1,7 @@
 package app.aurafitbackend.size;
 
 
-import app.aurafitbackend.product.ProductType;
+import app.aurafitbackend.productType.ProductType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

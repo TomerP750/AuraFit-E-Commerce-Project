@@ -1,8 +1,7 @@
 package app.aurafitbackend.user;
 
 import app.aurafitbackend.Exceptions.NotExistsException;
-import app.aurafitbackend.Repositories.OrderRepository;
-import app.aurafitbackend.Repositories.UserRepository;
+import app.aurafitbackend.order.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,4 +1,4 @@
-package app.aurafitbackend.product;
+package app.aurafitbackend.productType;
 
 import jakarta.persistence.*;
 import lombok.*;

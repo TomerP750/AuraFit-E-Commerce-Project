@@ -1,7 +1,6 @@
-package app.aurafitbackend.Repositories;
+package app.aurafitbackend.productVariant;
 
 import app.aurafitbackend.color.Color;
-import app.aurafitbackend.productVariant.ProductVariant;
 import app.aurafitbackend.size.Size;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

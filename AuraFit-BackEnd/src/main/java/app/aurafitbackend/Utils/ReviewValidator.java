@@ -3,7 +3,7 @@ package app.aurafitbackend.Utils;
 import app.aurafitbackend.review.PostReviewRequestDTO;
 import app.aurafitbackend.review.UpdateReviewDTO;
 import app.aurafitbackend.Exceptions.InvalidInputException;
-import app.aurafitbackend.Repositories.ReviewRepository;
+import app.aurafitbackend.review.ReviewRepository;
 
 import java.time.LocalDateTime;
 

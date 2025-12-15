@@ -6,12 +6,12 @@ import app.aurafitbackend.product.ProductDTO;
 import app.aurafitbackend.productVariant.ProductVariantDTO;
 import app.aurafitbackend.size.SizeDTO;
 import app.aurafitbackend.Enums.Gender;
-import app.aurafitbackend.Repositories.CategoryRepository;
-import app.aurafitbackend.Repositories.SizeRepository;
+import app.aurafitbackend.category.CategoryRepository;
+import app.aurafitbackend.size.SizeRepository;
 import app.aurafitbackend.category.Category;
 import app.aurafitbackend.color.ColorService;
 import app.aurafitbackend.product.ProductService;
-import app.aurafitbackend.product.ProductType;
+import app.aurafitbackend.productType.ProductType;
 import app.aurafitbackend.productType.ProductTypeService;
 import app.aurafitbackend.productVariant.ProductVariant;
 import app.aurafitbackend.productVariant.ProductVariantService;
@@ -20,10 +20,10 @@ import app.aurafitbackend.size.Size;
 import app.aurafitbackend.size.SizeService;
 import app.aurafitbackend.wishlist.WishlistItemService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -111,8 +111,11 @@ public class DisplayController {
     }
 
     @GetMapping("/product/{gender}/all")
-    public List<ProductDTO> allProductsByGender(@PathVariable Gender gender) {
-        return productService.getAllProductsByGender(gender);
+    public Page<ProductDTO> allProductsByGender(@PathVariable Gender gender,
+                                                @RequestParam(value = "page", defaultValue = "0") int page,
+                                                @RequestParam(value = "size", defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productService.getAllProductsByGender(gender, pageable);
     }
 
 

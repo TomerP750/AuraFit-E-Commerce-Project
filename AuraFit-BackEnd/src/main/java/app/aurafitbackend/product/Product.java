@@ -1,6 +1,7 @@
 package app.aurafitbackend.product;
 
 import app.aurafitbackend.category.Category;
+import app.aurafitbackend.productType.ProductType;
 import app.aurafitbackend.productVariant.ProductVariant;
 import app.aurafitbackend.review.Review;
 import app.aurafitbackend.Enums.Gender;
@@ -43,7 +44,7 @@ public class Product {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private Gender gender;
 
     //    @OneToOne(cascade = CascadeType.ALL)

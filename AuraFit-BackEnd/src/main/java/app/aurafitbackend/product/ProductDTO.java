@@ -1,6 +1,7 @@
 package app.aurafitbackend.product;
 
 
+import app.aurafitbackend.productType.ProductType;
 import app.aurafitbackend.productVariant.ProductVariantDTO;
 import app.aurafitbackend.category.Category;
 import app.aurafitbackend.Enums.Gender;

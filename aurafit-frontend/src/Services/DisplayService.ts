@@ -63,7 +63,7 @@ class DisplayService {
     }
 
     async allProductsByGender(gender: Gender) {
-        return (await axios.get<ProductDTO[]>(`http://localhost:8080/api/display/product/${gender}/all`)).data
+        return (await axios.get(`http://localhost:8080/api/display/product/${gender}/all`)).data
     }
 
 

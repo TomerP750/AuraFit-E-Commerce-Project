@@ -1,6 +1,5 @@
-package app.aurafitbackend.Repositories;
+package app.aurafitbackend.promotion;
 
-import app.aurafitbackend.promotion.Promotion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

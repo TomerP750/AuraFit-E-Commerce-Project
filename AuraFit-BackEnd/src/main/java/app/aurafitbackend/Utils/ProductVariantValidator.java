@@ -3,7 +3,7 @@ package app.aurafitbackend.Utils;
 import app.aurafitbackend.productVariant.ProductVariant;
 import app.aurafitbackend.productVariant.ProductVariantCreateDto;
 import app.aurafitbackend.productVariant.UpdateVariantDTO;
-import app.aurafitbackend.Repositories.ProductVariantRepository;
+import app.aurafitbackend.productVariant.ProductVariantRepository;
 import org.springframework.stereotype.Component;
 
 @Component

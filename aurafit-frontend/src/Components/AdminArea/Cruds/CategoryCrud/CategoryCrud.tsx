@@ -9,6 +9,7 @@ import {useNavigate} from "react-router-dom";
 import {CreateCategoryForm} from "../../CreateForms/CreateCategoryForm/CreateCategoryForm.tsx";
 
 export function CategoryCrud(): JSX.Element {
+
     const [categories, setCategories] = useState<Category[]>([]);
     const [formOpen, setFormOpen] = useState(false);
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ export function CategoryCrud(): JSX.Element {
     useEffect(() => {
         adminService
             .allCategories()
-            .then(setCategories)
+            .then(res => setCategories(res.content))
             .catch(err => toast.error(err.response?.data || err.message));
     }, []);
 

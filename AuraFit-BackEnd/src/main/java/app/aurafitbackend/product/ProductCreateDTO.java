@@ -2,6 +2,7 @@ package app.aurafitbackend.product;
 
 import app.aurafitbackend.category.Category;
 import app.aurafitbackend.Enums.Gender;
+import app.aurafitbackend.productType.ProductType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,7 +1,6 @@
 package app.aurafitbackend.color;
 
 import app.aurafitbackend.Exceptions.NotExistsException;
-import app.aurafitbackend.Repositories.ColorRepository;
 import app.aurafitbackend.Utils.ColorValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

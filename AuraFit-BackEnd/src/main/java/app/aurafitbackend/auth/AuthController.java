@@ -3,7 +3,7 @@ package app.aurafitbackend.auth;
 import app.aurafitbackend.auth.AuthDTOS.AuthResponse;
 import app.aurafitbackend.auth.AuthDTOS.LoginRequest;
 import app.aurafitbackend.auth.AuthDTOS.RegisterRequest;
-import app.aurafitbackend.Repositories.UserRepository;
+import app.aurafitbackend.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,9 +1,10 @@
-package app.aurafitbackend.Repositories;
+package app.aurafitbackend.product;
 
 import app.aurafitbackend.category.Category;
-import app.aurafitbackend.product.Product;
-import app.aurafitbackend.product.ProductType;
 import app.aurafitbackend.Enums.Gender;
+import app.aurafitbackend.productType.ProductType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -18,5 +19,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByGenderAndCategory(Gender gender, Category category);
 
-    List<Product> findByGender(Gender gender);
+    Page<Product> findByGender(Gender gender, Pageable pageable);
 }

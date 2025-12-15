@@ -2,7 +2,7 @@ package app.aurafitbackend.Utils;
 
 import app.aurafitbackend.material.Material;
 import app.aurafitbackend.Exceptions.InvalidInputException;
-import app.aurafitbackend.Repositories.MaterialRepository;
+import app.aurafitbackend.material.MaterialRepository;
 import org.springframework.stereotype.Component;
 
 @Component

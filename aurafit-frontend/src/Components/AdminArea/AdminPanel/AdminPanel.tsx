@@ -1,23 +1,18 @@
+import { JSX, useState } from "react";
+import { FaHome, FaMoon, FaSun } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
+import { AdminPanelSidebar } from "../AdminPanelSidebar/AdminPanelSidebar.tsx";
+import { CategoryCrud } from "../Cruds/CategoryCrud/CategoryCrud.tsx";
+import { ColorCrud } from "../Cruds/ColorCrud/ColorCrud.tsx";
+import { FitTypeCrud } from "../Cruds/FitTypeCrud/FitTypeCrud.tsx";
+import { MaterialCrud } from "../Cruds/MaterialCrud/MaterialCrud.tsx";
+import { ProductCrud } from "../Cruds/ProductCrud/ProductCrud.tsx";
+import { ProductTypeCrud } from "../Cruds/ProductTypeCrud/ProductTypeCrud.tsx";
+import { ProductVariantCrud } from "../Cruds/ProductVariantCrud/ProductVariantCrud.tsx";
+import { PromotionCrud } from "../Cruds/PromotionCrud/PromotionCrud.tsx";
+import { SizeCrud } from "../Cruds/SizeCrud/SizeCrud.tsx";
+import { UserCrud } from "../Cruds/UserCrud/UserCrud.tsx";
 import "./AdminPanel.css";
-import {JSX, useState} from "react";
-import {AdminPanelSidebar} from "../AdminPanelSidebar/AdminPanelSidebar.tsx";
-import {CreateProductVariantForm} from "../CreateForms/CreateProductVariantForm/CreateProductVariantForm.tsx";
-import {CreateCategoryForm} from "../CreateForms/CreateCategoryForm/CreateCategoryForm.tsx";
-import {CreateSizeForm} from "../CreateForms/CreateSizeForm/CreateSizeForm.tsx";
-import {CreateMaterialForm} from "../CreateForms/CreateMaterialForm/CreateMaterialForm.tsx";
-import {CreateFitTypeForm} from "../CreateForms/CreateFitTypeForm/CreateFitTypeForm.tsx";
-import {ProductTypeCrud} from "../Cruds/ProductTypeCrud/ProductTypeCrud.tsx";
-import {FaHome, FaMoon, FaSun} from "react-icons/fa";
-import {NavLink} from "react-router-dom";
-import {ProductCrud} from "../Cruds/ProductCrud/ProductCrud.tsx";
-import {ProductVariantCrud} from "../Cruds/ProductVariantCrud/ProductVariantCrud.tsx";
-import {FitTypeCrud} from "../Cruds/FitTypeCrud/FitTypeCrud.tsx";
-import {MaterialCrud} from "../Cruds/MaterialCrud/MaterialCrud.tsx";
-import {SizeCrud} from "../Cruds/SizeCrud/SizeCrud.tsx";
-import {CategoryCrud} from "../Cruds/CategoryCrud/CategoryCrud.tsx";
-import {UserCrud} from "../Cruds/UserCrud/UserCrud.tsx";
-import {PromotionCrud} from "../Cruds/PromotionCrud/PromotionCrud.tsx";
-import {ColorCrud} from "../Cruds/ColorCrud/ColorCrud.tsx";
 
 export function AdminPanel(): JSX.Element {
 

@@ -4,18 +4,18 @@ import app.aurafitbackend.review.Review;
 import app.aurafitbackend.Enums.Gender;
 import app.aurafitbackend.Exceptions.NotExistsException;
 import app.aurafitbackend.Exceptions.RequestException;
-import app.aurafitbackend.Repositories.OrderItemRepository;
-import app.aurafitbackend.Repositories.ProductRepository;
-import app.aurafitbackend.Repositories.ProductVariantRepository;
+import app.aurafitbackend.order.OrderItemRepository;
+import app.aurafitbackend.productVariant.ProductVariantRepository;
 import app.aurafitbackend.Utils.EntityDTOMapper;
 import app.aurafitbackend.Utils.GeneralValidator;
 import app.aurafitbackend.Utils.ProductValidator;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Service
 @AllArgsConstructor
@@ -26,18 +26,15 @@ public class ProductService {
     private final OrderItemRepository orderItemRepository;
 
 
-    public List<ProductDTO> getAllProductsByGender(Gender gender) {
-        List<ProductDTO> dtos = new ArrayList<>();
-        List<Product> products = productRepository.findByGender(gender);
-        products.forEach(product -> {
-            dtos.add(EntityDTOMapper.toProductDTO(product));
-        });
+    public Page<ProductDTO> getAllProductsByGender(Gender gender, Pageable pageable) {
 
-        return dtos;
+        Page<Product> products = productRepository.findByGender(gender ,pageable);
+        return products.map(EntityDTOMapper::toProductDTO);
+
     }
 
-    public List<Product> getProducts() {
-        return productRepository.findAll();
+    public Page<Product> getProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
     public Product getProduct(Long id) {

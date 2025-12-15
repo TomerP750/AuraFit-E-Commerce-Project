@@ -1,7 +1,6 @@
 package app.aurafitbackend.category;
 
 import app.aurafitbackend.Exceptions.NotExistsException;
-import app.aurafitbackend.Repositories.CategoryRepository;
 import app.aurafitbackend.Utils.CategoryValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -10,45 +10,11 @@ import { Size } from "../../../Models/Size";
 export type SortOption = "newest" | "high-low" | "low-high";
 
 interface FiltersProps {
-    sortSelected: SortOption;
-    onSortSelected: (value: SortOption) => void;
-
-    categories: Category[];
-    selectedCategories: number[];
-    onCategoryToggle: (id: number) => void;
-
-    productTypes: ProductType[];
-    selectedTypes: number[];
-    onTypeToggle: (id: number) => void;
-
-    sizes: Size[];
-    selectedSizes: number[];
-    onSizeToggle: (id: number) => void;
-
-    colors: Color[];
-    selectedColors: number[];
-    onColorToggle: (id: number) => void;
+    
 }
 
 export function Filters({
-                            sortSelected,
-                            onSortSelected,
-
-                            categories,
-                            selectedCategories,
-                            onCategoryToggle,
-
-                            productTypes,
-                            selectedTypes,
-                            onTypeToggle,
-
-                            sizes,
-                            selectedSizes,
-                            onSizeToggle,
-
-                            colors,
-                            selectedColors,
-                            onColorToggle,
+                            
                         }: FiltersProps): JSX.Element {
     const [sortOpen, setSortOpen] = useState(true);
     const [catOpen, setCatOpen] = useState(true);
@@ -57,9 +23,9 @@ export function Filters({
     const [colorOpen, setColorOpen] = useState(false);
 
     return (
-        <div className="w-full sm:w-60 px-4 py-6 border-r border-gray-200 text-left">
+        <main className="w-full sm:w-60 px-4 py-6 border-r border-gray-200 text-left">
             {/* SORT BY */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
                 <div
                     className="flex justify-between items-center cursor-pointer font-medium text-sm"
                     onClick={() => setSortOpen(o => !o)}
@@ -75,8 +41,7 @@ export function Filters({
                                     type="radio"
                                     name="sort"
                                     className="w-4 h-4 accent-black"
-                                    checked={sortSelected === opt}
-                                    onChange={() => onSortSelected(opt)}
+                                   
                                 />
                                 {opt === "newest"
                                     ? "Newest"
@@ -87,11 +52,11 @@ export function Filters({
                         ))}
                     </div>
                 )}
-            </div>
+            </div> */}
             <hr className="border-t border-gray-200 my-4"/>
 
             {/* CATEGORIES */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
                 <div
                     className="flex justify-between items-center cursor-pointer font-medium text-sm"
                     onClick={() => setCatOpen(o => !o)}
@@ -114,11 +79,11 @@ export function Filters({
                         ))}
                     </div>
                 )}
-            </div>
+            </div> */}
             <hr className="border-t border-gray-200 my-4"/>
 
             {/* TYPE */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
                 <div
                     className="flex justify-between items-center cursor-pointer font-medium text-sm"
                     onClick={() => setTypeOpen(o => !o)}
@@ -141,11 +106,11 @@ export function Filters({
                         ))}
                     </div>
                 )}
-            </div>
+            </div> */}
             <hr className="border-t border-gray-200 my-4"/>
 
             {/*/!* SIZE *!/*/}
-            {/*<div className="mb-4">*/}
+            {/* <div className="mb-4">*/}
             {/*    <div*/}
             {/*        className="flex justify-between items-center cursor-pointer font-medium text-sm"*/}
             {/*        onClick={() => setSizeOpen(o => !o)}*/}
@@ -168,11 +133,11 @@ export function Filters({
             {/*            ))}*/}
             {/*        </div>*/}
             {/*    )}*/}
-            {/*</div>*/}
+            {/*</div> */}
             <hr className="border-t border-gray-200 my-4"/>
 
             {/* COLOR */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
                 <div
                     className="flex justify-between items-center cursor-pointer font-medium text-sm"
                     onClick={() => setColorOpen(o => !o)}
@@ -195,7 +160,7 @@ export function Filters({
                         ))}
                     </div>
                 )}
-            </div>
-        </div>
+            </div> */}
+        </main>
     );
 }

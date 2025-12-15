@@ -2,8 +2,8 @@ package app.aurafitbackend.Threads;
 
 import app.aurafitbackend.productVariant.ProductVariant;
 import app.aurafitbackend.promotion.Promotion;
-import app.aurafitbackend.Repositories.ProductVariantRepository;
-import app.aurafitbackend.Repositories.PromotionRepository;
+import app.aurafitbackend.productVariant.ProductVariantRepository;
+import app.aurafitbackend.promotion.PromotionRepository;
 import app.aurafitbackend.Utils.PromotionValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;

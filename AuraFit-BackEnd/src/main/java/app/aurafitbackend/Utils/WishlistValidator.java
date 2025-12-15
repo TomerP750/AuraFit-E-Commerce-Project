@@ -1,7 +1,7 @@
 package app.aurafitbackend.Utils;
 
 import app.aurafitbackend.Exceptions.RequestException;
-import app.aurafitbackend.Repositories.WishlistItemRepository;
+import app.aurafitbackend.wishlist.WishlistItemRepository;
 import org.springframework.stereotype.Component;
 
 @Component

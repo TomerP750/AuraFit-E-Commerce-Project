@@ -2,10 +2,9 @@ package app.aurafitbackend.productVariant;
 
 import app.aurafitbackend.Enums.Gender;
 import app.aurafitbackend.Exceptions.NotExistsException;
-import app.aurafitbackend.Repositories.CategoryRepository;
-import app.aurafitbackend.Repositories.ProductRepository;
-import app.aurafitbackend.Repositories.ProductVariantRepository;
-import app.aurafitbackend.Repositories.ReviewRepository;
+import app.aurafitbackend.category.CategoryRepository;
+import app.aurafitbackend.product.ProductRepository;
+import app.aurafitbackend.review.ReviewRepository;
 import app.aurafitbackend.Utils.EntityDTOMapper;
 import app.aurafitbackend.Utils.ProductVariantValidator;
 import app.aurafitbackend.category.Category;
@@ -45,8 +44,8 @@ public class ProductVariantService {
     public List<ProductVariant> getProductVariantsByProductId(Long productId) {
         return productVariantRepository.findByProductId(productId);
     }
-    public List<ProductVariant> getAllProductVariants() {
-        return productVariantRepository.findAll();
+    public Page<ProductVariant> getAllProductVariants(Pageable pageable) {
+        return productVariantRepository.findAll(pageable);
     }
 
 //    public Page<ProductVariant> getAllProductVariants(Pageable pageable) {

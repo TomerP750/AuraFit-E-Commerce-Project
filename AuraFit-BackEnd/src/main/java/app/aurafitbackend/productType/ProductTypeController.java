@@ -1,6 +1,5 @@
 package app.aurafitbackend.productType;
 
-import app.aurafitbackend.product.ProductType;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

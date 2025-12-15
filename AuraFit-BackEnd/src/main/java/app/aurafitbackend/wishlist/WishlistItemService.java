@@ -3,10 +3,9 @@ package app.aurafitbackend.wishlist;
 import app.aurafitbackend.product.Product;
 import app.aurafitbackend.user.User;
 import app.aurafitbackend.Exceptions.NotExistsException;
-import app.aurafitbackend.Repositories.ProductRepository;
-import app.aurafitbackend.Repositories.ProductVariantRepository;
-import app.aurafitbackend.Repositories.UserRepository;
-import app.aurafitbackend.Repositories.WishlistItemRepository;
+import app.aurafitbackend.product.ProductRepository;
+import app.aurafitbackend.productVariant.ProductVariantRepository;
+import app.aurafitbackend.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

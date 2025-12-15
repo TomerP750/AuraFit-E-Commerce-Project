@@ -1,8 +1,8 @@
 package app.aurafitbackend.Utils;
 
-import app.aurafitbackend.product.ProductType;
+import app.aurafitbackend.productType.ProductType;
 import app.aurafitbackend.Exceptions.InvalidInputException;
-import app.aurafitbackend.Repositories.ProductTypeRepository;
+import app.aurafitbackend.productType.ProductTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

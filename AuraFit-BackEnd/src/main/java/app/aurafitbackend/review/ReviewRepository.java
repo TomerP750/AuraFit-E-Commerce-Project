@@ -1,6 +1,5 @@
-package app.aurafitbackend.Repositories;
+package app.aurafitbackend.review;
 
-import app.aurafitbackend.review.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {

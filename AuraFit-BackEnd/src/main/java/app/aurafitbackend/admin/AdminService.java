@@ -1,17 +1,20 @@
 package app.aurafitbackend.admin;
 
+import app.aurafitbackend.product.ProductRepository;
+import app.aurafitbackend.productVariant.ProductVariantRepository;
+import app.aurafitbackend.promotion.PromotionRepository;
+import app.aurafitbackend.review.ReviewRepository;
 import app.aurafitbackend.user.User;
 import app.aurafitbackend.auth.AuthDTOS.RegisterRequest;
 import app.aurafitbackend.user.UserDTO;
 import app.aurafitbackend.Enums.Role;
-import app.aurafitbackend.Repositories.*;
 import app.aurafitbackend.Utils.GeneralValidator;
+import app.aurafitbackend.user.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -41,24 +44,20 @@ public class AdminService {
     }
 
 
-    public List<UserDTO> allUsers() {
-        List<User> users = userRepository.findAll();
-        List<UserDTO> userDTOList = new ArrayList<>();
+    public Page<UserDTO> allUsers(Pageable pageable) {
 
-        for (User user : users) {
-            UserDTO dto = UserDTO.builder()
-                    .id(user.getId())
-                    .firstName(user.getFirstName())
-                    .lastName(user.getLastName())
-                    .email(user.getEmail())
-                    .role(user.getRole())
-                    .build();
-            userDTOList.add(dto);
-        }
+        Page<User> users = userRepository.findAll(pageable);
 
-        return userDTOList;
-
+        return users.map(u -> UserDTO.builder()
+                .id(u.getId())
+                .firstName(u.getFirstName())
+                .lastName(u.getLastName())
+                .email(u.getEmail())
+                .role(u.getRole())
+                .build()
+        );
     }
+
 
 
 

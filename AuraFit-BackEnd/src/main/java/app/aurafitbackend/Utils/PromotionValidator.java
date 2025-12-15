@@ -4,7 +4,7 @@ import app.aurafitbackend.promotion.Promotion;
 import app.aurafitbackend.promotion.CreatePromotionByProductDTO;
 import app.aurafitbackend.promotion.CreatePromotionDTO;
 import app.aurafitbackend.Exceptions.InvalidInputException;
-import app.aurafitbackend.Repositories.PromotionRepository;
+import app.aurafitbackend.promotion.PromotionRepository;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

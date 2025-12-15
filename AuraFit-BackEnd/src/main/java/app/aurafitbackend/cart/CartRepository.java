@@ -1,6 +1,5 @@
-package app.aurafitbackend.Repositories;
+package app.aurafitbackend.cart;
 
-import app.aurafitbackend.cart.Cart;
 import app.aurafitbackend.Enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 

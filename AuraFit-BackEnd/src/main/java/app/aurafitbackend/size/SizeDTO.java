@@ -1,6 +1,6 @@
 package app.aurafitbackend.size;
 
-import app.aurafitbackend.product.ProductType;
+import app.aurafitbackend.productType.ProductType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

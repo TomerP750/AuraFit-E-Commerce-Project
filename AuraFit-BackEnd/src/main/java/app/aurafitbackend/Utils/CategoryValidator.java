@@ -3,7 +3,7 @@ package app.aurafitbackend.Utils;
 import app.aurafitbackend.category.Category;
 import app.aurafitbackend.Exceptions.ExistsException;
 import app.aurafitbackend.Exceptions.InvalidInputException;
-import app.aurafitbackend.Repositories.CategoryRepository;
+import app.aurafitbackend.category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,6 @@
 package app.aurafitbackend.productType;
 
-import app.aurafitbackend.product.ProductType;
 import app.aurafitbackend.Exceptions.NotExistsException;
-import app.aurafitbackend.Repositories.ProductTypeRepository;
 import app.aurafitbackend.Utils.ProductTypeValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

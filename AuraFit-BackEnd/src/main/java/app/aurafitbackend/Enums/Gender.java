@@ -1,5 +1,5 @@
 package app.aurafitbackend.Enums;
 
 public enum Gender {
-    MEN, WOMEN, UNISEX
+    MEN, WOMEN, ACCESSORIES
 }
