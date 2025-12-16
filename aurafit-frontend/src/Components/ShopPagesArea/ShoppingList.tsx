@@ -8,6 +8,7 @@ import displayService from "../../Services/DisplayService";
 import { Gender } from "../../Models/Enums/Gender";
 import { toast } from "react-toastify";
 
+export type SortOption = "newest" | "high-low" | "low-high";
 
 export const categoryConfig = {
     men: {
@@ -36,6 +37,7 @@ export function ShoppingList() {
     const [selectedTypeIds, setSelectedTypeIds] = useState<number[]>([]);
     const [selectedSizeIds, setSelectedSizeIds] = useState<number[]>([]);
     const [selectedColorIds, setSelectedColorIds] = useState<number[]>([]);
+    const [sort, setSort] = useState<SortOption>("newest");
 
     const [sizes, setSizes] = useState<{ id: number; size: string }[]>([]);
     const [colors, setColors] = useState<{ id: number; color: string }[]>([]);
@@ -63,10 +65,18 @@ export function ShoppingList() {
         size
     }), [selectedTypeIds, selectedSizeIds, selectedColorIds, page]);
 
+    // const sortParam = useMemo(() => {
+    //     switch (sort) {
+    //         case "high-low": return "price,desc";
+    //         case "low-high": return "price,asc";
+    //         default: return "createdAt,desc"; 
+    //     }
+    // }, [sort]);
+
 
     useEffect(() => {
         setPage(0);
-    }, [selectedTypeIds, selectedSizeIds, selectedColorIds]);
+    }, [selectedTypeIds, selectedSizeIds, selectedColorIds, sort]);
 
     useEffect(() => {
         displayService
@@ -88,8 +98,16 @@ export function ShoppingList() {
     }, [genderEnum]);
 
     useEffect(() => {
-        displayService.allSizes().then(res => setSizes(res)).catch(() => { });
-        displayService.allColors().then(res => setColors(res)).catch(() => { });
+        displayService.allSizes()
+            .then(res => setSizes(res))
+            .catch((err) => {
+                toast.error(err.response.data);
+            });
+        displayService.allColors()
+            .then(res => setColors(res))
+            .catch((err) => {
+                toast.error(err.response.data);
+            });
     }, []);
 
     if (!config) return null;
@@ -107,10 +125,12 @@ export function ShoppingList() {
 
                 <aside className={`w-full sm:w-60`}>
                     <Filters
+                        sort={sort}
                         sizes={sizes}
                         colors={colors}
                         selectedSizeIds={selectedSizeIds}
                         selectedColorIds={selectedColorIds}
+                        onSortChange={setSort}
                         onToggleSize={(id) => setSelectedSizeIds(prev => toggle(prev, id))}
                         onToggleColor={(id) => setSelectedColorIds(prev => toggle(prev, id))} />
                 </aside>

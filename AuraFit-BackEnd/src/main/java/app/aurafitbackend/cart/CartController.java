@@ -44,9 +44,9 @@ public class CartController {
         ResponseCookie cookie = ResponseCookie.from("cart_token", cartToken)
                 .maxAge(Duration.ofDays(30))
                 .httpOnly(true)
-                .sameSite("None")
+//                .sameSite("None")
                 .secure(false)
-//                .sameSite("Lax")
+                .sameSite("Lax")
                 .path("/")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());

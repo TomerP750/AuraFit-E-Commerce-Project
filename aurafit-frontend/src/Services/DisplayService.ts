@@ -3,6 +3,7 @@ import { Gender } from "../Models/Enums/Gender.ts";
 import { ProductDTO } from "../Models/DTOS/ProductDTO.ts";
 import { ProductVariantDTO } from "../Models/DTOS/ProductVariantDTO.ts";
 import { SearchDTO } from "../Models/DTOS/SearchDTO.ts";
+import { SortOption } from "../Components/ShopPagesArea/ShoppingList.tsx";
 
 
 class DisplayService {
@@ -70,12 +71,17 @@ class DisplayService {
         return (await axios.get(`http://localhost:8080/api/display/product/${gender}/all`)).data
     }
 
+
+    // TODO add sort: SortOption first paramerter
     async filterProducts(sizeIds: number[], colorIds: number[], page: number, size: number) {
         const params = new URLSearchParams();
 
         sizeIds.forEach(id => params.append("sizeIds", String(id)));
         colorIds.forEach(id => params.append("colorIds", String(id)));
 
+        // const springSort = sort === "high-low" ? "minPrice,desc": sort === "low-high" ? "minPrice,asc" : "createdAt,desc";
+
+        // params.append("sort", springSort);
         params.append("page", String(page));
         params.append("size", String(size));
 

@@ -11,9 +11,20 @@ import java.util.List;
 
 public class ProductSpecifications {
 
+    /**
+     * Returns a Specification that filters Products by requiring at least one joined ProductVariant
+     * whose size id is in sizeIds OR whose color id is in colorIds.
+     *
+     * If both lists are null/empty, returns a no-op predicate (no filtering).
+     * Uses DISTINCT to avoid duplicate Products caused by the join to variants.
+     *
+     * root = Product (main entity), query = query config (DISTINCT), cb = predicate builder.
+     */
 
     public static Specification<Product> hasVariantWithSizeIdsOrColorIds(List<Long> sizeIds, List<Long> colorIds) {
+
         return (root, query, cb) -> {
+
             boolean hasSizes = sizeIds != null && !sizeIds.isEmpty();
             boolean hasColors = colorIds != null && !colorIds.isEmpty();
 
@@ -21,7 +32,7 @@ public class ProductSpecifications {
 
             query.distinct(true);
 
-            Join<Product, ProductVariant> v = root.join("variants", JoinType.INNER); // <-- use your field name
+            Join<Product, ProductVariant> v = root.join("variants", JoinType.INNER);
 
             List<Predicate> ors = new ArrayList<>();
 

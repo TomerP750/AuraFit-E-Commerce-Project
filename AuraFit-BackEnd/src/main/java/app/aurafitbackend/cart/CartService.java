@@ -56,7 +56,7 @@ public class CartService {
      */
     @Transactional
     public Cart getOrCreateGuestCart(String incomingToken) {
-        // pick or generate the token exactly once
+
         String tokenToUse = (incomingToken != null && !incomingToken.isBlank())
                 ? incomingToken
                 : UUID.randomUUID().toString();

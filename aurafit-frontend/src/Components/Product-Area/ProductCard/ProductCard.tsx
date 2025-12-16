@@ -92,6 +92,7 @@ export function ProductCard({ product, variants = [] }: ProductCardProps) {
                 <div className="flex gap-1.5 my-1">
                     {colors.length > 0 && colors.map(c => {
                         return <div
+                            key={c.id}
                             onClick={() => navigate(`/product/${product.id}/${activeVariantId}`)}
                             className="cursor-pointer w-5 aspect-square border rounded-full"
                             style={{ backgroundColor: c.color }} />
